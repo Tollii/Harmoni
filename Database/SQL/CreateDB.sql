@@ -7,6 +7,7 @@ DROP TABLE Tickets;
 DROP TABLE Riders;
 DROP TABLE Roles;
 DROP TABLE Role_count;
+DROP TABLE User_Role;
 
 CREATE TABLE Users(
   userID int NOT NULL AUTO_INCREMENT UNIQUE,
@@ -89,3 +90,17 @@ CREATE TABLE User_Role(
   FOREIGN KEY (roleID) REFERENCES Roles(roleID),
   PRIMARY KEY(userID, eventID, roleID)
 );
+
+CREATE TABLE Permissions(
+  permissionID int NOT NULL AUTO_INCREMENT UNIQUE,
+  description varchar(255),
+  PRIMARY KEY(permissionID)
+);
+
+CREATE TABLE Permissions_per_role(
+  permissionID int NOT NULL,
+  roleID int NOT NULL,
+  FOREIGN KEY (permissionID) REFERENCES Permissions(permissionID),
+  FOREIGN KEY (roleID) REFERENCES Roles(roleID),
+  PRIMARY KEY(permissionID, roleID)
+)
