@@ -8,6 +8,8 @@ DROP TABLE Riders;
 DROP TABLE Roles;
 DROP TABLE Role_count;
 DROP TABLE User_Role;
+DROP TABLE Permissions;
+DROP TABLE Permissions_per_role;
 
 CREATE TABLE Users(
   userID int NOT NULL AUTO_INCREMENT UNIQUE,
