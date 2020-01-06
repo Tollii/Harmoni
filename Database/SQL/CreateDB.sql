@@ -1,7 +1,10 @@
 SET FOREIGN_KEY_CHECKS=0;
 
 DROP TABLE Users;
+DROP TABLE Event_Types;
 DROP TABLE Events;
+DROP TABLE Tickets;
+DROP TABLE Riders;
 
 CREATE TABLE Users(
   userID int NOT NULL AUTO_INCREMENT UNIQUE,
@@ -30,4 +33,32 @@ CREATE TABLE Events(
   event_typeID int,
   FOREIGN KEY (event_typeID) REFERENCES Event_Types(event_typeID),
   PRIMARY KEY(eventID)
+);
+
+CREATE TABLE Tickets(
+  ticketID int NOT NULL AUTO_INCREMENT UNIQUE,
+  ticket_name varchar(40) NOT NULL,
+  price int NOT NULL,
+  max_amount int NOT NULL,
+  date_start datetime NOT NULL,
+  date_end datetime NOT NULL,
+  eventID int NOT NULL,
+  FOREIGN KEY (eventID) REFERENCES Events(eventID),
+  PRIMARY KEY(ticketID)
+);
+
+CREATE TABLE Riders(
+  riderID int NOT NULL AUTO_INCREMENT UNIQUE,
+  description varchar(40) NOT NULL,
+  PRIMARY KEY(riderID)
+);
+
+CREATE TABLE Demands(
+  riderID int NOT NULL,
+  eventID int NOT NULL,
+  userID int NOT NULL,
+  FOREIGN KEY (riderID) REFERENCES Riders(riderID),
+  FOREIGN KEY (eventID) REFERENCES Events(eventID),
+  FOREIGN KEY (userID) REFERENCES Users(userID),
+  PRIMARY KEY(riderID, eventID, userID);
 );
