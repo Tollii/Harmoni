@@ -5,6 +5,8 @@ DROP TABLE Event_Types;
 DROP TABLE Events;
 DROP TABLE Tickets;
 DROP TABLE Riders;
+DROP TABLE Roles;
+DROP TABLE Role_count;
 
 CREATE TABLE Users(
   userID int NOT NULL AUTO_INCREMENT UNIQUE,
@@ -61,4 +63,19 @@ CREATE TABLE Demands(
   FOREIGN KEY (eventID) REFERENCES Events(eventID),
   FOREIGN KEY (userID) REFERENCES Users(userID),
   PRIMARY KEY(riderID, eventID, userID);
+);
+
+CREATE TABLE Roles(
+  roleID int NOT NULL AUTO_INCREMENT UNIQUE,
+  role_name varchar(40) NOT NULL,
+  PRIMARY KEY(roleID)
+);
+
+CREATE TYPE Role_count(
+  amount int NOT NULL,
+  eventID int NOT NULL,
+  roleID int NOT NULL,
+  FOREIGN KEY (eventID) REFERENCES Events(eventID),
+  FOREIGN KEY (roleID) REFERENCES Roles(roleID),
+  PRIMARY KEY(eventID, roleID)
 );
