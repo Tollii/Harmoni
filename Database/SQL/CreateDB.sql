@@ -79,3 +79,13 @@ CREATE TYPE Role_count(
   FOREIGN KEY (roleID) REFERENCES Roles(roleID),
   PRIMARY KEY(eventID, roleID)
 );
+
+CREATE TABLE User_Role(
+  userID int NOT NULL,
+  eventID int NOT NULL,
+  roleID int NOT NULL,
+  FOREIGN KEY (userID) REFERENCES Users(userID),
+  FOREIGN KEY (eventID) REFERENCES Events(eventID),
+  FOREIGN KEY (roleID) REFERENCES Roles(roleID),
+  PRIMARY KEY(userID, eventID, roleID)
+);
