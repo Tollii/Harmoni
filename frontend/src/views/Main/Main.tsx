@@ -1,12 +1,10 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Button from '@material-ui/core/Button';
 
-const App: React.FC = () => {
+const Main: React.FC = () => {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
@@ -19,8 +17,11 @@ const App: React.FC = () => {
           Learn React
         </a>
       </header>
+      <Button variant="contained" color="primary">
+        Hello World
+      </Button>
     </div>
   );
 }
 
-export default App;
+export default Main;
