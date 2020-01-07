@@ -84,17 +84,17 @@ CREATE TABLE Contracts(
 );
 
 CREATE TABLE Rider_Types(
-  riderID int NOT NULL AUTO_INCREMENT UNIQUE,
+  rider_typeID int NOT NULL AUTO_INCREMENT UNIQUE,
   description varchar(255) NOT NULL,
   PRIMARY KEY(riderID)
 );
 
 CREATE TABLE Riders(
   additions varchar(255),
-  riderID int NOT NULL,
+  rider_typeID int NOT NULL,
   eventID int NOT NULL,
   userID int NOT NULL,
-  FOREIGN KEY (riderID) REFERENCES Riders(riderID),
+  FOREIGN KEY (rider_typeID) REFERENCES Rider_types(rider_typeID),
   FOREIGN KEY (eventID) REFERENCES Events(eventID),
   FOREIGN KEY (userID) REFERENCES Users(userID),
   PRIMARY KEY(riderID, eventID, userID)
