@@ -19,7 +19,7 @@ CREATE TABLE Roles(
 
 CREATE TABLE Permissions(
   permissionID int NOT NULL AUTO_INCREMENT UNIQUE,
-  description varchar(255),
+  description text,
   PRIMARY KEY(permissionID)
 );
 
@@ -38,7 +38,7 @@ CREATE TABLE Users(
   salt varchar(255) NOT NULL,
   username varchar(40) NOT NULL,
   phone_number varchar(8),
-  profile_picture varchar(255),
+  profile_picture text,
   roleID int NOT NULL,
   FOREIGN KEY (roleID) REFERENCES Roles(roleID),
   PRIMARY KEY(userID)
@@ -53,10 +53,11 @@ CREATE TABLE Event_Types(
 CREATE TABLE Events(
   eventID int NOT NULL AUTO_INCREMENT UNIQUE,
   event_name varchar(40) NOT NULL,
-  location varchar(255) NOT NULL,
+  location blob NOT NULL,
   event_start datetime NOT NULL,
   event_end datetime NOT NULL,
-  personnel varchar(255),
+  personnel text,
+  description text,
   archived boolean NOT NULL DEFAULT FALSE,
   event_typeID int,
   FOREIGN KEY (event_typeID) REFERENCES Event_Types(event_typeID),
@@ -76,7 +77,7 @@ CREATE TABLE Tickets(
 );
 
 CREATE TABLE Contracts(
-  contract varchar(255),
+  contract text,
   userID int NOT NULL,
   eventID int NOT NULL,
   FOREIGN KEY (userID) REFERENCES Users(userID),
@@ -86,12 +87,12 @@ CREATE TABLE Contracts(
 
 CREATE TABLE Rider_Types(
   rider_typeID int NOT NULL AUTO_INCREMENT UNIQUE,
-  description varchar(255) NOT NULL,
+  description text NOT NULL,
   PRIMARY KEY(rider_typeID)
 );
 
 CREATE TABLE Riders(
-  additions varchar(255),
+  additions text,
   rider_typeID int NOT NULL,
   eventID int NOT NULL,
   userID int NOT NULL,
