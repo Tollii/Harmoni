@@ -37,7 +37,7 @@ CREATE TABLE Users(
   hash varchar(255) NOT NULL,
   salt varchar(255) NOT NULL,
   username varchar(40) NOT NULL,
-  tlf varchar(8),
+  phone_number varchar(8),
   profile_picture varchar(255),
   roleID int NOT NULL,
   FOREIGN KEY (roleID) REFERENCES Roles(roleID)
