@@ -20,7 +20,10 @@ module.exports = {
       salt: {
         type: Sequelize.STRING
       },
-      phone: {
+      phone_number: {
+        type: Sequelize.STRING
+      },
+      profile_picture: {
         type: Sequelize.STRING
       },
       createdAt: {
