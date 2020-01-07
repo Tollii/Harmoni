@@ -97,5 +97,5 @@ CREATE TABLE Riders(
   FOREIGN KEY (riderID) REFERENCES Riders(riderID),
   FOREIGN KEY (eventID) REFERENCES Events(eventID),
   FOREIGN KEY (userID) REFERENCES Users(userID),
-  PRIMARY KEY(riderID, eventID, userID);
+  PRIMARY KEY(riderID, eventID, userID)
 );
