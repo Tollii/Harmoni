@@ -36,7 +36,7 @@ CREATE TABLE Users(
   email varchar(255) NOT NULL UNIQUE,
   hash varchar(255) NOT NULL,
   salt varchar(255) NOT NULL,
-  navn varchar(40) NOT NULL,
+  username varchar(40) NOT NULL,
   tlf varchar(8),
   profile_picture varchar(255),
   roleID int NOT NULL,
