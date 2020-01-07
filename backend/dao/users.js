@@ -1,12 +1,13 @@
-module.exports = async() => {
+module.exports = (app, Users) => {
+  return {
+    userAll: () => Users.findAll()
+    .then( users => users),
 
-  const Users = require('../models/users');
-
-  const errHandler = (err) => {
-    console.log('Error: ', err);
+    userOne: (id) => Users.findOne({
+      where: {
+        id: id
+      }
+    })
+    .then(users => users)
   }
-
-  Users.findAll().then(users => {
-    console.log("All users:", JSON.stringify(users, null, 4));
-  });
 }

@@ -2,7 +2,16 @@ const express = require( "express" );
 const app = express();
 const port = 8080; // default port to listen
 const sequelize = require('./database/connection');
+var bodyParser = require('body-parser')
+var cors = require('cors')
 
+app.use(cors())
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
 
 sequelize
   .authenticate()
@@ -13,12 +22,8 @@ sequelize
     console.error('Unable to connect to the database:', err);
   });
 
-// define a route handler for the default home page
-app.get( "/", ( req, res ) => {
-    res.send( "Hello world!" );
-} );
+require('./router/index')(app, sequelize)
 
-// start the Express server
 app.listen( port, () => {
     console.log( `server started at http://localhost:${ port }` );
 } );
