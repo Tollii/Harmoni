@@ -86,7 +86,7 @@ CREATE TABLE Contracts(
 CREATE TABLE Rider_Types(
   rider_typeID int NOT NULL AUTO_INCREMENT UNIQUE,
   description varchar(255) NOT NULL,
-  PRIMARY KEY(riderID)
+  PRIMARY KEY(rider_typeID)
 );
 
 CREATE TABLE Riders(
