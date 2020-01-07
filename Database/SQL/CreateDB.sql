@@ -40,7 +40,7 @@ CREATE TABLE Users(
   phone_number varchar(8),
   profile_picture varchar(255),
   roleID int NOT NULL,
-  FOREIGN KEY (roleID) REFERENCES Roles(roleID)
+  FOREIGN KEY (roleID) REFERENCES Roles(roleID),
   PRIMARY KEY(userID)
 );
 
