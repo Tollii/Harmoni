@@ -66,7 +66,7 @@ CREATE TABLE Tickets(
   ticketID int NOT NULL AUTO_INCREMENT UNIQUE,
   ticket_name varchar(40) NOT NULL,
   price int NOT NULL,
-  max_amount int NOT NULL,
+  ticket_amount int NOT NULL,
   date_start datetime NOT NULL,
   date_end datetime NOT NULL,
   eventID int NOT NULL,
