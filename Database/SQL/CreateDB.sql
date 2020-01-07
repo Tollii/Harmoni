@@ -58,6 +58,7 @@ CREATE TABLE Events(
   event_end datetime NOT NULL,
   archived boolean NOT NULL DEFAULT FALSE,
   event_typeID int,
+  personnel varchar(255),
   FOREIGN KEY (event_typeID) REFERENCES Event_Types(event_typeID),
   PRIMARY KEY(eventID)
 );
