@@ -11,7 +11,11 @@
   "license": "ISC",
   "dependencies": {
     "@types/node": "^13.1.4",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mysql2": "^2.1.0",
+    "sequelize": "^2.0.0-rc1",
+    "sequelize-cli": "^5.5.1",
+    "sqlite3": "^4.1.1"
   },
   "devDependencies": {
     "tslint": "^5.20.1",
