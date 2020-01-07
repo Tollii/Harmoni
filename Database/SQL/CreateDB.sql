@@ -1,24 +1,46 @@
 SET FOREIGN_KEY_CHECKS=0;
 
+DROP TABLE Roles;
+DROP TABLE Permissions;
+DROP TABLE Permissions_Per_Role;
 DROP TABLE Users;
 DROP TABLE Event_Types;
 DROP TABLE Events;
 DROP TABLE Tickets;
+DROP TABLE Contracts;
+DROP TABLE Rider_Types;
 DROP TABLE Riders;
-DROP TABLE Roles;
-DROP TABLE Role_count;
-DROP TABLE User_Role;
-DROP TABLE Permissions;
-DROP TABLE Permissions_per_role;
+
+CREATE TABLE Roles(
+  roleID int NOT NULL AUTO_INCREMENT UNIQUE,
+  role_name varchar(40) NOT NULL,
+  PRIMARY KEY(roleID)
+);
+
+CREATE TABLE Permissions(
+  permissionID int NOT NULL AUTO_INCREMENT UNIQUE,
+  description varchar(255),
+  PRIMARY KEY(permissionID)
+);
+
+CREATE TABLE Permissions_Per_Role(
+  permissionID int NOT NULL,
+  roleID int NOT NULL,
+  FOREIGN KEY (permissionID) REFERENCES Permissions(permissionID),
+  FOREIGN KEY (roleID) REFERENCES Roles(roleID),
+  PRIMARY KEY(permissionID, roleID)
+);
 
 CREATE TABLE Users(
   userID int NOT NULL AUTO_INCREMENT UNIQUE,
   email varchar(255) NOT NULL UNIQUE,
   hash varchar(255) NOT NULL,
   salt varchar(255) NOT NULL,
-  navn varchar(255) NOT NULL,
+  navn varchar(40) NOT NULL,
   tlf varchar(8),
   profile_picture varchar(255),
+  roleID int NOT NULL,
+  FOREIGN KEY (roleID) REFERENCES Roles(roleID)
   PRIMARY KEY(userID)
 );
 
@@ -52,13 +74,23 @@ CREATE TABLE Tickets(
   PRIMARY KEY(ticketID)
 );
 
-CREATE TABLE Riders(
+CREATE TABLE Contracts(
+  contract varchar(255),
+  userID int NOT NULL,
+  eventID int NOT NULL,
+  FOREIGN KEY (userID) REFERENCES Users(userID),
+  FOREIGN KEY (eventID) REFERENCES Events(eventID),
+  PRIMARY KEY(userID, eventID)
+);
+
+CREATE TABLE Rider_Types(
   riderID int NOT NULL AUTO_INCREMENT UNIQUE,
-  description varchar(40) NOT NULL,
+  description varchar(255) NOT NULL,
   PRIMARY KEY(riderID)
 );
 
-CREATE TABLE Demands(
+CREATE TABLE Riders(
+  additions varchar(255),
   riderID int NOT NULL,
   eventID int NOT NULL,
   userID int NOT NULL,
@@ -67,42 +99,3 @@ CREATE TABLE Demands(
   FOREIGN KEY (userID) REFERENCES Users(userID),
   PRIMARY KEY(riderID, eventID, userID);
 );
-
-CREATE TABLE Roles(
-  roleID int NOT NULL AUTO_INCREMENT UNIQUE,
-  role_name varchar(40) NOT NULL,
-  PRIMARY KEY(roleID)
-);
-
-CREATE TYPE Role_count(
-  amount int NOT NULL,
-  eventID int NOT NULL,
-  roleID int NOT NULL,
-  FOREIGN KEY (eventID) REFERENCES Events(eventID),
-  FOREIGN KEY (roleID) REFERENCES Roles(roleID),
-  PRIMARY KEY(eventID, roleID)
-);
-
-CREATE TABLE User_Role(
-  userID int NOT NULL,
-  eventID int NOT NULL,
-  roleID int NOT NULL,
-  FOREIGN KEY (userID) REFERENCES Users(userID),
-  FOREIGN KEY (eventID) REFERENCES Events(eventID),
-  FOREIGN KEY (roleID) REFERENCES Roles(roleID),
-  PRIMARY KEY(userID, eventID, roleID)
-);
-
-CREATE TABLE Permissions(
-  permissionID int NOT NULL AUTO_INCREMENT UNIQUE,
-  description varchar(255),
-  PRIMARY KEY(permissionID)
-);
-
-CREATE TABLE Permissions_per_role(
-  permissionID int NOT NULL,
-  roleID int NOT NULL,
-  FOREIGN KEY (permissionID) REFERENCES Permissions(permissionID),
-  FOREIGN KEY (roleID) REFERENCES Roles(roleID),
-  PRIMARY KEY(permissionID, roleID)
-)
