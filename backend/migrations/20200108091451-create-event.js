@@ -36,6 +36,14 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
+      },
+      event_typeID: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'Event_Types',
+          key: 'id'
+        }
       }
     });
   },

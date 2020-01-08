@@ -4,7 +4,8 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.TEXT
   }, {});
   Rider_Types.associate = function(models) {
-    // associations can be defined here
+    Rider_Types.belongsToMany(models.Users, { as: 'users', through: 'Riders', foreignKey: 'rider_typeID', otherKey: 'eventID', otherKey: 'userID'});
+    Rider_Types.belongsToMany(models.Event, { as: 'events', through: 'Riders', foreignKey: 'rider_typeID', otherKey: 'eventID', otherKey: 'userID'});
   };
   return Rider_Types;
 };
