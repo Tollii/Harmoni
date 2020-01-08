@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     event_type: DataTypes.STRING
   }, {});
   Event_Types.associate = function(models) {
-    // associations can be defined here
+    Event_Types.hasMany(models.Event, { foreignKey: 'event_typeID', sourceKey: 'id'});
   };
   return Event_Types;
 };
