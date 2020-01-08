@@ -9,6 +9,11 @@ variables:
   MYSQL_DATABASE: supertestdb
   MYSQL_ROOT_PASSWORD: secret
 
+stages:
+  - test
+  - pages
+
+
 # Install node libraries
 before_script:
   - cd backend && npm install
@@ -21,3 +26,21 @@ run_tests:
   artifacts:
     paths:
       - server/coverage/
+      
+
+# Publish coverage report on gitlab-pages
+pages:
+  stage: pages
+  dependencies:
+    - run_tests
+  script:
+    - npm install
+    - mkdir .public
+    - cp -r coverage/lcov-report/* .public
+    - mv .public public
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
+
