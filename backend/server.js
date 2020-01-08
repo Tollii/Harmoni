@@ -52,3 +52,5 @@ expressSwagger(options)
 
 // Endpoints
 require('./router/index')(app, sequelize)
+
+module.exports = app
