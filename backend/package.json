@@ -4,8 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ."
+    "start": "node .",
+    "start-dev": "nodemon index.js",
+    "migrate": "npx sequelize-cli db:migrate",
+    "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate",
+    "test": "cross-env NODE_ENV=test jest --testTimeout=10000 --detectOpenHandles -i",
+    "pretest": "cross-env NODE_ENV=test npm run migrate:reset"
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +23,17 @@
     "sequelize-cli": "^5.5.1"
   },
   "devDependencies": {
+    "cross-env": "^6.0.3",
+    "jest": "^24.9.0",
+    "sequelize-test-helpers": "^1.2.2",
+    "supertest": "^4.0.2",
     "express-swagger-generator": "^1.1.17"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/config/"
+    ]
   }
 }

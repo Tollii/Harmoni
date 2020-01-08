@@ -6,5 +6,7 @@ const sequelize = new Sequelize(process.env.DATABASE_DATABASE, process.env.DATAB
   dialect: 'mysql'
 });
 
+console.log(`Connected to ${process.env.DATABASE_DATABASE}`);
+
 module.exports = sequelize;
 global.sequelize = sequelize;

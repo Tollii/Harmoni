@@ -1,7 +1,10 @@
 module.exports = (app, Users) => {
   return {
     userAll: () => Users.findAll()
-    .then( users => users),
+    .then( users => {
+      console.log("Fetched all users");
+      return users;
+    }),
 
     userOne: (id) => Users.findOne({
       where: {
@@ -11,3 +14,4 @@ module.exports = (app, Users) => {
     .then(users => users)
   }
 }
+
