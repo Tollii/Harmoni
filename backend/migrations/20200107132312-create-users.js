@@ -2,7 +2,7 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Users', {
-      userID: {
+      id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -21,6 +21,9 @@ module.exports = {
         type: Sequelize.STRING
       },
       phone: {
+        type: Sequelize.STRING
+      },
+      picture: {
         type: Sequelize.STRING
       },
       createdAt: {

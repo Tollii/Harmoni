@@ -1,24 +1,29 @@
 const express = require( "express" );
 const app = express();
 const port = 8080; // default port to listen
-const Sequelize = require('sequelize');
+const sequelize = require('./database/connection');
+var bodyParser = require('body-parser')
+var cors = require('cors')
 
+app.use(cors())
 
-// define a route handler for the default home page
-app.get( "/", ( req, res ) => {
-    res.send( "Hello world!" );
-} );
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
 
-// start the Express server
+// parse application/json
+app.use(bodyParser.json())
+
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
+  });
+
+require('./router/index')(app, sequelize)
+
 app.listen( port, () => {
     console.log( `server started at http://localhost:${ port }` );
 } );
-
-// Option 1: Passing parameters separately
-const sequelize = new Sequelize('database', 'username', 'password', {
-  host: 'localhost',
-  dialect: /* one of 'mysql' | 'mariadb' | 'postgres' | 'mssql' */
-});
-
-// Option 2: Passing a connection URI
-const sequelize = new Sequelize('postgres://user:pass@example.com:5432/dbname');
