@@ -7,8 +7,8 @@ import { RemoveRedEye } from "@material-ui/icons";
 const useStyles = makeStyles({
   input: {
     borderRadius: 0,
-    marginBottom: "10px",
-    width: "400px"
+    marginBottom: "30px",
+    width: "100%"
   },
   notchedOutline: {
     borderRadius: 0
@@ -35,12 +35,6 @@ export default (props: any) => {
     );
   }
 };
-
-const styles = (theme: any) => ({
-  eye: {
-    cursor: "pointer"
-  }
-});
 
 function PasswordInput(props: any) {
   const classes = useStyles();
