@@ -1,4 +1,5 @@
-module.exports = (app, Event) => {
+module.exports = (models) => {
+const Event = models.Events;
   return {
     eventAll: () => Event.findAll().then(events => events),
 
