@@ -1,9 +1,7 @@
-module.exports = (app) => {
+module.exports = app => {
+  const models = require("../models");
 
-  const models = require('../models')
-
-  require('./users')(app, models, '/user')
-  require('./event')(app, models, '/event')
-  
-
-}
+  require("./users")(app, models, "/user");
+  require("./event")(app, models, "/event");
+  require("./event_types")(app, models, "/event_types");
+};
