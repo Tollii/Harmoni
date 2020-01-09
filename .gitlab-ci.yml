@@ -49,3 +49,6 @@ pages:
   artifacts:
     paths:
       - public/*.html
+  only:
+      - master
+      
