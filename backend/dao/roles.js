@@ -14,5 +14,13 @@ module.exports = (models) => {
     })
     .then(role => role),
 
+
+    rolesCreate: async (role_name) => Roles.create({
+          role_name:role_name,
+        },
+        {
+          returning:true
+        }).then(data => data),
+
   }
 }
