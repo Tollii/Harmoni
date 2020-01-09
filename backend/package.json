@@ -25,8 +25,6 @@
   "devDependencies": {
     "cross-env": "^6.0.3",
     "jest": "^24.9.0",
-    "sequelize-test-helpers": "^1.2.2",
-    "supertest": "^4.0.2",
     "express-swagger-generator": "^1.1.17"
   },
   "jest": {
