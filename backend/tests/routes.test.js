@@ -1,14 +1,15 @@
-const app = require('../server');
-const request = require('supertest');
-
+const models = require('../models');
+const userControl = require('../dao/users')(models);
 
 
 describe('Get Endpoints', () => {
     it('should get all users', async (done) => {
-        const res = await request(app)
-            .get('/users')
+
+        const res = await userControl.userGetAll();
+
         console.log(res);
-        expect(res.status).toBe(200);
+        expect(res).toEqual([]);
+        done();
     })
 })
 

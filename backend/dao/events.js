@@ -1,16 +1,16 @@
-module.exports = (models) => {
-const Event = models.Events;
+module.exports = models => {
+  const Event = models.Events;
   return {
-    eventAll: () => Event.findAll().then(events => events),
+    eventGetAll: async () => Event.findAll().then(events => events),
 
-    eventOne: id =>
+    eventGetOne: async id =>
       Event.findOne({
         where: {
           id: id
         }
       }).then(events => events),
 
-    eventDelete: id =>
+    eventDelete: async id =>
       Event.findOne({
         where: {
           id: id
@@ -23,9 +23,9 @@ const Event = models.Events;
         }).then(events => events)
       ),
 
-    eventAmount: () => Event.count().then(events => events),
+    eventAmount: async () => Event.count().then(events => events),
 
-    eventUpdate: (
+    eventUpdate: async (
       id,
       event_name,
       location,
@@ -61,7 +61,7 @@ const Event = models.Events;
       });
     },
 
-    eventCreate: (
+    eventCreate: async (
       event_name,
       location,
       event_start,

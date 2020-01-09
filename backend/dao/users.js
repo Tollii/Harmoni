@@ -1,8 +1,9 @@
-module.exports = (models) => {
+ module.exports = (models) => {
   const Users = models.Users;
   const Roles = models.Roles;
   return {
-    userGetAll: () => Users.findAll()
+
+    userGetAll: async () => Users.findAll()
     .then( users => {
       console.log("Fetched all users");
       return users;
