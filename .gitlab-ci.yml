@@ -46,7 +46,8 @@ pages:
     - ls
     - cp -r coverage/* .public
     - mv .public public
-    - tree
+    - cd public
+    -ls
   artifacts:
     paths:
       - public
