@@ -10,6 +10,6 @@ const Main: React.FC = () => {
       <Login />
     </div>
   );
-}
+};
 
 export default Main;

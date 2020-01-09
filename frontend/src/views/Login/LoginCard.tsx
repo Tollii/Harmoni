@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "../../components/Card/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -7,6 +7,7 @@ import InputField from "../../components/InputField/InputField";
 import Grid from "@material-ui/core/Grid";
 import Button from "../../components/Button/Button";
 import useForm from "../../service/Form/useForm";
+import validate from "../../service/Form/Validate";
 
 const useStyles = makeStyles({
   grid: {
@@ -28,10 +29,14 @@ const useStyles = makeStyles({
 
 export default () => {
   const classes = useStyles();
-  const { handleChange, handleSubmit, values } = useForm(submit, {
-    email: "",
-    password: ""
-  });
+  const { handleChange, handleSubmit, values, errors } = useForm(
+    submit,
+    {
+      email: "",
+      password: ""
+    },
+    validate
+  );
 
   function submit() {
     console.log("Submitted form");
@@ -52,6 +57,8 @@ export default () => {
           </Grid>
 
           <form onSubmit={handleSubmit} noValidate>
+            {errors.email && <Typography>{errors.email}</Typography>}
+
             <InputField
               name="email"
               label="Email"
@@ -59,6 +66,8 @@ export default () => {
               value={values.email}
               onChange={handleChange}
             />
+            {errors.password && <Typography>{errors.password}</Typography>}
+
             <InputField
               name="password"
               label="Password"
@@ -67,6 +76,7 @@ export default () => {
               value={values.password}
               onChange={handleChange}
             />
+
             <Grid container direction="row" justify="space-between">
               <Button>Forgot password?</Button>
               <Button type="submit">Log in</Button>
