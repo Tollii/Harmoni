@@ -9,7 +9,6 @@ module.exports = app => {
   require('./rider_types')(app, models, '/rider_type')
   require('./roles')(app, models, '/role')
   require("./permissions")(app, models, "/permissions");
-
 };
 
 
