@@ -2,7 +2,7 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Riders', {
-      tillegg: {
+      additions: {
         type: Sequelize.TEXT
       },
       rider_typeID: {

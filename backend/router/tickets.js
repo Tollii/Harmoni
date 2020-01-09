@@ -70,7 +70,7 @@ module.exports = (app, models, base) => {
   * @group Ticket - Operations about ticket
   * @route PUT /ticket/{id}/
   * @param {integer} id.path.required - Ticket id
-  * @param {Tickets.model} user.body.requred - Ticket information
+  * @param {Tickets_PUT.model} user.body.requred - Ticket information
   * @returns {object} 200 - Returns updated Ticket object
   * @returns {Error} default - Unexpected error
   */
