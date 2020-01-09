@@ -27,6 +27,10 @@ run_tests:
     paths:
       - backend/coverage/
 
+before_script:
+  - cd backend && npm install
+
+
 # Publish coverage report on gitlab-pages
 pages:
   stage: pages
@@ -39,7 +43,4 @@ pages:
     - mv .public public
   artifacts:
     paths:
-      - public
-  only:
-    - master
-
+      - backend/coverage/
