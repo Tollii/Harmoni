@@ -15,12 +15,13 @@ module.exports = (models) => {
     })
     .then(ticket => ticket),
 
-    ticketCreate: (ticket_name, price, ticket_amount, date_start, date_end) => Tickets.create({
+    ticketCreate: (ticket_name, price, ticket_amount, date_start, date_end, eventID) => Tickets.create({
       ticket_name: ticket_name,
       price: price,
       ticket_amount: ticket_amount,
       date_start: date_start,
-      date_end: date_end
+      date_end: date_end,
+      eventID: eventID
     },
     {
       returning: true
@@ -42,7 +43,7 @@ module.exports = (models) => {
       .then(ticket => ticket)),
 
     ticketDelete: (id) => Tickets.findOne({ where: { id: id}})
-      .then(ticekt = Ticket.destroy({ where: { id: id}})
+      .then(ticekt = Tickets.destroy({ where: { id: id}})
         .then(x => ticket)
       ),
   }
