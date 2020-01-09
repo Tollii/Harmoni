@@ -23,7 +23,7 @@ module.exports = (app, models, base) => {
 
   /**
    * @group Permissions_per_role - Operations about permissions
-   * @route GET /permissions_per_role/{id}/
+   * @route GET /permissions_per_role/role/{roleID}/permission/{permissionID}/
    * @param {integer} roleID.path.required - role id
    * @param {integer} permissionID.path.required - permission id
    * @returns {object} 200 - One specific permission
