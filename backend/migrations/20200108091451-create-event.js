@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       location: {
-        type: Sequelize.BLOB
+        type: Sequelize.STRING
       },
       event_start: {
         type: Sequelize.DATE
@@ -41,8 +41,8 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: true,
         references: {
-          model: 'Event_Types',
-          key: 'id'
+          model: "Event_Types",
+          key: "id"
         }
       }
     });
