@@ -1,4 +1,5 @@
 module.exports = app => {
+
   const models = require("../models");
   require("./event_types")(app, models, "/event_types");
   require("./users")(app, models, "/user");
@@ -9,4 +10,5 @@ module.exports = app => {
   require("./roles")(app, models, "/role");
   require("./permissions")(app, models, "/permission");
   require("./permissions_per_role")(app, models, "/permissions_per_role");
+  require('./riders')(app, models, '/rider')
 };

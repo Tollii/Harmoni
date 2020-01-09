@@ -43,7 +43,7 @@ module.exports = (models) => {
       .then(ticket => ticket)),
 
     ticketDelete: (id) => Tickets.findOne({ where: { id: id}})
-      .then(ticekt = Tickets.destroy({ where: { id: id}})
+      .then(ticket = Tickets.destroy({ where: { id: id}})
         .then(x => ticket)
       ),
   }
