@@ -7,14 +7,6 @@
  * @property {string} date_start.required - Start date of ticket sale
  * @property {string} date_end.required - End date of ticket sale
  */
- /**
-  * @typedef Tickets_PUT
-  * @property {string} ticket_name.required - Name of ticket
-  * @property {double} price.required - Price of ticket
-  * @property {integer} ticket_amount.required - Amount of tickets
-  * @property {string} date_start.required - Start date of ticket sale
-  * @property {string} date_end.required - End date of ticket sale
-  */
 
 module.exports (app, models, base) => {
   const ticketControl = require('../dao/tickets')(models)
