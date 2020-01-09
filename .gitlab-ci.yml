@@ -43,6 +43,7 @@ pages:
   script:
     - npm install
     - mkdir .public
+    - ls
     - cp -r backend/coverage/* .public
     - mv .public public
   artifacts:
