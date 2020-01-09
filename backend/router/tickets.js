@@ -2,13 +2,22 @@
 /**
  * @typedef Tickets
  * @property {string} ticket_name.required - Name of ticket
- * @property {double} price.required - Price of ticket
+ * @property {number} price.required - Price of ticket
  * @property {integer} ticket_amount.required - Amount of tickets
  * @property {string} date_start.required - Start date of ticket sale
  * @property {string} date_end.required - End date of ticket sale
+ * @property {integer} eventID.required - Id of event ticket belongs to
  */
+/**
+* @typedef Tickets_PUT
+* @property {string} ticket_name.required - Name of ticket
+* @property {number} price.required - Price of ticket
+* @property {integer} ticket_amount.required - Amount of tickets
+* @property {string} date_start.required - Start date of ticket sale
+* @property {string} date_end.required - End date of ticket sale
+*/
 
-module.exports (app, models, base) => {
+module.exports = (app, models, base) => {
   const ticketControl = require('../dao/tickets')(models)
 
   /**
@@ -30,7 +39,7 @@ module.exports (app, models, base) => {
   * @returns {object} 200 - An array of ticket info
   * @returns {Error} default - Unexpected error
   */
-  app.get(base+":id", (req, res) => {
+  app.get(base+"/:id", (req, res) => {
     ticketControl.ticketGetOne(req.params.id).then((data) => {
       res.send(data);
     })
@@ -39,7 +48,7 @@ module.exports (app, models, base) => {
   /**
   * @group Ticket - Operations about ticket
   * @route POST /ticket/
-  * @param {Tickets.model} user.body.requred - Ticket information
+  * @param {Tickets.model} user.body.required - Ticket information
   * @returns {object} 200 - Returns Ticket object
   * @returns {Error} default - Unexpected error
   */
@@ -49,7 +58,8 @@ module.exports (app, models, base) => {
       req.body.price,
       req.body.ticket_amount,
       req.body.date_start,
-      req.body.date_end
+      req.body.date_end,
+      req.body.eventID
     )
     .then((data) => {
       res.send(data);
@@ -71,7 +81,8 @@ module.exports (app, models, base) => {
       req.body.price,
       req.body.ticket_amount,
       req.body.date_start,
-      req.body.date_end
+      req.body.date_end,
+      req.body.eventID
     )
     .then(() => {
       res.sendStatus(200).send('Ticket is updated');
@@ -84,7 +95,7 @@ module.exports (app, models, base) => {
   /**
   * @group Ticket - Operations about ticket
   * @route DELETE /ticket/{id}/
-  * @param {integer} id.path.requred - Ticket information
+  * @param {integer} id.path.required - Ticket id
   * @returns {object} 200 - Ticket is deleted
   * @returns {Error} default - Unexpected error
   */

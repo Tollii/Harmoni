@@ -6,6 +6,7 @@ module.exports = app => {
   require('./event')(app, models, '/event')
   require('./tickets')(app, models, '/ticket')
   require('./contracts')(app, models, '/contract')
+  require('./roles')(app, models, '/role')
 
 };
 
