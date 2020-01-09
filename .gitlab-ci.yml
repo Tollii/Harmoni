@@ -9,6 +9,10 @@ variables:
   MYSQL_DATABASE: supertestdb
   MYSQL_ROOT_PASSWORD: secret
 
+cache:
+  paths:
+     - node_modules
+
 stages:
   - test
   - pages
