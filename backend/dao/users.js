@@ -1,4 +1,6 @@
-module.exports = (Users) => {
+module.exports = (models) => {
+  const Users = models.Users;
+  const Roles = models.Roles;
   return {
     userAll: () => Users.findAll()
     .then( users => {
@@ -13,42 +15,37 @@ module.exports = (Users) => {
     })
     .then(user => user),
 
-    userCreate: (username, email, hash, salt, phone, picture) => {
-      return Users.create({
-        username,
-        email,
-        hash,
-        salt,
-        phone,
-        picture
-      },
-      {
-        returning: true
-      })
-      .then(data => data)
+    userCreate: (username, email, hash, salt, phone, picture) => Users.create({
+      username:username,
+      email:email,
+      hash:hash,
+      salt:salt,
+      phone:phone,
+      picture:picture,
+      roleID:1
     },
+    {
+      returning: true
+    })
+    .then(data => data),
 
-    userUpdate: (id, username, email, hash, salt, phone, picture) => {
-      return Users.update({
+    userUpdate: (id, username, email, phone, picture) => Users.findOne({ where: {id: id}})
+      .then(user => Users.update({
         username:username,
         email:email,
-        hash:hash,
-        salt:salt,
         phone:phone,
-        picture:picture
+        picture:picture,
       },
       {
         returning: true,
         where: {id: id}
       })
-      .then(user => user)
-    },
+      .then(user => user)),
 
     userDelete: (id) => Users.findOne({ where: {id: id}})
       .then(user => Users.destroy({where: {id:id}})
         .then(x => user)
-      )
-      .catch(),
+      ),
   }
 }
 
