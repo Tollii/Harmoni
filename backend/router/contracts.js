@@ -16,7 +16,7 @@ module.exports = (app, models, base) => {
   * @returns {Error}  default - Unexpected error
   */
   app.get(base, ( req, res ) => {
-    contractControl.contractAll().then((data)=>{
+    contractControl.contractGetAll().then((data)=>{
       res.send(data);
     })
   });
@@ -30,7 +30,7 @@ module.exports = (app, models, base) => {
   * @returns {Error}  default - Unexpected error
   */
   app.get(base+"/user/:user_id/event/:event_id", ( req, res ) => {
-    contractControl.contractOne(req.params.user_id, req.params.event_id).then((data)=>{
+    contractControl.contractGetOne(req.params.user_id, req.params.event_id).then((data)=>{
       res.send(data);
     })
   });

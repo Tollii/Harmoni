@@ -26,7 +26,7 @@ module.exports = (app, models, base) => {
   * @returns {Error}  default - Unexpected error
   */
   app.get(base, ( req, res ) => {
-    userControl.userAll().then((data)=>{
+    userControl.userGetAll().then((data)=>{
       res.send(data);
     })
   });
@@ -39,7 +39,7 @@ module.exports = (app, models, base) => {
   * @returns {Error}  default - Unexpected error
   */
   app.get(base+"/:id", ( req, res ) => {
-    userControl.userOne(req.params.id).then((data)=>{
+    userControl.userGetOne(req.params.id).then((data)=>{
       res.send(data);
     })
   });
