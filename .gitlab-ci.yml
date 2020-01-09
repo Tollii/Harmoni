@@ -43,4 +43,4 @@ pages:
     - mv .public public
   artifacts:
     paths:
-      - backend/coverage/
+      - public
