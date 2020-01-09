@@ -8,9 +8,16 @@
  * @property {string} phone.required - Phone number of user
  * @property {string} picture.required - Profile picture of user
  */
+/**
+ * @typedef Users_PUT
+ * @property {string} username.required - Full name
+ * @property {string} email.required - User email
+ * @property {string} phone.required - Phone number of user
+ * @property {string} picture.required - Profile picture of user
+ */
 
-module.exports = (app, Users, base) => {
-  const userControl = require('../dao/users')(Users)
+module.exports = (app, models, base) => {
+  const userControl = require('../dao/users')(models)
 
   /**
   * @group User - Operations about user
@@ -61,7 +68,7 @@ module.exports = (app, Users, base) => {
   * @group User - Operations about user
   * @route PUT /user/{id}/
   * @param {integer} id.path.required - User's information
-  * @param {Users.model} user.body.required - User's information
+  * @param {Users_PUT.model} user.body.required - User's information
   * @returns {object} 200 - return updated User object
   * @returns {Error}  default - Unexpected error
   */
@@ -70,8 +77,6 @@ module.exports = (app, Users, base) => {
       req.params.id,
       req.body.username,
       req.body.email,
-      req.body.hash,
-      req.body.salt,
       req.body.phone,
       req.body.picture)
       .then(()=>{
