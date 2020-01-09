@@ -44,7 +44,7 @@ pages:
     - npm install
     - mkdir .public
     - ls
-    - cp -r coverage .public
+    - cp -r coverage/* .public
     - mv .public public
   artifacts:
     paths:
