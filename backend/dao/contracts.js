@@ -1,12 +1,12 @@
 module.exports = (models) => {
   const Contract = models.Contracts;
   return {
-    contractAll: () => Contract.findAll()
+    contractGetAll: () => Contract.findAll()
     .then( contracts => {
       return contracts;
     }),
 
-    contractOne: (user_id, event_id) => Contract.findOne({
+    contractGetOne: (user_id, event_id) => Contract.findOne({
       where: {
         userID: user_id,
         eventID: event_id

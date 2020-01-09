@@ -2,13 +2,13 @@ module.exports = (models) => {
   const Users = models.Users;
   const Roles = models.Roles;
   return {
-    userAll: () => Users.findAll()
+    userGetAll: () => Users.findAll()
     .then( users => {
       console.log("Fetched all users");
       return users;
     }),
 
-    userOne: (id) => Users.findOne({
+    userGetOne: (id) => Users.findOne({
       where: {
         id: id
       }

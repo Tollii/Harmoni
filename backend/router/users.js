@@ -25,8 +25,8 @@ module.exports = (app, models, base) => {
   * @returns {object} 200 - An array of user info
   * @returns {Error}  default - Unexpected error
   */
-  app.get(base, (req, res) => {
-    userControl.userAll().then((data) => {
+  app.get(base, ( req, res ) => {
+    userControl.userGetAll().then((data)=>{
       res.send(data);
     })
   });
@@ -38,8 +38,8 @@ module.exports = (app, models, base) => {
   * @returns {object} 200 - An array of user info
   * @returns {Error}  default - Unexpected error
   */
-  app.get(base+"/:id", (req, res) => {
-    userControl.userOne(req.params.id).then((data) => {
+  app.get(base+"/:id", ( req, res ) => {
+    userControl.userGetOne(req.params.id).then((data)=>{
       res.send(data);
     })
   });
