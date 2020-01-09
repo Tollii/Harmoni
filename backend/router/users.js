@@ -25,8 +25,8 @@ module.exports = (app, models, base) => {
   * @returns {object} 200 - An array of user info
   * @returns {Error}  default - Unexpected error
   */
-  app.get(base, ( req, res ) => {
-    userControl.userAll().then((data)=>{
+  app.get(base, (req, res) => {
+    userControl.userAll().then((data) => {
       res.send(data);
     })
   });
@@ -38,15 +38,15 @@ module.exports = (app, models, base) => {
   * @returns {object} 200 - An array of user info
   * @returns {Error}  default - Unexpected error
   */
-  app.get(base+"/:id", ( req, res ) => {
-    userControl.userOne(req.params.id).then((data)=>{
+  app.get(base+"/:id", (req, res) => {
+    userControl.userOne(req.params.id).then((data) => {
       res.send(data);
     })
   });
 
   /**
-  * @route POST /user/
   * @group User - Operations about user
+  * @route POST /user/
   * @param {Users.model} user.body.required - User's information
   * @returns {object} 200 - return User object
   * @returns {Error}  default - Unexpected error
@@ -58,16 +58,17 @@ module.exports = (app, models, base) => {
       req.body.hash,
       req.body.salt,
       req.body.phone,
-      req.body.picture)
-      .then((data)=>{
-        res.send(data)
-      })
+      req.body.picture
+    )
+    .then((data) => {
+      res.send(data);
+    })
   });
 
   /**
   * @group User - Operations about user
   * @route PUT /user/{id}/
-  * @param {integer} id.path.required - User's information
+  * @param {integer} id.path.required - user id
   * @param {Users_PUT.model} user.body.required - User's information
   * @returns {object} 200 - return updated User object
   * @returns {Error}  default - Unexpected error
@@ -78,13 +79,14 @@ module.exports = (app, models, base) => {
       req.body.username,
       req.body.email,
       req.body.phone,
-      req.body.picture)
-      .then(()=>{
-        res.sendStatus(200).send('User is updated');
-      })
-      .catch((err) => {
-        res.sendStatus(400).send('User not updated');;
-      })
+      req.body.picture
+    )
+    .then(() => {
+      res.sendStatus(200).send('User is updated');
+    })
+    .catch((err) => {
+      res.sendStatus(400).send('User not updated');
+    })
   });
 
   /**
@@ -96,7 +98,7 @@ module.exports = (app, models, base) => {
   */
   app.delete(base+"/:id", (req, res) => {
     userControl.userDelete(req.params.id)
-      .then((data)=>{
+      .then((data) => {
         res.send(data);
       })
   });

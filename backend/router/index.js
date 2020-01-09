@@ -4,6 +4,7 @@ module.exports = (app) => {
 
   require('./users')(app, models.Users, '/user')
   require('./event')(app, models.Events, '/event')
-  
+  require('./tickets')(app, models.Tickets, '/ticket')
+
 
 }
