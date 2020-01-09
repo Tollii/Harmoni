@@ -8,7 +8,7 @@
     "start-dev": "nodemon index.js",
     "migrate": "npx sequelize-cli db:migrate",
     "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate",
-    "test": "cross-env NODE_ENV=test jest --testTimeout=10000 --detectOpenHandles -i",
+    "test": "jest",
     "pretest": "cross-env NODE_ENV=test npm run migrate:reset"
   },
   "author": "",
@@ -30,6 +30,12 @@
     "express-swagger-generator": "^1.1.17"
   },
   "jest": {
+    "verbose": true,
+    "collectCoverage": true,
+    "coverageReporters": [
+      "json",
+      "html"
+    ],
     "testEnvironment": "node",
     "coveragePathIgnorePatterns": [
       "/node_modules/",
