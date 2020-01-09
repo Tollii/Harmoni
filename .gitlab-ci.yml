@@ -39,7 +39,7 @@ pages:
   script:
     - npm install
     - mkdir .public
-    - cp -r coverage/lcov-report/* .public
+    - cp -r coverage/* .public
     - mv .public public
   artifacts:
     paths:
