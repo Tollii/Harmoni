@@ -1,39 +1,42 @@
 module.exports = (models) => {
-  const Contract = models.Contract;
+  const Contract = models.Contracts;
   return {
     contractAll: () => Contract.findAll()
     .then( contracts => {
       return contracts;
     }),
 
-    contractOne: (id) => Contract.findOne({
+    contractOne: (user_id, event_id) => Contract.findOne({
       where: {
-        id: id
+        userID: user_id,
+        eventID: event_id
       }
     })
     .then(contract => contract),
 
-    contractCreate: () => Contract.create({
-
+    contractCreate: (contract, userID, eventID) => Contract.create({
+      contract:contract,
+      userID:userID,
+      eventID:eventID
     },
     {
       returning: true
     })
     .then(data => data),
 
-    contractUpdate: (id, ) => Contract.findOne({ where: {id: id}})
-      .then(contract => Contract.update({
-
-      },
-      {
-        returning: true,
-        where: {id: id}
+    contractDelete: (user_id, event_id) => Contract.findOne({
+      where: {
+          userID: user_id,
+          eventID: event_id
+        }
       })
-      .then(contract => contract)),
-
-    contractDelete: (id) => Contract.findOne({ where: {id: id}})
-      .then(contract => Contract.destroy({where: {id:id}})
-        .then(x => contract)
+      .then(contract => Contract.destroy({
+        where: {
+          userID: user_id,
+          eventID: event_id
+        }
+      })
+      .then(x => contract)
       ),
   }
 }

@@ -23,13 +23,14 @@ module.exports = (app, models, base) => {
 
   /**
   * @group Contract - Operations about contract
-  * @route GET /contract/{id}/
-  * @param {integer} id.path.required - Contract id
+  * @route GET /contract/user/{user_id}/event/{event_id}/
+  * @param {integer} user_id.path.required - Contract user id
+  * @param {integer} event_id.path.required - Contract event id
   * @returns {object} 200 - Return a Contract
   * @returns {Error}  default - Unexpected error
   */
-  app.get(base+"/:id", ( req, res ) => {
-    contractControl.contractOne(req.params.id).then((data)=>{
+  app.get(base+"/user/:user_id/event/:event_id", ( req, res ) => {
+    contractControl.contractOne(req.params.user_id, req.params.event_id).then((data)=>{
       res.send(data);
     })
   });
@@ -53,35 +54,14 @@ module.exports = (app, models, base) => {
 
   /**
   * @group Contract - Operations about contract
-  * @route PUT /contract/{id}/
-  * @param {integer} id.path.required - Contract id
-  * @param {Contract.model} user.body.required - Contract information
-  * @returns {object} 200 - Return OK message
-  * @returns {Error}  default - Unexpected error
-  */
-  app.put(base+"/:id", (req, res) => {
-    contractControl.contractUpdate(
-      req.params.id,
-      req.body.contract,
-      req.body.userID,
-      req.body.eventID)
-      .then(()=>{
-        res.sendStatus(200).send('User is updated');
-      })
-      .catch((err) => {
-        res.sendStatus(400).send('User not updated');;
-      })
-  });
-
-  /**
-  * @group Contract - Operations about contract
-  * @route DELETE /contract/{id}/
-  * @param {integer} id.path.required - Contract id
+  * @route DELETE /contract/user/{user_id}/event/{event_id}/
+  * @param {integer} user_id.path.required - Contract user id
+  * @param {integer} event_id.path.required - Contract event id
   * @returns {object} 200 - Contract is deleted
   * @returns {Error}  default - Unexpected error
   */
-  app.delete(base+"/:id", (req, res) => {
-    contractControl.contractDelete(req.params.id)
+  app.delete(base+"/user/:user_id/event/:event_id", (req, res) => {
+    contractControl.contractDelete(req.params.user_id, req.params.event_id)
       .then((data)=>{
         res.send(data);
       })
