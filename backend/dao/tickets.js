@@ -2,13 +2,13 @@ module.exports = (models) => {
   const Tickets = models.Tickets;
   const Events = models.Events;
   return {
-    ticketAll: () => Tickets.findAll()
+    ticketGetAll: () => Tickets.findAll()
     .then( tickets => {
       console.log("Fetched all tickets");
       return tickets;
     }),
 
-    ticketOne: (id) => Tickets.findOne({
+    ticketGetOne: (id) => Tickets.findOne({
       where: {
         id: id
       }

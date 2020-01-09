@@ -18,7 +18,7 @@ module.exports (app, models, base) => {
   * @returns {Error} default - Unexpected error
   */
   app.get(base, (req, res) => {
-    ticketControl.ticketAll().then((data) => {
+    ticketControl.ticketGetAll().then((data) => {
       res.send(data);
     })
   });
@@ -31,7 +31,7 @@ module.exports (app, models, base) => {
   * @returns {Error} default - Unexpected error
   */
   app.get(base+":id", (req, res) => {
-    ticketControl.ticketOne(req.params.id).then((data) => {
+    ticketControl.ticketGetOne(req.params.id).then((data) => {
       res.send(data);
     })
   });
