@@ -10,8 +10,8 @@
  * @property {integer} event_typeID.required - ID of event_type
  */
 
-module.exports = (app, Event, base) => {
-  const eventControll = require("../dao/events")(app, Event);
+module.exports = (app, models, base) => {
+  const eventControll = require("../dao/events")(models);
 
   /**
    * @group Event - Operations about event
