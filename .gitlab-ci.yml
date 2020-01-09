@@ -48,4 +48,4 @@ pages:
     - mv .public public
   artifacts:
     paths:
-      - .public
+      - coverage
