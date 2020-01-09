@@ -1,5 +1,5 @@
 /**
- * @typedef Event
+ * @typedef Events
  * @property {string} event_name.required - Full name
  * @property {string} location.required - Event location
  * @property {string} event_start.required - Event start date
@@ -14,31 +14,31 @@ module.exports = (app, models, base) => {
   const eventControll = require("../dao/events")(models);
 
   /**
-   * @group Event - Operations about event
+   * @group Events - Operations about event
    * @route GET /event/
    * @returns {object} 200 - An array of events
    * @returns {Error}  default - Unexpected error
    */
 
   app.get(base, (req, res) => {
-    eventControll.eventAll().then(data => {
+    eventControll.eventGetAll().then(data => {
       res.send(data);
     });
   });
   /**
-   * @group Event - Operations about event
+   * @group Events - Operations about event
    * @route GET /event/{id}/
    * @param {integer} id.path.required - event id
    * @returns {object} 200 - The event with the param id
    * @returns {Error}  default - Unexpected error
    */
   app.get(base + "/:id", (req, res) => {
-    eventControll.eventOne(req.params.id).then(data => {
+    eventControll.eventGetOne(req.params.id).then(data => {
       res.send(data);
     });
   });
   /**
-   * @group Event - Operations about event
+   * @group Events - Operations about event
    * @route DELETE /event/{id}/
    * @param {integer} id.path.required - event id
    * @returns {object} 200 - An array of events
@@ -51,10 +51,10 @@ module.exports = (app, models, base) => {
   });
 
   /**
-   * @group Event - Operations about event
+   * @group Events - Operations about event
    * @route PUT /event/{id}/
    * @param {integer} id.path.required - event id
-   * @param {Event.model} event.body.required - All attributes of event
+   * @param {Events.model} event.body.required - All attributes of event
    * @returns {object} 200 - Updates the attributes of the given event
    * @returns {Error}  default - Unexpected error
    */
@@ -79,9 +79,9 @@ module.exports = (app, models, base) => {
       });
   });
   /**
-   * @group Event - Operations about event
+   * @group Events - Operations about event
    * @route POST /event/
-   * @param {Event.model} event.body.required - All attributes of event
+   * @param {Events.model} event.body.required - All attributes of event
    * @returns {object} 200 - Add an event to the DB
    * @returns {Error}  default - Unexpected error
    */
