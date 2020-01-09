@@ -8,7 +8,7 @@ module.exports = app => {
   require('./contracts')(app, models, '/contract')
   require('./rider_types')(app, models, '/rider_type')
   require('./roles')(app, models, '/role')
-  require("./permissions")(app, models, "/permissions");
+  require("./permissions")(app, models, "/permission");
 };
 
 
