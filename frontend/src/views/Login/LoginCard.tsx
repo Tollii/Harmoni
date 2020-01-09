@@ -6,17 +6,12 @@ import Typography from "@material-ui/core/Typography";
 import InputField from "../../components/InputField/InputField";
 import Grid from "@material-ui/core/Grid";
 import Button from "../../components/Button/Button";
+import useForm from "../../service/Form/useForm";
 
 const useStyles = makeStyles({
   grid: {
     maxWidth: "450px",
     minWidth: "250px"
-  },
-
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)"
   },
   title: {
     marginLeft: "auto",
@@ -31,34 +26,54 @@ const useStyles = makeStyles({
   }
 });
 
-export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
+export default () => {
   const classes = useStyles();
+  const { handleChange, handleSubmit, values } = useForm(submit, {
+    email: "",
+    password: ""
+  });
+
+  function submit() {
+    console.log("Submitted form");
+    /////////// KODE FOR LOGIN VERIFICATION HER
+  }
 
   return (
-    <Card width={"80%"} style={{ minWidth: "250px", maxWidth: "450px" }}>
+    <Card
+      width={"80%"}
+      style={{ minWidth: "250px", maxWidth: "450px", marginTop: "10%" }}
+    >
       <Grid container className={classes.grid}>
         <CardContent>
-          <Grid item justify="center" direction="row">
+          <Grid item>
             <Typography className={classes.title} variant="h3" align="center">
               Login
             </Typography>
           </Grid>
 
-          <InputField label="Email" type="text" />
-          <InputField
-            label="Password"
-            type="password"
-            autoComplete="current-password"
-          />
-          <Grid container direction="row" justify="space-between">
-            <Button>Forgot password?</Button>
-            <Button>Log in</Button>
-          </Grid>
+          <form onSubmit={handleSubmit} noValidate>
+            <InputField
+              name="email"
+              label="Email"
+              type="text"
+              value={values.email}
+              onChange={handleChange}
+            />
+            <InputField
+              name="password"
+              label="Password"
+              type="password"
+              autoComplete="current-password"
+              value={values.password}
+              onChange={handleChange}
+            />
+            <Grid container direction="row" justify="space-between">
+              <Button>Forgot password?</Button>
+              <Button type="submit">Log in</Button>
+            </Grid>
+          </form>
         </CardContent>
       </Grid>
     </Card>
   );
-}
+};
