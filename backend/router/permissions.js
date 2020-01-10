@@ -8,7 +8,7 @@ module.exports = (app, models, base) => {
 
   /**
    * @group Permissions - Operations about permissions
-   * @route GET /permissions/
+   * @route GET /permission/
    * @returns {object} 200 - An array of permissions
    * @returns {Error} defauls - Unexpected error
    */
@@ -20,7 +20,7 @@ module.exports = (app, models, base) => {
 
   /**
    * @group Permissions - Operations about permissions
-   * @route GET /permissions/{id}/
+   * @route GET /permission/{id}/
    * @param {integer} id.path.required - permission id
    * @returns {object} 200 - One specific permission
    * @returns {Error} defauls - Unexpected error
