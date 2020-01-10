@@ -4,7 +4,7 @@ const rolesControl = require('../dao/roles')(models);
 const permissionsControl = require('../dao/permissions')(models);
 
 
-describe('Get Endpoints', () => {
+describe('Permissions_per_role DAO', () => {
 
 
   it('should create one permissions_per_role', async (done) => {

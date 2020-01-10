@@ -1,7 +1,7 @@
 const models = require('../models');
 const permissionsControl = require('../dao/permissions')(models);
 
-describe('Get Endpoints', () => {
+describe('Permission DAO', () => {
 
   it('should create one permission', async (done) => {
     const res = await permissionsControl.permissionsCreate("new");
