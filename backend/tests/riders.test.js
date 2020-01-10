@@ -1,5 +1,6 @@
 const models = require('../models');
 const ridersControl = require('../dao/riders')(models);
+const rider_typeControl = require('../dao/rider_types')(models);
 const userControl = require('../dao/users')(models);
 const rolesControl = require('../dao/roles')(models);
 
@@ -8,6 +9,7 @@ describe('riders DAO', () => {
     it('should create one rider', async (done) => {
         await rolesControl.rolesCreate("not_zaim");
         await userControl.userCreate("test", "test@test.test", "testtest", "testtest", "123456789", "image.png");
+        await rider_typeControl.rider_typesCreate("yeet");
         const res = await ridersControl.riderCreate("additions", 1, 1, 1);
         expect(res.userID).toEqual(1);
         expect(res.rider_typeID).toEqual(1);
