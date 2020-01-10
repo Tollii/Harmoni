@@ -2,7 +2,7 @@ const models = require('../models');
 const rolesControl = require('../dao/roles')(models);
 
 
-describe('Role Endpoints', () => {
+describe('Roles DAO', () => {
 
 
     it('should create one role', async (done) => {
