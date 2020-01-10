@@ -9,6 +9,13 @@ module.exports = models => {
     permissions_per_roleGetOne: async (roleID, permissionID) =>
       Permissions_per_role.findOne({
         where: { roleID: roleID, permissionID: permissionID }
-      }).then(permissions_per_role => permissions_per_role)
+      }).then(permissions_per_role => permissions_per_role),
+
+      permissions_per_roleCreate: async (roleID, permissionID) =>
+        Permissions_per_role.create({
+          roleID: roleID,
+          permissionID: permissionID
+        })
+        .then(permissions_per_role => permissions_per_role)
   };
 };
