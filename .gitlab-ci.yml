@@ -49,5 +49,5 @@ pages:
     - ls public
   artifacts:
     paths:
-      - public/*.html
+      - public/index.html
       
