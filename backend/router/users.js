@@ -32,15 +32,17 @@ module.exports = (app, models, base) => {
   });
 
   /**
-   * @group User - Operations about user
-   * @route GET /user/{token}/
-   * @param {string} token.path.required - user token
-   * @returns {object} 200 - An array of user info
-   * @returns {Error}  default - Unexpected error
-   */
-  app.get(base + "/:token", async (req, res) => {
-    let id = await authControl.decode_token(req.params.token);
-    userControl.userGetOne(id).then(data => {
+  * @group User - Operations about user
+  * @route GET /user/{token}/
+  * @param {string} token.path.required - user token
+  * @returns {object} 200 - An array of user info
+  * @returns {Error}  default - Unexpected error
+  */
+  app.get(base+"/:token", async ( req, res ) => {
+    console.log(req.params.token);
+    let id = await auth.decode_token(req.params.token);
+    console.log(id);
+    userControl.userGetOne(id).then((data)=>{
       res.send(data);
     });
   });

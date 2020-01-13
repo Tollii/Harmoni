@@ -11,7 +11,7 @@
  */
 
 module.exports = (app, models, base) => {
-  const eventControll = require("../dao/events")(models);
+  const eventControl = require("../dao/events")(models);
 
   /**
    * @group Events - Operations about event
@@ -21,9 +21,7 @@ module.exports = (app, models, base) => {
    */
 
   app.get(base, (req, res) => {
-    console.log("event called")
-    eventControll.eventGetAll().then(data => {
-      console.log("event DAO called")
+    eventControl.eventGetAll().then(data => {
       res.send(data);
     });
   });
@@ -35,7 +33,7 @@ module.exports = (app, models, base) => {
    * @returns {Error}  default - Unexpected error
    */
   app.get(base + "/:id", (req, res) => {
-    eventControll.eventGetOne(req.params.id).then(data => {
+    eventControl.eventGetOne(req.params.id).then(data => {
       res.send(data);
     });
   });
@@ -43,13 +41,22 @@ module.exports = (app, models, base) => {
    * @group Events - Operations about event
    * @route DELETE /event/{id}/
    * @param {integer} id.path.required - event id
+   * @param {string} token.query.required - token
    * @returns {object} 200 - An array of events
    * @returns {Error}  default - Unexpected error
    */
   app.delete(base + "/:id", (req, res) => {
-    eventControll.eventDelete(req.params.id).then(data => {
-      res.send(data);
-    });
+    auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
+    .then(data => {
+      if(data){
+        eventControl.eventDelete(req.params.id).then(data => {
+          res.send(data);
+        });
+      } else {
+        res.status(400).send("Not authenticated")
+      }
+    })
+    .catch(err => console.log(err))
   });
 
   /**
@@ -57,11 +64,12 @@ module.exports = (app, models, base) => {
    * @route PUT /event/{id}/
    * @param {integer} id.path.required - event id
    * @param {Events.model} event.body.required - All attributes of event
+   * @param {string} token.query.required - token
    * @returns {object} 200 - Updates the attributes of the given event
    * @returns {Error}  default - Unexpected error
    */
   app.put(base + "/:id", (req, res) => {
-    eventControll
+    eventControl
       .eventUpdate(
         req.params.id,
         req.body.event_name,
@@ -84,11 +92,12 @@ module.exports = (app, models, base) => {
    * @group Events - Operations about event
    * @route POST /event/
    * @param {Events.model} event.body.required - All attributes of event
+   * @param {string} token.query.required - token
    * @returns {object} 200 - Add an event to the DB
    * @returns {Error}  default - Unexpected error
    */
   app.post(base, (req, res) => {
-    eventControll
+    eventControl
       .eventCreate(
         req.body.event_name,
         req.body.location,
