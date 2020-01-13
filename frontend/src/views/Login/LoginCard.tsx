@@ -7,7 +7,7 @@ import InputField from "../../components/InputField/InputField";
 import Grid from "@material-ui/core/Grid";
 import Button from "../../components/Button/Button";
 import useForm from "../../service/Form/useForm";
-import validate from "../../service/Form/Validate";
+import { validateLogin } from "../../service/Form/Validate";
 
 const useStyles = makeStyles({
   grid: {
@@ -35,7 +35,7 @@ export default () => {
       email: "",
       password: ""
     },
-    validate
+    validateLogin
   );
 
   function submit() {
@@ -72,7 +72,6 @@ export default () => {
               name="password"
               label="Password"
               type="password"
-              autoComplete="current-password"
               value={values.password}
               onChange={handleChange}
             />
