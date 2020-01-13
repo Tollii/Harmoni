@@ -136,7 +136,9 @@ export default (props: any) => {
               onChange={handleChange}
             />
             <Grid container direction="row" justify="space-between">
-              <Button>Already have a user?</Button>
+              <Button onClick={() => (window.location.hash = "/login")}>
+                Already have a user?
+              </Button>
               <Button type="submit">Sign up</Button>
             </Grid>
           </form>
