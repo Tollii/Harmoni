@@ -17,9 +17,6 @@ module.exports = {
       hash: {
         type: Sequelize.STRING
       },
-      salt: {
-        type: Sequelize.STRING
-      },
       phone: {
         type: Sequelize.STRING
       },

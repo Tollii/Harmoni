@@ -13,9 +13,11 @@ module.exports = (app, models, base) => {
    * @returns {Error} defauls - Unexpected error
    */
   app.get(base, (req, res) => {
-    permissionControll.permissionsGetAll().then(data => {
+    console.log("Method called")
+    permissionControll.permissionsGetAll().then((data) => {
+      console.log("DAO called")
       res.send(data);
-    });
+    })
   });
 
   /**
@@ -26,8 +28,9 @@ module.exports = (app, models, base) => {
    * @returns {Error} defauls - Unexpected error
    */
   app.get(base + "/:id", (req, res) => {
-    permissionControll.permissionsGetOne(req.params.id).then(data => {
+    permissionControll.permissionsGetOne(req.params.id).then((data) => {
+      console.log("called");
       res.send(data);
-    });
+    })
   });
 };
