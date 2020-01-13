@@ -58,12 +58,14 @@ export default () => {
     dateEnd: new Date()
   });
 
-  const handleChange = (event: any, date: boolean = false) => {
-    const { name, value } = event.target;
-    if (!date) {
+  const handleChange = (event: any, name: string = "") => {
+    if (name === "") {
+      const { name, value } = event.target;
+      console.log("uten date");
       setValues({ ...values, [name]: value });
     } else {
-      setValues({ ...values, [name]: event });
+      console.log("med date");
+      setValues(values => ({ ...values, [name]: event }));
     }
   };
 
