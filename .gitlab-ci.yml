@@ -45,7 +45,7 @@ pages:
     - cd ..
     - mkdir .public
     - ls
-    - cp -r /backend/coverage/* .public
+    - cp -r backend/coverage/* .public
     - mv .public public
     - ls public
   artifacts:
