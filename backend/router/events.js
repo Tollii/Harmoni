@@ -21,7 +21,9 @@ module.exports = (app, models, base) => {
    */
 
   app.get(base, (req, res) => {
+    console.log("event called")
     eventControll.eventGetAll().then(data => {
+      console.log("event DAO called")
       res.send(data);
     });
   });

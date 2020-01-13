@@ -11,6 +11,16 @@ module.exports = models => {
         where: { roleID: roleID, permissionID: permissionID }
       }).then(permissions_per_role => permissions_per_role),
 
+      permissions_per_roleGetOne: async (roleID, permissionID) =>
+      Permissions_per_role.findOne({
+        where: { roleID: roleID, permissionID: permissionID }
+      }).then(permissions_per_role => permissions_per_role),
+
+      permissions_per_roleGetByRole: async (roleID) =>
+      Permissions_per_role.findAll({
+        where: { roleID: roleID }
+      }).then(permissions_per_role => permissions_per_role),
+
       permissions_per_roleCreate: async (roleID, permissionID) =>
         Permissions_per_role.create({
           roleID: roleID,

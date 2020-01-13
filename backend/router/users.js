@@ -18,6 +18,8 @@
 
 module.exports = (app, models, base) => {
   const userControl = require('../dao/users')(models)
+  const authControl = require('../dao/authentication')(models)
+
 
   /**
   * @group User - Operations about user
@@ -33,13 +35,16 @@ module.exports = (app, models, base) => {
 
   /**
   * @group User - Operations about user
-  * @route GET /user/{id}/
-  * @param {integer} id.path.required - user id
+  * @route GET /user/{token}/
+  * @param {string} token.path.required - user token
   * @returns {object} 200 - An array of user info
   * @returns {Error}  default - Unexpected error
   */
-  app.get(base+"/:id", ( req, res ) => {
-    userControl.userGetOne(req.params.id).then((data)=>{
+  app.get(base+"/:token", async ( req, res ) => {
+    console.log(req.params.token);
+    let id = await authControl.decode_token(req.params.token);
+    console.log(id);
+    userControl.userGetOne(id).then((data)=>{
       res.send(data);
     })
   });
@@ -96,7 +101,7 @@ module.exports = (app, models, base) => {
   * @returns {object} 200 - User is deleted
   * @returns {Error}  default - Unexpected error
   */
-  app.delete(base+"/:id", (req, res) => {
+  app.delete(base + "/:id", (req, res) => {
     userControl.userDelete(req.params.id)
       .then((data) => {
         res.send(data);
