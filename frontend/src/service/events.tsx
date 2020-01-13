@@ -1,6 +1,6 @@
 const axios = require('axios').default;
 
-let url = "http://localhost:8080"
+let url = "http://localhost:8080";
 
 export class Event {
   id!: number;
