@@ -39,9 +39,7 @@ module.exports = (app, models, base) => {
    * @returns {Error}  default - Unexpected error
    */
   app.get(base + "/:token", async (req, res) => {
-    console.log(req.params.token);
     let id = await authControl.decode_token(req.params.token);
-    console.log(id);
     userControl.userGetOne(id).then(data => {
       res.send(data);
     });
