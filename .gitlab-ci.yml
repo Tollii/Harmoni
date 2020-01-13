@@ -42,13 +42,13 @@ pages:
     - run_tests
   script:
     - npm install
+    - cd ..
     - mkdir .public
     - ls
-    - cp -r coverage/* .public
+    - cp -r backend/coverage/* .public
     - mv .public public
+    - ls public
   artifacts:
     paths:
-      - public/*.html
-  only:
-      - master
+      - public/*
       
