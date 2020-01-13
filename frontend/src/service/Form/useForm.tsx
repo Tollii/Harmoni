@@ -8,7 +8,8 @@ const useForm = (callback: any, initialValues: any, validate: any) => {
   const handleChange = (event: any) => {
     const { name, value } = event.target;
     setValues({ ...values, [name]: value });
-    console.log(value);
+    console.log(event.target.name);
+    console.log(event.target.value);
   };
 
   const handleSubmit = (event: any) => {

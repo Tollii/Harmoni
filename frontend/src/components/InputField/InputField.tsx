@@ -19,7 +19,10 @@ export default (props: any) => {
   const classes = useStyles();
 
   if (props.type === "password") {
-    return <PasswordInput label={props.label} />;
+    return <PasswordInput 
+    label={props.label}  
+    {...props}
+    />;
   } else {
     return (
       <TextField

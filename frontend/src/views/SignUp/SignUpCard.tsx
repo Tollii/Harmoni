@@ -7,7 +7,7 @@ import InputField from "../../components/InputField/InputField";
 import Grid from "@material-ui/core/Grid";
 import Button from "../../components/Button/Button";
 import useForm from "../../service/Form/useForm";
-import validate from "../../service/Form/Validate";
+import validateSignUp from "../../service/Form/Validate";
 
 const useStyles = makeStyles({
   grid: {
@@ -33,9 +33,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default () => {
-  const classes = useStyles();
-
+export default (props: any) => {
   const { handleChange, handleSubmit, values, errors } = useForm(
     submit,
     {
@@ -46,7 +44,7 @@ export default () => {
       fullName: "",
       telephone: ""
     },
-    validate
+    validateSignUp
   );
 
   function submit() {
@@ -76,6 +74,7 @@ export default () => {
             {errors.emailConfirmed && (
               <Typography>{errors.emailConfirmed}</Typography>
             )}
+
             <InputField
               name="emailConfirmed"
               label="Confirm email"
@@ -97,6 +96,7 @@ export default () => {
             {errors.passwordConfirmed && (
               <Typography>{errors.passwordConfirmed}</Typography>
             )}
+
             <InputField
               name="passwordConfirmed"
               label="Confirm password *"
@@ -106,6 +106,7 @@ export default () => {
               onChange={handleChange}
             />
             {errors.fullName && <Typography>{errors.fullName}</Typography>}
+
             <InputField
               name="fullName"
               label="Full name"
@@ -114,6 +115,8 @@ export default () => {
               value={values.fullName}
               onChange={handleChange}
             />
+            {errors.telephone && <Typography>{errors.telephone}</Typography>}
+
             <InputField
               name="telephone"
               label="Telephone"
