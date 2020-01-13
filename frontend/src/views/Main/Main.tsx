@@ -1,5 +1,4 @@
 import React from "react";
-import Login from "../Login/Login";
 
 const Main: React.FC = () => {
   return (
@@ -7,7 +6,6 @@ const Main: React.FC = () => {
       <header className="App-header">
         <p>NAVBAR</p>
       </header>
-      <Login />
     </div>
   );
 };
