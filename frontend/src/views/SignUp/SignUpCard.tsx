@@ -8,6 +8,7 @@ import Grid from "@material-ui/core/Grid";
 import Button from "../../components/Button/Button";
 import useForm from "../../service/Form/useForm";
 import validateSignUp from "../../service/Form/Validate";
+import Authentication from "../../service/Authentication";
 
 const useStyles = makeStyles({
   grid: {
@@ -34,6 +35,8 @@ const useStyles = makeStyles({
 });
 
 export default (props: any) => {
+  const classes = useStyles(props);
+
   const { handleChange, handleSubmit, values, errors } = useForm(
     submit,
     {
@@ -49,8 +52,14 @@ export default (props: any) => {
 
   function submit() {
     console.log("Submitted form");
-    /////////// KODE FOR SIGN UP VERIFICATION HER
+    Authentication.signUp({
+      email: values.email,
+      password: values.password,
+      username: values.fullName,
+      phone: values.telephone
+    }).then((data: any) => console.log(data));
   }
+
   return (
     <Card width={"80%"} style={{ minWidth: "250px", maxWidth: "450px" }}>
       <Grid container className={classes.grid}>
