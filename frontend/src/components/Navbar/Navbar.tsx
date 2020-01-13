@@ -171,7 +171,7 @@ export default function Navbar() {
 
   return (
     <div>
-      <AppBar className={classes.backgroundNavbar} position="fixed">
+      <AppBar className={classes.backgroundNavbar} position="static">
         <Toolbar className={classes.backgroundNavbar}>
           <Grid
             container

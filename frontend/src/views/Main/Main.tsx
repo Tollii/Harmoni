@@ -1,13 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-const Main: React.FC = () => {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p>NAVBAR</p>
-      </header>
-    </div>
-  );
+export default () => {
+  return <Link to="/addEvent">AddEvent </Link>;
 };
-
-export default Main;
