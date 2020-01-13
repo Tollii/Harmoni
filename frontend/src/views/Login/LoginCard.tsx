@@ -7,7 +7,7 @@ import InputField from "../../components/InputField/InputField";
 import Grid from "@material-ui/core/Grid";
 import Button from "../../components/Button/Button";
 import useForm from "../../service/Form/useForm";
-import validate from "../../service/Form/Validate";
+import { validateLogin } from "../../service/Form/Validate";
 
 const useStyles = makeStyles({
   grid: {
@@ -30,12 +30,12 @@ const useStyles = makeStyles({
 export default () => {
   const classes = useStyles();
   const { handleChange, handleSubmit, values, errors } = useForm(
-      submit,
-      {
-        email: "",
-        password: ""
-      },
-      validate
+    submit,
+    {
+      email: "",
+      password: ""
+    },
+    validateLogin
   );
 
   function submit() {
