@@ -8,6 +8,7 @@ import Grid from "@material-ui/core/Grid";
 import Button from "../../components/Button/Button";
 import useForm from "../../service/Form/useForm";
 import validate from "../../service/Form/Validate";
+import login from "../../service/Authentication"
 
 const useStyles = makeStyles({
   grid: {
@@ -41,6 +42,9 @@ export default () => {
   function submit() {
     console.log("Submitted form");
     /////////// KODE FOR LOGIN VERIFICATION HER
+    let credentials='{"email": "string", "password": "string"}';
+    console.log("bla bla test")
+    console.log(login.getLogin(values));
   }
 
   return (
@@ -71,7 +75,7 @@ export default () => {
             <InputField
               name="password"
               label="Password"
-              type="password"
+              type="text"
               autoComplete="current-password"
               value={values.password}
               onChange={handleChange}
@@ -79,7 +83,7 @@ export default () => {
 
             <Grid container direction="row" justify="space-between">
               <Button>Forgot password?</Button>
-              <Button type="submit">Log in</Button>
+              <Button type="submit" onClick={()=>(submit())}>Log in</Button>
             </Grid>
           </form>
         </CardContent>
