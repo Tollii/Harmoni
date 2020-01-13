@@ -10,5 +10,7 @@ module.exports = app => {
   require("./roles")(app, models, "/role");
   require("./permissions")(app, models, "/permission");
   require("./permissions_per_role")(app, models, "/permissions_per_role");
-  require('./riders')(app, models, '/rider')
+  require('./riders')(app, models, '/rider');
+  require('./authentication')(app, models)
+
 };
