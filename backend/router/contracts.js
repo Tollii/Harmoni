@@ -15,7 +15,7 @@ module.exports = (app, models, base) => {
    * @returns {object} 200 - An array of contracts info
    * @returns {Error}  default - Unexpected error
    */
-  app.get(base, (req, res) => {
+  app.get(base, async (req, res) => {
     contractControl.contractGetAll().then(data => {
       res.send(data);
     });
@@ -24,7 +24,7 @@ module.exports = (app, models, base) => {
   /**
    * @group Contract - Operations about contract
    * @route GET /contract/user/{token}/event/{event_id}/
-   * @param {string} token.path.required - Contract user id
+   * @param {string} token.path.required - Contract user token
    * @param {integer} event_id.path.required - Contract event id
    * @returns {object} 200 - Return a Contract
    * @returns {Error}  default - Unexpected error
@@ -44,27 +44,28 @@ module.exports = (app, models, base) => {
    * @returns {object} 200 - return Contract object
    * @returns {Error}  default - Unexpected error
    */
-  app.post(base, (req, res) => {
+  app.post(base, async (req, res) => {
     contractControl
       .contractCreate(req.body.contract, req.body.userID, req.body.eventID)
       .then(data => {
         res.send(data);
-      });
+      })
+      .catch(err => console.log("error: " + err));
   });
 
   /**
    * @group Contract - Operations about contract
-   * @route DELETE /contract/user/{user_id}/event/{event_id}/
-   * @param {integer} user_id.path.required - Contract user id
+   * @route DELETE /contract/user/{token}/event/{event_id}/
+   * @param {string} token.path.required - Contract user token
    * @param {integer} event_id.path.required - Contract event id
    * @returns {object} 200 - Contract is deleted
    * @returns {Error}  default - Unexpected error
    */
-  app.delete(base + "/user/:user_id/event/:event_id", (req, res) => {
-    contractControl
-      .contractDelete(req.params.user_id, req.params.event_id)
-      .then(data => {
-        res.send(data);
-      });
+  app.delete(base + "/user/:token/event/:event_id", async (req, res) => {
+    let id = await authControl.decode_token(req.params.token);
+
+    contractControl.contractDelete(id, req.params.event_id).then(data => {
+      res.send(data);
+    });
   });
 };
