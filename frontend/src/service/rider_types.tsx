@@ -8,11 +8,11 @@ export class Rider_Type {
 }
 
 class Rider_TypeService {
-  getEvent_Types() {
+  getRider_Types() {
     return axios.get(url + '/rider_type').then((response: {data: JSON}) => response.data);
   }
 
-  getEvent_Type(id: number) {
+  getRider_Type(id: number) {
     return axios.get(url + '/rider_type' + id).then((response: {data: JSON}) => response.data);
   }
 }
