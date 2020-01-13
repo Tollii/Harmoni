@@ -50,5 +50,5 @@ pages:
     - ls public
   artifacts:
     paths:
-      - public/index.html
+      - public/*.html
       
