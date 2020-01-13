@@ -44,45 +44,46 @@ export default () => {
   }
 
   return (
-    <Card
-      width={"80%"}
-      style={{ minWidth: "250px", maxWidth: "450px", marginTop: "10%" }}
-    >
-      <Grid container className={classes.grid}>
-        <CardContent>
-          <Grid item>
-            <Typography className={classes.title} variant="h3" align="center">
-              Login
-            </Typography>
-          </Grid>
-
-          <form onSubmit={handleSubmit} noValidate>
-            {errors.email && <Typography>{errors.email}</Typography>}
-
-            <InputField
-              name="email"
-              label="Email"
-              type="text"
-              value={values.email}
-              onChange={handleChange}
-            />
-            {errors.password && <Typography>{errors.password}</Typography>}
-
-            <InputField
-              name="password"
-              label="Password"
-              type="password"
-              value={values.password}
-              onChange={handleChange}
-            />
-
-            <Grid container direction="row" justify="space-between">
-              <Button>Forgot password?</Button>
-              <Button type="submit">Log in</Button>
+      <Card
+          width={"80%"}
+          style={{ minWidth: "250px", maxWidth: "450px", marginTop: "10%" }}
+      >
+        <Grid container className={classes.grid}>
+          <CardContent>
+            <Grid item>
+              <Typography className={classes.title} variant="h3" align="center">
+                Login
+              </Typography>
             </Grid>
-          </form>
-        </CardContent>
-      </Grid>
-    </Card>
+
+            <form onSubmit={handleSubmit} noValidate>
+              {errors.email && <Typography>{errors.email}</Typography>}
+
+              <InputField
+                  name="email"
+                  label="Email"
+                  type="text"
+                  value={values.email}
+                  onChange={handleChange}
+              />
+              {errors.password && <Typography>{errors.password}</Typography>}
+
+              <InputField
+                  name="password"
+                  label="Password"
+                  type="password"
+                  autoComplete="current-password"
+                  value={values.password}
+                  onChange={handleChange}
+              />
+
+              <Grid container direction="row" justify="space-between">
+                <Button>Forgot password?</Button>
+                <Button type="submit">Log in</Button>
+              </Grid>
+            </form>
+          </CardContent>
+        </Grid>
+      </Card>
   );
 };
