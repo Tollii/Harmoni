@@ -8,8 +8,8 @@
  * @property {integer} eventID.required - Id of event ticket belongs to
  */
 
-module.exports = (app, models, base) => {
-  const ticketControl = require("../dao/tickets")(models);
+module.exports = (app, models, base, auth) => {
+  const ticketControl = require('../dao/tickets')(models)
 
   /**
    * @group Ticket - Operations about ticket
@@ -18,9 +18,20 @@ module.exports = (app, models, base) => {
    * @returns {Error} default - Unexpected error
    */
   app.get(base, (req, res) => {
-    ticketControl.ticketGetAll().then(data => {
-      res.send(data);
-    });
+    auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
+    .then(data => {
+      if(data){
+        ticketControl.ticketGetAll().then((data) => {
+          res.send(data);
+        })
+        .then((data) => {
+          res.send(data);
+        })
+      } else {
+        res.status(400).send("Not authenticated")
+      }
+    })
+    .catch(err => console.log(err))
   });
 
   /**
@@ -37,64 +48,90 @@ module.exports = (app, models, base) => {
   });
 
   /**
-   * @group Ticket - Operations about ticket
-   * @route POST /ticket/
-   * @param {Tickets.model} user.body.required - Ticket information
-   * @returns {object} 200 - Returns Ticket object
-   * @returns {Error} default - Unexpected error
-   */
+  * @group Ticket - Operations about ticket
+  * @route POST /ticket/
+  * @param {Tickets.model} user.body.required - Ticket information
+  * @param {string} token.query.required - token
+  * @returns {object} 200 - Returns Ticket object
+  * @returns {Error} default - Unexpected error
+  */
   app.post(base, (req, res) => {
-    ticketControl
-      .ticketCreate(
-        req.body.ticket_name,
-        req.body.price,
-        req.body.ticket_amount,
-        req.body.date_start,
-        req.body.date_end,
-        req.body.eventID
-      )
-      .then(data => {
-        res.send(data);
-      });
+    auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
+    .then(data => {
+      if(data){
+        ticketControl.ticketCreate(
+          req.body.ticket_name,
+          req.body.price,
+          req.body.ticket_amount,
+          req.body.date_start,
+          req.body.date_end,
+          req.body.eventID
+        )
+        .then((data) => {
+          res.send(data);
+        })
+      } else {
+        res.status(400).send("Not authenticated")
+      }
+    })
+    .catch(err => console.log(err))
   });
 
   /**
-   * @group Ticket - Operations about ticket
-   * @route PUT /ticket/{id}/
-   * @param {integer} id.path.required - Ticket id
-   * @param {Tickets.model} user.body.requred - Ticket information
-   * @returns {object} 200 - Returns updated Ticket object
-   * @returns {Error} default - Unexpected error
-   */
-  app.put(base + "/:id", (req, res) => {
-    ticketControl
-      .ticketUpdate(
-        req.params.id,
-        req.body.ticket_name,
-        req.body.price,
-        req.body.ticket_amount,
-        req.body.date_start,
-        req.body.date_end,
-        req.body.eventID
-      )
-      .then(() => {
-        res.sendStatus(200).send("Ticket is updated");
-      })
-      .catch(err => {
-        res.sendStatus(400).send("Ticket is not updated");
-      });
+  * @group Ticket - Operations about ticket
+  * @route PUT /ticket/{id}/
+  * @param {integer} id.path.required - Ticket id
+  * @param {Tickets_PUT.model} user.body.required - Ticket information
+  * @param {string} token.query.required - token
+  * @returns {object} 200 - Returns updated Ticket object
+  * @returns {Error} default - Unexpected error
+  */
+  app.put(base+"/:id", (req, res) => {
+    auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
+    .then(data => {
+      if(data){
+        ticketControl.ticketUpdate(
+          req.params.id,
+          req.body.ticket_name,
+          req.body.price,
+          req.body.ticket_amount,
+          req.body.date_start,
+          req.body.date_end,
+          req.body.eventID
+        )
+        .then(() => {
+          res.sendStatus(200).send('Ticket is updated');
+        })
+        .catch((err) => {
+          res.sendStatus(400).send('Ticket is not updated');
+        })
+      } else {
+        res.status(400).send("Not authenticated")
+      }
+    })
+    .catch(err => console.log(err))
   });
 
   /**
-   * @group Ticket - Operations about ticket
-   * @route DELETE /ticket/{id}/
-   * @param {integer} id.path.required - Ticket id
-   * @returns {object} 200 - Ticket is deleted
-   * @returns {Error} default - Unexpected error
-   */
-  app.delete(base + "/:id", (req, res) => {
-    ticketControl.ticketDelete(req.params.id).then(data => {
-      res.send(data);
-    });
+  * @group Ticket - Operations about ticket
+  * @route DELETE /ticket/{id}/
+  * @param {integer} id.path.required - Ticket id
+  * @param {string} token.query.required - token
+  * @returns {object} 200 - Ticket is deleted
+  * @returns {Error} default - Unexpected error
+  */
+  app.delete(base+"/:id", (req, res) => {
+    auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
+    .then(data => {
+      if(data){
+        ticketControl.ticketDelete(req.params.id)
+        .then((data) => {
+          res.send(data);
+        })
+      } else {
+        res.status(400).send("Not authenticated")
+      }
+    })
+    .catch(err => console.log(err))
   });
 };

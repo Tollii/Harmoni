@@ -3,7 +3,7 @@
  * @property {string} event_type.required - Name of event type
  */
 
-module.exports = (app, models, base) => {
+module.exports = (app, models, base, auth) => {
   const event_typesControl = require("../dao/event_types")(models);
 
   /**
