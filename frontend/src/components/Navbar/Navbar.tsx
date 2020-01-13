@@ -131,6 +131,7 @@ export default function Navbar() {
   /*const handleClose = () => {
     setAnchorEl(null);
   };*/
+
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -194,9 +195,15 @@ export default function Navbar() {
             </Hidden>
             <Hidden xsDown>
               <Grid item xs={3} sm={3}>
-                <Typography className={classes.typography} variant="h3" noWrap>
-                  Harmoni
-                </Typography>
+                <Button onClick={() => (window.location.hash = "/")}>
+                  <Typography
+                    className={classes.typography}
+                    variant="h3"
+                    noWrap
+                  >
+                    Harmoni
+                  </Typography>
+                </Button>
               </Grid>
             </Hidden>
             <Hidden xsDown>
@@ -286,6 +293,7 @@ export default function Navbar() {
                       aria-controls="menu-appbar"
                       aria-haspopup="true"
                       //color="inherit"
+                      onClick={() => (window.location.hash = "/login")}
                     >
                       <AccountCircle />
                     </IconButton>
@@ -386,6 +394,7 @@ export default function Navbar() {
                   aria-controls="menu-appbar"
                   aria-haspopup="true"
                   //color="inherit"
+                  onClick={() => (window.location.hash = "/login")}
                 >
                   <AccountCircle />
                 </IconButton>

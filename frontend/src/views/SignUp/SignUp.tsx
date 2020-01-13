@@ -48,9 +48,6 @@ export default () => {
   return (
     <div>
       <SignUpCard />
-      <Grid container direction="row" justify="center">
-        <Button className={classes.marginTop}>Not a user?</Button>
-      </Grid>
       <Grid container direction="row">
         <Box
           className={`${classes.ellipse} ${classes.ellipse1}`}
