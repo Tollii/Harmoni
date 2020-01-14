@@ -108,4 +108,16 @@ module.exports = (app, models, base) => {
       res.send(data);
     });
   });
+
+    /**
+   * @group Artist - Operations about artists
+   * @route GET /artist/
+   * @returns {object} 200 - An array of artist info
+   * @returns {Error}  default - Unexpected error
+   */
+  app.get('/artist/', (req, res) => {
+    userControl.artistGetAll().then(data => {
+      res.send(data);
+    });
+  });
 };
