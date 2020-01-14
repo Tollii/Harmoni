@@ -33,6 +33,10 @@ run_tests:
 
 before_script:
   - cd backend && npm install
+  - mysql --user=root --password="$MYSQL_ROOT_PASSWORD" --host=mysql "$MYSQL_DATABASE"
+
+connect:
+  image: mysql
 
 
 # Publish coverage report on gitlab-pages

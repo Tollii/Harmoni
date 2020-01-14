@@ -8,10 +8,10 @@
     "operatorsAliases": 0
   },
   "test": {
-    "username": "andrtoln",
-    "password": "7ChfTzkc",
-    "database": "andrtoln",
-    "host": "mysql-ait.stud.idi.ntnu.no",
+    "username": "",
+    "password": "",
+    "database": "",
+    "host": "",
     "dialect": "mysql",
     "operatorsAliases": 0
   },
