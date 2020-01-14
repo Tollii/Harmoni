@@ -9,11 +9,11 @@ export class Role {
 
 class RoleService {
   getRoles() {
-    return axios.get(url + '/role').then((response: {data:JSON}) => response.data);
+    return axios.get(url + '/role').then((response: {data:Roles[]}) => response.data);
   }
 
   getRole(id: number) {
-    return axios.get(url + '/role/' + id).then((response: {data: JSON}) => response.data);
+    return axios.get(url + '/role/' + id).then((response: {data: Roles[]}) => response.data);
   }
 }
 
