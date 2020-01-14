@@ -9,12 +9,12 @@ export class Rider_Type {
 
 class Rider_TypeService {
   getRider_Types() {
-    return axios.get(url + '/rider_type').then((response: {data: JSON}) => response.data);
+    return axios.get(url + '/rider_type').then((response: {data: Rider_Type}) => response.data);
   }
 
   getRider_Type(id: number) {
-    return axios.get(url + '/rider_type' + id).then((response: {data: JSON}) => response.data);
+    return axios.get(url + '/rider_type' + id).then((response: {data: Rider_Type}) => response.data);
   }
 }
 
-export let rider_typeService = new Rider_TypeService();
+export default new Rider_TypeService();
