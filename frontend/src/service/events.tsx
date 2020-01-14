@@ -24,6 +24,13 @@ class FullEvent {
   event_typeID!: number;
   artists!: number[];
   riders!: Array<{ additions: string; rider_typeID: number; userID: number }>;
+  tickets!: Array<{
+    ticket_name: string;
+    price: number;
+    ticket_amount: number;
+    date_start: string;
+    date_end: string;
+  }>;
 }
 
 class EventService {
@@ -46,15 +53,16 @@ class EventService {
   }
 
   updateEvent(event: object, id: number) {
-    return axios.put(url + '/event/update' + id, event)
-        .then((response: {data: JSON}) => console.log(response));
+    return axios
+      .put(url + "/event/update" + id, event)
+      .then((response: { data: JSON }) => console.log(response));
   }
 
   updateArchive() {
-    return axios.put(url + '/event/archive')
-        .then((response: {data: JSON}) => console.log(response));
+    return axios
+      .put(url + "/event/archive")
+      .then((response: { data: JSON }) => console.log(response));
   }
-
 
   deleteEvent(id: number) {
     return axios
