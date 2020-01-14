@@ -47,6 +47,11 @@
       .then(user => Users.destroy({where: {id:id}})
         .then(x => user)
       ),
+
+    artistGetAll: () => Roles.findOne({where: {role_name: "Artist"} })
+    .then( (artist) => Users.findAll({where: {roleID: artist.id}})
+    .then( (artists) => artists)),
+
   }
 }
 
