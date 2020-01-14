@@ -43,10 +43,11 @@ module.exports = (app, models, auth) => {
     * @returns {object} 200 - ok
     * @returns {error} default - unexpected error
     */
-   app.post('profile_picture/:token', async (req, res) => {
+   app.post('/profile_picture/:token', async (req, res) => {
      if(!req.files || Object.keys(req.files).length === 0) {
        res.status(400).send('No files uploaded');
      } else {
+       console.log(req);
        let profilePicture = req.files.profile_picture;
        let id = await auth.decode_token(req.params.token);
        let user = await userControl.userGetOne(id);
