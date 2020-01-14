@@ -3,7 +3,7 @@
  * @property {string} additions.required - Contract link
  * @property {integer} rider_typeID.required - Rider type for rider
  * @property {integer} eventID.required - Event for rider
- * @property {string} token.required - User for rider
+ * @property {integer} userID.required - User for rider
  */
 /**
  * @typedef Riders_PUT
@@ -23,7 +23,8 @@ module.exports = (app, models, base, auth) => {
   app.get(base, (req, res) => {
     auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
-      if(data){
+      console.log(data);
+      if(data.auth){
         ridersControl.riderGetAll().then((data) => {
           res.send(data);
         })
@@ -47,7 +48,7 @@ module.exports = (app, models, base, auth) => {
   app.get(base+"/rider_type/:rider_type_id/event/:event_id/user/:user_id/", (req, res) => {
     auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
-      if(data){
+      if(data.auth){
         ridersControl.riderGetOne(
           req.params.rider_type_id,
           req.params.event_id,
@@ -74,16 +75,34 @@ module.exports = (app, models, base, auth) => {
   app.post(base, (req, res) => {
     auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
-      if(data){
-        ridersControl.riderCreate(
-          req.body.additions,
-          req.body.rider_typeID,
-          req.body.eventID,
-          req.body.userID,
-        )
-        .then((data)=>{
-          res.send(data)
-        })
+      if(data.auth){
+        if(["Admin", "Organizer"].includes(data.role.dataValues.role_name)){
+          ridersControl.riderCreate(
+            req.body.additions,
+            req.body.rider_typeID,
+            req.body.eventID,
+            req.body.userID,
+          )
+          .then((data)=>{
+            res.send(data)
+          })
+        } else if (["Artist"].includes(data.role.dataValues.role_name)){
+          if(data.user.dataValues.id === req.body.userID){
+            ridersControl.riderCreate(
+              req.body.additions,
+              req.body.rider_typeID,
+              req.body.eventID,
+              req.body.userID,
+            )
+            .then((data)=>{
+              res.send(data)
+            })
+          } else {
+            res.status(400).send("Can't edit riders that are not yours")
+          }
+        } else {
+          res.status(400).send("Not authenticated")
+        }
       } else {
         res.status(400).send("Not authenticated")
       }
@@ -105,7 +124,7 @@ module.exports = (app, models, base, auth) => {
   app.put(base+"/rider_type/:rider_type_id/event/:event_id/user/:user_id/", (req, res) => {
     auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
-      if(data){
+      if(data.auth){
         ridersControl.riderUpdate(
           req.body.additions,
           req.params.rider_type_id,
@@ -138,7 +157,7 @@ module.exports = (app, models, base, auth) => {
   app.delete(base+"/rider_type/:rider_type_id/event/:event_id/user/:user_id/", (req, res) => {
     auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
-      if(data){
+      if(data.auth){
         ridersControl.riderDelete(
           req.params.rider_type_id,
           req.params.event_id,
@@ -153,12 +172,4 @@ module.exports = (app, models, base, auth) => {
     })
     .catch(err => console.log(err))
   });
-
-      ridersControl
-        .riderDelete(req.params.rider_type_id, req.params.event_id, id)
-        .then(data => {
-          res.send(data);
-        });
-    }
-  );
 };

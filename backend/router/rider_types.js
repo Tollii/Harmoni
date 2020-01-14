@@ -17,7 +17,7 @@ module.exports = (app, models, base, auth) => {
  app.get(base, ( req, res ) => {
   auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
   .then(data => {
-    if(data){
+    if(data.auth){
       rider_typesControl.rider_typesGetAll().then((data)=>{
         res.send(data);
       })
@@ -39,7 +39,7 @@ module.exports = (app, models, base, auth) => {
  app.get(base+"/:id", ( req, res ) => {
   auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
   .then(data => {
-    if(data){
+    if(data.auth){
       rider_typesControl.rider_typesGetOne(req.params.id).then((data)=>{
         res.send(data);
       })
@@ -61,7 +61,7 @@ module.exports = (app, models, base, auth) => {
   app.post(base, ( req, res ) => {
     auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
-      if(data){
+      if(data.auth){
         rider_typesControl.rider_typesCreate(req.body.description).then((data)=>{
           res.send(data);
         })
@@ -83,7 +83,7 @@ module.exports = (app, models, base, auth) => {
   app.delete(base+"/:id", (req, res) => {
     auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
-      if(data){
+      if(data.auth){
         rider_typesControl.rider_typesDelete(req.params.id)
         .then((data) => {
           res.send(data);
