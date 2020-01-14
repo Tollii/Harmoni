@@ -6,33 +6,36 @@ services:
 
 # Configure test-database
 variables:
-  MYSQL_DATABASE: supertestdb
-  MYSQL_ROOT_PASSWORD: secret
+  MYSQL_DATABASE: yeet
+  MYSQL_ROOT_PASSWORD: mysql
+
 
 cache:
   paths:
      - node_modules
 
 stages:
+  - connect
   - test
   - pages
-
-
-# Install node libraries
-before_script:
-  - cd backend && npm install
 
 # Run JEST tests
 run_tests:
   stage: test
   script:
+    - cd backend && npm install
     - npm test
   artifacts:
     paths:
       - backend/coverage/
 
-before_script:
-  - cd backend && npm install
+
+
+connect:
+  image: mysql
+  script:
+    - echo "SELECT 'OK';" | mysql --user=root --password="$MYSQL_ROOT_PASSWORD" --host=mysql "$MYSQL_DATABASE"
+
 
 
 # Publish coverage report on gitlab-pages
@@ -41,6 +44,7 @@ pages:
   dependencies:
     - run_tests
   script:
+    - cd backend && npm install
     - npm install
     - cd ..
     - mkdir .public
