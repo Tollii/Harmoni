@@ -78,11 +78,11 @@ module.exports = (models) => {
     decode_token,
 
     check_permissions: async (token, permissions) => {
-      decode_token(token)
+      return decode_token(token)
       .then(id => {
-          Users_dao.userGetOne(id)
+          return Users_dao.userGetOne(id)
           .then(user => {
-            Roles_dao.roleGetOne(user.roleID).
+            return Roles_dao.roleGetOne(user.roleID).
             then(role => {
               return (permissions.includes(role.dataValues.role_name))
             })

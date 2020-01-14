@@ -11,8 +11,7 @@
  * @property {string} phone.required - Phone number of user
  */
 
-module.exports = (app, models) => {
-  const authControl = require('../dao/authentication')(models)
+module.exports = (app, models, auth) => {
 
   /**
   * @group Authentication - Operations about authentication
@@ -22,7 +21,7 @@ module.exports = (app, models) => {
   * @returns {Error}  default - Unexpected error
   */
   app.put('/login', ( req, res ) => {
-    authControl.logIn(req.body.email, req.body.password)
+    auth.logIn(req.body.email, req.body.password)
     .then(data => res.send(data));
   });
 
@@ -34,7 +33,7 @@ module.exports = (app, models) => {
   * @returns {Error}  default - Unexpected error
   */
   app.post('/signup', ( req, res ) => {
-    authControl.signUp(req.body.email, req.body.password, req.body.username, req.body.phone)
+    auth.signUp(req.body.email, req.body.password, req.body.username, req.body.phone)
     .then(data => res.sendStatus(200))
   });
 }
