@@ -6,7 +6,7 @@ services:
 
 # Configure test-database
 variables:
-  MYSQL_DATABASE: hello_world_test
+  MYSQL_DATABASE: yeet
   MYSQL_ROOT_PASSWORD: mysql
 
 
@@ -18,15 +18,11 @@ stages:
   - test
   - pages
 
-
-# Install node libraries
-before_script:
-  - cd backend && npm install
-
 # Run JEST tests
 run_tests:
   stage: test
   script:
+    - cd backend && npm install
     - npm test
   artifacts:
     paths:

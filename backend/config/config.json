@@ -8,10 +8,10 @@
     "operatorsAliases": 0
   },
   "test": {
-    "username": "",
-    "password": "",
-    "database": "",
-    "host": "",
+    "username": "root",
+    "password": "mysql",
+    "database": "yeet",
+    "host": "mysql",
     "dialect": "mysql",
     "operatorsAliases": 0
   },
