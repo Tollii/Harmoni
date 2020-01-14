@@ -53,15 +53,13 @@ class EventService {
   }
 
   updateEvent(event: object, id: number) {
-    return axios
-      .put(url + "/event/update" + id, event)
-      .then((response: { data: JSON }) => console.log(response));
+    return axios.put(url + '/event/' + id, event)
+        .then((response: {data: JSON}) => console.log(response));
   }
 
   updateArchive() {
-    return axios
-      .put(url + "/event/archive")
-      .then((response: { data: JSON }) => console.log(response));
+    return axios.put(url + '/event_archive')
+        .then((response: {data: JSON}) => console.log(response));
   }
 
   deleteEvent(id: number) {

@@ -56,7 +56,7 @@ module.exports = (app, models, base, auth) => {
 
   app.get(base, (req, res) => {
     console.log("event called")
-    eventControll.eventGetAllUnarchived().then(data => {
+    eventControl.eventGetAllUnarchived().then(data => {
       console.log("event DAO called")
       res.send(data);
     });
@@ -97,14 +97,14 @@ module.exports = (app, models, base, auth) => {
 
   /**
    * @group Events - Operations about event
-   * @route PUT /event/update/{id}/
+   * @route PUT /event/{id}/
    * @param {integer} id.path.required - event id
    * @param {Events.model} event.body.required - All attributes of event
    * @param {string} token.query.required - token
    * @returns {object} 200 - Updates the attributes of the given event
    * @returns {Error}  default - Unexpected error
    */
-  app.put(base + "/update/:id", (req, res) => {
+  app.put(base + "/:id", (req, res) => {
     auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
       if(data.auth){
@@ -135,15 +135,15 @@ module.exports = (app, models, base, auth) => {
 
   /**
    * @group Events - Operations about event
-   * @route PUT /event/archive/
+   * @route PUT /event_archive/
    * @returns {object} 200 - Updates the archive variable of all events if their ending time has happened
    * @returns {Error}  default - Unexpected error
    */
 
-  app.put(base + "/archive", (req, res) => {
+  app.put("/event_archive/", (req, res) => {
     console.log("Put eventArchive called");
      let currentDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
-     eventControll.eventArchive(currentDate)
+     eventControl.eventArchive(currentDate)
         .then(() => {
           res.sendStatus(200).send("Events are archived");
         })
