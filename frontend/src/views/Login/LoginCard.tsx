@@ -44,9 +44,7 @@ export default () => {
     Authentication.getLogin({
       email: values.email,
       password: values.password
-    }).then(
-      (data: any) => (localStorage.token = data)
-    );
+    }).then((data: any) => (localStorage.token = data));
   }
 
   return (

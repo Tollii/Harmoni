@@ -49,7 +49,12 @@ export default () => {
     <div>
       <LoginCard />
       <Grid container direction="row" justify="center">
-        <Button className={classes.marginTop}>Not a user?</Button>
+        <Button
+          className={classes.marginTop}
+          onClick={() => (window.location.hash = "/signUp")}
+        >
+          Not a user?
+        </Button>
       </Grid>
       <Grid container direction="row">
         <Box

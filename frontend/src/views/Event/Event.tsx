@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import General from "./General";
 import Artist from "./Artist";
+import Ticket from "./Ticket";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -57,12 +58,14 @@ export default () => {
     dateEnd: new Date()
   });
 
-  const handleChange = (event: any, date: boolean = false) => {
-    const { name, value } = event.target;
-    if (!date) {
+  const handleChange = (event: any, name: string = "") => {
+    if (name === "") {
+      const { name, value } = event.target;
+      console.log("uten date");
       setValues({ ...values, [name]: value });
     } else {
-      setValues({ ...values, [name]: event });
+      console.log("med date");
+      setValues(values => ({ ...values, [name]: event }));
     }
   };
 

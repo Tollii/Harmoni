@@ -6,6 +6,10 @@ import Main from "./views/Main/Main";
 import * as serviceWorker from "./serviceWorker";
 import Navbar from "./components/Navbar/Navbar";
 import Event from "./views/Event/Event";
+import SignUp from "./views/SignUp/SignUp";
+import Login from "./views/Login/Login";
+
+
 
 const root = document.getElementById("root");
 if (root) {
@@ -15,6 +19,8 @@ if (root) {
       <div>
         <Route exact path="/" component={Main} />
         <Route exact path="/addEvent" component={Event} />
+        <Route exact path="/signUp" component={SignUp} />
+        <Route exact path="/login" component={Login} />
       </div>
     </HashRouter>,
     root

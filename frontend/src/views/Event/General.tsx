@@ -35,7 +35,6 @@ export default (props: any) => {
             </Grid>
             <Grid item xs>
               <KeyboardDatePicker
-                name="dateStart"
                 disableToolbar
                 variant="inline"
                 format="yyyy-MM-dd"
@@ -44,7 +43,7 @@ export default (props: any) => {
                 autoOk={true}
                 label="Start Date"
                 value={props.values.dateStart}
-                onChange={e => props.handleChange(e, true)}
+                onChange={e => props.handleChange(e, "dateStart")}
                 KeyboardButtonProps={{
                   "aria-label": "change date"
                 }}
@@ -58,7 +57,7 @@ export default (props: any) => {
                 id="date-picker-inline"
                 label="End Date"
                 value={props.values.dateEnd}
-                onChange={props.handleChange}
+                onChange={e => props.handleChange(e, "dateEnd")}
               />
             </Grid>
             <Grid item xs>
@@ -68,7 +67,7 @@ export default (props: any) => {
                 id="time-picker"
                 label="Time picker"
                 value={props.values.timeStart}
-                onChange={props.handleChange}
+                onChange={e => props.handleChange(e, "timeStart")}
               />
               <KeyboardTimePicker
                 name="timeEnd"
@@ -76,7 +75,7 @@ export default (props: any) => {
                 id="time-picker"
                 label="Time picker"
                 value={props.values.timeEnd}
-                onChange={props.handleChange}
+                onChange={e => props.handleChange(e, "timeEnd")}
               />
             </Grid>
           </Grid>
