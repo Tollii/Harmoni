@@ -10,5 +10,6 @@ module.exports = app => {
   require("./rider_types")(app, models, "/rider_type", auth);
   require("./roles")(app, models, "/role", auth);
   require('./riders')(app, models, '/rider', auth);
-  require('./authentication')(app, models, auth)
+  require('./authentication')(app, models, auth);
+  require('./files')(app, models, auth);
 };
