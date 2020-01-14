@@ -1,6 +1,5 @@
 const express = require('express');
 const fileUpload = require('express-fileupload');
-var express = require('express');
 
 /**
  * @typedef Profile_picture
