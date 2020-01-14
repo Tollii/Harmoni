@@ -6,8 +6,9 @@ services:
 
 # Configure test-database
 variables:
-  MYSQL_DATABASE: supertestdb
-  MYSQL_ROOT_PASSWORD: secret
+  MYSQL_DATABASE: hello_world_test
+  MYSQL_ROOT_PASSWORD: mysql
+
 
 cache:
   paths:
@@ -37,6 +38,9 @@ before_script:
 
 connect:
   image: mysql
+  script:
+    - echo "SELECT 'OK';" | mysql --user=root --password="$MYSQL_ROOT_PASSWORD" --host=mysql "$MYSQL_DATABASE"
+
 
 
 # Publish coverage report on gitlab-pages
