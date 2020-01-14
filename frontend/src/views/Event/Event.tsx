@@ -40,7 +40,7 @@ function getStepContent(stepIndex: number, values: any, handleChange: any) {
     case 2:
       return <Ticket />;
     case 3:
-      return <Rider values={values}/>;
+      return <Rider values={values} />;
     default:
       return "Unknown stepIndex";
   }
@@ -58,6 +58,13 @@ interface Values {
   eventTypeId: number;
   artists: Array<{ id: number; name: string }>;
   riders: Array<{ additions: string; riderTypeID: number; userID: number }>;
+  tickets: Array<{
+    ticket_name: string;
+    price: number;
+    ticket_amount: number;
+    date_start: string;
+    date_end: string;
+  }>;
 }
 
 export default () => {
@@ -77,7 +84,8 @@ export default () => {
     personnel: "",
     eventTypeId: 0,
     artists: [],
-    riders: []
+    riders: [],
+    tickets: []
   });
 
   const handleChange = (event: any, name: string = "") => {
@@ -108,7 +116,8 @@ export default () => {
       description: values.description,
       event_typeID: values.eventTypeId,
       artists: artists,
-      riders: values.riders
+      riders: values.riders,
+      tickets: values.tickets
     };
     EventService.postEvent(event)
       .then((response: any) => {
