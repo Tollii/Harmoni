@@ -84,7 +84,7 @@ module.exports = (models) => {
           .then(user => {
             return Roles_dao.roleGetOne(user.roleID).
             then(role => {
-              return (permissions.includes(role.dataValues.role_name))
+              return ({auth: permissions.includes(role.dataValues.role_name), user: user, role: role})
             })
           })
         }

@@ -20,7 +20,7 @@ module.exports = (app, models, base, auth) => {
   app.get(base, (req, res) => {
     auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
-      if(data){
+      if(data.auth){
         ticketControl.ticketGetAll().then((data) => {
           res.send(data);
         })
@@ -58,7 +58,7 @@ module.exports = (app, models, base, auth) => {
   app.post(base, (req, res) => {
     auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
-      if(data){
+      if(data.auth){
         ticketControl.ticketCreate(
           req.body.ticket_name,
           req.body.price,
@@ -89,7 +89,7 @@ module.exports = (app, models, base, auth) => {
   app.put(base+"/:id", (req, res) => {
     auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
-      if(data){
+      if(data.auth){
         ticketControl.ticketUpdate(
           req.params.id,
           req.body.ticket_name,
@@ -123,7 +123,7 @@ module.exports = (app, models, base, auth) => {
   app.delete(base+"/:id", (req, res) => {
     auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
-      if(data){
+      if(data.auth){
         ticketControl.ticketDelete(req.params.id)
         .then((data) => {
           res.send(data);

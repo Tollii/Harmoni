@@ -16,7 +16,7 @@ module.exports = (app, models, base, auth) => {
   app.get(base, (req, res) => {
     auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
-      if(data){
+      if(data.auth){
         roleControl.roleGetAll().then((data) => {
           res.send(data);
         })
@@ -38,7 +38,7 @@ module.exports = (app, models, base, auth) => {
   app.get(base+"/:id", (req, res) => {
     auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
-      if(data){
+      if(data.auth){
         roleControl.roleGetOne(req.params.id).then((data) => {
           res.send(data);
         })

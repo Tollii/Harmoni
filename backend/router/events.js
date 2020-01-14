@@ -48,7 +48,7 @@ module.exports = (app, models, base, auth) => {
   app.delete(base + "/:id", (req, res) => {
     auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
-      if(data){
+      if(data.auth){
         eventControl.eventDelete(req.params.id).then(data => {
           res.send(data);
         });
@@ -71,7 +71,7 @@ module.exports = (app, models, base, auth) => {
   app.put(base + "/:id", (req, res) => {
     auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
-      if(data){
+      if(data.auth){
         eventControl
         .eventUpdate(
           req.params.id,
@@ -107,7 +107,7 @@ module.exports = (app, models, base, auth) => {
   app.post(base, (req, res) => {
     auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
-      if(data){
+      if(data.auth){
         eventControl
         .eventCreate(
           req.body.event_name,

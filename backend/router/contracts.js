@@ -18,7 +18,7 @@ module.exports = (app, models, base, auth) => {
   app.get(base, ( req, res ) => {
     auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
-      if(data){
+      if(data.auth){
         contractControl.contractGetAll().then((data)=>{
           res.send(data);
         })
@@ -41,7 +41,7 @@ module.exports = (app, models, base, auth) => {
   app.get(base+"/user/:user_id/event/:event_id", ( req, res ) => {
     auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
-      if(data){
+      if(data.auth){
         contractControl.contractGetOne(req.params.user_id, req.params.event_id).then((data)=>{
           res.send(data);
         })
@@ -63,7 +63,7 @@ module.exports = (app, models, base, auth) => {
   app.post(base, (req, res) => {
     auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
-      if(data){
+      if(data.auth){
         contractControl.contractCreate(
           req.body.contract,
           req.body.userID,
@@ -90,7 +90,7 @@ module.exports = (app, models, base, auth) => {
   app.delete(base+"/user/:user_id/event/:event_id", (req, res) => {
     auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
-      if(data){
+      if(data.auth){
         contractControl.contractDelete(req.params.user_id, req.params.event_id)
         .then((data)=>{
           res.send(data);
