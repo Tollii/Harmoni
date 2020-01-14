@@ -29,9 +29,7 @@ run_tests:
     paths:
       - backend/coverage/
 
-before_script:
-  - cd backend && npm install
-  - mysql --user=root --password="$MYSQL_ROOT_PASSWORD" --host=mysql "$MYSQL_DATABASE"
+
 
 connect:
   image: mysql
@@ -46,6 +44,7 @@ pages:
   dependencies:
     - run_tests
   script:
+    - cd backend && npm install
     - npm install
     - cd ..
     - mkdir .public
