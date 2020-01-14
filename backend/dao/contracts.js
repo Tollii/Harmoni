@@ -24,6 +24,15 @@ module.exports = (models) => {
     })
     .then(data => data),
 
+    contractCreateNoContract: (userID, eventID) => Contract.create({
+      userID:userID,
+      eventID:eventID
+    },
+    {
+      returning: true
+    })
+    .then(data => data),
+
     contractDelete: (user_id, event_id) => Contract.findOne({
       where: {
           userID: user_id,
