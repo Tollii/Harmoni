@@ -37,7 +37,7 @@ function getStepContent(stepIndex: number, values: any, handleChange: any) {
     case 0:
       return <General values={values} handleChange={handleChange} />;
     case 1:
-      return <Artist />;
+      return <Artist values={values} handleChange={handleChange} />;
     case 2:
       return <Ticket />;
     case 3:
@@ -57,7 +57,7 @@ interface Values {
   dateEnd: Object;
   personnel: string;
   eventTypeId: number;
-  artists: Array<{ id: number; name: string; checked: boolean }>;
+  artists: Array<{ id: number; name: string; email: string; checked: boolean }>;
   riders: Array<{ additions: string; riderTypeID: number; userID: number }>;
   tickets: Array<{
     ticket_name: string;
@@ -90,12 +90,13 @@ export default () => {
   });
 
   useEffect(() => {
-    console.log("heklldfsf");
+    console.log("useEffecr");
     UserService.getArtist().then(response => {
-      response.map(artist => {
+      response.map((artist: any) => {
         values.artists.push({
           id: artist.id,
           name: artist.username,
+          email: artist.email,
           checked: false
         });
       });
@@ -108,7 +109,6 @@ export default () => {
       console.log("uten date");
       setValues({ ...values, [name]: value });
     } else {
-      console.log("med date");
       setValues(values => ({ ...values, [name]: event }));
     }
   };
