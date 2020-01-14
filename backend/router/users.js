@@ -17,7 +17,6 @@
 
 module.exports = (app, models, base, auth) => {
   const userControl = require('../dao/users')(models)
-  const authControl = require('../dao/authentication')(models)
 
 
   /**
@@ -44,11 +43,12 @@ module.exports = (app, models, base, auth) => {
   /**
   * @group User - Operations about user
   * @route GET /user/{token}/
-  * @param {string} token.query.required - token
+  * @param {string} token.path.required - token
   * @returns {object} 200 - An array of user info
   * @returns {Error}  default - Unexpected error
   */
   app.get(base+"/:token", async ( req, res ) => {
+    console.log(req.params.token);
     let id = await auth.decode_token(req.params.token);
     userControl.userGetOne(id).then((data)=>{
       res.send(data);
