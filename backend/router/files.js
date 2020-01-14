@@ -21,7 +21,7 @@ module.exports = (app, models, auth) => {
 
   const userControl = require('../dao/users')(models);
   const filesPath = __basedir + '/saved_files';
-  const profilePicturesFolder = filespath + '/profile_pictures/';
+  const profilePicturesFolder = filesPath + '/profile_pictures/';
 
   /**
    * @group Files - operations about files
@@ -34,7 +34,7 @@ module.exports = (app, models, auth) => {
      let id = await auth.decode_token(req.params.token);
      let profile_picture = await userControl.userGetOne(id).then(data => data.picture);
      res.sendFile(profilePicturesFolder + profile_picture);
-   }
+   });
 
    /**
     * @group Files - operations about files
@@ -63,5 +63,5 @@ module.exports = (app, models, auth) => {
          res.send('File uploaded');
        });
      }
-   }
+   });
 }
