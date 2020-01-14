@@ -17,4 +17,5 @@ class RoleService {
   }
 }
 
-export let roleService = new RoleService();
+export default new RoleService()
+
