@@ -1,29 +1,36 @@
-const axios = require('axios').default;
+const axios = require("axios").default;
 
-let url = "http://localhost:8080"
+let url = "http://localhost:8080";
 
 export class Contract {
   contract!: string;
-  token!: string;
+  userID!: string;
   eventID!: number;
 }
 
 class ContractService {
   getContracts() {
-    return axios.get(url + '/contract').then((response: {data: Contract[]}) => response.data);
+    return axios
+      .get(url + "/contract")
+      .then((response: { data: Contract[] }) => response.data);
   }
 
-  getContract(token: string, eventID: number) {
-    return axios.get(url + '/contract/user' + token + '/event/' + eventID).then((response: {data: Contract}) => response.data);
+  getContract(userID: number, eventID: number) {
+    return axios
+      .get(url + "/contract/user" + userID + "/event/" + eventID)
+      .then((response: { data: Contract }) => response.data);
   }
 
-  postContract(contract: object) {
-    return axios.post(url + '/contract', contract)
-    .then((response: {data: Contract}) => console.log(response));
+  postContract(token: string, contract: object) {
+    return axios
+      .post(url + "/contract", contract, {headers: {token: token}})
+      .then((response: { data: Contract }) => console.log(response));
   }
 
-  deleteContract(token: string, eventID: number) {
-    return axios.delete(url + '/contract/user' + token + '/event/' + eventID).then((response: {data: Contract}) => console.log(response));
+  deleteContract(userID: number, eventID: number) {
+    return axios
+      .delete(url + "/contract/user" + userID + "/event/" + eventID)
+      .then((response: { data: Contract }) => console.log(response));
   }
 }
 
