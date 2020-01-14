@@ -14,7 +14,7 @@ export class Ticket {
 
 class TicketService {
   getTickets() {
-    return axios.get(url + '/ticket').then((response: {data: Ticket}) => response.data);
+    return axios.get(url + '/ticket').then((response: {data: Ticket[]}) => response.data);
   }
 
   getTicket(id: number) {
