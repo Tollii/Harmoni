@@ -9,7 +9,7 @@ export class Rider_Type {
 
 class Rider_TypeService {
   getRider_Types() {
-    return axios.get(url + '/rider_type').then((response: {data: Rider_Type}) => response.data);
+    return axios.get(url + '/rider_type').then((response: {data: Rider_Type[]}) => response.data);
   }
 
   getRider_Type(id: number) {
