@@ -13,9 +13,8 @@ class RoleService {
   }
 
   getRole(id: number) {
-    return axios.get(url + '/role/' + id).then((response: {data: Role[]}) => response.data);
+    return axios.get(url + '/role/' + id).then((response: {data: Role}) => response.data);
   }
 }
 
-export default new RoleService()
-
+export default new RoleService();
