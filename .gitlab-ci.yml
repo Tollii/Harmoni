@@ -15,6 +15,7 @@ cache:
      - node_modules
 
 stages:
+  - connect
   - test
   - pages
 
