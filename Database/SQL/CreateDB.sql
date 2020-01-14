@@ -1,8 +1,6 @@
 SET FOREIGN_KEY_CHECKS=0;
 
 DROP TABLE Roles;
-DROP TABLE Permissions;
-DROP TABLE Permissions_Per_Role;
 DROP TABLE Users;
 DROP TABLE Event_Types;
 DROP TABLE Events;
@@ -17,19 +15,6 @@ CREATE TABLE Roles(
   PRIMARY KEY(roleID)
 );
 
-CREATE TABLE Permissions(
-  permissionID int NOT NULL AUTO_INCREMENT UNIQUE,
-  description text,
-  PRIMARY KEY(permissionID)
-);
-
-CREATE TABLE Permissions_Per_Role(
-  permissionID int NOT NULL,
-  roleID int NOT NULL,
-  FOREIGN KEY (permissionID) REFERENCES Permissions(permissionID),
-  FOREIGN KEY (roleID) REFERENCES Roles(roleID),
-  PRIMARY KEY(permissionID, roleID)
-);
 
 CREATE TABLE Users(
   userID int NOT NULL AUTO_INCREMENT UNIQUE,
