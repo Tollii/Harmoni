@@ -1,6 +1,10 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 profilePicturesFolderconst express = require('express');
 const fileUpload = require('express-fileupload');
+=======
+var express = require('express');
+>>>>>>> d9b51ad2b0118402213c26d4c1a9bad797f0fc4c
 =======
 var express = require('express');
 >>>>>>> d9b51ad2b0118402213c26d4c1a9bad797f0fc4c
@@ -20,6 +24,7 @@ var express = require('express');
 
 module.exports = (app, models, auth) => {
 <<<<<<< HEAD
+<<<<<<< HEAD
 
   app.use(express.static(__basedir));
   app.use(fileUpload());
@@ -27,6 +32,11 @@ module.exports = (app, models, auth) => {
   const userControl = require('../dao/users')(models);
   const filesPath = __basedir + '/saved_files';
   const profilePicturesFolder = filespath + '/profile_pictures/';
+=======
+  const userControl = require('../dao/users')(models);
+  const files_path = 'saved_files';
+  const profile_pictures_folder = '/profile_pictures/';
+>>>>>>> d9b51ad2b0118402213c26d4c1a9bad797f0fc4c
 =======
   const userControl = require('../dao/users')(models);
   const files_path = 'saved_files';
@@ -44,7 +54,11 @@ module.exports = (app, models, auth) => {
      let id = await auth.decode_token(req.params.token);
      let profile_picture = await userControl.userGetOne(id).then(data => data.picture);
 <<<<<<< HEAD
+<<<<<<< HEAD
      res.sendFile(profilePicturesFolder + profile_picture);
+=======
+     res.sendFile(profile_pictures_folder + profile_picture, { root: files_path });
+>>>>>>> d9b51ad2b0118402213c26d4c1a9bad797f0fc4c
 =======
      res.sendFile(profile_pictures_folder + profile_picture, { root: files_path });
 >>>>>>> d9b51ad2b0118402213c26d4c1a9bad797f0fc4c
@@ -53,6 +67,7 @@ module.exports = (app, models, auth) => {
    /**
     * @group Files - operations about files
     * @route POST /profile_picture/{token}/
+<<<<<<< HEAD
 <<<<<<< HEAD
     * @param {string} token.path.required - token
     * @returns {object} 200 - ok
@@ -79,11 +94,16 @@ module.exports = (app, models, auth) => {
        });
      }
 =======
+=======
+>>>>>>> d9b51ad2b0118402213c26d4c1a9bad797f0fc4c
     * @returns {object} 200 - returns profile_picture
     * @returns {error} default - unexpected error
     */
    app.post('profile_picture/:token', async (req, res) => {
 
+<<<<<<< HEAD
+>>>>>>> d9b51ad2b0118402213c26d4c1a9bad797f0fc4c
+=======
 >>>>>>> d9b51ad2b0118402213c26d4c1a9bad797f0fc4c
    });
 }
