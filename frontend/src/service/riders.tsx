@@ -68,4 +68,4 @@ class RiderService {
   }
 }
 
-export let riderService = new RiderService();
+export default new RiderService();

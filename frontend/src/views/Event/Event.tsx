@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
@@ -11,6 +11,7 @@ import Artist from "./Artist";
 import Ticket from "./Ticket";
 import Rider from "./Rider";
 import EventService from "../../service/events";
+import UserService from "../../service/users";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -56,7 +57,7 @@ interface Values {
   dateEnd: Object;
   personnel: string;
   eventTypeId: number;
-  artists: Array<{ id: number; name: string }>;
+  artists: Array<{ id: number; name: string; checked: boolean }>;
   riders: Array<{ additions: string; riderTypeID: number; userID: number }>;
   tickets: Array<{
     ticket_name: string;
@@ -87,6 +88,19 @@ export default () => {
     riders: [],
     tickets: []
   });
+
+  useEffect(() => {
+    console.log("heklldfsf");
+    UserService.getArtist().then(response => {
+      response.map(artist => {
+        values.artists.push({
+          id: artist.id,
+          name: artist.username,
+          checked: false
+        });
+      });
+    });
+  }, []);
 
   const handleChange = (event: any, name: string = "") => {
     if (name === "") {
