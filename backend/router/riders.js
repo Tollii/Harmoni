@@ -16,12 +16,12 @@ module.exports = (app, models, base, auth) => {
   /**
   * @group Riders - Operations about rider
   * @route GET /rider/
-  * @param {string} token.query.required - token
+  * @param {string} token.headers.required - token
   * @returns {object} 200 - An array of contracts info
   * @returns {Error}  default - Unexpected error
   */
   app.get(base, (req, res) => {
-    auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
       console.log(data);
       if(data.auth){
@@ -41,12 +41,12 @@ module.exports = (app, models, base, auth) => {
   * @param {integer} rider_type_id.path.required - Riders rider type id
   * @param {integer} event_id.path.required - Rider event id
   * @param {integer} user_id.path.required - Rider user id
-  * @param {string} token.query.required - token
+  * @param {string} token.headers.required - token
   * @returns {object} 200 - Return a Rider
   * @returns {Error}  default - Unexpected error
   */
   app.get(base+"/rider_type/:rider_type_id/event/:event_id/user/:user_id/", (req, res) => {
-    auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
       if(data.auth){
         ridersControl.riderGetOne(
@@ -68,12 +68,12 @@ module.exports = (app, models, base, auth) => {
   * @group Riders - Operations about riders
   * @route POST /rider/
   * @param {Riders.model} user.body.required - Rider information
-  * @param {string} token.query.required - token
+  * @param {string} token.headers.required - token
   * @returns {object} 200 - return Rider object
   * @returns {Error}  default - Unexpected error
   */
   app.post(base, (req, res) => {
-    auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
       if(data.auth){
         if(["Admin", "Organizer"].includes(data.role.dataValues.role_name)){
@@ -117,12 +117,12 @@ module.exports = (app, models, base, auth) => {
   * @param {integer} rider_type_id.path.required - Riders rider type id
   * @param {integer} event_id.path.required - Rider event id
   * @param {integer} user_id.path.required - Rider user id
-  * @param {string} token.query.required - token
+  * @param {string} token.headers.required - token
   * @returns {object} 200 - Returns updated Rider object
   * @returns {Error}  default - Unexpected error
   */
   app.put(base+"/rider_type/:rider_type_id/event/:event_id/user/:user_id/", (req, res) => {
-    auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
       if(data.auth){
         ridersControl.riderUpdate(
@@ -150,12 +150,12 @@ module.exports = (app, models, base, auth) => {
   * @param {integer} rider_type_id.path.required - Riders rider type id
   * @param {integer} event_id.path.required - Rider event id
   * @param {integer} user_id.path.required - Rider user id
-  * @param {string} token.query.required - token
+  * @param {string} token.headers.required - token
   * @returns {object} 200 - Rider is deleted
   * @returns {Error}  default - Unexpected error
   */
   app.delete(base+"/rider_type/:rider_type_id/event/:event_id/user/:user_id/", (req, res) => {
-    auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
       if(data.auth){
         ridersControl.riderDelete(

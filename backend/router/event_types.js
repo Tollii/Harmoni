@@ -9,12 +9,12 @@ module.exports = (app, models, base, auth) => {
   /**
    * @group Event_types - Operations about event_types
    * @route GET /event_types/
-   * @param {string} token.query.required - token
+   * @param {string} token.headers.required - token
    * @returns {object} 200 - An array of event types
    * @returns {Error} defauls - Unexpected error
    */
   app.get(base, (req, res) => {
-    auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
       if(data.auth){
         event_typesControl.event_typesGetAll().then(data => {
@@ -31,12 +31,12 @@ module.exports = (app, models, base, auth) => {
    * @group Event_types - Operations about event_types
    * @route GET /event_types/{id}/
    * @param {integer} id.path.required - event_types id
-   * @param {string} token.query.required - token
+   * @param {string} token.headers.required - token
    * @returns {object} 200 - One specific event type
    * @returns {Error} defauls - Unexpected error
    */
   app.get(base + "/:id", (req, res) => {
-    auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
       if(data.auth){
         event_typesControl.event_typesGetOne(req.params.id).then(data => {

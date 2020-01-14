@@ -22,12 +22,12 @@ module.exports = (app, models, base, auth) => {
   /**
   * @group User - Operations about user
   * @route GET /user/
-  * @param {string} token.query.required - token
+  * @param {string} token.headers.required - token
   * @returns {object} 200 - An array of user info
   * @returns {Error}  default - Unexpected error
   */
   app.get(base, ( req, res ) => {
-    auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
       if(data.auth){
         userControl.userGetAll().then((data)=>{
@@ -59,12 +59,12 @@ module.exports = (app, models, base, auth) => {
   * @group User - Operations about user
   * @route POST /user/
   * @param {Users.model} user.body.required - User's information
-  * @param {string} token.query.required - token
+  * @param {string} token.headers.required - token
   * @returns {object} 200 - return User object
   * @returns {Error}  default - Unexpected error
   */
   app.post(base, (req, res) => {
-    auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
       if(data.auth){
         userControl.userCreate(
@@ -90,12 +90,12 @@ module.exports = (app, models, base, auth) => {
   * @route PUT /user/{id}/
   * @param {integer} id.path.required - user id
   * @param {Users_PUT.model} user.body.required - User's information
-  * @param {string} token.query.required - token
+  * @param {string} token.headers.required - token
   * @returns {object} 200 - return updated User object
   * @returns {Error}  default - Unexpected error
   */
   app.put(base+"/:id", (req, res) => {
-    auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
       if(data.auth){
         userControl.userUpdate(
@@ -122,12 +122,12 @@ module.exports = (app, models, base, auth) => {
   * @group User - Operations about user
   * @route DELETE /user/{id}/
   * @param {integer} id.path.required - user id
-  * @param {string} token.query.required - token
+  * @param {string} token.headers.required - token
   * @returns {object} 200 - User is deleted
   * @returns {Error}  default - Unexpected error
   */
   app.delete(base + "/:id", (req, res) => {
-    auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
       if(data.auth){
         userControl.userDelete(req.params.id)

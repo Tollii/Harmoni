@@ -10,13 +10,13 @@ module.exports = (app, models, base, auth) => {
   /**
   * @group Contract - Operations about contract
   * @route GET /contract/
-  * @param {string} token.query.required - token
+  * @param {string} token.headers.required - token
   * @returns {object} 200 - An array of contracts info
   * @returns {Error}  default - Unexpected error
   */
 
   app.get(base, ( req, res ) => {
-    auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
       if(data.auth){
         contractControl.contractGetAll().then((data)=>{
@@ -34,12 +34,12 @@ module.exports = (app, models, base, auth) => {
   * @route GET /contract/user/{user_id}/event/{event_id}/
   * @param {integer} user_id.path.required - Contract user id
   * @param {integer} event_id.path.required - Contract event id
-  * @param {string} token.query.required - token
+  * @param {string} token.headers.required - token
   * @returns {object} 200 - Return a Contract
   * @returns {Error}  default - Unexpected error
   */
   app.get(base+"/user/:user_id/event/:event_id", ( req, res ) => {
-    auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
       if(data.auth){
         contractControl.contractGetOne(req.params.user_id, req.params.event_id).then((data)=>{
@@ -56,12 +56,12 @@ module.exports = (app, models, base, auth) => {
   * @route POST /contract/
   * @group Contract - Operations about contract
   * @param {Contract.model} user.body.required - Contract information
-  * @param {string} token.query.required - token
+  * @param {string} token.headers.required - token
   * @returns {object} 200 - return Contract object
   * @returns {Error}  default - Unexpected error
   */
   app.post(base, (req, res) => {
-    auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
       if(data.auth){
         contractControl.contractCreate(
@@ -83,12 +83,12 @@ module.exports = (app, models, base, auth) => {
   * @route DELETE /contract/user/{user_id}/event/{event_id}/
   * @param {integer} user_id.path.required - Contract user id
   * @param {integer} event_id.path.required - Contract event id
-  * @param {string} token.query.required - token
+  * @param {string} token.headers.required - token
   * @returns {object} 200 - Contract is deleted
   * @returns {Error}  default - Unexpected error
   */
   app.delete(base+"/user/:user_id/event/:event_id", (req, res) => {
-    auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
       if(data.auth){
         contractControl.contractDelete(req.params.user_id, req.params.event_id)
