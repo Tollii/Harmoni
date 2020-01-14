@@ -9,12 +9,12 @@ module.exports = (app, models, base, auth) => {
   /**
   * @group Role - Operations about user
   * @route GET /role/
-  * @param {string} token.query.required - token
+  * @param {string} token.headers.required - token
   * @returns {object} 200 - An array of role info
   * @returns {Error}  default - Unexpected error
   */
   app.get(base, (req, res) => {
-    auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
       if(data.auth){
         roleControl.roleGetAll().then((data) => {
@@ -31,12 +31,12 @@ module.exports = (app, models, base, auth) => {
   * @group Role - Operations about user
   * @route GET /role/{id}/
   * @param {integer} id.path.required - role id
-  * @param {string} token.query.required - token
+  * @param {string} token.headers.required - token
   * @returns {object} 200 - An array of user info
   * @returns {Error}  default - Unexpected error
   */
   app.get(base+"/:id", (req, res) => {
-    auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
       if(data.auth){
         roleControl.roleGetOne(req.params.id).then((data) => {
