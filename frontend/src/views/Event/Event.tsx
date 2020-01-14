@@ -9,6 +9,7 @@ import Grid from "@material-ui/core/Grid";
 import General from "./General";
 import Artist from "./Artist";
 import Ticket from "./Ticket";
+import EventService from "../../service/events";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -42,20 +43,38 @@ function getStepContent(stepIndex: number, values: any, handleChange: any) {
   }
 }
 
+interface Values {
+  name: string;
+  description: string;
+  location: string;
+  timeStart: Object;
+  timeEnd: Object;
+  dateStart: Object;
+  dateEnd: Object;
+  personnel: string;
+  eventTypeId: number;
+  artists: Array<{ id: number; name: string }>;
+  riders: Array<{ additions: string; riderTypeID: number; userID: number }>;
+}
+
 export default () => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();
 
   // States for posting event
-  const [values, setValues] = useState({
+  const [values, setValues] = useState<Values>({
     name: "",
     description: "",
     location: "",
     timeStart: new Date(),
     timeEnd: new Date(),
     dateStart: new Date(),
-    dateEnd: new Date()
+    dateEnd: new Date(),
+    personnel: "",
+    eventTypeId: 0,
+    artists: [],
+    riders: []
   });
 
   const handleChange = (event: any, name: string = "") => {
@@ -69,8 +88,32 @@ export default () => {
     }
   };
 
-  const listInfo = () => {
-    console.log(values.name);
+  const submit = () => {
+    console.log("trying to post event");
+    let eventStart = values.dateStart + "T" + values.timeStart + "Z";
+    let eventEnd = values.dateEnd + "T" + values.timeEnd + "Z";
+    let artists: number[] = [];
+    values.artists.map(artist => {
+      artists.push(artist.id);
+    });
+    let event = {
+      event_name: values.name,
+      location: values.location,
+      event_start: eventStart,
+      event_end: eventEnd,
+      personnel: values.personnel,
+      description: values.description,
+      event_typeID: values.eventTypeId,
+      artists: artists,
+      riders: values.riders
+    };
+    EventService.postEvent(event)
+      .then((response: any) => {
+        console.log("Poster event");
+      })
+      .catch((error: any) => {
+        console.log(error);
+      });
   };
 
   const handleNext = () => {
@@ -119,7 +162,9 @@ export default () => {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={handleNext}
+                  onClick={
+                    activeStep === steps.length - 1 ? submit : handleNext
+                  }
                 >
                   {activeStep === steps.length - 1 ? "Finish" : "Next"}
                 </Button>
