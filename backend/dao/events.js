@@ -1,7 +1,15 @@
 module.exports = models => {
   const Event = models.Events;
-  return {
+    var Sequelize = require('sequelize');
+    const Op = Sequelize.Op;
+    return {
     eventGetAll: async () => Event.findAll().then(events => events),
+
+      eventGetAllUnarchived: async () => Event.findAll({
+          where: {
+              archived: false
+          }
+      }).then(events => events),
 
     eventGetOne: async id =>
       Event.findOne({
@@ -60,6 +68,26 @@ module.exports = models => {
         ).then(events => events);
       });
     },
+
+      eventArchive: async (
+          current_time,
+      ) => {
+          console.log("eventArchive called");
+          return Event.update(
+                  {
+                      archived: true
+                  },
+                  {
+                      where: {
+                          event_end: {
+                              // if current_time < event_end
+                              [Op.lt]: current_time
+                          }
+                      }
+                  }
+              ).then(events => events);
+          },
+
 
     eventCreate: async (
       event_name,
