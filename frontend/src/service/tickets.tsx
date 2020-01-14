@@ -14,26 +14,26 @@ export class Ticket {
 
 class TicketService {
   getTickets() {
-    return axios.get(url + '/ticket').then((response: {data: JSON}) => response.data);
+    return axios.get(url + '/ticket').then((response: {data: Ticket}) => response.data);
   }
 
   getTicket(id: number) {
-    return axios.get(url + '/ticket/' + id).then((response: {data: JSON}) => response.data);
+    return axios.get(url + '/ticket/' + id).then((response: {data: Ticket}) => response.data);
   }
 
   postTicket(ticket: object) {
     return axios.post(url + '/ticket', ticket)
-    .then((response: {data: JSON}) => console.log(response));
+    .then((response: {data: Ticket}) => console.log(response));
   }
 
   updateTicket(ticket: object, id: number) {
     return axios.put(url + '/ticket/' + id, ticket)
-    .then((response: {data: JSON}) => console.log(response));
+    .then((response: {data: Ticket}) => console.log(response));
   }
 
   deleteTicket(id: number) {
-    return axios.delete(url + '/ticket/' + id).then((response: {data: JSON}) => console.log(response));
+    return axios.delete(url + '/ticket/' + id).then((response: {data: Ticket}) => console.log(response));
   }
 }
 
-export let ticketService = new TicketService();
+export default new TicketService();
