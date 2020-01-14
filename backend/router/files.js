@@ -34,6 +34,7 @@ module.exports = (app, models, auth) => {
      let id = await auth.decode_token(req.params.token);
      let profile_picture = await userControl.userGetOne(id).then(data => data.picture);
      res.sendFile(profilePicturesFolder + profile_picture);
+   }
 
    /**
     * @group Files - operations about files
