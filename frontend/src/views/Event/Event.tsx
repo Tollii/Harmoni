@@ -9,6 +9,7 @@ import Grid from "@material-ui/core/Grid";
 import General from "./General";
 import Artist from "./Artist";
 import Ticket from "./Ticket";
+import Rider from "./Rider";
 import EventService from "../../service/events";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -38,6 +39,8 @@ function getStepContent(stepIndex: number, values: any, handleChange: any) {
       return <Artist />;
     case 2:
       return <Ticket />;
+    case 3:
+      return <Rider values={values}/>;
     default:
       return "Unknown stepIndex";
   }
