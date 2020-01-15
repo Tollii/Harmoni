@@ -10,8 +10,9 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles({
   root: {
     maxWidth: 800,
-    margin: "auto",
-    textAlign: "center"
+    textAlign: "center",
+    margin: "auto", 
+    marginTop: "20px"
   },
   icons: {
     margin: "20px auto"

@@ -6,7 +6,31 @@ import { Box } from "@material-ui/core";
 import Button from "../../components/Button/Button";
 
 const useStyles = makeStyles({
-  ellipse: {
+  marginTop: {
+    marginTop: "20px"
+  }
+});
+
+export default () => {
+  const classes = useStyles();
+
+  return (
+    <div>
+      <LoginCard />
+      <Grid container direction="row" justify="center">
+        <Button
+          className={classes.marginTop}
+          onClick={() => (window.location.hash = "/signUp")}
+        >
+          Not a user?
+        </Button>
+      </Grid>
+    </div>
+  );
+};
+
+/* <Grid container direction="row">
+ ellipse: {
     height: "100px",
     backgroundColor: "#f50057",
     borderTopRightRadius: "400px",
@@ -36,40 +60,19 @@ const useStyles = makeStyles({
     width: "33%",
     zIndex: 3,
     right: 0
-  },
-  marginTop: {
-    marginTop: "20px"
   }
-});
-
-export default () => {
-  const classes = useStyles();
-
-  return (
-    <div>
-      <LoginCard />
-      <Grid container direction="row" justify="center">
-        <Button
-          className={classes.marginTop}
-          onClick={() => (window.location.hash = "/signUp")}
-        >
-          Not a user?
-        </Button>
-      </Grid>
-      <Grid container direction="row">
-        <Box
-          className={`${classes.ellipse} ${classes.ellipse1}`}
-          boxShadow={10}
-        />
-        <Box
-          className={`${classes.ellipse} ${classes.ellipse2}`}
-          boxShadow={10}
-        />
-        <Box
-          className={`${classes.ellipse} ${classes.ellipse3}`}
-          boxShadow={10}
-        />
-      </Grid>
-    </div>
-  );
-};
+  
+<Box
+className={`${classes.ellipse} ${classes.ellipse1}`}
+boxShadow={10}
+/>
+<Box
+className={`${classes.ellipse} ${classes.ellipse2}`}
+boxShadow={10}
+/>
+<Box
+className={`${classes.ellipse} ${classes.ellipse3}`}
+boxShadow={10}
+/>
+</Grid>
+*/
