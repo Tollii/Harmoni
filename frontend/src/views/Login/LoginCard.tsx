@@ -48,15 +48,18 @@ export default () => {
   function submit() {
     const pattern = /.+@[a-z1-9]+.[a-z]+/;
     const check = values.email.match(pattern);
-    if(check) {
+    if (true) {
       console.log("Submitting form");
       const now = new Date();
-      now.setTime(now.getTime() + 1 * 3600 * 1000)
+      now.setTime(now.getTime() + 1 * 3600 * 1000);
       Authentication.getLogin({
         email: values.email,
         password: values.password
-      }).then((data: any) => (document.cookie = "token="+data+"; expires="+now.toUTCString()));
-      window.location.href ="http://localhost:3000/";
+      }).then(
+        (data: any) =>
+          (document.cookie = "token=" + data + "; expires=" + now.toUTCString())
+      );
+      window.location.href = "http://localhost:3000/";
     }
   }
 

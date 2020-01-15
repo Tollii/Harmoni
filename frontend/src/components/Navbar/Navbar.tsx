@@ -14,7 +14,7 @@ import InputBase from "@material-ui/core/InputBase";
 import MenuItem from "@material-ui/core/MenuItem";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import AddCircleIcon from '@material-ui/icons/AddCircle';
+import AddCircleIcon from "@material-ui/icons/AddCircle";
 import {
   Button,
   ButtonGroup,
@@ -30,7 +30,7 @@ import {
   Fab,
   Avatar
 } from "@material-ui/core";
-import DirectionsIcon from '@material-ui/icons/Directions';
+import DirectionsIcon from "@material-ui/icons/Directions";
 
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
@@ -41,7 +41,7 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import getCookie from "../../service/cookie"
+import getCookie from "../../service/cookie";
 import UserService from "../../service/users";
 const options = ["Catergoris", "Conserts", "Festivals"];
 const drawerWidth = 240;
@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme: Theme) =>
       //display: "none",
       [theme.breakpoints.up("sm")]: {
         display: "block",
-        color: "black",
+        color: "black"
 
         // marginLeft: 20
       }
@@ -71,7 +71,6 @@ const useStyles = makeStyles((theme: Theme) =>
       marginLeft: 0,
       width: "100%",
       [theme.breakpoints.up("sm")]: {
-
         width: "auto"
       }
     },
@@ -97,7 +96,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     account: {
       // marginRight: 200
-
     },
     icon: {
       fontFamily: '"Apple Chancery", Segoe UI',
@@ -125,11 +123,11 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: "flex-end"
     },
     root: {
-      padding: '0px 0px',
-      display: 'flex',
-      alignItems: 'center',
+      padding: "0px 0px",
+      display: "flex",
+      alignItems: "center",
       width: 300,
-      backgroundColor: "rgba(0, 0, 0, 0.7)",
+      backgroundColor: "rgba(0, 0, 0, 0.7)"
     },
     input: {
       marginLeft: theme.spacing(1),
@@ -142,9 +140,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     divider: {
       height: 28,
-      margin: 4,
-    },
-
+      margin: 4
+    }
   })
 );
 
@@ -163,7 +160,6 @@ export default function Navbar() {
   const anchorRef = React.useRef<HTMLDivElement>(null);
   const [selectedIndex, setSelectedIndex] = React.useState(1);
   const theme = useTheme();
-
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -204,14 +200,18 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    setAuth((getCookie("token").length > 1))
-    if(auth){
-      UserService.getOneUser()
-      .then((res) => {
-        setValues({id: res.id, fullName: res.username, picture: res.picture, roleID: res.roleID})
-      })
+    setAuth(getCookie("token").length > 1);
+    if (auth) {
+      UserService.getOneUser().then(res => {
+        setValues({
+          id: res.id,
+          fullName: res.username,
+          picture: res.picture,
+          roleID: res.roleID
+        });
+      });
     }
-  },[])
+  }, []);
 
   return (
     <div>
@@ -225,54 +225,72 @@ export default function Navbar() {
           <Hidden xsDown>
             <Grid item sm={4}>
               <Button onClick={() => (window.location.hash = "/")}>
-                <Typography
-                  className={classes.typography}
-                  variant="h3"
-                  noWrap
-                >
+                <Typography className={classes.typography} variant="h3" noWrap>
                   Harmoni
                 </Typography>
               </Button>
             </Grid>
           </Hidden>
           <Grid item sm={4}>
-            <Paper
-              className={classes.root}>
+            <Paper className={classes.root}>
               <InputBase
                 className={classes.input}
                 placeholder="Search.."
-                inputProps={{ 'aria-label': 'search' }}
+                inputProps={{ "aria-label": "search" }}
               />
               <Divider className={classes.divider} orientation="vertical" />
-              <IconButton type="submit" className={classes.iconButton} aria-label="search">
+              <IconButton
+                type="submit"
+                className={classes.iconButton}
+                aria-label="search"
+              >
                 <SearchIcon />
               </IconButton>
             </Paper>
           </Grid>
           <Hidden xsDown>
-          <Grid item>
-                <Button style={{backgroundColor: "transparent", borderColor: "transparent"}} onClick={() => (window.location.hash = "/addEvent")}>
-                  <AddCircleIcon/>
-                  Add Event
-                </Button>
-            </ Grid>
             <Grid item>
-              {auth ?
-                <Button style={{backgroundColor: "transparent", borderColor: "transparent"}} onClick={() => (window.location.hash = "/profile")}>
-                  <Avatar alt="Profile" src={"http://localhost:8080/profile_picture/"+values.id} />
+              <Button
+                style={{
+                  backgroundColor: "transparent",
+                  borderColor: "transparent"
+                }}
+                onClick={() => (window.location.hash = "/addEvent")}
+              >
+                <AddCircleIcon />
+              </Button>
+            </Grid>
+            <Grid item>
+              {auth ? (
+                <Button
+                  style={{
+                    backgroundColor: "transparent",
+                    borderColor: "transparent"
+                  }}
+                  onClick={() => (window.location.hash = "/profile")}
+                >
+                  <Avatar
+                    alt="Profile"
+                    src={"http://localhost:8080/profile_picture/" + values.id}
+                  />
                   {values.fullName}
                 </Button>
-                :
-                <Button style={{backgroundColor: "transparent", borderColor: "transparent"}} onClick={() => (window.location.hash = "/login")}>
+              ) : (
+                <Button
+                  style={{
+                    backgroundColor: "transparent",
+                    borderColor: "transparent"
+                  }}
+                  onClick={() => (window.location.hash = "/login")}
+                >
                   <AccountCircle />
-                  Login
                 </Button>
-              }
+              )}
             </Grid>
           </Hidden>
         </Grid>
       </AppBar>
-{/*--------------------------------------------------------------*/}
+      {/*--------------------------------------------------------------*/}
       <Drawer
         className={classes.drawer}
         variant="persistent"
@@ -361,17 +379,19 @@ export default function Navbar() {
                 <List>
                   <ListItem>
                     <IconButton
-                        className={classes.account}
-                        aria-label="account of current user"
-                        aria-controls="menu-appbar"
-                        aria-haspopup="true"
-                        //color="inherit"
-                        onClick={() => (window.location.hash = "/login")}
+                      className={classes.account}
+                      aria-label="account of current user"
+                      aria-controls="menu-appbar"
+                      aria-haspopup="true"
+                      //color="inherit"
+                      onClick={() => (window.location.hash = "/login")}
                     >
-
-                      {getCookie("token")? <img src="FileFromServer.jpg"></img> : <AccountCircle />
-                      }
-                      <p  className={classes.icon}>{getCookie("token")? "Info":"Login"}</p>
+                      {getCookie("token") ? (
+                        <img src="FileFromServer.jpg"></img>
+                      ) : (
+                        <AccountCircle />
+                      )}
+                      <p className={classes.icon}></p>
                     </IconButton>
                   </ListItem>
                 </List>
