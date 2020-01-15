@@ -10,6 +10,8 @@ import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Pa
 import InputField from "../../components/InputField/InputField";
 import UserService from "../../service/users";
 import RoleService from "../../service/roles";
+import getCookie from "../../service/cookie"
+
 
 const useStyles = makeStyles((theme: Theme) => createStyles ({
     title: {
@@ -299,6 +301,14 @@ export default (props: any) => {
                                     </Grid>
                                 </DialogActions>
                             </Dialog>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <Button onClick={()=> {
+                                document.cookie = "token="+getCookie("token")+"; expires="+new Date().toUTCString();
+                                window.location.hash="/"
+                            }}>
+                                Logout
+                            </Button>
                         </Grid>
                     </Grid>
                 </div>
