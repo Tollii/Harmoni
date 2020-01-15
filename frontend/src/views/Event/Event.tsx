@@ -12,6 +12,7 @@ import Ticket from "./Ticket";
 import Rider from "./Rider";
 import EventService from "../../service/events";
 import UserService from "../../service/users";
+import RiderTypeService from "../../service/rider_types";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -41,7 +42,7 @@ function getStepContent(stepIndex: number, values: any, handleChange: any) {
     case 2:
       return <Ticket />;
     case 3:
-      return <Rider values={values} />;
+      return <Rider values={values} handleChange={handleChange} />;
     default:
       return "Unknown stepIndex";
   }
@@ -58,6 +59,7 @@ interface Values {
   personnel: string;
   eventTypeId: number;
   artists: Array<{ id: number; name: string; email: string; checked: boolean }>;
+  riderTypes: Array<{ id: number; description: string }>;
   riders: Array<{ additions: string; riderTypeID: number; userID: number }>;
   tickets: Array<{
     ticket_name: string;
@@ -85,12 +87,12 @@ export default () => {
     personnel: "",
     eventTypeId: 0,
     artists: [],
+    riderTypes: [],
     riders: [],
     tickets: []
   });
 
   useEffect(() => {
-    console.log("useEffecr");
     UserService.getArtist().then(response => {
       response.map((artist: any) => {
         values.artists.push({
@@ -101,12 +103,16 @@ export default () => {
         });
       });
     });
+    RiderTypeService.getRider_Types().then((response: any) => {
+      setValues(prevState => {
+        return { ...prevState, riderTypes: response };
+      });
+    });
   }, []);
 
   const handleChange = (event: any, name: string = "") => {
     if (name === "") {
       const { name, value } = event.target;
-      console.log("uten date");
       setValues({ ...values, [name]: value });
     } else {
       setValues(values => ({ ...values, [name]: event }));
@@ -120,6 +126,16 @@ export default () => {
     let artists: number[] = [];
     values.artists.map(artist => {
       artists.push(artist.id);
+    });
+    let riders: Array<{
+      riderTypeID: number;
+      userID: number;
+      additions: string;
+    }> = [];
+    values.riders.map(rider => {
+      if (artists.includes(rider.userID)) {
+        riders.push(rider);
+      }
     });
     let event = {
       event_name: values.name,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   createStyles,
   makeStyles,
@@ -14,7 +14,6 @@ import Chip from "@material-ui/core/Chip";
 import Card from "../../components/Card/Card";
 import { CardContent, TextField, Typography } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
-import RiderTypeService from "../../service/rider_types";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -53,17 +52,23 @@ const MenuProps = {
   }
 };
 
-let riders: Array<{ id: number; description: string }> = [];
-RiderTypeService.getRider_Types().then((response: any) => {
-  riders = response;
-});
-
 export default function(props: any) {
   return (
     <div>
-      {props.values.artists.map((artist: any) => (
-        <RiderCard artistName={artist.name} />
-      ))}
+      {props.values.artists
+        .filter(function(artist: any) {
+          return artist.checked === true;
+        })
+        .map((artist: any, index: number) => (
+          <RiderCard
+            key={index}
+            artistName={artist.name}
+            artistID={artist.id}
+            riderTypes={props.values.riderTypes}
+            riders={props.values.riders}
+            handleChange={props.handleChange}
+          />
+        ))}
     </div>
   );
 }
@@ -81,15 +86,68 @@ function RiderCard(props: any) {
   const classes = useStyles();
   const theme = useTheme();
 
-  const [riderName, setRiderName] = React.useState<string[]>([]);
-  const [addition, setAddition] = React.useState("");
+  const [riderName, setRiderName] = useState<string[]>([]);
+  const [addition, setAddition] = useState("");
 
-  const handleChangeRider = (event: React.ChangeEvent<{ value: unknown }>) => {
+  useEffect(() => {
+    let selectedRiders: string[] = [];
+    let allUser = props.riders.filter(
+      (rider: any) => rider.userID === props.artistID
+    );
+    let additional = allUser.find((rider: any) => rider.riderTypeID === 1);
+    if (additional !== undefined) {
+      setAddition(additional.additions);
+    }
+    allUser.map((rider: any) => {
+      selectedRiders.push(
+        props.riderTypes.find(
+          (riderType: any) => riderType.id === rider.riderTypeID
+        ).description
+      );
+    });
+    setRiderName(selectedRiders);
+  }, []);
+
+  const handleChangeRider = (event: React.ChangeEvent<{ value: any }>) => {
     setRiderName(event.target.value as string[]);
+    let ridersArray: any = props.riders.filter(
+      (rider: any) => rider.userID !== props.artistID
+    );
+    event.target.value.map((rider: any) => {
+      let riderID = props.riderTypes.find(
+        (riderType: any) => riderType.description === rider
+      ).id;
+
+      if (riderID === 1) {
+        ridersArray.push({
+          riderTypeID: riderID,
+          userID: props.artistID,
+          additions: addition
+        });
+      } else {
+        ridersArray.push({
+          riderTypeID: riderID,
+          userID: props.artistID,
+          additions: ""
+        });
+      }
+    });
+
+    props.handleChange(ridersArray, "riders");
   };
 
   const handleChangeAddition = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAddition(event.target.value);
+    let ridersArray: any = props.riders.filter(
+      (rider: any) => rider.riderTypeID !== 1 || rider.userID !== props.artistID
+    );
+
+    ridersArray.push({
+      riderTypeID: 1,
+      userID: props.artistID,
+      additions: event.target.value
+    });
+    props.handleChange(ridersArray, "riders");
   };
 
   return (
@@ -113,24 +171,20 @@ function RiderCard(props: any) {
                 input={<Input id="select-multiple-chip" />}
                 renderValue={selected => (
                   <div className={classes.chips}>
-                    {(selected as string[]).map(value => (
-                      <Chip
-                        key={value}
-                        label={value}
-                        className={classes.chip}
-                      />
+                    {(selected as string[]).map((value, i) => (
+                      <Chip key={i} label={value} className={classes.chip} />
                     ))}
                   </div>
                 )}
                 MenuProps={MenuProps}
               >
-                {riders.map((rider, i) => (
+                {props.riderTypes.map((rider: any, i: number) => (
                   <MenuItem
                     key={i}
                     value={rider.description}
                     style={getStyles(rider.description, riderName, theme)}
                   >
-                    {rider}
+                    {rider.description}
                   </MenuItem>
                 ))}
               </Select>
