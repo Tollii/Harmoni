@@ -108,7 +108,7 @@ module.exports = models => {
         event_start: event_start,
         event_end: event_end,
         personnel: personnel,
-        event_image: event_image;
+        event_image: event_image,
         description: description,
         archived: archived,
         event_typeID: event_typeID
