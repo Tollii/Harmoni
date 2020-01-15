@@ -30,13 +30,12 @@ module.exports = (app, models, auth) => {
   /**
    * @group Files - operations about files
    * @route GET /profile_picture/{token}/
-   * @param {string} token.path.required - token
+   * @param {integer} id.path.required - id
    * @returns {object} 200 - returns profile_picture
    * @returns {error} default - unexpected error
    */
-   app.get('/profile_picture/:token', async (req, res) => {
-     let id = await auth.decode_token(req.params.token);
-     let profilePicture = await userControl.userGetOne(id).then(data => data.picture);
+   app.get('/profile_picture/:id', async (req, res) => {
+     let profilePicture = await userControl.userGetOne(req.params.id).then(data => data.picture);
      res.sendFile(profilePicturesFolder + profilePicture);
    });
 
