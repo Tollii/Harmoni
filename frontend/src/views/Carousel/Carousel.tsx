@@ -1,9 +1,10 @@
 import React from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import LoginCard from "../Login/LoginCard";
+import EventCard from "../../components/EventCard/EventCard";
 import { makeStyles } from "@material-ui/core/styles";
 import classes from "*.module.css";
+import EventService from "../../service/events";
 
 const useStyles = makeStyles({
   margin: {
@@ -14,6 +15,14 @@ const useStyles = makeStyles({
 
 export default (props: any) => {
   const classes = useStyles();
+  let events: any = [];
+  const event = "hei";
+
+  EventService.getEvents().then((response: any) => {
+    console.log(response);
+    events = response;
+  });
+
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -51,25 +60,13 @@ export default (props: any) => {
       itemClass="carousel-item-padding-40-px"
     >
       <div className={classes.margin}>
-        <LoginCard />
+        <EventCard event_name={event} />
       </div>
       <div className={classes.margin}>
-        <LoginCard />
+        {events.map((e: any) => console.log(e.event_name))}
       </div>
       <div className={classes.margin}>
-        <LoginCard />
-      </div>
-      <div className={classes.margin}>
-        <LoginCard />
-      </div>
-      <div className={classes.margin}>
-        <LoginCard />
-      </div>
-      <div className={classes.margin}>
-        <LoginCard />
-      </div>
-      <div className={classes.margin}>
-        <LoginCard />
+        <EventCard />
       </div>
     </Carousel>
   );

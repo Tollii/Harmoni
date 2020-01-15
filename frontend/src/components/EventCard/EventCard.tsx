@@ -54,7 +54,7 @@ export default function EventCard(props: any) {
           component="img"
           height="160"
           image={require("../../assets/img/festival.jpeg")}
-          title="festival"
+          title={props.event_name}
         />
 
         <CardContent>
@@ -65,7 +65,7 @@ export default function EventCard(props: any) {
           </Grid>
           <Grid item>
             <Typography className={classes.title} onChange={props.handleChange}>
-              This is Title of the event
+              {props.event_name}
             </Typography>
           </Grid>
           <Grid item>
