@@ -11,7 +11,7 @@ const useStyles = makeStyles({
   root: {
     maxWidth: 800,
     textAlign: "center",
-    margin: "auto", 
+    margin: "auto",
     marginTop: "20px"
   },
   icons: {
@@ -64,12 +64,6 @@ export default () => {
           <Link align={"center"} href="#" color={"textPrimary"}>
             <Twitter />
           </Link>
-        </Grid>
-        <Grid item xs={8} sm={4} md={2}>
-          <Typography>
-            Feedback:{" "}
-            <Link href="mailto:person@example.com">harmoni@Yourevent.no</Link>
-          </Typography>
         </Grid>
       </Grid>
     </div>
