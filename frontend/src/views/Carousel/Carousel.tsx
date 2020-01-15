@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import EventCard from "../../components/EventCard/EventCard";
@@ -6,22 +6,15 @@ import { makeStyles } from "@material-ui/core/styles";
 import classes from "*.module.css";
 import EventService from "../../service/events";
 
-const useStyles = makeStyles({
-  margin: {
-    margin: "12px",
-    marginBottom: "12px"
-  }
-});
-
 export default (props: any) => {
-  const classes = useStyles();
-  let events: any = [];
-  const event = "hei";
+  const [events, setEvents] = useState([]);
 
-  EventService.getEvents().then((response: any) => {
-    console.log(response);
-    events = response;
-  });
+  useEffect(() => {
+    EventService.getEvents().then((response: any) => {
+      console.log(response);
+      setEvents(response);
+    });
+  }, []);
 
   const responsive = {
     superLargeDesktop: {
@@ -59,15 +52,9 @@ export default (props: any) => {
       dotListClass="custom-dot-list-style"
       itemClass="carousel-item-padding-40-px"
     >
-      <div className={classes.margin}>
-        <EventCard event_name={event} />
-      </div>
-      <div className={classes.margin}>
-        {events.map((e: any) => console.log(e.event_name))}
-      </div>
-      <div className={classes.margin}>
-        <EventCard />
-      </div>
+      {events.map((e: any) => (
+        <EventCard event_name={e.event_name} />
+      ))}
     </Carousel>
   );
 };

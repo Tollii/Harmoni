@@ -18,7 +18,9 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     card: {
       maxWidth: "400px",
-      backgroundColor: "#E5E5E5"
+      backgroundColor: "#E5E5E5",
+      margin: "12px",
+      marginBottom: "12px"
     },
     image: {
       transform: "scale(1)",
