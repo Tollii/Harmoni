@@ -65,6 +65,12 @@ export default () => {
             <Twitter />
           </Link>
         </Grid>
+        <Grid item xs={8} sm={4} md={2}>
+          <Typography>
+            Feedback:{" "}
+            <Link href="mailto:person@example.com">harmoni@Yourevent.no</Link>
+          </Typography>
+        </Grid>
       </Grid>
     </div>
   );
