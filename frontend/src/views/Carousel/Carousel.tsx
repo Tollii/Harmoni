@@ -11,7 +11,6 @@ export default (props: any) => {
 
   useEffect(() => {
     EventService.getEvents().then((response: any) => {
-      console.log(response);
       setEvents(response);
     });
   }, []);
@@ -53,7 +52,7 @@ export default (props: any) => {
       itemClass="carousel-item-padding-40-px"
     >
       {events.map((e: any) => (
-        <EventCard event_name={e.event_name} />
+        <EventCard event={e} />
       ))}
     </Carousel>
   );

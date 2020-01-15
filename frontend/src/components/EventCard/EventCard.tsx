@@ -47,7 +47,11 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function EventCard(props: any) {
   const classes = useStyles();
+  var date = new Date(props.event.event_start);
+  let month = date.getMonth();
+  let day = date.getDate();
 
+  console.log(month);
   return (
     <Card className={classes.card}>
       <CardActionArea>
@@ -55,19 +59,21 @@ export default function EventCard(props: any) {
           className={classes.image}
           component="img"
           height="160"
-          image={require("../../assets/img/festival.jpeg")}
-          title={props.event_name}
+          image={props.event.event_image}
+          title={props.event.event_name}
         />
 
         <CardContent>
           <Grid container spacing={6}></Grid>
 
           <Grid item>
-            <Button className={classes.content}>Jan 20</Button>
+            <Button className={classes.content}>
+              {day + "-" + (month + 1)}
+            </Button>
           </Grid>
           <Grid item>
             <Typography className={classes.title} onChange={props.handleChange}>
-              {props.event_name}
+              {props.event.event_name}
             </Typography>
           </Grid>
           <Grid item>
