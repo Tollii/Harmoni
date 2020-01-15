@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
       event_start: DataTypes.DATE,
       event_end: DataTypes.DATE,
       personnel: DataTypes.TEXT,
+      event_image: DataTypes.TEXT,
       description: DataTypes.TEXT,
       archived: DataTypes.BOOLEAN
     },

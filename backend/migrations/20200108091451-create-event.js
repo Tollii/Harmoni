@@ -23,6 +23,9 @@ module.exports = {
       personnel: {
         type: Sequelize.TEXT
       },
+      event_image: {
+        type: Sequelize.TEXT
+      },
       description: {
         type: Sequelize.TEXT
       },
