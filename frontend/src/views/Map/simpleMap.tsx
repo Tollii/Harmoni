@@ -264,12 +264,19 @@ const SimpleMap = (props: any) => {
             }
           ]
       }}
+
       >
         <Marker
           lat={63.4189}
           lng={10.4027}
           name="My Marker"
-          img="http://pluspng.com/img-png/baby-yoda-png-yoda-by-chrispix326-deviantart-com-on-deviantart-974.png"
+          img={require("../../assets/img/harmoni_logo_small.png")}
+        />
+        <Marker
+          lat={63.4190}
+          lng={10.4200}
+          name="My Marker"
+          img={require("../../assets/img/harmoni_logo_small.png")}
         />
       </GoogleMapReact>
       <div style={{zIndex: 20, position:"absolute", width: "100%", height: "100%", top:"80%", left:"0" }}>

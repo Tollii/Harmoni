@@ -226,7 +226,7 @@ export default function Navbar() {
             <Grid item sm={4}>
               <Button onClick={() => (window.location.hash = "/")}>
                 <Typography className={classes.typography} variant="h3" noWrap>
-                  Harmoni
+                  <img src={require("../../assets/img/harmoni_logo_wide.png")} alt="logo.png" height="70" width="210"></img>
                 </Typography>
               </Button>
             </Grid>
@@ -313,7 +313,7 @@ export default function Navbar() {
 
         <Grid>
           <Typography className={classes.typography} variant="h3" noWrap>
-            Harmoni
+            <img src={require("../../assets/img/harmoni_logo_wide.png")} alt="logo.png" height="90" width="270"></img>
           </Typography>
         </Grid>
 
