@@ -77,7 +77,7 @@ module.exports = (app, models, base, auth) => {
    * @group Events - Operations about event
    * @route DELETE /event/{id}/
    * @param {integer} id.path.required - event id
-   * @param {string} token.headers.required - token
+   * @param {string} token.header.required - token
    * @returns {object} 200 - An array of events
    * @returns {Error}  default - Unexpected error
    */
@@ -100,7 +100,7 @@ module.exports = (app, models, base, auth) => {
    * @route PUT /event/{id}/
    * @param {integer} id.path.required - event id
    * @param {Events.model} event.body.required - All attributes of event
-   * @param {string} token.headers.required - token
+   * @param {string} token.header.required - token
    * @returns {object} 200 - Updates the attributes of the given event
    * @returns {Error}  default - Unexpected error
    */
@@ -155,7 +155,7 @@ module.exports = (app, models, base, auth) => {
    * @group Events - Operations about event
    * @route POST /event/
    * @param {Events_POST.model} event.body.required - All attributes of event
-   * @param {string} token.headers.required - token
+   * @param {string} token.header.required - token
    * @returns {object} 200 - Add an event to the DB
    * @returns {Error}  default - Unexpected error
    */

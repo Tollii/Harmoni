@@ -10,7 +10,7 @@ module.exports = (app, models, base, auth) => {
   /**
   * @group Contract - Operations about contract
   * @route GET /contract/
-  * @param {string} token.headers.required - token
+  * @param {string} token.header.required - token
   * @returns {object} 200 - An array of contracts info
   * @returns {Error}  default - Unexpected error
   */
@@ -34,7 +34,7 @@ module.exports = (app, models, base, auth) => {
   * @route GET /contract/user/{user_id}/event/{event_id}/
   * @param {integer} user_id.path.required - Contract user id
   * @param {integer} event_id.path.required - Contract event id
-  * @param {string} token.headers.required - token
+  * @param {string} token.header.required - token
   * @returns {object} 200 - Return a Contract
   * @returns {Error}  default - Unexpected error
   */
@@ -56,7 +56,7 @@ module.exports = (app, models, base, auth) => {
   * @route POST /contract/
   * @group Contract - Operations about contract
   * @param {Contract.model} user.body.required - Contract information
-  * @param {string} token.headers.required - token
+  * @param {string} token.header.required - token
   * @returns {object} 200 - return Contract object
   * @returns {Error}  default - Unexpected error
   */
@@ -83,7 +83,7 @@ module.exports = (app, models, base, auth) => {
   * @route DELETE /contract/user/{user_id}/event/{event_id}/
   * @param {integer} user_id.path.required - Contract user id
   * @param {integer} event_id.path.required - Contract event id
-  * @param {string} token.headers.required - token
+  * @param {string} token.header.required - token
   * @returns {object} 200 - Contract is deleted
   * @returns {Error}  default - Unexpected error
   */
