@@ -56,6 +56,7 @@ export default () => {
         email: values.email,
         password: values.password
       }).then((data: any) => (document.cookie = "token="+data+"; expires="+now.toUTCString()));
+      window.location.href ="http://localhost:3000/";
     }
   }
 

@@ -305,7 +305,7 @@ export default (props: any) => {
                         <Grid item xs={3}>
                             <Button onClick={()=> {
                                 document.cookie = "token="+getCookie("token")+"; expires="+new Date().toUTCString();
-                                window.location.hash="/"
+                                window.location.href ="http://localhost:3000/"
                             }}>
                                 Logout
                             </Button>
