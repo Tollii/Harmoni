@@ -9,7 +9,7 @@ module.exports = (app, models, base, auth) => {
   /**
   * @group Role - Operations about user
   * @route GET /role/
-  * @param {string} token.headers.required - token
+  * @param {string} token.header.required - token
   * @returns {object} 200 - An array of role info
   * @returns {Error}  default - Unexpected error
   */
@@ -31,7 +31,7 @@ module.exports = (app, models, base, auth) => {
   * @group Role - Operations about user
   * @route GET /role/{id}/
   * @param {integer} id.path.required - role id
-  * @param {string} token.headers.required - token
+  * @param {string} token.header.required - token
   * @returns {object} 200 - An array of user info
   * @returns {Error}  default - Unexpected error
   */
