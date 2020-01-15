@@ -14,6 +14,7 @@ import InputBase from "@material-ui/core/InputBase";
 import MenuItem from "@material-ui/core/MenuItem";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 import {
   Button,
   ButtonGroup,
@@ -249,6 +250,12 @@ export default function Navbar() {
             </Paper>
           </Grid>
           <Hidden xsDown>
+          <Grid item>
+                <Button style={{backgroundColor: "transparent", borderColor: "transparent"}} onClick={() => (window.location.hash = "/addEvent")}>
+                  <AddCircleIcon/>
+                  Add Event
+                </Button>
+            </ Grid>
             <Grid item>
               {auth ?
                 <Button style={{backgroundColor: "transparent", borderColor: "transparent"}} onClick={() => (window.location.hash = "/profile")}>
