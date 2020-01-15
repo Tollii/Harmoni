@@ -35,10 +35,8 @@ import MenuList from "@material-ui/core/MenuList";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import MenuIcon from "@material-ui/icons/Menu";
-
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-
 const options = ["Catergoris", "Conserts", "Festivals"];
 const drawerWidth = 240;
 
@@ -94,6 +92,12 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     account: {
       // marginRight: 200
+
+    },
+    icon: {
+      fontFamily: '"Apple Chancery", Segoe UI',
+      color: "black",
+      fontSize: 20
     },
     typography: {
       fontFamily: '"Apple Chancery", Segoe UI',
@@ -115,6 +119,7 @@ const useStyles = makeStyles((theme: Theme) =>
       ...theme.mixins.toolbar,
       justifyContent: "flex-end"
     }
+
   })
 );
 
@@ -287,16 +292,24 @@ export default function Navbar() {
               <Grid item>
                 {auth && (
                   <div>
-                    <IconButton
-                      className={classes.account}
-                      aria-label="account of current user"
-                      aria-controls="menu-appbar"
-                      aria-haspopup="true"
-                      //color="inherit"
-                      onClick={() => (window.location.hash = "/login")}
-                    >
-                      <AccountCircle />
-                    </IconButton>
+                    {/* desktop version of user icon */}
+                    <List>
+                      <ListItem>
+                        <IconButton
+                            className={classes.account}
+                            aria-label="account of current user"
+                            aria-controls="menu-appbar"
+                            aria-haspopup="true"
+                            //color="inherit"
+                            onClick={() => (window.location.hash = "/login")}
+                        >
+
+                            {localStorage.getItem("token")? <img src="FileFromServer.jpg"></img> : <AccountCircle />
+                            }
+                          <p  className={classes.icon}>{localStorage.getItem("token")? "Info":"Login"}</p>
+                        </IconButton>
+                      </ListItem>
+                    </List>
                   </div>
                 )}
               </Grid>
@@ -388,16 +401,24 @@ export default function Navbar() {
           <Grid item>
             {auth && (
               <div>
-                <IconButton
-                  className={classes.account}
-                  aria-label="account of current user"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
-                  //color="inherit"
-                  onClick={() => (window.location.hash = "/login")}
-                >
-                  <AccountCircle />
-                </IconButton>
+                {/* smartphone version of user icon */}
+                <List>
+                  <ListItem>
+                    <IconButton
+                        className={classes.account}
+                        aria-label="account of current user"
+                        aria-controls="menu-appbar"
+                        aria-haspopup="true"
+                        //color="inherit"
+                        onClick={() => (window.location.hash = "/login")}
+                    >
+
+                      {localStorage.getItem("token")? <img src="FileFromServer.jpg"></img> : <AccountCircle />
+                      }
+                      <p  className={classes.icon}>{localStorage.getItem("token")? "Info":"Login"}</p>
+                    </IconButton>
+                  </ListItem>
+                </List>
               </div>
             )}
           </Grid>
