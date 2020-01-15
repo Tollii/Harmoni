@@ -1,7 +1,8 @@
+import getCookie from "./cookie";
 const axios = require("axios").default;
 
 let url = "http://localhost:8080";
-const token = localStorage.token;
+const token = getCookie("token");
 
 export class Rider_Type {
   id!: number;

@@ -1,6 +1,8 @@
+import getCookie from "./cookie";
 const axios = require("axios").default;
 
 let url = "http://localhost:8080";
+const token = getCookie("token");
 
 export class Event {
   id!: number;
@@ -48,18 +50,20 @@ class EventService {
 
   postEvent(event: object) {
     return axios
-      .post(url + "/event", event)
+      .post(url + "/event", event, { headers: { token: token } })
       .then((response: { data: FullEvent }) => console.log(response));
   }
 
   updateEvent(event: object, id: number) {
-    return axios.put(url + '/event/' + id, event)
-        .then((response: {data: JSON}) => console.log(response));
+    return axios
+      .put(url + "/event/" + id, event)
+      .then((response: { data: JSON }) => console.log(response));
   }
 
   updateArchive() {
-    return axios.put(url + '/event_archive')
-        .then((response: {data: JSON}) => console.log(response));
+    return axios
+      .put(url + "/event_archive")
+      .then((response: { data: JSON }) => console.log(response));
   }
 
   deleteEvent(id: number) {
