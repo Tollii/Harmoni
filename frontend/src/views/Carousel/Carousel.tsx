@@ -5,11 +5,10 @@ import LoginCard from "../Login/LoginCard";
 import { makeStyles } from "@material-ui/core/styles";
 import classes from "*.module.css";
 
-
 const useStyles = makeStyles({
-  
   margin: {
-    margin: "12px"
+    margin: "12px",
+    marginBottom: "12px"
   }
 });
 
@@ -63,7 +62,7 @@ export default (props: any) => {
       <div className={classes.margin}>
         <LoginCard />
       </div>
-      <div className={classes.margin}> 
+      <div className={classes.margin}>
         <LoginCard />
       </div>
       <div className={classes.margin}>
