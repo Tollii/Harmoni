@@ -40,7 +40,7 @@ function getStepContent(stepIndex: number, values: any, handleChange: any) {
     case 1:
       return <Artist values={values} handleChange={handleChange} />;
     case 2:
-      return <Ticket />;
+      return <Ticket tickets={values.tickets} handleChange={handleChange} />;
     case 3:
       return <Rider values={values} handleChange={handleChange} />;
     default:
@@ -62,11 +62,12 @@ interface Values {
   riderTypes: Array<{ id: number; description: string }>;
   riders: Array<{ additions: string; riderTypeID: number; userID: number }>;
   tickets: Array<{
+    id: number;
     ticket_name: string;
     price: number;
     ticket_amount: number;
-    date_start: string;
-    date_end: string;
+    date_start: Object;
+    date_end: Object;
   }>;
 }
 
@@ -120,7 +121,6 @@ export default () => {
   };
 
   const submit = () => {
-    console.log("trying to post event");
     let eventStart = values.dateStart + "T" + values.timeStart + "Z";
     let eventEnd = values.dateEnd + "T" + values.timeEnd + "Z";
     let artists: number[] = [];
