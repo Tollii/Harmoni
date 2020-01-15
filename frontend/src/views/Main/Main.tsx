@@ -8,13 +8,10 @@ export default () => {
 
      return (
     <div>
-      <Map />
-      <Link to="/signUp">Sign up </Link>
-      <Link to="/addEvent">AddEvent </Link>
       <Map/>
       <Carousel/>
     </div>
-    
+
   );
 };
 

@@ -5,17 +5,18 @@ import Marker from "./Marker";
 const SimpleMap = (props: any) => {
   const [center, setCenter] = useState({ lat: 63.4189, lng: 10.4027 });
   const [zoom, setZoom] = useState(11);
-  
+
   return (
     <div
       style={{
         position: "relative",
-        height: "50vh",
-        width: "100%",
-        overflow: "hidden"
+        height: "75vh",
+        width: "121.5%",
+        overflowX: "hidden",
+        left: "-70px"
       }}
     >
-      
+
       <GoogleMapReact
         bootstrapURLKeys={{ key: "AIzaSyBpqnFSmQNK7VBnEm521CwPGs8zBkB-SQY" }}
         defaultCenter={center}
