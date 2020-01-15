@@ -1,6 +1,6 @@
+import React, {useState, useEffect} from "react";
 import Card from "../../components/Card/Card";
 import Button from "../../components/Button/Button";
-import React, {useState} from "react";
 import Grid from "@material-ui/core/Grid";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
@@ -8,6 +8,8 @@ import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import Link from '@material-ui/core/Link';
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper} from "@material-ui/core";
 import InputField from "../../components/InputField/InputField";
+import UserService from "../../service/users";
+import RoleService from "../../service/roles";
 
 const useStyles = makeStyles((theme: Theme) => createStyles ({
     title: {
@@ -33,10 +35,11 @@ export default (props: any) => {
     const [openEditPic, setOpenEditPic] = React.useState(false);
 
     const [values, setValues] = useState({
-        fullName: "fullName",
+        fullName: "hei",
         role: "role",
         email: "email",
-        telephone: "telephone"
+        telephone: "telephone",
+        picture: ""
     });
     const handleChange = (event: any) => {
         const { name, value } = event.target;
@@ -80,9 +83,25 @@ export default (props: any) => {
         setOpenEditPic(false);
     };
 
+    useEffect(() => {
+        // Update the document title using the browser API
+        UserService.getOneUser()
+        .then(res => {
+            RoleService.getRole(res.roleID)
+            .then((res1: any) => {
+                setValues({fullName:res.username,
+                    email:res.email,
+                    telephone:res.phone,
+                    role:res1.role_name,
+                    picture:res.picture
+                })
+            })
+        })
+      });
+
     return (
         <Card width={"100%"} style={{ minWidth: "500px", maxWidth: "800px" }}>
-            <div style={{background: "silver", marginBottom: "20px"}}>
+            <div>
                 <Grid container direction="row">
                     <Typography className={classes.title} variant="h3" align="left">
                         Profile
@@ -93,7 +112,7 @@ export default (props: any) => {
                 <div style={{marginBottom: '30px'}}>
                     <Grid container spacing={4}>
                         <Grid item xs={3}>
-                            <img {...props} style={{width: '120px', height: '150px'}} src={props.src} alt={props.alt}/>
+                            <img style={{width: '120px', height: '150px'}} src={values.picture} alt={values.picture}/>
                             <Typography>
                                 <Link  href="#" onClick={handleOpenEditPic} color="inherit" style={{fontSize: '12px'}}>
                                     {'Edit profile picture'}
@@ -139,10 +158,10 @@ export default (props: any) => {
                             </Dialog>
                         </Grid>
                         <Grid item xs={3}>
-                            <p {...props}>FullName:{props.children}</p>
-                            <p {...props}>Role:{props.children}</p>
-                            <p {...props}>E-mail:{props.children}</p>
-                            <p {...props}>Tel:{props.children}</p>
+                            <p >{values.fullName}</p>
+                            <p >{values.role}</p>
+                            <p >{values.email}</p>
+                            <p >{values.telephone}</p>
                         </Grid>
                     </Grid>
                 </div>

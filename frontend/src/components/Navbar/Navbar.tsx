@@ -37,6 +37,7 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import getCookie from "../../service/cookie"
 const options = ["Catergoris", "Conserts", "Festivals"];
 const drawerWidth = 240;
 
@@ -304,9 +305,9 @@ export default function Navbar() {
                             onClick={() => (window.location.hash = "/login")}
                         >
 
-                            {localStorage.getItem("token")? <img src="FileFromServer.jpg"></img> : <AccountCircle />
+                            {getCookie("token")? <img src="FileFromServer.jpg"></img> : <AccountCircle />
                             }
-                          <p  className={classes.icon}>{localStorage.getItem("token")? "Info":"Login"}</p>
+                          <p  className={classes.icon}>{getCookie("token")? "Info":"Login"}</p>
                         </IconButton>
                       </ListItem>
                     </List>
@@ -413,9 +414,9 @@ export default function Navbar() {
                         onClick={() => (window.location.hash = "/login")}
                     >
 
-                      {localStorage.getItem("token")? <img src="FileFromServer.jpg"></img> : <AccountCircle />
+                      {getCookie("token")? <img src="FileFromServer.jpg"></img> : <AccountCircle />
                       }
-                      <p  className={classes.icon}>{localStorage.getItem("token")? "Info":"Login"}</p>
+                      <p  className={classes.icon}>{getCookie("token")? "Info":"Login"}</p>
                     </IconButton>
                   </ListItem>
                 </List>

@@ -47,10 +47,12 @@ export default () => {
 
   function submit() {
     console.log("Submitted form");
+    var now = new Date();
+    now.setTime(now.getTime() + 1 * 3600 * 1000)
     Authentication.getLogin({
       email: values.email,
       password: values.password
-    }).then((data: any) => (localStorage.token = data));
+    }).then((data: any) => (document.cookie = "token="+data+"; expires="+now.toUTCString()));
   }
 
   return (

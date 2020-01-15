@@ -9,7 +9,7 @@ import Event from "./views/Event/Event";
 import SignUp from "./views/SignUp/SignUp";
 import Login from "./views/Login/Login";
 import Footer from "./components/Footer/Footer";
-
+import Profile from "./views/Profile/Profile";
 
 
 const root = document.getElementById("root");
@@ -17,11 +17,12 @@ if (root) {
   ReactDOM.render(
     <HashRouter>
       <Navbar />
-      <div>
+      <div style={{ marginTop: "20px"}}>
         <Route exact path="/" component={Main} />
         <Route exact path="/addEvent" component={Event} />
         <Route exact path="/signUp" component={SignUp} />
         <Route exact path="/login" component={Login} />
+        <Route exact path="/profile" component={Profile} />
       </div>
       <Footer/>
     </HashRouter>,

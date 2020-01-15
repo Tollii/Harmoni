@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect } from "react";
+import getCookie from "./cookie"
 
 export class User {
   [x: string]: any;
@@ -14,7 +15,7 @@ export class User {
   roleID!: number;
 }
 const base = "http://localhost:8080/";
-const token = localStorage.token;
+const token = getCookie("token");
 class UserService {
   getAllUsers() {
     return axios.get<User[]>(base + "user/").then(response => response.data);
