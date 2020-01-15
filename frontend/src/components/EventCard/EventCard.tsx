@@ -18,7 +18,9 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     card: {
       maxWidth: "400px",
-      backgroundColor: "#E5E5E5"
+      backgroundColor: "#E5E5E5",
+      margin: "12px",
+      marginBottom: "12px"
     },
     image: {
       transform: "scale(1)",
@@ -45,33 +47,36 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function EventCard(props: any) {
   const classes = useStyles();
+  var date = new Date(props.event.event_start);
+  let month = date.getMonth();
+  let day = date.getDate();
 
+  console.log(month);
   return (
-    <Card className={classes.card}>
+    <Card className={classes.card} onClick={() => (window.location.hash = "/event/" + props.event.id)}>
       <CardActionArea>
         <CardMedia
           className={classes.image}
           component="img"
           height="160"
-          image={require("../../assets/img/festival.jpeg")}
-          title="festival"
+          image={props.event.event_image}
+          title={props.event.event_name}
         />
 
         <CardContent>
           <Grid container spacing={6}></Grid>
 
           <Grid item>
-            <Button className={classes.content}>Jan 20</Button>
+            <Button className={classes.content}>
+              {day + "-" + (month + 1)}
+            </Button>
           </Grid>
           <Grid item>
             <Typography className={classes.title} onChange={props.handleChange}>
-              This is Title of the event
+              <Link color="primary" className={classes.link}>
+                {props.event.event_name}{" "}
+              </Link>
             </Typography>
-          </Grid>
-          <Grid item>
-            <Link color="primary" className={classes.link}>
-              More Information
-            </Link>
           </Grid>
         </CardContent>
       </CardActionArea>
