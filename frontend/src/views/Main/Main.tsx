@@ -5,10 +5,12 @@ import Map from "../Map/simpleMap";
 export default () => {
   return (
     <div>
-      <Link to="/signUp">Sign up </Link>
-      <Link to="/addEvent">AddEvent </Link>
-      <Link to="/profile">Profile </Link>
-      <Map/>
+        <Map/>
+        <Link to="/signUp">Sign up </Link>
+        <Link to="/addEvent">AddEvent </Link>
+        <Link to="/profile">Profile </Link>
+
+
     </div>
   );
 };

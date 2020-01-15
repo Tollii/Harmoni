@@ -47,13 +47,13 @@ const useStyles = makeStyles((theme: Theme) =>
       //display: "none",
       [theme.breakpoints.up("sm")]: {
         display: "block",
-        color: "black"
+        color: "black",
+
         // marginLeft: 20
       }
     },
     backgroundNavbar: {
-      //backgroundColor: "white"
-      background: "transparent"
+      backgroundColor: "rgba(255,255,255,0.5)"
     },
     search: {
       position: "relative",
@@ -178,7 +178,7 @@ export default function Navbar() {
 
   return (
     <div>
-      <AppBar className={classes.backgroundNavbar} position="static">
+      <AppBar className={classes.backgroundNavbar} position="fixed">
         <Toolbar className={classes.backgroundNavbar}>
           <Grid
             container

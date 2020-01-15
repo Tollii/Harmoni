@@ -17,8 +17,8 @@ if (root) {
   ReactDOM.render(
     <HashRouter>
       <Navbar />
-      <div style={{ marginTop: "20px"}}>
         <Route exact path="/" component={Main} />
+      <div style={{ marginTop: "150px"}}>
         <Route exact path="/addEvent" component={Event} />
         <Route exact path="/signUp" component={SignUp} />
         <Route exact path="/login" component={Login} />
