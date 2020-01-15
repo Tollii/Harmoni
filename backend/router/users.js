@@ -22,7 +22,7 @@ module.exports = (app, models, base, auth) => {
   /**
   * @group User - Operations about user
   * @route GET /user/
-  * @param {string} token.headers.required - token
+  * @param {string} token.header.required - token
   * @returns {object} 200 - An array of user info
   * @returns {Error}  default - Unexpected error
   */
@@ -59,7 +59,7 @@ module.exports = (app, models, base, auth) => {
   * @group User - Operations about user
   * @route POST /user/
   * @param {Users.model} user.body.required - User's information
-  * @param {string} token.headers.required - token
+  * @param {string} token.header.required - token
   * @returns {object} 200 - return User object
   * @returns {Error}  default - Unexpected error
   */
@@ -90,7 +90,7 @@ module.exports = (app, models, base, auth) => {
   * @route PUT /user/{id}/
   * @param {integer} id.path.required - user id
   * @param {Users_PUT.model} user.body.required - User's information
-  * @param {string} token.headers.required - token
+  * @param {string} token.header.required - token
   * @returns {object} 200 - return updated User object
   * @returns {Error}  default - Unexpected error
   */
@@ -122,7 +122,7 @@ module.exports = (app, models, base, auth) => {
   * @group User - Operations about user
   * @route DELETE /user/{id}/
   * @param {integer} id.path.required - user id
-  * @param {string} token.headers.required - token
+  * @param {string} token.header.required - token
   * @returns {object} 200 - User is deleted
   * @returns {Error}  default - Unexpected error
   */

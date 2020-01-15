@@ -16,11 +16,12 @@ module.exports = (app, models, base, auth) => {
   /**
   * @group Riders - Operations about rider
   * @route GET /rider/
-  * @param {string} token.headers.required - token
+  * @param {string} token.header.required - token
   * @returns {object} 200 - An array of contracts info
   * @returns {Error}  default - Unexpected error
   */
   app.get(base, (req, res) => {
+    console.log(req.headers);
     auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
     .then(data => {
       console.log(data);
@@ -41,7 +42,7 @@ module.exports = (app, models, base, auth) => {
   * @param {integer} rider_type_id.path.required - Riders rider type id
   * @param {integer} event_id.path.required - Rider event id
   * @param {integer} user_id.path.required - Rider user id
-  * @param {string} token.headers.required - token
+  * @param {string} token.header.required - token
   * @returns {object} 200 - Return a Rider
   * @returns {Error}  default - Unexpected error
   */
@@ -68,7 +69,7 @@ module.exports = (app, models, base, auth) => {
   * @group Riders - Operations about riders
   * @route POST /rider/
   * @param {Riders.model} user.body.required - Rider information
-  * @param {string} token.headers.required - token
+  * @param {string} token.header.required - token
   * @returns {object} 200 - return Rider object
   * @returns {Error}  default - Unexpected error
   */
@@ -117,7 +118,7 @@ module.exports = (app, models, base, auth) => {
   * @param {integer} rider_type_id.path.required - Riders rider type id
   * @param {integer} event_id.path.required - Rider event id
   * @param {integer} user_id.path.required - Rider user id
-  * @param {string} token.headers.required - token
+  * @param {string} token.header.required - token
   * @returns {object} 200 - Returns updated Rider object
   * @returns {Error}  default - Unexpected error
   */
@@ -150,7 +151,7 @@ module.exports = (app, models, base, auth) => {
   * @param {integer} rider_type_id.path.required - Riders rider type id
   * @param {integer} event_id.path.required - Rider event id
   * @param {integer} user_id.path.required - Rider user id
-  * @param {string} token.headers.required - token
+  * @param {string} token.header.required - token
   * @returns {object} 200 - Rider is deleted
   * @returns {Error}  default - Unexpected error
   */

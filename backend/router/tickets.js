@@ -51,7 +51,7 @@ module.exports = (app, models, base, auth) => {
   * @group Ticket - Operations about ticket
   * @route POST /ticket/
   * @param {Tickets.model} user.body.required - Ticket information
-  * @param {string} token.headers.required - token
+  * @param {string} token.header.required - token
   * @returns {object} 200 - Returns Ticket object
   * @returns {Error} default - Unexpected error
   */
@@ -82,7 +82,7 @@ module.exports = (app, models, base, auth) => {
   * @route PUT /ticket/{id}/
   * @param {integer} id.path.required - Ticket id
   * @param {Tickets_PUT.model} user.body.required - Ticket information
-  * @param {string} token.headers.required - token
+  * @param {string} token.header.required - token
   * @returns {object} 200 - Returns updated Ticket object
   * @returns {Error} default - Unexpected error
   */
@@ -116,7 +116,7 @@ module.exports = (app, models, base, auth) => {
   * @group Ticket - Operations about ticket
   * @route DELETE /ticket/{id}/
   * @param {integer} id.path.required - Ticket id
-  * @param {string} token.headers.required - token
+  * @param {string} token.header.required - token
   * @returns {object} 200 - Ticket is deleted
   * @returns {Error} default - Unexpected error
   */
