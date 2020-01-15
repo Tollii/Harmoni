@@ -6,7 +6,23 @@ import Button from "../../components/Button/Button";
 import SignUpCard from "./SignUpCard";
 
 const useStyles = makeStyles({
-  ellipse: {
+  marginTop: {
+    marginTop: "20px"
+  }
+});
+
+export default () => {
+  const classes = useStyles();
+
+  return (
+    <div className={classes.marginTop}>
+      <SignUpCard />
+    </div>
+  );
+};
+
+/*
+ ellipse: {
     height: "100px",
     backgroundColor: "#f50057",
     borderTopRightRadius: "400px",
@@ -37,19 +53,8 @@ const useStyles = makeStyles({
     zIndex: 3,
     right: 0
   },
-  marginTop: {
-    marginTop: "20px"
-  }
-});
 
-export default () => {
-  const classes = useStyles();
-
-  return (
-    <div>
-      <SignUpCard />
-      <Grid container direction="row">
-        <Box
+<Box
           className={`${classes.ellipse} ${classes.ellipse1}`}
           boxShadow={10}
         />
@@ -61,7 +66,4 @@ export default () => {
           className={`${classes.ellipse} ${classes.ellipse3}`}
           boxShadow={10}
         />
-      </Grid>
-    </div>
-  );
-};
+        */

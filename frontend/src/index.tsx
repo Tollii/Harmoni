@@ -8,6 +8,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Event from "./views/Event/Event";
 import SignUp from "./views/SignUp/SignUp";
 import Login from "./views/Login/Login";
+import Footer from "./components/Footer/Footer";
 
 
 
@@ -22,6 +23,7 @@ if (root) {
         <Route exact path="/signUp" component={SignUp} />
         <Route exact path="/login" component={Login} />
       </div>
+      <Footer/>
     </HashRouter>,
     root
   );
