@@ -80,11 +80,11 @@ module.exports = (app, models, auth) => {
     * @returns {object} 200 - ok
     * @returns {error} default - unexpected error
     */
-  app.post('event_image/:id', async (req, res) => {
-    auth.check_permissions(req.query.token, ["Admin", "Organizer"])
+  app.get('event_image/:id', async (req, res) => {
+    auth.check_permissions(req.query.token, ["Admin", "Organizer", "Artist", "User"])
     .then(async data => {
-      if (data.auth) {
-        let eventImage = await eventControl.userGetOne(id).then(data => data.event_image);
+      if(data.auth) {
+        let eventImage = await eventControl.eventGetOne(id).then(data => data.event_image);
         res.sendFile(eventImagesFolder + eventImage);
       } else {
         res.status(400).send("Not authenticated");
@@ -92,4 +92,43 @@ module.exports = (app, models, auth) => {
     })
     .catch(err => console.log(err));
   });
+
+  /**
+   * @group Files - operations about files
+   * @route POST /event_image/{id}/
+   * @param {integer} id.path.required - event id
+   * @param {string} token.query.required - token
+   * @returns {object} 200 - ok
+   * @returns {error} default - unexpected error
+   */
+   app.post('/event_image/:id', async (req, res) => {
+     auth.check_permissions(req.query.token, ["Admin", "Organizer"])
+     .then(async data => {
+       if(data.auth) {
+         if(!req.files || Object.keys(req.files).length === 0) {
+           res.status(400).send('No files uploaded');
+         } else {
+           console.log(req);
+           let eventImage = req.files.event_image;
+           let event = await eventControl.eventGetOne(id);
+
+           let splitName = eventImage.name.split('.');
+           eventImage.name = id + '_' + event.event_name + '.' + splitName[splitName.length - 1];
+
+           eventImage.eventUpdate(id, event.event_name, event.location, event.event_start, event.event_end, event.personnel, event_image.name, event.description, event.archived);
+
+           eventImage.mv(eventImagesFolder + eventImage.name, function(err) {
+             if(err) {
+               return res.sendStatus(500).send(err);
+             }
+
+             res.send('File uploaded');
+           });
+         }
+       } else {
+         res.status(400).send("Not authenticated");
+       }
+     })
+     .catch(err => console.log(err));
+   });
 }
