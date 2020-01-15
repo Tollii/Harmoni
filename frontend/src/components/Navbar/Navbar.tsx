@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   fade,
   makeStyles,
@@ -25,8 +25,11 @@ import {
   List,
   ListItemText,
   Divider,
-  Drawer
+  Drawer,
+  Fab,
+  Avatar
 } from "@material-ui/core";
+import DirectionsIcon from '@material-ui/icons/Directions';
 
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
@@ -38,6 +41,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import getCookie from "../../service/cookie"
+import UserService from "../../service/users";
 const options = ["Catergoris", "Conserts", "Festivals"];
 const drawerWidth = 240;
 
@@ -66,7 +70,6 @@ const useStyles = makeStyles((theme: Theme) =>
       marginLeft: 0,
       width: "100%",
       [theme.breakpoints.up("sm")]: {
-        //marginRight: 100,
 
         width: "auto"
       }
@@ -119,7 +122,27 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(0, 1),
       ...theme.mixins.toolbar,
       justifyContent: "flex-end"
-    }
+    },
+    root: {
+      padding: '0px 0px',
+      display: 'flex',
+      alignItems: 'center',
+      width: 300,
+      backgroundColor: "rgba(0, 0, 0, 0.7)",
+    },
+    input: {
+      marginLeft: theme.spacing(1),
+      flex: 1,
+      color: "white"
+    },
+    iconButton: {
+      padding: 5,
+      color: "white"
+    },
+    divider: {
+      height: 28,
+      margin: 4,
+    },
 
   })
 );
@@ -127,16 +150,19 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function Navbar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [auth] = React.useState(true);
+  const [auth, setAuth] = React.useState(true);
+  const [values, setValues] = React.useState({
+    id: 0,
+    fullName: "Trump",
+    roleID: 0,
+    picture: ""
+  });
   const [openDrawer, setOpenDrawer] = React.useState(false);
   const [open, setOpen] = React.useState(false);
-  //const [openDropdown, setOpenDropdown] = React.useState(false);
   const anchorRef = React.useRef<HTMLDivElement>(null);
   const [selectedIndex, setSelectedIndex] = React.useState(1);
   const theme = useTheme();
-  /*const handleClose = () => {
-    setAnchorEl(null);
-  };*/
+
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -176,148 +202,70 @@ export default function Navbar() {
     setOpenDrawer(false);
   };
 
+  useEffect(() => {
+    setAuth((getCookie("token").length > 1))
+    if(auth){
+      UserService.getOneUser()
+      .then((res) => {
+        setValues({id: res.id, fullName: res.username, picture: res.picture, roleID: res.roleID})
+      })
+    }
+  },[])
+
   return (
     <div>
       <AppBar className={classes.backgroundNavbar} position="fixed">
-        <Toolbar className={classes.backgroundNavbar}>
-          <Grid
-            container
-            direction="row"
-            justify="space-between"
-            alignItems="center"
-          >
-            <Hidden smUp>
-              <Grid item xs={3}>
-                <IconButton
-                  color="primary"
-                  aria-label="open drawer"
-                  onClick={handleDrawerOpen}
-                  edge="start"
-                  //className={clsx(classes.menuButton, open && classes.hide)}
+        <Grid
+          container
+          direction="row"
+          justify="space-between"
+          alignItems="center"
+        >
+          <Hidden xsDown>
+            <Grid item sm={4}>
+              <Button onClick={() => (window.location.hash = "/")}>
+                <Typography
+                  className={classes.typography}
+                  variant="h3"
+                  noWrap
                 >
-                  <MenuIcon />
-                </IconButton>
-              </Grid>
-            </Hidden>
-            <Hidden xsDown>
-              <Grid item xs={3} sm={3}>
-                <Button onClick={() => (window.location.hash = "/")}>
-                  <Typography
-                    className={classes.typography}
-                    variant="h3"
-                    noWrap
-                  >
-                    Harmoni
-                  </Typography>
-                </Button>
-              </Grid>
-            </Hidden>
-            <Hidden xsDown>
-              <Grid item xs={3}>
-                <ButtonGroup
-                  variant="contained"
-                  ref={anchorRef}
-                  aria-label="split button"
-                >
-                  <Button onClick={handleClick}>
-                    {options[selectedIndex]}
-                  </Button>
-                  <Button
-                    size="small"
-                    aria-controls={open ? "split-button-menu" : undefined}
-                    aria-expanded={open ? "true" : undefined}
-                    aria-label="select merge strategy"
-                    aria-haspopup="menu"
-                    onClick={handleToggle}
-                  >
-                    <ArrowDropDownIcon />
-                  </Button>
-                </ButtonGroup>
-                <Popper
-                  open={open}
-                  anchorEl={anchorRef.current}
-                  role={undefined}
-                  transition
-                  disablePortal
-                >
-                  {({ TransitionProps, placement }) => (
-                    <Grow
-                      {...TransitionProps}
-                      style={{
-                        transformOrigin:
-                          placement === "bottom"
-                            ? "center top"
-                            : "center bottom"
-                      }}
-                    >
-                      <Paper>
-                        <ClickAwayListener onClickAway={handleClose}>
-                          <MenuList id="split-button-menu">
-                            {options.map((option, index) => (
-                              <MenuItem
-                                key={option}
-                                //disabled={index === 2}
-                                selected={index === selectedIndex}
-                                onClick={event =>
-                                  handleMenuItemClick(event, index)
-                                }
-                              >
-                                {option}
-                              </MenuItem>
-                            ))}
-                          </MenuList>
-                        </ClickAwayListener>
-                      </Paper>
-                    </Grow>
-                  )}
-                </Popper>
-              </Grid>
-            </Hidden>
-
-            <Grid item xs={3} sm={3}>
-              <div className={classes.search}>
-                <div className={classes.searchIcon}>
-                  <SearchIcon />
-                </div>
-                <InputBase
-                  placeholder="Search…"
-                  classes={{
-                    root: classes.inputRoot,
-                    input: classes.inputInput
-                  }}
-                  inputProps={{ "aria-label": "search" }}
-                />
-              </div>
+                  Harmoni
+                </Typography>
+              </Button>
             </Grid>
-            <Hidden xsDown>
-              <Grid item>
-                {auth && (
-                  <div>
-                    {/* desktop version of user icon */}
-                    <List>
-                      <ListItem>
-                        <IconButton
-                            className={classes.account}
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            //color="inherit"
-                            onClick={() => (window.location.hash = "/login")}
-                        >
-
-                            {getCookie("token")? <img src="FileFromServer.jpg"></img> : <AccountCircle />
-                            }
-                          <p  className={classes.icon}>{getCookie("token")? "Info":"Login"}</p>
-                        </IconButton>
-                      </ListItem>
-                    </List>
-                  </div>
-                )}
-              </Grid>
-            </Hidden>
+          </Hidden>
+          <Grid item sm={4}>
+            <Paper
+              className={classes.root}>
+              <InputBase
+                className={classes.input}
+                placeholder="Search.."
+                inputProps={{ 'aria-label': 'search' }}
+              />
+              <Divider className={classes.divider} orientation="vertical" />
+              <IconButton type="submit" className={classes.iconButton} aria-label="search">
+                <SearchIcon />
+              </IconButton>
+            </Paper>
           </Grid>
-        </Toolbar>
+          <Hidden xsDown>
+            <Grid item>
+              {auth ?
+                <Button style={{backgroundColor: "transparent", borderColor: "transparent"}} onClick={() => (window.location.hash = "/profile")}>
+                  <Avatar alt="Profile" src={"http://localhost:8080/profile_picture/"+values.id} />
+                  {values.fullName}
+                </Button>
+                :
+                <Button style={{backgroundColor: "transparent", borderColor: "transparent"}} onClick={() => (window.location.hash = "/login")}>
+                  <AccountCircle />
+                  Login
+                </Button>
+              }
+            </Grid>
+          </Hidden>
+        </Grid>
       </AppBar>
+{/*--------------------------------------------------------------*/}
       <Drawer
         className={classes.drawer}
         variant="persistent"
