@@ -235,13 +235,11 @@ export default (props: any) => {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      console.log("merker alle");
       props.values.artists.map((artist: any) => {
         artist.checked = true;
       });
       props.handleChange(props.values.artists, "artists");
     } else {
-      console.log("umerker alle");
       props.values.artists.map((artist: any) => {
         artist.checked = false;
       });
@@ -261,10 +259,6 @@ export default (props: any) => {
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
-    console.log("tomme sider" + emptyRows);
-    console.log("rader per side" + rowsPerPage);
-    console.log("sidenr " + page);
-    console.log("artist " + props.values.artists);
   };
 
   const handleChangeRowsPerPage = (
