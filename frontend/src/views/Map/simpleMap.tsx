@@ -10,9 +10,8 @@ const SimpleMap = (props: any) => {
     <div
       style={{
         position: "relative",
-        height: "120vh",
-        width: "70%",
-        margin: "auto",
+        height: "50vh",
+        width: "100%",
         overflow: "hidden"
       }}
     >
