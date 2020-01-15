@@ -53,7 +53,7 @@ export default function EventCard(props: any) {
 
   console.log(month);
   return (
-    <Card className={classes.card}>
+    <Card className={classes.card} onClick={() => (window.location.hash = "/event/" + props.event.id)}>
       <CardActionArea>
         <CardMedia
           className={classes.image}
@@ -73,13 +73,10 @@ export default function EventCard(props: any) {
           </Grid>
           <Grid item>
             <Typography className={classes.title} onChange={props.handleChange}>
-              {props.event.event_name}
+              <Link color="primary" className={classes.link}>
+                {props.event.event_name}{" "}
+              </Link>
             </Typography>
-          </Grid>
-          <Grid item>
-            <Link color="primary" className={classes.link}>
-              More Information
-            </Link>
           </Grid>
         </CardContent>
       </CardActionArea>
