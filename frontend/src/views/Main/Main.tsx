@@ -7,6 +7,7 @@ export default () => {
     <div>
       <Link to="/signUp">Sign up </Link>
       <Link to="/addEvent">AddEvent </Link>
+      <Link to="/profile">Profile </Link>
       <Map/>
     </div>
   );
