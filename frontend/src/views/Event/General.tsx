@@ -37,7 +37,7 @@ export default (props: any) => {
               <KeyboardDatePicker
                 disableToolbar
                 variant="inline"
-                format="yyyy-MM-dd"
+                format="dd-MM-yyyy"
                 margin="normal"
                 id="date-picker-inline"
                 autoOk={true}
@@ -52,9 +52,10 @@ export default (props: any) => {
                 name="dateEnd"
                 disableToolbar
                 variant="inline"
-                format="yyyy-MM-dd"
+                format="dd-MM-yyyy"
                 margin="normal"
                 id="date-picker-inline"
+                autoOk={true}
                 label="End Date"
                 value={props.values.dateEnd}
                 onChange={e => props.handleChange(e, "dateEnd")}
@@ -65,7 +66,7 @@ export default (props: any) => {
                 name="timeStart"
                 margin="normal"
                 id="time-picker"
-                label="Time picker"
+                label="Start Time"
                 value={props.values.timeStart}
                 onChange={e => props.handleChange(e, "timeStart")}
               />
@@ -73,7 +74,7 @@ export default (props: any) => {
                 name="timeEnd"
                 margin="normal"
                 id="time-picker"
-                label="Time picker"
+                label="End Time"
                 value={props.values.timeEnd}
                 onChange={e => props.handleChange(e, "timeEnd")}
               />

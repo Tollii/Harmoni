@@ -52,15 +52,15 @@ interface Values {
   name: string;
   description: string;
   location: string;
-  timeStart: Object;
-  timeEnd: Object;
-  dateStart: Object;
-  dateEnd: Object;
+  timeStart: Date;
+  timeEnd: Date;
+  dateStart: Date;
+  dateEnd: Date;
   personnel: string;
   eventTypeId: number;
   artists: Array<{ id: number; name: string; email: string; checked: boolean }>;
   riderTypes: Array<{ id: number; description: string }>;
-  riders: Array<{ additions: string; riderTypeID: number; userID: number }>;
+  riders: Array<{ additions: string; rider_typeID: number; userID: number }>;
   tickets: Array<{
     id: number;
     ticket_name: string;
@@ -121,14 +121,19 @@ export default () => {
   };
 
   const submit = () => {
-    let eventStart = values.dateStart + "T" + values.timeStart + "Z";
-    let eventEnd = values.dateEnd + "T" + values.timeEnd + "Z";
+    let dateStart = values.dateStart.toISOString().substring(0, 10);
+    let dateEnd = values.dateEnd.toISOString().substring(0, 10);
+    let timeStart = values.timeStart.toTimeString().substring(0, 8);
+    let timeEnd = values.timeEnd.toTimeString().substring(0, 8);
+    console.log(timeStart);
     let artists: number[] = [];
-    values.artists.map(artist => {
-      artists.push(artist.id);
-    });
+    values.artists
+      .filter(artist => artist.checked === true)
+      .map(artist => {
+        artists.push(artist.id);
+      });
     let riders: Array<{
-      riderTypeID: number;
+      rider_typeID: number;
       userID: number;
       additions: string;
     }> = [];
@@ -137,16 +142,17 @@ export default () => {
         riders.push(rider);
       }
     });
+    console.log(riders);
     let event = {
       event_name: values.name,
       location: values.location,
-      event_start: eventStart,
-      event_end: eventEnd,
+      event_start: dateStart + " " + timeStart,
+      event_end: dateEnd + " " + timeEnd,
       personnel: values.personnel,
       description: values.description,
       event_typeID: values.eventTypeId,
       artists: artists,
-      riders: values.riders,
+      riders: riders,
       tickets: values.tickets
     };
     EventService.postEvent(event)

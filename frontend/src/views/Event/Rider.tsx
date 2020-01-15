@@ -94,14 +94,14 @@ function RiderCard(props: any) {
     let allUser = props.riders.filter(
       (rider: any) => rider.userID === props.artistID
     );
-    let additional = allUser.find((rider: any) => rider.riderTypeID === 1);
+    let additional = allUser.find((rider: any) => rider.rider_typeID === 1);
     if (additional !== undefined) {
       setAddition(additional.additions);
     }
     allUser.map((rider: any) => {
       selectedRiders.push(
         props.riderTypes.find(
-          (riderType: any) => riderType.id === rider.riderTypeID
+          (riderType: any) => riderType.id === rider.rider_typeID
         ).description
       );
     });
@@ -120,13 +120,13 @@ function RiderCard(props: any) {
 
       if (riderID === 1) {
         ridersArray.push({
-          riderTypeID: riderID,
+          rider_typeID: riderID,
           userID: props.artistID,
           additions: addition
         });
       } else {
         ridersArray.push({
-          riderTypeID: riderID,
+          rider_typeID: riderID,
           userID: props.artistID,
           additions: ""
         });
@@ -139,11 +139,12 @@ function RiderCard(props: any) {
   const handleChangeAddition = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAddition(event.target.value);
     let ridersArray: any = props.riders.filter(
-      (rider: any) => rider.riderTypeID !== 1 || rider.userID !== props.artistID
+      (rider: any) =>
+        rider.rider_typeID !== 1 || rider.userID !== props.artistID
     );
 
     ridersArray.push({
-      riderTypeID: 1,
+      rider_typeID: 1,
       userID: props.artistID,
       additions: event.target.value
     });
