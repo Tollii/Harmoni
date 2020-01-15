@@ -1,11 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import GoogleMapReact from "google-map-react";
 import Marker from "./Marker";
 import Carousel from "../Carousel/Carousel";
 
 const SimpleMap = (props: any) => {
+  const [name, setName] = useState();
   const [center, setCenter] = useState({ lat: 63.4189, lng: 10.4027 });
   const [zoom, setZoom] = useState(11);
+
+  const googleMapsClient = require('@google/maps').createClient({
+    key: "AIzaSyBpqnFSmQNK7VBnEm521CwPGs8zBkB-SQY",
+    Promise: Promise
+  });
+
+  const printMap = (place:any) => {
+    if(place !== undefined) {
+      setName(place.event_name)
+      googleMapsClient.geocode({address: place.location})
+        .asPromise()
+        .then((response:any) => {
+          setCenter(response.json.results[0].geometry.location)
+        })
+        .catch((err:any) => {
+          console.log(err);
+        });
+    }
+  }
 
   return (
     <div
@@ -19,6 +39,7 @@ const SimpleMap = (props: any) => {
       <GoogleMapReact
         bootstrapURLKeys={{ key: "AIzaSyBpqnFSmQNK7VBnEm521CwPGs8zBkB-SQY" }}
         defaultCenter={center}
+        center={center}
         defaultZoom={zoom}
         options={{
           mapTypeControl: false,
@@ -267,20 +288,14 @@ const SimpleMap = (props: any) => {
 
       >
         <Marker
-          lat={63.4189}
-          lng={10.4027}
-          name="My Marker"
-          img={require("../../assets/img/harmoni_logo_small.png")}
-        />
-        <Marker
-          lat={63.4190}
-          lng={10.4200}
-          name="My Marker"
-          img={require("../../assets/img/harmoni_logo_small.png")}
+          lat={center.lat}
+          lng={center.lng}
+          name={name}
+          img="http://pluspng.com/img-png/baby-yoda-png-yoda-by-chrispix326-deviantart-com-on-deviantart-974.png"
         />
       </GoogleMapReact>
       <div style={{zIndex: 20, position:"absolute", width: "100%", height: "100%", top:"80%", left:"0" }}>
-        <Carousel />
+        <Carousel printMap={printMap}/>
       </div>
     </div>
   );

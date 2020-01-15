@@ -51,7 +51,6 @@ export default function EventCard(props: any) {
   let month = date.getMonth();
   let day = date.getDate();
 
-  console.log(month);
   return (
     <Card className={classes.card} onClick={() => (window.location.hash = "/event/" + props.event.id)}>
       <CardActionArea>
