@@ -29,7 +29,7 @@ module.exports = (app, models, auth) => {
   //// PROFILE PICTURES ////
   /**
    * @group Files - operations about files
-   * @route GET /profile_picture/{token}/
+   * @route GET /profile_picture/{id}/
    * @param {integer} id.path.required - id
    * @returns {object} 200 - returns profile_picture
    * @returns {error} default - unexpected error
