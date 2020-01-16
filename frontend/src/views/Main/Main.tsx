@@ -6,26 +6,24 @@ import Carousel from "../../components/Carousel/Carousel";
 
 const useStyles = makeStyles({
   container: {
-    position: "relative",
+    position: "relative"
   },
   item: {
     position: "absolute",
     width: "100%",
-    height: "100%",
+    height: "50%",
     bottom: "",
     left: "0",
-    zIndex: 10,
+    zIndex: 10
   }
 });
 
-  export default () => {
-    const classes = useStyles();
-    return (
+export default () => {
+  const classes = useStyles();
+  return (
     <div className={classes.container}>
       <Map />
-      <div className={classes.item}>
-      </div>
+      <div className={classes.item}></div>
     </div>
   );
 };
-

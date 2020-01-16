@@ -4,12 +4,16 @@ import "./Marker.css";
 const Marker = (props: any) => {
   const { img, name, id } = props;
   return (
-    <img 
-      src = {img}
-      className="marker"
-      style={{cursor: "pointer" }}
-      title={name}
-    />
+    <div>
+      <img
+        src = {img}
+        className="marker"
+        style={{cursor: "pointer" }}
+        title={name}
+      />
+      <div className="pin" style={{cursor: "pointer" }}></div>
+    </div>
+
   );
 };
 
