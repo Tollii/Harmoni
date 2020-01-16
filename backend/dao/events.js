@@ -1,5 +1,6 @@
 module.exports = models => {
   const Event = models.Events;
+  const Contract = models.Contracts;
     var Sequelize = require('sequelize');
     const Op = Sequelize.Op;
     return {
@@ -17,6 +18,17 @@ module.exports = models => {
           id: id
         }
       }).then(events => events),
+
+        eventGetByUser: async (id)  =>
+            Event.findAll({
+                include: [{
+                    model: Contract,
+                    as: 'Contract',
+                    where: {
+                        userID: id
+                    }
+                }]
+            }).then(events => events),
 
     eventDelete: async id =>
       Event.findOne({

@@ -1,5 +1,6 @@
 module.exports = (models) => {
   const Contract = models.Contracts;
+  const User = models.Users;
   return {
     contractGetAll: () => Contract.findAll()
     .then( contracts => {
@@ -13,6 +14,19 @@ module.exports = (models) => {
       }
     })
     .then(contract => contract),
+
+    contractGetAllByRole: (event_id, roleId) => User.findAll({
+      where:{
+        roleID: roleId
+      },
+      include: [{
+        model: Contract,
+        where: {
+          eventID: event_id
+        }
+      }]
+    })
+    .then(data => data),
 
     contractCreate: (contract, userID, eventID) => Contract.create({
       contract:contract,
