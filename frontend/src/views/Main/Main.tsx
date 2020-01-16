@@ -54,7 +54,7 @@ export default () => {
 
   return (
       <div className={classes.container}>
-          <Map events={events} center={center}/>
+          <Map events={events} center={center} zoom={11}/>
           <div className={classes.carousel}>
             <Carousel events={events} printMap={printMap} />
           </div>

@@ -5,7 +5,6 @@ import Carousel from "../Carousel/Carousel";
 
 const SimpleMap = (props: any) => {
   const [center, setCenter] = useState({ lat: 63.4189, lng: 10.4027 });
-  const [zoom, setZoom] = useState(11);
   const [marker, setMarker] = useState([]);
 
   const googleMapsClient = require("@google/maps").createClient({
@@ -48,7 +47,7 @@ const SimpleMap = (props: any) => {
         bootstrapURLKeys={{ key: "AIzaSyBpqnFSmQNK7VBnEm521CwPGs8zBkB-SQY" }}
         defaultCenter={center}
         center={props.center}
-        defaultZoom={zoom}
+        defaultZoom={props.zoom}
         options={{
           mapTypeControl: false,
           zoomControl: false,
