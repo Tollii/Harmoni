@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: "10%",
       marginTop: 0,
       marginBottom: 0,
-      fontSize: "1.5em"
+      fontSize: "1.3em"
     },
     title: {
       textAlign: "center",
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
     smallTitle: {
       textAlign: "center",
       fontWeight: "bold",
-      fontSize: "20px"
+      fontSize: "1.5em"
     },
     card: {
       width: "100%",
@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: "-5%",
       marginBottom: "-15%",
       width: "100%",
-      maxHeight: "40%"
+      maxHeight: "80em"
     }
   })
 );
