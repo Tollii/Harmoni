@@ -50,12 +50,15 @@ module.exports = (models) => {
       }
     })
     .then(user => {
-      if(compare_password(password, user.hash)) {
-        //generate token
-        const token = encode_token(user.id);
-        return token;
-      }
-    }),
+      return compare_password(password, user.hash).then(res => {
+        if(res){
+          return encode_token(user.id);
+        }else{
+          return null;
+        }
+      });
+
+    }).catch(()=>{return null;}),
 
     signUp: async (email, password, username, phone) => {
       return bcrypt.genSalt(10, (err, salt) => {

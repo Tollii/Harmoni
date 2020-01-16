@@ -22,7 +22,13 @@ module.exports = (app, models, auth) => {
   */
   app.put('/login', ( req, res ) => {
     auth.logIn(req.body.email, req.body.password)
-    .then(data => res.send(data));
+    .then(data => {
+      if(data!=null){
+        res.status(200).send(data);
+      }else {
+        res.status(400).send("wrong email or password");
+      }
+    });
   });
 
   /**
