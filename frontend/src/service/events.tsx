@@ -48,6 +48,12 @@ class EventService {
       .then((response: { data: JSON }) => response.data);
   }
 
+  getEventsByUser() {
+    return axios
+      .get(url + "/event/user/" + token)
+      .then((response: { data: JSON }) => response.data);
+  }
+
   getArtists(id: number) {
     return axios
       .get(url + "/event/" + id)
