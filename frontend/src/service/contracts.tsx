@@ -1,6 +1,8 @@
+import getCookie from "./cookie";
 const axios = require("axios").default;
 
 let url = "http://localhost:8080";
+const token = getCookie("token");
 
 export class Contract {
   contract!: string;
@@ -11,7 +13,7 @@ export class Contract {
 class ContractService {
   getContracts() {
     return axios
-      .get(url + "/contract")
+      .get(url + "/contract", { headers: { token: token } })
       .then((response: { data: Contract[] }) => response.data);
   }
 
@@ -23,7 +25,7 @@ class ContractService {
 
   postContract(token: string, contract: object) {
     return axios
-      .post(url + "/contract", contract, {headers: {token: token}})
+      .post(url + "/contract", contract, { headers: { token: token } })
       .then((response: { data: Contract }) => console.log(response));
   }
 

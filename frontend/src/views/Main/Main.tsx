@@ -1,9 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Map from "../Map/simpleMap";
-import Carousel from "../Carousel/Carousel";
 import { makeStyles } from "@material-ui/core";
-//import EventCard from "../../components/EventCard/EventCard";
+import Map from "../../components/Map/simpleMap";
+import Carousel from "../../components/Carousel/Carousel";
 
 const useStyles = makeStyles({
   container: {

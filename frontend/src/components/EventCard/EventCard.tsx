@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     card: {
       maxWidth: "400px",
-      backgroundColor: "#E5E5E5",
+      backgroundColor: "#ffffff",
       margin: "12px",
       marginBottom: "12px"
     },
@@ -35,9 +36,6 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: "rtl",
       backgroundColor: "white"
     },
-    link: {
-      fontSize: "20px"
-    },
     title: {
       color: "black",
       textAlign: "center"
@@ -48,37 +46,40 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function EventCard(props: any) {
   const classes = useStyles();
   var date = new Date(props.event.event_start);
-  let month = date.getMonth();
-  let day = date.getDate();
-
   return (
-    <Card className={classes.card} onClick={() => (window.location.hash = "/event/" + props.event.id)}>
-      <CardActionArea>
-        <CardMedia
-          className={classes.image}
-          component="img"
-          height="160"
-          image={props.event.event_image}
-          title={props.event.event_name}
-        />
+    <NavLink
+      to={"/event/" + props.event.id}
+      style={{ textDecoration: "none", margin: "auto" }}
+    >
+      <Card className={classes.card}>
+        <CardActionArea>
+          <CardMedia
+            className={classes.image}
+            component="img"
+            height="160"
+            image={props.event.event_image}
+            title={props.event.event_name}
+          />
 
-        <CardContent>
-          <Grid container spacing={6}></Grid>
-
-          <Grid item>
-            <Button className={classes.content}>
-              {day + "-" + (month + 1)}
-            </Button>
-          </Grid>
-          <Grid item>
-            <Typography className={classes.title} onChange={props.handleChange}>
-              <Link color="primary" className={classes.link}>
-                {props.event.event_name}{" "}
-              </Link>
-            </Typography>
-          </Grid>
-        </CardContent>
-      </CardActionArea>
-    </Card>
+          <CardContent>
+            <Grid container spacing={6} direction="row" justify="space-evenly">
+              <Grid style={{ textAlign: "left", right: "0%" }}>
+                <h1>{props.event.event_name}</h1>
+              </Grid>
+              <Grid style={{ textAlign: "right", marginTop: "2%" }}>
+                <h3>
+                  {date.toDateString().substring(0, 3) +
+                    " " +
+                    date.toDateString().substring(7, 10) +
+                    ". " +
+                    date.toDateString().substring(4, 7) +
+                    " "}
+                </h3>
+              </Grid>
+            </Grid>
+          </CardContent>
+        </CardActionArea>
+      </Card>
+    </NavLink>
   );
 }
