@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import GoogleMapReact from "google-map-react";
 import Marker from "./Marker";
-import Carousel from "../Carousel/Carousel";
 
 const SimpleMap = (props: any) => {
   const [center, setCenter] = useState({ lat: 63.4189, lng: 10.4027 });

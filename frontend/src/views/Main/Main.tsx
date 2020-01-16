@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
 import Map from "../../components/Map/simpleMap";
 import Carousel from "../../components/Carousel/Carousel";
