@@ -72,6 +72,12 @@ class EventService {
       .then((response: { data: JSON }) => console.log(response));
   }
 
+  updateArchiveOne(id: number) {
+    return axios
+      .put(url + "/event_archive" + id, { headers: { token: token } })
+      .then((response: { data: JSON }) => console.log(response));
+  }
+
   deleteEvent(id: number) {
     return axios
       .delete(url + "/event/" + id)
