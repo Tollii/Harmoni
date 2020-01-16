@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: "-5%",
       marginBottom: "-15%",
       width: "100%",
-      maxHeight: "800px"
+      maxHeight: "40%"
     }
   })
 );
