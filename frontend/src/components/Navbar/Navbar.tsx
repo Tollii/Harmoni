@@ -48,17 +48,16 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    title: {
-      //display: "none",
-      [theme.breakpoints.up("sm")]: {
-        display: "block",
-        color: "black"
-
-        // marginLeft: 20
-      }
-    },
     backgroundNavbar: {
       backgroundColor: "rgba(255,255,255,0.5)"
+    },
+    menuButton: {
+      [theme.breakpoints.up("sm")]: {
+        display: "none"
+      }
+    },
+    logo: {
+
     },
     search: {
       position: "relative",
@@ -216,189 +215,196 @@ export default function Navbar(props:any) {
   return (
     <div>
       <AppBar className={classes.backgroundNavbar} position="fixed">
-        <Grid
-          container
-          direction="row"
-          justify="space-between"
-          alignItems="center"
-        >
-          <Hidden xsDown>
-            <Grid item sm={4}>
-              <Button onClick={() => (window.location.hash = "/")}>
-                <img src={require("../../assets/img/harmoni_logo_wide.png")} alt="logo.png" width="210"></img>
-              </Button>
-            </Grid>
-          </Hidden>
-          <Grid item sm={4}>
-            <Paper className={classes.root}>
-              <InputBase
-                className={classes.input}
-                placeholder="Search.."
-                inputProps={{ "aria-label": "search" }}
-              />
-              <Divider className={classes.divider} orientation="vertical" />
-              <IconButton
-                type="submit"
-                className={classes.iconButton}
-                aria-label="search"
-              >
-                <SearchIcon />
-              </IconButton>
-            </Paper>
-          </Grid>
-          <Hidden xsDown>
-            <Grid item>
-              <Button
-                style={{
-                  backgroundColor: "transparent",
-                  borderColor: "transparent"
-                }}
-                onClick={() => (window.location.hash = "/addEvent")}
-              >
-                <AddCircleIcon />
-                Add Event
-              </Button>
-            </Grid>
-            <Grid item>
-              {auth ? (
-                <Button
-                  style={{
-                    backgroundColor: "transparent",
-                    borderColor: "transparent"
-                  }}
-                  onClick={() => (window.location.hash = "/profile")}
-                >
-                  <Avatar
-                    alt="Profile"
-                    src={"http://localhost:8080/profile_picture/" + values.id}
-                  />
-                  {values.fullName}
-                </Button>
-              ) : (
-                <Button
-                  style={{
-                    backgroundColor: "transparent",
-                    borderColor: "transparent"
-                  }}
-                  onClick={() => (window.location.hash = "/login")}
-                >
-                  <AccountCircle />
-                </Button>
-              )}
-            </Grid>
-          </Hidden>
-        </Grid>
+        <Toolbar>
+          <Button className={classes.menuButton}>
+            menu
+          </Button>
+          <Button onClick={() => (window.location.hash = "/")} className={classes.logo}>
+            <img src={require("../../assets/img/harmoni_logo_wide.png")} alt="logo.png" width="210"></img>
+          </Button>
+        </Toolbar>
       </AppBar>
-      {/*--------------------------------------------------------------*/}
-      <Drawer
-        className={classes.drawer}
-        variant="persistent"
-        anchor="left"
-        open={openDrawer}
-        classes={{
-          paper: classes.drawerPaper
-        }}
-      >
-        <div className={classes.drawerHeader}>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? (
-              <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
-            )}
-          </IconButton>
-        </div>
 
-        <Grid>
-          <img src={require("../../assets/img/harmoni_logo_wide.png")} alt="logo.png" width="210"></img>
-        </Grid>
-
-        <Divider />
-        <List>
-          <Grid item xs={3}>
-            <ButtonGroup
-              variant="contained"
-              ref={anchorRef}
-              aria-label="split button"
-            >
-              <Button onClick={handleClick}>{options[selectedIndex]}</Button>
-              <Button
-                size="small"
-                aria-controls={open ? "split-button-menu" : undefined}
-                aria-expanded={open ? "true" : undefined}
-                aria-label="select merge strategy"
-                aria-haspopup="menu"
-                onClick={handleToggle}
-              >
-                <ArrowDropDownIcon />
-              </Button>
-            </ButtonGroup>
-            <Popper
-              open={open}
-              anchorEl={anchorRef.current}
-              role={undefined}
-              transition
-              disablePortal
-            >
-              {({ TransitionProps, placement }) => (
-                <Grow
-                  {...TransitionProps}
-                  style={{
-                    transformOrigin:
-                      placement === "bottom" ? "center top" : "center bottom"
-                  }}
-                >
-                  <Paper>
-                    <ClickAwayListener onClickAway={handleClose}>
-                      <MenuList id="split-button-menu">
-                        {options.map((option, index) => (
-                          <MenuItem
-                            key={option}
-                            //disabled={index === 2}
-                            selected={index === selectedIndex}
-                            onClick={event => handleMenuItemClick(event, index)}
-                          >
-                            {option}
-                          </MenuItem>
-                        ))}
-                      </MenuList>
-                    </ClickAwayListener>
-                  </Paper>
-                </Grow>
-              )}
-            </Popper>
-          </Grid>
-
-          <Grid item>
-            {auth && (
-              <div>
-                {/* smartphone version of user icon */}
-                <List>
-                  <ListItem>
-                    <IconButton
-                      className={classes.account}
-                      aria-label="account of current user"
-                      aria-controls="menu-appbar"
-                      aria-haspopup="true"
-                      //color="inherit"
-                      onClick={() => (window.location.hash = "/login")}
-                    >
-                      {getCookie("token") ? (
-                        <img src="FileFromServer.jpg"></img>
-                      ) : (
-                        <AccountCircle />
-                      )}
-                      <p className={classes.icon}>
-                        {getCookie("token") ? "Info" : "Login"}
-                      </p>
-                    </IconButton>
-                  </ListItem>
-                </List>
-              </div>
-            )}
-          </Grid>
-        </List>
-      </Drawer>
     </div>
   );
 }
+
+/* <Grid
+  container direction="row"
+  justify="space-between"
+  alignItems="center"
+>
+  <Hidden xsDown>
+    <Grid item sm={4}>
+
+    </Grid>
+  </Hidden>
+  <Grid item sm={4}>
+    <Paper className={classes.root}>
+      <InputBase
+        className={classes.input}
+        placeholder="Search.."
+        inputProps={{ "aria-label": "search" }}
+      />
+      <Divider className={classes.divider} orientation="vertical" />
+      <IconButton
+        type="submit"
+        className={classes.iconButton}
+        aria-label="search"
+      >
+        <SearchIcon />
+      </IconButton>
+    </Paper>
+  </Grid>
+  <Hidden xsDown>
+    <Grid item>
+      <Button
+        style={{
+          backgroundColor: "transparent",
+          borderColor: "transparent"
+        }}
+        onClick={() => (window.location.hash = "/addEvent")}
+      >
+        <AddCircleIcon />
+        Add Event
+      </Button>
+    </Grid>
+    <Grid item>
+      {auth ? (
+        <Button
+          style={{
+            backgroundColor: "transparent",
+            borderColor: "transparent"
+          }}
+          onClick={() => (window.location.hash = "/profile")}
+        >
+          <Avatar
+            alt="Profile"
+            src={"http://localhost:8080/profile_picture/" + values.id}
+          />
+          {values.fullName}
+        </Button>
+      ) : (
+        <Button
+          style={{
+            backgroundColor: "transparent",
+            borderColor: "transparent"
+          }}
+          onClick={() => (window.location.hash = "/login")}
+        >
+          <AccountCircle />
+        </Button>
+      )}
+    </Grid>
+  </Hidden>
+</Grid> */
+
+/*
+<Drawer
+  className={classes.drawer}
+  variant="persistent"
+  anchor="left"
+  open={openDrawer}
+  classes={{
+    paper: classes.drawerPaper
+  }}
+>
+  <div className={classes.drawerHeader}>
+    <IconButton onClick={handleDrawerClose}>
+      {theme.direction === "ltr" ? (
+        <ChevronLeftIcon />
+      ) : (
+        <ChevronRightIcon />
+      )}
+    </IconButton>
+  </div>
+
+  <Grid>
+    <img src={require("../../assets/img/harmoni_logo_wide.png")} alt="logo.png" width="210"></img>
+  </Grid>
+
+  <Divider />
+  <List>
+    <Grid item xs={3}>
+      <ButtonGroup
+        variant="contained"
+        ref={anchorRef}
+        aria-label="split button"
+      >
+        <Button onClick={handleClick}>{options[selectedIndex]}</Button>
+        <Button
+          size="small"
+          aria-controls={open ? "split-button-menu" : undefined}
+          aria-expanded={open ? "true" : undefined}
+          aria-label="select merge strategy"
+          aria-haspopup="menu"
+          onClick={handleToggle}
+        >
+          <ArrowDropDownIcon />
+        </Button>
+      </ButtonGroup>
+      <Popper
+        open={open}
+        anchorEl={anchorRef.current}
+        role={undefined}
+        transition
+        disablePortal
+      >
+        {({ TransitionProps, placement }) => (
+          <Grow
+            {...TransitionProps}
+            style={{
+              transformOrigin:
+                placement === "bottom" ? "center top" : "center bottom"
+            }}
+          >
+            <Paper>
+              <ClickAwayListener onClickAway={handleClose}>
+                <MenuList id="split-button-menu">
+                  {options.map((option, index) => (
+                    <MenuItem
+                      key={option}
+                      //disabled={index === 2}
+                      selected={index === selectedIndex}
+                      onClick={event => handleMenuItemClick(event, index)}
+                    >
+                      {option}
+                    </MenuItem>
+                  ))}
+                </MenuList>
+              </ClickAwayListener>
+            </Paper>
+          </Grow>
+        )}
+      </Popper>
+    </Grid>
+
+    <Grid item>
+      {auth && (
+        <div>
+          <List>
+            <ListItem>
+              <IconButton
+                className={classes.account}
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                //color="inherit"
+                onClick={() => (window.location.hash = "/login")}
+              >
+                {getCookie("token") ? (
+                  <img src="FileFromServer.jpg"></img>
+                ) : (
+                  <AccountCircle />
+                )}
+                <p className={classes.icon}>
+                  {getCookie("token") ? "Info" : "Login"}
+                </p>
+              </IconButton>
+            </ListItem>
+          </List>
+        </div>
+      )}
+    </Grid>
+  </List>
+</Drawer> */
