@@ -6,25 +6,42 @@ import Carousel from "../Carousel/Carousel";
 const SimpleMap = (props: any) => {
   const [center, setCenter] = useState({ lat: 63.4189, lng: 10.4027 });
   const [zoom, setZoom] = useState(11);
+  const [marker, setMarker] = useState([]);
 
   const googleMapsClient = require("@google/maps").createClient({
     key: "AIzaSyBpqnFSmQNK7VBnEm521CwPGs8zBkB-SQY",
     Promise: Promise
   });
 
-  const printMap = (place: any) => {
+  const findCenter = (place: any):any => {
     if (place !== undefined) {
-      googleMapsClient
+      return googleMapsClient
         .geocode({ address: place.location })
         .asPromise()
         .then((response: any) => {
-          setCenter(response.json.results[0].geometry.location);
+          return response.json.results[0].geometry.location;
         })
         .catch((err: any) => {
           console.log(err);
         });
     }
   };
+
+  useEffect(() => {
+    Promise.all((props.events.map(async(e: any) => {
+      return findCenter(e)
+      .then((x:any)=> {
+      return (<Marker
+          key={e.id}
+          lat={x.lat}
+          lng={x.lng}
+          name={e.event_name}
+          img={require("../../assets/img/harmoni_logo_small.png")}
+        />)}
+      )}))).then(function(results:any) {
+        setMarker(results);
+      })
+  }, [props.events])
 
   return (
       <GoogleMapReact
@@ -277,12 +294,7 @@ const SimpleMap = (props: any) => {
           ]
         }}
       >
-        <Marker
-          lat={props.center.lat}
-          lng={props.center.lng}
-          img={require("../../assets/img/harmoni_logo_small.png")}
-        />
-
+      {marker}
       </GoogleMapReact>
   );
 };
