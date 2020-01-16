@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "fs_tdat2003_a_SCRUM_Team_10",
+    "password": "SCRUMTeam10",
+    "database": "fs_tdat2003_a_SCRUM_Team_10",
+    "host": "mysql.stud.ntnu.no",
+    "dialect": "mysql",
+    "operatorsAliases": 0
+  },
+  "test": {
+    "username": "root",
+    "password": "mysql",
+    "database": "yeet",
+    "host": "mysql",
+    "dialect": "mysql",
+    "operatorsAliases": 0
+  },
+  "production": {
+    "username": "fs_tdat2003_a_SCRUM_Team_10",
+    "password": "SCRUMTeam10",
+    "database": "fs_tdat2003_a_SCRUM_Team_10",
+    "host": "mysql.stud.ntnu.no",
+    "dialect": "mysql",
+    "operatorsAliases": 0
+  }
+}

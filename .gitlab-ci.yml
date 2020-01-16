@@ -1,0 +1,59 @@
+image: node:8
+
+# Set up MySQL test-database
+services:
+  - mysql:5.5
+
+# Configure test-database
+variables:
+  MYSQL_DATABASE: yeet
+  MYSQL_ROOT_PASSWORD: mysql
+
+
+cache:
+  paths:
+     - node_modules
+
+stages:
+  - connect
+  - test
+  - pages
+
+# Run JEST tests
+run_tests:
+  stage: test
+  script:
+    - cd backend && npm install
+    - npm test
+  artifacts:
+    paths:
+      - backend/coverage/
+
+
+
+connect:
+  stage: connect
+  image: mysql
+  script:
+    - echo "SELECT 'OK';" | mysql --user=root --password="$MYSQL_ROOT_PASSWORD" --host=mysql "$MYSQL_DATABASE"
+
+
+
+# Publish coverage report on gitlab-pages
+pages:
+  stage: pages
+  dependencies:
+    - run_tests
+  script:
+    - cd backend && npm install
+    - npm install
+    - cd ..
+    - mkdir .public
+    - ls
+    - cp -r backend/coverage/* .public
+    - mv .public public
+    - ls public
+  artifacts:
+    paths:
+      - public/*
+      
