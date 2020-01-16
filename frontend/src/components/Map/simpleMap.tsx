@@ -1,26 +1,23 @@
 import React, { useState, useEffect } from "react";
 import GoogleMapReact from "google-map-react";
 import Marker from "./Marker";
-import Carousel from "../Carousel/Carousel";
 
 const SimpleMap = (props: any) => {
-  const [name, setName] = useState();
   const [center, setCenter] = useState({ lat: 63.4189, lng: 10.4027 });
-  const [zoom, setZoom] = useState(11);
+  const [marker, setMarker] = useState([]);
 
   const googleMapsClient = require("@google/maps").createClient({
     key: "AIzaSyBpqnFSmQNK7VBnEm521CwPGs8zBkB-SQY",
     Promise: Promise
   });
 
-  const printMap = (place: any) => {
+  const findCenter = (place: any):any => {
     if (place !== undefined) {
-      setName(place.event_name);
-      googleMapsClient
+      return googleMapsClient
         .geocode({ address: place.location })
         .asPromise()
         .then((response: any) => {
-          setCenter(response.json.results[0].geometry.location);
+          return response.json.results[0].geometry.location;
         })
         .catch((err: any) => {
           console.log(err);
@@ -28,19 +25,28 @@ const SimpleMap = (props: any) => {
     }
   };
 
+  useEffect(() => {
+    Promise.all((props.events.map(async(e: any) => {
+      return findCenter(e)
+      .then((x:any)=> {
+      return (<Marker
+          key={e.id}
+          lat={x.lat}
+          lng={x.lng}
+          name={e.event_name}
+          img={require("../../assets/img/harmoni_logo_small.png")}
+        />)}
+      )}))).then(function(results:any) {
+        setMarker(results);
+      })
+  }, [props.events])
+
   return (
-    <div
-      style={{
-        height: "90vh",
-        width: "100%",
-        position: "relative"
-      }}
-    >
       <GoogleMapReact
         bootstrapURLKeys={{ key: "AIzaSyBpqnFSmQNK7VBnEm521CwPGs8zBkB-SQY" }}
         defaultCenter={center}
-        center={center}
-        defaultZoom={zoom}
+        center={props.center}
+        defaultZoom={props.zoom}
         options={{
           mapTypeControl: false,
           zoomControl: false,
@@ -286,27 +292,8 @@ const SimpleMap = (props: any) => {
           ]
         }}
       >
-        <Marker
-          lat={center.lat}
-          lng={center.lng}
-          name={name}
-          img={require("../../assets/img/harmoni_logo_small.png")}
-        />
-
+      {marker}
       </GoogleMapReact>
-      <div
-        style={{
-          zIndex: 20,
-          position: "absolute",
-          width: "100%",
-          height: "50%",
-          top: "80%",
-          left: "0"
-        }}
-      >
-        <Carousel printMap={printMap} />
-      </div>
-    </div>
   );
 };
 
