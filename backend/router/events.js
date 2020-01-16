@@ -179,6 +179,46 @@ module.exports = (app, models, base, auth) => {
           res.sendStatus(400).send("Event are NOT archived");
         });
   });
+
+  /**
+   * @group Events - Operations about event
+   * @route PUT /event_archive/{id}
+   * @param {string} token.header.required - user token
+   * @param {number} id.path.required - event id
+   * @returns {object} 200 - Updates the archive variable of all events if their ending time has happened
+   * @returns {Error}  default - Unexpected error
+   */
+   app.put('/event_archive/:id', (req, res) => {
+     auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
+     .then(data => {
+       if (data.auth) {
+         eventControl.eventGetOne(req.params.id)
+         .then(event => {
+           eventControl.eventUpdate(
+             req.params.id,
+             event.event_name,
+             event.location,
+             event.event_start,
+             event.event_end,
+             event.personnel,
+             event.event_image,
+             event.description,
+             true,
+             event.event_typeID
+           )
+           .then(() => {
+             res.sendStatus(200).send("Events are archived");
+           })
+           .catch(err => {
+             res.sendStatus(400).send("Event are NOT archived");
+           });
+         })
+       } else {
+         res.status(400).send("Not authenticated")
+       }
+     })
+   });
+
   /**
    * @group Events - Operations about event
    * @route POST /event/
