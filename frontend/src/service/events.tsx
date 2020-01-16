@@ -50,7 +50,7 @@ class EventService {
 
   getEventsByUser() {
     return axios
-      .get(url + "/event/user/" + token)
+      .get(url + "/event/user/all", { headers: { token: token } })
       .then((response: { data: JSON }) => response.data);
   }
 
