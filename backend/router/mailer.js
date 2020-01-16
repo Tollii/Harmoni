@@ -20,7 +20,6 @@ module.exports = ( app, base ) => {
 
     app.post(base, (req, res) => {
         try {
-            console.log(req.body.html);
             mailer(req.body.recipients, req.body.subject, req.body.html);
             res.status(200).send("Email successfully sent");
         } catch(err) {
