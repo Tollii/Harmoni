@@ -73,6 +73,20 @@ module.exports = (app, models, base, auth) => {
       res.send(data);
     });
   });
+
+  /**
+   * @group Events - Operations about event
+   * @route GET /event/artist/{id}/
+   * @param {integer} id.path.required - event id
+   * @returns {object} 200 - The event with the param id
+   * @returns {Error}  default - Unexpected error
+   */
+  app.get(base + "/artist/:id", (req, res) => {
+    console.log("Running get all artists for one event");
+    contractControl.contractGetAllByRole(req.params.id, 2).then(data => {
+      res.send(data);
+    });
+  });
   /**
    * @group Events - Operations about event
    * @route DELETE /event/{id}/

@@ -35,7 +35,10 @@ module.exports = (sequelize, DataTypes) => {
       otherKey: "userID",
       otherKey: "rider_typeID"
     });
-    Events.hasMany(models.Tickets, { foreignKey: "eventID", sourceKey: "id" });
+    Events.hasMany(models.Contracts, {as:"Contract", foreignKey: "eventID", sourceKey: "id" });
+    Events.hasMany(models.Riders, {as:"Rider", foreignKey: "eventID", sourceKey: "id" });
+    Events.hasMany(models.Tickets, {as:"Ticket", foreignKey: "eventID", sourceKey: "id" });
+
   };
   return Events;
 };
