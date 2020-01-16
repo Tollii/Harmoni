@@ -76,13 +76,13 @@ module.exports = (app, models, base, auth) => {
 
   /**
    * @group Events - Operations about event
-   * @route GET /event/user/{token}/
-   * @param {string} token.path.required - user token
+   * @route GET /event/user/all/
+   * @param {string} token.header.required - user token
    * @returns {object} 200 - The event with the param id
    * @returns {Error}  default - Unexpected error
    */
-  app.get(base + "/user/:token", async (req, res) => {
-    let id = await auth.decode_token(req.params.token);
+  app.get(base + "/user/all", async (req, res) => {
+    let id = await auth.decode_token(req.headers.token);
     eventControl.eventGetByUser(id).then(data => {
       res.send(data);
     });
