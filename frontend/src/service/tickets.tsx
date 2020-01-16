@@ -1,4 +1,4 @@
-const axios = require('axios').default;
+const axios = require("axios").default;
 
 let url = "http://localhost:8080";
 
@@ -14,25 +14,39 @@ export class Ticket {
 
 class TicketService {
   getTickets() {
-    return axios.get(url + '/ticket').then((response: {data: Ticket[]}) => response.data);
+    return axios
+      .get(url + "/ticket")
+      .then((response: { data: Ticket[] }) => response.data);
   }
 
   getTicket(id: number) {
-    return axios.get(url + '/ticket/' + id).then((response: {data: Ticket}) => response.data);
+    return axios
+      .get(url + "/ticket/" + id)
+      .then((response: { data: Ticket }) => response.data);
+  }
+
+  getEventTickets(event_id: number) {
+    return axios
+      .get(url + "/ticket/event/" + event_id)
+      .then((response: { data: Ticket[] }) => response.data);
   }
 
   postTicket(ticket: object) {
-    return axios.post(url + '/ticket', ticket)
-    .then((response: {data: Ticket}) => console.log(response));
+    return axios
+      .post(url + "/ticket", ticket)
+      .then((response: { data: Ticket }) => console.log(response));
   }
 
   updateTicket(ticket: object, id: number) {
-    return axios.put(url + '/ticket/' + id, ticket)
-    .then((response: {data: Ticket}) => console.log(response));
+    return axios
+      .put(url + "/ticket/" + id, ticket)
+      .then((response: { data: Ticket }) => console.log(response));
   }
 
   deleteTicket(id: number) {
-    return axios.delete(url + '/ticket/' + id).then((response: {data: Ticket}) => console.log(response));
+    return axios
+      .delete(url + "/ticket/" + id)
+      .then((response: { data: Ticket }) => console.log(response));
   }
 }
 

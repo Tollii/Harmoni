@@ -31,7 +31,6 @@ const useStyles = makeStyles((theme: Theme) => createStyles ({
 
 export default (props: any) => {
     const classes = useStyles();
-    const preventDefault = (event: React.SyntheticEvent) => event.preventDefault();
     const [openEdit, setOpenEdit] = React.useState(false);
     const [openChangePass, setOpenChangePass] = React.useState(false);
     const [openEditPic, setOpenEditPic] = React.useState(false);
@@ -54,14 +53,8 @@ export default (props: any) => {
     const handleChange = (event: any) => {
         const { name, value } = event.target;
         setNewValues({ ...newValues, [name]: value });
-        console.log(event.target.name);
-        console.log(event.target.value);
     };
 
-    const handleSubmit = (event: any) => {
-        //event.preventDefault();
-        console.log("submitted")
-    };
 
     const handleSubmitData = (event: any) => {
         console.log("submitted")
@@ -72,8 +65,7 @@ export default (props: any) => {
     };
 
     const fileSelectedHandler = (event: any) => {
-        event.preventDefault();
-        console.log(event.target.files[0]);
+        
     };
 
     const resetNewVal = () => {
@@ -180,7 +172,7 @@ export default (props: any) => {
                                         <Grid item xs={3}>
                                             <Button
                                                 type="submit"
-                                                conClick={handleSubmit}>
+                                                >
                                                 Upload Image
                                             </Button>
                                         </Grid>
@@ -289,7 +281,7 @@ export default (props: any) => {
                                 <DialogActions>
                                     <Grid container direction="row" justify="center">
                                         <Grid item xs={3}>
-                                            <Button onClick={handleSubmit} color="primary">
+                                            <Button color="primary">
                                                 Change
                                             </Button>
                                         </Grid>

@@ -60,6 +60,7 @@ export default (props: any) => {
     <Carousel
       swipeable={true}
       draggable={true}
+      showDots={false}
       responsive={responsive}
       infinite={true}
       autoPlay={false}

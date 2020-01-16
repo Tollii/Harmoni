@@ -24,7 +24,7 @@ export default () => {
   return (
     <div className={classes.root}>
       <Typography variant="caption" align={"center"} color={"textSecondary"}>
-        © Harmoni Copyright 2019
+        © Harmoni Copyright 2020
       </Typography>
       <Divider style={{ margin: "20px auto", width: 100 }} />
       <Grid container justify={"center"} spacing={2}>
