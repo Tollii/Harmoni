@@ -17,10 +17,14 @@ const useStyles = makeStyles({
   table: {
     minWidth: 650
   },
-  button: {
+  link: {
     textDecoration: "none"
   }
 });
+
+const handleClick = (event: React.MouseEvent<unknown>, id: number) => {
+  window.location.hash = "event/" + id;
+};
 
 export default (props: any) => {
   const classes = useStyles();
@@ -34,15 +38,19 @@ export default (props: any) => {
             <TableCell align="right">Event start</TableCell>
             <TableCell align="right">Event end</TableCell>
             <TableCell align="right">Location</TableCell>
-            <TableCell align="right">See your event</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {props.events.map((event: any) => (
-            <TableRow key={event.id}>
+            <TableRow
+              key={event.id}
+              hover
+              onClick={e => handleClick(e, event.id)}
+            >
               <TableCell component="th" scope="row">
                 {event.event_name}
               </TableCell>
+
               <TableCell align="right">
                 {new Date(event.event_start).toDateString().substring(0, 10) +
                   " " +
@@ -54,11 +62,6 @@ export default (props: any) => {
                   new Date(event.event_end).toTimeString().substring(0, 5)}
               </TableCell>
               <TableCell align="right">{event.location}</TableCell>
-              <TableCell align="right">
-                <Link className={classes.button} to={"event/" + event.id}>
-                  <Button>See your event</Button>
-                </Link>
-              </TableCell>
             </TableRow>
           ))}
         </TableBody>
