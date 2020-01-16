@@ -291,8 +291,9 @@ const SimpleMap = (props: any) => {
           lat={center.lat}
           lng={center.lng}
           name={name}
-          img="http://pluspng.com/img-png/baby-yoda-png-yoda-by-chrispix326-deviantart-com-on-deviantart-974.png"
+          img={require("../../assets/img/harmoni_logo_small.png")}
         />
+
       </GoogleMapReact>
       <div style={{zIndex: 20, position:"absolute", width: "100%", height: "100%", top:"80%", left:"0" }}>
         <Carousel printMap={printMap}/>
