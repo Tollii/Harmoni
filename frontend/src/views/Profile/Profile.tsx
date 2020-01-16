@@ -155,9 +155,10 @@ export default (props: any) => {
   const [events, setEvents] = useState<any>([]);
 
   useEffect(() => {
-    EventService.getEvents().then((response: any) => {
-      console.log(response);
-      setEvents(response);
+    EventService.getEventsByUser().then((response: any) => {
+      if (response.length !== 0) {
+        setEvents(response);
+      }
     });
   }, []);
 

@@ -1,5 +1,4 @@
 import React from "react";
-import EventCard from "../../components/EventCard/EventCard";
 import {
   TableContainer,
   Table,
@@ -7,15 +6,22 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  makeStyles
+  makeStyles,
+  Typography
 } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
+import Button from "../../components/Button/Button";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   table: {
     minWidth: 650
+  },
+  button: {
+    textDecoration: "none"
   }
 });
+
 export default (props: any) => {
   const classes = useStyles();
 
@@ -28,6 +34,7 @@ export default (props: any) => {
             <TableCell align="right">Event start</TableCell>
             <TableCell align="right">Event end</TableCell>
             <TableCell align="right">Location</TableCell>
+            <TableCell align="right">See your event</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -47,6 +54,11 @@ export default (props: any) => {
                   new Date(event.event_end).toTimeString().substring(0, 5)}
               </TableCell>
               <TableCell align="right">{event.location}</TableCell>
+              <TableCell align="right">
+                <Link className={classes.button} to={"event/" + event.id}>
+                  <Button>See your event</Button>
+                </Link>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
