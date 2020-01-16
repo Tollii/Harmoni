@@ -1,27 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import GoogleMapReact from "google-map-react";
 import Marker from "./Marker";
+import Carousel from "../Carousel/Carousel";
 
 const SimpleMap = (props: any) => {
+  const [name, setName] = useState();
   const [center, setCenter] = useState({ lat: 63.4189, lng: 10.4027 });
   const [zoom, setZoom] = useState(11);
+
+  const googleMapsClient = require('@google/maps').createClient({
+    key: "AIzaSyBpqnFSmQNK7VBnEm521CwPGs8zBkB-SQY",
+    Promise: Promise
+  });
+
+  const printMap = (place:any) => {
+    if(place !== undefined) {
+      setName(place.event_name)
+      googleMapsClient.geocode({address: place.location})
+        .asPromise()
+        .then((response:any) => {
+          setCenter(response.json.results[0].geometry.location)
+        })
+        .catch((err:any) => {
+          console.log(err);
+        });
+    }
+  }
 
   return (
     <div
       style={{
-        position: "relative",
-        height: "75vh",
-        width: "121.5%",
-        overflowX: "hidden",
-        left: "-70px"
+        height: "90vh",
+        width: "100%",
+        position: "relative"
       }}
     >
 
       <GoogleMapReact
         bootstrapURLKeys={{ key: "AIzaSyBpqnFSmQNK7VBnEm521CwPGs8zBkB-SQY" }}
         defaultCenter={center}
+        center={center}
         defaultZoom={zoom}
         options={{
+          mapTypeControl: false,
+          zoomControl: false,
+          fullscreenControl: false,
+          streetViewControl: false,
           styles: [
             {
               "elementType": "geometry",
@@ -261,15 +285,18 @@ const SimpleMap = (props: any) => {
             }
           ]
       }}
-        
+
       >
         <Marker
-          lat={63.4189}
-          lng={10.4027}
-          name="My Marker"
+          lat={center.lat}
+          lng={center.lng}
+          name={name}
           img="http://pluspng.com/img-png/baby-yoda-png-yoda-by-chrispix326-deviantart-com-on-deviantart-974.png"
         />
       </GoogleMapReact>
+      <div style={{zIndex: 20, position:"absolute", width: "100%", height: "100%", top:"80%", left:"0" }}>
+        <Carousel printMap={printMap}/>
+      </div>
     </div>
   );
 };

@@ -225,9 +225,7 @@ export default function Navbar() {
           <Hidden xsDown>
             <Grid item sm={4}>
               <Button onClick={() => (window.location.hash = "/")}>
-                <Typography className={classes.typography} variant="h3" noWrap>
-                  Harmoni
-                </Typography>
+                <img src={require("../../assets/img/harmoni_logo_wide.png")} alt="logo.png" height="70" width="210"></img>
               </Button>
             </Grid>
           </Hidden>
@@ -258,6 +256,7 @@ export default function Navbar() {
                 onClick={() => (window.location.hash = "/addEvent")}
               >
                 <AddCircleIcon />
+                Add Event
               </Button>
             </Grid>
             <Grid item>
@@ -311,9 +310,7 @@ export default function Navbar() {
         </div>
 
         <Grid>
-          <Typography className={classes.typography} variant="h3" noWrap>
-            Harmoni
-          </Typography>
+          <img src={require("../../assets/img/harmoni_logo_wide.png")} alt="logo.png" height="90" width="270"></img>
         </Grid>
 
         <Divider />
@@ -391,7 +388,9 @@ export default function Navbar() {
                       ) : (
                         <AccountCircle />
                       )}
-                      <p className={classes.icon}></p>
+                      <p className={classes.icon}>
+                        {getCookie("token") ? "Info" : "Login"}
+                      </p>
                     </IconButton>
                   </ListItem>
                 </List>

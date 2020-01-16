@@ -55,11 +55,10 @@ export default () => {
       Authentication.getLogin({
         email: values.email,
         password: values.password
-      }).then(
-        (data: any) =>
-          (document.cookie = "token=" + data + "; expires=" + now.toUTCString())
-      );
-      window.location.href = "http://localhost:3000/";
+      }).then((data: any) => {
+        document.cookie = "token=" + data + "; expires=" + now.toUTCString();
+        window.location.href = "http://localhost:3000/";
+      });
     }
   }
 
