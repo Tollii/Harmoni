@@ -225,7 +225,7 @@ export default function Navbar() {
           <Hidden xsDown>
             <Grid item sm={4}>
               <Button onClick={() => (window.location.hash = "/")}>
-                <img src={require("../../assets/img/harmoni_logo_wide.png")} alt="logo.png" height="70" width="210"></img>
+                <img src={require("../../assets/img/harmoni_logo_wide.png")} alt="logo.png" width="210"></img>
               </Button>
             </Grid>
           </Hidden>
@@ -310,7 +310,7 @@ export default function Navbar() {
         </div>
 
         <Grid>
-          <img src={require("../../assets/img/harmoni_logo_wide.png")} alt="logo.png" height="90" width="270"></img>
+          <img src={require("../../assets/img/harmoni_logo_wide.png")} alt="logo.png" width="210"></img>
         </Grid>
 
         <Divider />

@@ -26,7 +26,7 @@ module.exports = (app, models, auth) => {
   const profilePicturesFolder = filesPath + '/profile_pictures/';
   const eventImagesFolder = filesPath + '/event_images/';
 
-  //// PROFILE PICTURES ////
+//// PROFILE PICTURES ////
   /**
    * @group Files - operations about files
    * @route GET /profile_picture/{id}/
@@ -34,10 +34,15 @@ module.exports = (app, models, auth) => {
    * @returns {object} 200 - returns profile_picture
    * @returns {error} default - unexpected error
    */
-   app.get('/profile_picture/:id', async (req, res) => {
-     let profilePicture = await userControl.userGetOne(req.params.id).then(data => data.picture);
-     res.sendFile(profilePicturesFolder + profilePicture);
-   });
+  app.get("/profile_picture/:id", async (req, res) => {
+    if (req.params.id > 0) {
+      userControl.userGetOne(req.params.id)
+      .then(data => res.sendFile(profilePicturesFolder + data.picture))
+      .catch(err => console.log(err));
+    } else {
+      res.status(400).send("Invalid Userid");
+    }
+  });
 
    /**
     * @group Files - operations about files

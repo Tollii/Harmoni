@@ -2,12 +2,16 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 23px;
-    height: 23px;
-    background-color: #f50057;
-    border: 2px solid #fff;
+    width: 32px;
+    height: 32px;
     border-radius: 100%;
     user-select: none;
-    transform: translate(-50%, -50%);
-    
+    transform: translate(-50%, -90%);
+  }
+
+  .pin {
+    width: 2px;
+    height: 15px;
+    background-color: #fa5892;
+    box-shadow: 1px 0px 1px grey;
   }

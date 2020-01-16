@@ -47,6 +47,12 @@ const useStyles = makeStyles((theme: Theme) =>
         margin: theme.spacing(1)
       },
       justifyContent: "center"
+    },
+    image: {
+      marginTop: "-5%",
+      marginBottom: "-15%",
+      width: "100%",
+      maxHeight: "40%"
     }
   })
 );
@@ -115,7 +121,7 @@ export default (props: any) => {
   return (
     <div style={{ overflow: "hidden" }}>
       <Card className={classes.card} elevation={0}>
-        <img style={{ width: "100%" }} src={values.image}></img>
+        <img className={classes.image} src={values.image}></img>
       </Card>
       <Grid container spacing={3}>
         <Grid item xs={8} style={{ height: "100%" }}>

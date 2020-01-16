@@ -8,24 +8,25 @@ const SimpleMap = (props: any) => {
   const [center, setCenter] = useState({ lat: 63.4189, lng: 10.4027 });
   const [zoom, setZoom] = useState(11);
 
-  const googleMapsClient = require('@google/maps').createClient({
+  const googleMapsClient = require("@google/maps").createClient({
     key: "AIzaSyBpqnFSmQNK7VBnEm521CwPGs8zBkB-SQY",
     Promise: Promise
   });
 
-  const printMap = (place:any) => {
-    if(place !== undefined) {
-      setName(place.event_name)
-      googleMapsClient.geocode({address: place.location})
+  const printMap = (place: any) => {
+    if (place !== undefined) {
+      setName(place.event_name);
+      googleMapsClient
+        .geocode({ address: place.location })
         .asPromise()
-        .then((response:any) => {
-          setCenter(response.json.results[0].geometry.location)
+        .then((response: any) => {
+          setCenter(response.json.results[0].geometry.location);
         })
-        .catch((err:any) => {
+        .catch((err: any) => {
           console.log(err);
         });
     }
-  }
+  };
 
   return (
     <div
@@ -35,7 +36,6 @@ const SimpleMap = (props: any) => {
         position: "relative"
       }}
     >
-
       <GoogleMapReact
         bootstrapURLKeys={{ key: "AIzaSyBpqnFSmQNK7VBnEm521CwPGs8zBkB-SQY" }}
         defaultCenter={center}
@@ -48,254 +48,263 @@ const SimpleMap = (props: any) => {
           streetViewControl: false,
           styles: [
             {
-              "elementType": "geometry",
-              "stylers": [
+              elementType: "geometry",
+              stylers: [
                 {
-                  "color": "#f5f5f5"
+                  color: "#f5f5f5"
                 }
               ]
             },
             {
-              "elementType": "labels.icon",
-              "stylers": [
+              elementType: "labels.icon",
+              stylers: [
                 {
-                  "visibility": "off"
+                  visibility: "off"
                 }
               ]
             },
             {
-              "elementType": "labels.text.fill",
-              "stylers": [
+              elementType: "labels.text.fill",
+              stylers: [
                 {
-                  "color": "#616161"
+                  color: "#616161"
                 }
               ]
             },
             {
-              "elementType": "labels.text.stroke",
-              "stylers": [
+              elementType: "labels.text.stroke",
+              stylers: [
                 {
-                  "color": "#f5f5f5"
+                  color: "#f5f5f5"
                 }
               ]
             },
             {
-              "featureType": "administrative.land_parcel",
-              "elementType": "labels.text.fill",
-              "stylers": [
+              featureType: "administrative.land_parcel",
+              elementType: "labels.text.fill",
+              stylers: [
                 {
-                  "color": "#bdbdbd"
+                  color: "#bdbdbd"
                 }
               ]
             },
             {
-              "featureType": "poi",
-              "elementType": "geometry",
-              "stylers": [
+              featureType: "poi",
+              elementType: "geometry",
+              stylers: [
                 {
-                  "color": "#eeeeee"
+                  color: "#eeeeee"
                 }
               ]
             },
             {
-              "featureType": "poi",
-              "elementType": "labels.text",
-              "stylers": [
+              featureType: "poi",
+              elementType: "labels.text",
+              stylers: [
                 {
-                  "visibility": "off"
+                  visibility: "off"
                 }
               ]
             },
             {
-              "featureType": "poi",
-              "elementType": "labels.text.fill",
-              "stylers": [
+              featureType: "poi",
+              elementType: "labels.text.fill",
+              stylers: [
                 {
-                  "color": "#757575"
+                  color: "#757575"
                 }
               ]
             },
             {
-              "featureType": "poi.business",
-              "stylers": [
+              featureType: "poi.business",
+              stylers: [
                 {
-                  "visibility": "off"
+                  visibility: "off"
                 }
               ]
             },
             {
-              "featureType": "poi.park",
-              "elementType": "geometry",
-              "stylers": [
+              featureType: "poi.park",
+              elementType: "geometry",
+              stylers: [
                 {
-                  "color": "#e5e5e5"
+                  color: "#e5e5e5"
                 }
               ]
             },
             {
-              "featureType": "poi.park",
-              "elementType": "labels.text.fill",
-              "stylers": [
+              featureType: "poi.park",
+              elementType: "labels.text.fill",
+              stylers: [
                 {
-                  "color": "#9e9e9e"
+                  color: "#9e9e9e"
                 }
               ]
             },
             {
-              "featureType": "road",
-              "elementType": "geometry",
-              "stylers": [
+              featureType: "road",
+              elementType: "geometry",
+              stylers: [
                 {
-                  "color": "#ffffff"
+                  color: "#ffffff"
                 }
               ]
             },
             {
-              "featureType": "road",
-              "elementType": "labels",
-              "stylers": [
+              featureType: "road",
+              elementType: "labels",
+              stylers: [
                 {
-                  "visibility": "off"
+                  visibility: "off"
                 }
               ]
             },
             {
-              "featureType": "road",
-              "elementType": "labels.icon",
-              "stylers": [
+              featureType: "road",
+              elementType: "labels.icon",
+              stylers: [
                 {
-                  "visibility": "off"
+                  visibility: "off"
                 }
               ]
             },
             {
-              "featureType": "road.arterial",
-              "elementType": "labels",
-              "stylers": [
+              featureType: "road.arterial",
+              elementType: "labels",
+              stylers: [
                 {
-                  "visibility": "off"
+                  visibility: "off"
                 }
               ]
             },
             {
-              "featureType": "road.arterial",
-              "elementType": "labels.text.fill",
-              "stylers": [
+              featureType: "road.arterial",
+              elementType: "labels.text.fill",
+              stylers: [
                 {
-                  "color": "#757575"
+                  color: "#757575"
                 }
               ]
             },
             {
-              "featureType": "road.highway",
-              "elementType": "geometry",
-              "stylers": [
+              featureType: "road.highway",
+              elementType: "geometry",
+              stylers: [
                 {
-                  "color": "#dadada"
+                  color: "#dadada"
                 }
               ]
             },
             {
-              "featureType": "road.highway",
-              "elementType": "labels",
-              "stylers": [
+              featureType: "road.highway",
+              elementType: "labels",
+              stylers: [
                 {
-                  "visibility": "off"
+                  visibility: "off"
                 }
               ]
             },
             {
-              "featureType": "road.highway",
-              "elementType": "labels.text.fill",
-              "stylers": [
+              featureType: "road.highway",
+              elementType: "labels.text.fill",
+              stylers: [
                 {
-                  "color": "#616161"
+                  color: "#616161"
                 }
               ]
             },
             {
-              "featureType": "road.local",
-              "stylers": [
+              featureType: "road.local",
+              stylers: [
                 {
-                  "visibility": "off"
+                  visibility: "off"
                 }
               ]
             },
             {
-              "featureType": "road.local",
-              "elementType": "labels.text.fill",
-              "stylers": [
+              featureType: "road.local",
+              elementType: "labels.text.fill",
+              stylers: [
                 {
-                  "color": "#9e9e9e"
+                  color: "#9e9e9e"
                 }
               ]
             },
             {
-              "featureType": "transit",
-              "stylers": [
+              featureType: "transit",
+              stylers: [
                 {
-                  "visibility": "off"
+                  visibility: "off"
                 }
               ]
             },
             {
-              "featureType": "transit.line",
-              "elementType": "geometry",
-              "stylers": [
+              featureType: "transit.line",
+              elementType: "geometry",
+              stylers: [
                 {
-                  "color": "#e5e5e5"
+                  color: "#e5e5e5"
                 }
               ]
             },
             {
-              "featureType": "transit.station",
-              "elementType": "geometry",
-              "stylers": [
+              featureType: "transit.station",
+              elementType: "geometry",
+              stylers: [
                 {
-                  "color": "#eeeeee"
+                  color: "#eeeeee"
                 }
               ]
             },
             {
-              "featureType": "water",
-              "elementType": "geometry",
-              "stylers": [
+              featureType: "water",
+              elementType: "geometry",
+              stylers: [
                 {
-                  "color": "#c9c9c9"
+                  color: "#c9c9c9"
                 }
               ]
             },
             {
-              "featureType": "water",
-              "elementType": "geometry.fill",
-              "stylers": [
+              featureType: "water",
+              elementType: "geometry.fill",
+              stylers: [
                 {
-                  "color": "#b5b5ff"
+                  color: "#b5b5ff"
                 }
               ]
             },
             {
-              "featureType": "water",
-              "elementType": "labels.text",
-              "stylers": [
+              featureType: "water",
+              elementType: "labels.text",
+              stylers: [
                 {
-                  "visibility": "on"
+                  visibility: "on"
                 }
               ]
             }
           ]
-      }}
-
+        }}
       >
         <Marker
           lat={center.lat}
           lng={center.lng}
           name={name}
-          img="http://pluspng.com/img-png/baby-yoda-png-yoda-by-chrispix326-deviantart-com-on-deviantart-974.png"
+          img={require("../../assets/img/harmoni_logo_small.png")}
         />
+
       </GoogleMapReact>
-      <div style={{zIndex: 20, position:"absolute", width: "100%", height: "100%", top:"80%", left:"0" }}>
-        <Carousel printMap={printMap}/>
+      <div
+        style={{
+          zIndex: 20,
+          position: "absolute",
+          width: "100%",
+          height: "50%",
+          top: "80%",
+          left: "0"
+        }}
+      >
+        <Carousel printMap={printMap} />
       </div>
     </div>
   );
