@@ -6,7 +6,6 @@ module.exports = (sequelize, DataTypes) => {
     eventID: DataTypes.INTEGER
   }, {});
   Contracts.associate = function(models) {
-    // associations can be defined here
   };
   return Contracts;
 };
