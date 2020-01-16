@@ -7,13 +7,30 @@ const SimpleMap = (props: any) => {
   const [center, setCenter] = useState({ lat: 63.4189, lng: 10.4027 });
   const [zoom, setZoom] = useState(11);
 
+  const googleMapsClient = require("@google/maps").createClient({
+    key: "AIzaSyBpqnFSmQNK7VBnEm521CwPGs8zBkB-SQY",
+    Promise: Promise
+  });
 
+  const printMap = (place: any) => {
+    if (place !== undefined) {
+      googleMapsClient
+        .geocode({ address: place.location })
+        .asPromise()
+        .then((response: any) => {
+          setCenter(response.json.results[0].geometry.location);
+        })
+        .catch((err: any) => {
+          console.log(err);
+        });
+    }
+  };
 
   return (
       <GoogleMapReact
         bootstrapURLKeys={{ key: "AIzaSyBpqnFSmQNK7VBnEm521CwPGs8zBkB-SQY" }}
         defaultCenter={center}
-        // center={props.center}
+        center={props.center}
         defaultZoom={zoom}
         options={{
           mapTypeControl: false,
@@ -263,7 +280,6 @@ const SimpleMap = (props: any) => {
         <Marker
           lat={props.center.lat}
           lng={props.center.lng}
-          name={props.name}
           img={require("../../assets/img/harmoni_logo_small.png")}
         />
 
