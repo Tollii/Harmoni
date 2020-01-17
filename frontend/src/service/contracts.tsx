@@ -30,7 +30,7 @@ class ContractService {
       .then((response: { data: Contract }) => response.data);
   }
 
-  postContract(token: string, contract: object) {
+  postContract(contract: object) {
     return axios
       .post(process.env.REACT_APP_API_URL + "/contract", contract, {
         headers: { token: token }

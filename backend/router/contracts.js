@@ -61,11 +61,10 @@ module.exports = (app, models, base, auth) => {
   * @returns {Error}  default - Unexpected error
   */
   app.post(base, (req, res) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Post"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer"])
     .then(data => {
       if(data.auth){
-        contractControl.contractCreate(
-          req.body.contract,
+        contractControl.contractCreateNoContract(
           req.body.userID,
           req.body.eventID)
           .then((data)=>{
