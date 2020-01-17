@@ -64,7 +64,7 @@ export default function EventCard(props: any) {
             className={classes.customImage}
             component="img"
             height="160"
-            image={props.event.event_image}
+            image={"http://localhost:8080/image/event/" + props.event.id}
             title={props.event.event_name}
           />
           <div className={classes.chip}>

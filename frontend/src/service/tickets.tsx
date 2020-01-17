@@ -1,6 +1,8 @@
+import getCookie from "./cookie";
 const axios = require("axios").default;
 
 let url = "http://localhost:8080";
+let token = getCookie("token");
 
 export class Ticket {
   id!: number;
@@ -15,7 +17,7 @@ export class Ticket {
 class TicketService {
   getTickets() {
     return axios
-      .get(url + "/ticket")
+      .get(url + "/ticket/", { headers: { token: token } })
       .then((response: { data: Ticket[] }) => response.data);
   }
 

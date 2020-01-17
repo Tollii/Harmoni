@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: "10%",
       marginTop: 0,
       marginBottom: 0,
-      fontSize: "1.3em"
+      fontSize: "15px"
     },
     title: {
       textAlign: "center",
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme: Theme) =>
     smallTitle: {
       textAlign: "center",
       fontWeight: "bold",
-      fontSize: "1.5em"
+      fontSize: "20px"
     },
     card: {
       width: "100%",
@@ -69,7 +69,8 @@ const useStyles = makeStyles((theme: Theme) =>
       "& > *": {
         margin: theme.spacing(1)
       },
-      justifyContent: "center"
+      justifyContent: "center",
+      width: "100%"
     },
     image: {
       marginTop: "-5%",
@@ -129,8 +130,8 @@ export default (props: any) => {
     image: "",
     personnel: "",
     description: "",
-    typeID: 0,
-    location: ""
+    location: "",
+    typeID: 0
   });
   const [tickets, setTickets] = useState<
     Array<{
@@ -150,7 +151,7 @@ export default (props: any) => {
         name: event.event_name,
         start: new Date(event.event_start),
         end: new Date(event.event_end),
-        image: event.event_image,
+        image: "http://localhost:8080/image/event/" + event.id,
         personnel: event.personnel,
         description: event.description,
         typeID: event.event_typeID,
@@ -214,14 +215,23 @@ export default (props: any) => {
             <Typography className={classes.smallTitle} variant="h6">
               Artists
             </Typography>
-            <div className={classes.avatarIcons}>
+            <Grid
+              container
+              direction="row"
+              justify="space-between"
+              className={classes.avatarIcons}
+            >
               {artists.map((artist: any, index: number) => (
-                <div>
-                  <Avatar alt={artist.username} src={artist.picture} />
-                  {artist.username}
-                </div>
+                <Grid item>
+                  <Avatar
+                    style={{ marginLeft: "auto", marginRight: "auto" }}
+                    alt={artist.username}
+                    src={artist.picture}
+                  />
+                  <Typography>{artist.username}</Typography>
+                </Grid>
               ))}
-            </div>
+            </Grid>
             <Typography className={classes.smallTitle} variant="h6">
               Personnel
             </Typography>
@@ -292,7 +302,7 @@ export default (props: any) => {
             Location:
           </Typography>
           <Typography variant="subtitle1" gutterBottom>
-            props.event.location
+            {values.location}
           </Typography>
           <div className={classes.map}>
             <Map events={[values]} center={values} zoom={11}/>

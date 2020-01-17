@@ -14,6 +14,7 @@ module.exports = (app, models, base, auth) => {
   /**
    * @group Ticket - Operations about ticket
    * @route GET /ticket/
+   * @param {string} token.header.required - token
    * @returns {object} 200 - An array of ticket info
    * @returns {Error} default - Unexpected error
    */

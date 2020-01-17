@@ -62,8 +62,8 @@ class EventService {
 
   postEvent(event: object) {
     return axios
-      .post(url + "/event", event, { headers: { token: token } })
-      .then((response: { data: FullEvent }) => console.log(response));
+      .post(url + "/event/", event, { headers: { token: token } })
+      .then((response: { data: FullEvent }) => response.data);
   }
 
   updateEvent(event: object, id: number) {
