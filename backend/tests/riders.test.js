@@ -3,6 +3,8 @@ const ridersControl = require('../dao/riders')(models);
 const rider_typeControl = require('../dao/rider_types')(models);
 const userControl = require('../dao/users')(models);
 const rolesControl = require('../dao/roles')(models);
+const eventsControl = require('../dao/events')(models);
+const event_typesControl = require('../dao/event_types')(models);
 
 describe('riders DAO', () => {
 
@@ -10,6 +12,8 @@ describe('riders DAO', () => {
         await rolesControl.rolesCreate("not_zaim");
         await userControl.userCreate("test", "test@test.test", "testtest", "testtest", "123456789", "image.png");
         await rider_typeControl.rider_typesCreate("yeet");
+        await event_typesControl.event_typesCreate("new event type");
+        await  eventsControl.eventCreate("wasd", "cola", new Date('1995-12-17T03:24:00'), new Date('1995-12-19T03:24:00'), "wasdwasd", "wasdwasd", 1);
         const res = await ridersControl.riderCreate("additions", 1, 1, 1);
         expect(res.userID).toEqual(1);
         expect(res.rider_typeID).toEqual(1);
