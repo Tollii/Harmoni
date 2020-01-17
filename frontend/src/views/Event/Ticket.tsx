@@ -58,7 +58,6 @@ export default function Ticket(props: any) {
   function deleteTicket() {
     props.tickets.pop();
     props.handleChange(props.tickets, "tickets");
-    console.log(props.tickets);
   }
 
   function addTicket() {
@@ -70,7 +69,6 @@ export default function Ticket(props: any) {
       date_start: new Date(),
       date_end: new Date()
     };
-    console.log(props.tickets);
     props.tickets.push(newTicket);
     props.handleChange(props.tickets, "tickets");
   }
