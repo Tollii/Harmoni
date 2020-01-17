@@ -89,7 +89,9 @@ module.exports = (app, models, auth) => {
     console.log("aaaaa " + req.params.id);
     if (req.params.id > 0) {
       eventControl.eventGetOne(req.params.id)
-        .then(data => res.sendFile(eventImagesFolder + data.event_image))
+      .then(data => {
+          res.sendFile(eventImagesFolder + data.event_image)
+        })
         .catch(err => console.log(err));
     } else {
       res.status(400).send("Invalid EventId");
@@ -114,7 +116,7 @@ module.exports = (app, models, auth) => {
           if (!req.files || Object.keys(req.files).length === 0) {
             res.status(400).send('No files uploaded');
           } else {
-            let eventImage = req.files.name;
+            let eventImage = req.files.image;
             let event = await eventControl.eventGetOne(req.params.id);
 
             let splitName = eventImage.name.split('.');

@@ -13,6 +13,8 @@ import Rider from "./Rider";
 import EventService from "../../service/events";
 import UserService from "../../service/users";
 import RiderTypeService from "../../service/rider_types";
+import FileService from "../../service/files";
+import EventTypeService from "../../service/event_types";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,10 +35,21 @@ function getSteps() {
   return ["General", "Artist(s)", "Tickets", "Rider"];
 }
 
-function getStepContent(stepIndex: number, values: any, handleChange: any) {
+function getStepContent(
+  stepIndex: number,
+  values: any,
+  handleChange: any,
+  eventTypes: any
+) {
   switch (stepIndex) {
     case 0:
-      return <General values={values} handleChange={handleChange} />;
+      return (
+        <General
+          values={values}
+          handleChange={handleChange}
+          eventTypes={eventTypes}
+        />
+      );
     case 1:
       return <Artist values={values} handleChange={handleChange} />;
     case 2:
@@ -57,6 +70,7 @@ interface Values {
   dateStart: Date;
   dateEnd: Date;
   personnel: string;
+  eventImage: File;
   eventTypeId: number;
   artists: Array<{ id: number; name: string; email: string; checked: boolean }>;
   riderTypes: Array<{ id: number; description: string }>;
@@ -77,6 +91,7 @@ export default () => {
   const steps = getSteps();
 
   // States for posting event
+  const [eventTypes, setEventTypes] = useState([]);
   const [values, setValues] = useState<Values>({
     name: "",
     description: "",
@@ -86,6 +101,7 @@ export default () => {
     dateStart: new Date(),
     dateEnd: new Date(),
     personnel: "",
+    eventImage: new File(["foo"], ""),
     eventTypeId: 0,
     artists: [],
     riderTypes: [],
@@ -94,6 +110,9 @@ export default () => {
   });
 
   useEffect(() => {
+    EventTypeService.getEvent_Types().then((response: any) => {
+      setEventTypes(response);
+    });
     UserService.getArtist().then(response => {
       response.map((artist: any) => {
         values.artists.push({
@@ -125,7 +144,6 @@ export default () => {
     let dateEnd = values.dateEnd.toISOString().substring(0, 10);
     let timeStart = values.timeStart.toTimeString().substring(0, 8);
     let timeEnd = values.timeEnd.toTimeString().substring(0, 8);
-    console.log(timeStart);
     let artists: number[] = [];
     values.artists
       .filter(artist => artist.checked === true)
@@ -142,7 +160,6 @@ export default () => {
         riders.push(rider);
       }
     });
-    console.log(riders);
     let event = {
       event_name: values.name,
       location: values.location,
@@ -155,9 +172,13 @@ export default () => {
       riders: riders,
       tickets: values.tickets
     };
+    console.log(event);
     EventService.postEvent(event)
       .then((response: any) => {
-        console.log("Poster event");
+        console.log(response);
+        FileService.postEventPicture(values.eventImage, response.id).then(() =>
+          console.log("posted eventImage")
+        ).catch((err:any)=> console.log(err))
       })
       .catch((error: any) => {
         console.log(error);
@@ -196,7 +217,7 @@ export default () => {
         ) : (
           <div>
             <Typography className={classes.instructions}>
-              {getStepContent(activeStep, values, handleChange)}
+              {getStepContent(activeStep, values, handleChange, eventTypes)}
             </Typography>
             <div>
               <Grid container justify="center">
