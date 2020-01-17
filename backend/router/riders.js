@@ -35,6 +35,30 @@ module.exports = (app, models, base, auth) => {
     })
     .catch(err => console.log(err))
   });
+  
+  /**
+  * @group Riders - Operations about rider
+  * @route GET /rider/event/{eventID}
+  * @param {integer} eventID.path.required - Event id
+  * @param {string} token.header.required - token
+  * @returns {object} 200 - An array of contracts info
+  * @returns {Error}  default - Unexpected error
+  */
+  app.get(base + "/event/:eventID", (req, res) => {
+    console.log(req.headers);
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"])
+    .then(data => {
+      console.log(data);
+      if(data.auth){
+        ridersControl.riderGetAllByEvent(req.params.eventID).then((data) => {
+          res.send(data);
+        })
+      } else {
+        res.status(400).send("Not authenticated")
+      }
+    })
+    .catch(err => console.log(err))
+  });
 
   /**
   * @group Riders - Operations about Rider
