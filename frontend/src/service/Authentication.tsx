@@ -23,6 +23,8 @@ export function getAuth () {
   if(token){
     return UserService.getOneUser()
     .then(user => user.roleID)
+  } else {
+    return 0;
   }
 }
 
