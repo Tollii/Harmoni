@@ -11,19 +11,20 @@ import Login from "./views/Login/Login";
 import Footer from "./components/Footer/Footer";
 import Profile from "./views/Profile/Profile";
 import EventPage from "./views/EventPage/EventPage";
+import {getAuth} from "./service/Authentication";
 
 const root = document.getElementById("root");
 if (root) {
   ReactDOM.render(
     <HashRouter>
       <Navbar />
-      <Route exact path="/" component={Main} />
-      <Route exact path="/event/:id" component={EventPage} />
+      <Route exact path="/" render={(props) => <Main {...props} isAuth={getAuth} />} />
+      <Route exact path="/event/:id" render={(props) => <EventPage {...props} isAuth={getAuth} />}/>
       <div style={{ marginTop: "150px" }}>
-        <Route exact path="/addEvent" component={Event} />
-        <Route exact path="/signUp" component={SignUp} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/profile" component={Profile} />
+        <Route exact path="/addEvent" render={(props) => <Event {...props} isAuth={getAuth} />} />
+        <Route exact path="/signUp" render={(props) => <SignUp {...props} isAuth={getAuth} />} />
+        <Route exact path="/login" render={(props) => <Login {...props} isAuth={getAuth} />} />
+        <Route exact path="/profile" render={(props) => <Profile {...props} isAuth={getAuth} />}/>
       </div>
       <Footer />
     </HashRouter>,

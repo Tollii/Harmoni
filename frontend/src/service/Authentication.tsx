@@ -1,6 +1,10 @@
+import getCookie from "./cookie";
+import UserService from "./users";
 const axios = require("axios");
 let url: string = "localhost:";
 let port: number = 8080;
+
+const token = getCookie("token");
 
 class Authentication {
   getLogin(credentials: any) {
@@ -13,6 +17,13 @@ class Authentication {
       .post("http://" + url + port + "/signup/", information)
       .then((response: { data: Object }) => response.data);
   };
+}
+
+export function getAuth () {
+  if(token){
+    return UserService.getOneUser()
+    .then(user => user.roleID)
+  }
 }
 
 

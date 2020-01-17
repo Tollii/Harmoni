@@ -11,7 +11,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default () => {
+export default (props: any) => {
   const classes = useStyles();
 
   return (
