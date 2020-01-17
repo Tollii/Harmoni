@@ -11,7 +11,7 @@ export default (props: any) => {
   return (
     <Card style={{ width: "80%" }}>
       <CardContent>
-        <h1>hei</h1>
+        <h1>Test</h1>
       </CardContent>
     </Card>
   );
