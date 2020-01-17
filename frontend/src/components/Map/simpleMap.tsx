@@ -29,7 +29,6 @@ const SimpleMap = (props: any) => {
     Promise.all(
       props.events.map(async (e: any) => {
         return findCenter(e).then((center: any) => {
-          console.log(center);
           if (center !== undefined) {
             return (
               <Marker
@@ -44,7 +43,6 @@ const SimpleMap = (props: any) => {
         });
       })
     ).then((results: any) => {
-      console.log(results);
       setMarker(results);
     });
   }, [props.events]);
