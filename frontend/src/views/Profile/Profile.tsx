@@ -23,7 +23,7 @@ import RoleService from "../../service/roles";
 import getCookie from "../../service/cookie";
 import MyEvents from "./MyEvents";
 import EventService from "../../service/events";
-import FileService from "../../service/files"
+import FileService from "../../service/files";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
     editPic: {
       fontSize: "12px",
       "&:hover": {
-        cursor: "pointer",
+        cursor: "pointer"
       }
     }
   })
@@ -55,13 +55,10 @@ export default (props: any) => {
   const [openChangePass, setOpenChangePass] = React.useState(false);
   const [openEditPic, setOpenEditPic] = React.useState(false);
   const [value, setValue] = React.useState(0);
+  const [events, setEvents] = useState<any>([]);
+  const [pic_url, setPic_url] = useState("");
 
-  const handleChangeTabs = (event: React.ChangeEvent<{}>, newValue: number) => {
-    setValue(newValue);
-  };
-
-  const [pic_url, setPic_url] = useState("")
-  const [file, setFile] = useState(new File(["foo"], ""))
+  const [file, setFile] = useState(new File(["foo"], ""));
   const [newValues, setNewValues] = useState({
     fullName: "hei",
     email: "email",
@@ -77,10 +74,6 @@ export default (props: any) => {
     telephone: "telephone",
     picture: ""
   });
-  const handleChange = (event: any) => {
-    const { name, value } = event.target;
-    setNewValues({ ...newValues, [name]: value });
-  };
 
   const handleSubmitData = (event: any) => {
     setValues({
@@ -101,13 +94,6 @@ export default (props: any) => {
     setOpenEdit(false);
   };
 
-  const fileSelectedHandler = (event: any) => {
-    setFile(event.target.files[0])
-  };
-  const uploadProfilePicture = () => {
-    return Promise.resolve(FileService.postProfilePicture(file))
-  };
-
   const resetNewVal = () => {
     setNewValues({
       fullName: values.fullName,
@@ -115,6 +101,22 @@ export default (props: any) => {
       telephone: values.telephone,
       picture: values.picture
     });
+  };
+
+  const handleChange = (event: any) => {
+    const { name, value } = event.target;
+    setNewValues({ ...newValues, [name]: value });
+  };
+
+  const handleChangeTabs = (event: React.ChangeEvent<{}>, newValue: number) => {
+    setValue(newValue);
+  };
+
+  const fileSelectedHandler = (event: any) => {
+    setFile(event.target.files[0]);
+  };
+  const uploadProfilePicture = () => {
+    return Promise.resolve(FileService.postProfilePicture(file));
   };
 
   const handleOpenEdit = () => {
@@ -140,8 +142,8 @@ export default (props: any) => {
 
   const handleCloseEditPic = () => {
     setOpenEditPic(false);
-    setFile(new File(["foo"], ""))
-    window.location.reload();  
+    setFile(new File(["foo"], ""));
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -162,12 +164,10 @@ export default (props: any) => {
           telephone: res.phone,
           picture: res.picture
         });
-        setPic_url("http://localhost:8080/image/profile/" + res.id)
+        setPic_url("http://localhost:8080/image/profile/" + res.id);
       });
     });
   }, []);
-
-  const [events, setEvents] = useState<any>([]);
 
   useEffect(() => {
     EventService.getEventsByUser().then((response: any) => {
@@ -259,7 +259,7 @@ export default (props: any) => {
                             onChange={fileSelectedHandler}
                           />
                         </Button>
-                        <Typography style={{marginLeft: "30px"}}>
+                        <Typography style={{ marginLeft: "30px" }}>
                           Chosen file: {file.name}
                         </Typography>
                       </Grid>
@@ -268,9 +268,16 @@ export default (props: any) => {
                   <DialogActions>
                     <Grid container direction="row" justify="center">
                       <Grid item xs={3}>
-                        <Button type="submit" onClick={()=> {uploadProfilePicture().then(()=>{
-                          handleCloseEditPic()
-                          })}}>Upload Image</Button>
+                        <Button
+                          type="submit"
+                          onClick={() => {
+                            uploadProfilePicture().then(() => {
+                              handleCloseEditPic();
+                            });
+                          }}
+                        >
+                          Upload Image
+                        </Button>
                       </Grid>
                       <Grid item xs={3}>
                         <Button onClick={handleCloseEditPic} color="primary">
@@ -400,7 +407,7 @@ export default (props: any) => {
                       getCookie("token") +
                       "; expires=" +
                       new Date().toUTCString();
-                    props.logFunc(false)
+                    props.logFunc(false);
                     window.location.hash = "#/";
                   }}
                 >
