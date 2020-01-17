@@ -34,6 +34,8 @@ import DescriptionIcon from "@material-ui/icons/Description";
 import SettingsIcon from "@material-ui/icons/Settings";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AlertDialog from "../../components/AlertDialog/AlertDialog";
+import Map from "../../components/Map/simpleMap";
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -74,7 +76,17 @@ const useStyles = makeStyles((theme: Theme) =>
       marginBottom: "-15%",
       width: "100%",
       maxHeight: "80em"
-    }
+    },
+    container: {
+      height: "90vh",
+      width: "100%",
+    },
+    map:{
+      height: "20vw",
+      width: "100%",
+      position: "relative",
+      marginBottom: "10px",
+    },
   })
 );
 
@@ -117,7 +129,8 @@ export default (props: any) => {
     image: "",
     personnel: "",
     description: "",
-    typeID: 0
+    typeID: 0,
+    location: ""
   });
   const [tickets, setTickets] = useState<
     Array<{
@@ -140,7 +153,8 @@ export default (props: any) => {
         image: event.event_image,
         personnel: event.personnel,
         description: event.description,
-        typeID: event.event_typeID
+        typeID: event.event_typeID,
+        location: event.location
       });
     });
     TicketService.getEventTickets(props.match.params.id).then(
@@ -280,7 +294,9 @@ export default (props: any) => {
           <Typography variant="subtitle1" gutterBottom>
             props.event.location
           </Typography>
-          <Link href="#">View map</Link>
+          <div className={classes.map}>
+            <Map events={[values]} center={values} zoom={11}/>
+          </div>
           <Grid container>
             <Grid>
               <Button
