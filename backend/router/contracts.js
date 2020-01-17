@@ -16,7 +16,7 @@ module.exports = (app, models, base, auth) => {
   */
 
   app.get(base, ( req, res ) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer"])
     .then(data => {
       if(data.auth){
         contractControl.contractGetAll().then((data)=>{
@@ -39,7 +39,7 @@ module.exports = (app, models, base, auth) => {
   * @returns {Error}  default - Unexpected error
   */
   app.get(base+"/user/:user_id/event/:event_id", ( req, res ) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"])
     .then(data => {
       if(data.auth){
         contractControl.contractGetOne(req.params.user_id, req.params.event_id).then((data)=>{
@@ -61,7 +61,7 @@ module.exports = (app, models, base, auth) => {
   * @returns {Error}  default - Unexpected error
   */
   app.post(base, (req, res) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Post"])
     .then(data => {
       if(data.auth){
         contractControl.contractCreate(
@@ -88,7 +88,7 @@ module.exports = (app, models, base, auth) => {
   * @returns {Error}  default - Unexpected error
   */
   app.delete(base+"/user/:user_id/event/:event_id", (req, res) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer"])
     .then(data => {
       if(data.auth){
         contractControl.contractDelete(req.params.user_id, req.params.event_id)

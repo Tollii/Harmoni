@@ -22,7 +22,7 @@ module.exports = (app, models, base, auth) => {
   */
   app.get(base, (req, res) => {
     console.log(req.headers);
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer"])
     .then(data => {
       console.log(data);
       if(data.auth){
@@ -47,7 +47,7 @@ module.exports = (app, models, base, auth) => {
   * @returns {Error}  default - Unexpected error
   */
   app.get(base+"/rider_type/:rider_type_id/event/:event_id/user/:user_id/", (req, res) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"])
     .then(data => {
       if(data.auth){
         ridersControl.riderGetOne(
@@ -74,7 +74,7 @@ module.exports = (app, models, base, auth) => {
   * @returns {Error}  default - Unexpected error
   */
   app.post(base, (req, res) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"])
     .then(data => {
       if(data.auth){
         if(["Admin", "Organizer"].includes(data.role.dataValues.role_name)){
@@ -123,7 +123,7 @@ module.exports = (app, models, base, auth) => {
   * @returns {Error}  default - Unexpected error
   */
   app.put(base+"/rider_type/:rider_type_id/event/:event_id/user/:user_id/", (req, res) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"])
     .then(data => {
       if(data.auth){
         ridersControl.riderUpdate(
@@ -156,7 +156,7 @@ module.exports = (app, models, base, auth) => {
   * @returns {Error}  default - Unexpected error
   */
   app.delete(base+"/rider_type/:rider_type_id/event/:event_id/user/:user_id/", (req, res) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"])
     .then(data => {
       if(data.auth){
         ridersControl.riderDelete(
