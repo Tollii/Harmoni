@@ -17,8 +17,21 @@ class files {
       .then((response: { data: JSON }) => response.data);
   }
 
-  postContracts() {
-    //todo:Sprint 2
+  postContracts(data: any, token: String, userID: number, eventID: number) {
+    let formData = new FormData();
+    formData.append("contract", data);
+    return axios
+      .put(
+        url + "/files/contract/user/" + userID + "/event/" + eventID,
+        formData,
+        {
+          headers: {
+            token: token,
+            "Content-Type": "multipart/form-data"
+          }
+        }
+      )
+      .then((response: { data: JSON }) => response.data);
   }
 
   postEventPicture(data: any, id: number) {
