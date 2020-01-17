@@ -109,9 +109,7 @@ module.exports = models => {
       event_start,
       event_end,
       personnel,
-      event_image,
       description,
-      archived,
       event_typeID
     ) =>
       Event.create({
@@ -120,9 +118,7 @@ module.exports = models => {
         event_start: event_start,
         event_end: event_end,
         personnel: personnel,
-        event_image: event_image,
         description: description,
-        archived: archived,
         event_typeID: event_typeID
       }).then(events => events)
   };

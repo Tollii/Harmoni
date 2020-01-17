@@ -238,7 +238,6 @@ module.exports = (app, models, base, auth) => {
           req.body.event_end,
           req.body.personnel,
           req.body.description,
-          req.body.archived,
           req.body.event_typeID
         )
         .then(data => {
@@ -272,9 +271,10 @@ module.exports = (app, models, base, auth) => {
             )
             .catch(err => console.log(err))
           })
+          return data;
         })
-        .then(()=> {
-          res.send("Event created successfully")
+        .then( data => {
+          res.send(data)
         })
         .catch(err => console.log(err))
       } else {
