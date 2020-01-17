@@ -173,6 +173,7 @@ export default (props: any) => {
     EventService.getEventsByUser().then((response: any) => {
       if (response.length !== 0) {
         setEvents(response);
+        console.log(response);
       }
     });
   }, []);
@@ -422,7 +423,7 @@ export default (props: any) => {
         <CardContent>
           <div style={{ marginBottom: "30px" }}>
             <Grid container spacing={4}>
-              <MyEvents events={events} />
+              <MyEvents events={events} user={values.id} />
             </Grid>
           </div>
         </CardContent>
