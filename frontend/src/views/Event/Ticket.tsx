@@ -55,6 +55,12 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function Ticket(props: any) {
   const classes = useStyles();
 
+  function deleteTicket() {
+    props.tickets.pop();
+    props.handleChange(props.tickets, "tickets");
+    console.log(props.tickets);
+  }
+
   function addTicket() {
     let newTicket = {
       id: props.tickets.length,
@@ -64,7 +70,7 @@ export default function Ticket(props: any) {
       date_start: new Date(),
       date_end: new Date()
     };
-
+    console.log(props.tickets);
     props.tickets.push(newTicket);
     props.handleChange(props.tickets, "tickets");
   }
@@ -77,14 +83,21 @@ export default function Ticket(props: any) {
         </Typography>
       </Grid>
       {props.tickets.map((ticket: any, index: number) => (
-        <TicketRow
-          tickets={props.tickets}
-          key={index}
-          id={index}
-          handleChange={props.handleChange}
-        />
+          <TicketRow
+            tickets={props.tickets}
+            key={index}
+            id={index}
+            handleChange={props.handleChange}
+          />
+
       ))}
       <Typography>
+        <Link component="button" variant="body2" onClick={deleteTicket}>
+          <Add className={classes.add} />
+          Delete ticket
+        </Link>
+      </Typography>
+        <Typography>
         <Link component="button" variant="body2" onClick={addTicket}>
           <Add className={classes.add} />
           Add ticket
