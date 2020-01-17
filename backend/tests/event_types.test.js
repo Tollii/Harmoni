@@ -32,9 +32,9 @@ describe('Event_types DAO', () => {
   });
 
   it('should delete event_type with id 1', async (done) => {
-    await event_typesControl.event_typesDelete(1);
-    const res = await event_typesControl.event_typesGetAll();
-    expect(res.length).toEqual(1);
+    await event_typesControl.event_typesDelete(2);
+    const res = await event_typesControl.event_typesGetOne(2);
+    expect(res).toBeNull();
     done();
   });
 
