@@ -64,6 +64,14 @@ export default (props: any) => {
     setAnchorEl(null);
   };
 
+  const handleContract = (
+    event: React.MouseEvent<unknown>,
+    userId: number,
+    eventId: number
+  ) => {
+    window.location.hash = "contract/user/" + userId + "/event/" + eventId;
+  };
+
   const role: number = 3; /**Her skal Zaim sin supermetode inn */
 
   return (
@@ -154,7 +162,9 @@ export default (props: any) => {
                   <ListItemText primary="Delete" />
                 </StyledMenuItem>
 
-                <StyledMenuItem>
+                <StyledMenuItem
+                  onClick={e => handleContract(e, props.user, props.event)}
+                >
                   <ListItemIcon>
                     <DescriptionIcon fontSize="small" />
                   </ListItemIcon>
