@@ -11,7 +11,7 @@ export default (props: any) => {
   }, []);
 
   useEffect(() => {
-    props.printMap(props.events[itemID])
+    props.setCenter(props.events[itemID])
   }, [itemID]);
 
   var mod = function (n:any, m:any) {

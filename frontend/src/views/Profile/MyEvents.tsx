@@ -11,6 +11,7 @@ import {
 } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import Button from "../../components/Button/Button";
+import DropDownButton from "../../components/Button/DropDownButton";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
@@ -27,7 +28,7 @@ const handleClick = (event: React.MouseEvent<unknown>, id: number) => {
 };
 
 export default (props: any) => {
-  const classes = useStyles();
+  const classes = useStyles(props);
 
   return (
     <TableContainer component={Paper}>
@@ -38,6 +39,7 @@ export default (props: any) => {
             <TableCell align="right">Event start</TableCell>
             <TableCell align="right">Event end</TableCell>
             <TableCell align="right">Location</TableCell>
+            <TableCell align="right">Settings</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -45,23 +47,25 @@ export default (props: any) => {
             <TableRow
               key={event.id}
               hover
-              onClick={e => handleClick(e, event.id)}
             >
-              <TableCell component="th" scope="row">
+              <TableCell component="th" scope="row" onClick={e => handleClick(e, event.id)}>
                 {event.event_name}
               </TableCell>
 
-              <TableCell align="right">
+              <TableCell align="right" onClick={e => handleClick(e, event.id)}> 
                 {new Date(event.event_start).toDateString().substring(0, 10) +
                   " " +
                   new Date(event.event_start).toTimeString().substring(0, 5)}
               </TableCell>
-              <TableCell align="right">
+              <TableCell align="right" onClick={e => handleClick(e, event.id)}>
                 {new Date(event.event_end).toDateString().substring(0, 10) +
                   " " +
                   new Date(event.event_end).toTimeString().substring(0, 5)}
               </TableCell>
-              <TableCell align="right">{event.location}</TableCell>
+              <TableCell align="right" onClick={e => handleClick(e, event.id)}>{event.location}</TableCell>
+              <TableCell align="right">
+                <DropDownButton/>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
