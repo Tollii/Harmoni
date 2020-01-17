@@ -43,6 +43,16 @@
       })
       .then(user => user)),
 
+    changePassword: (id, hash) => Users.findOne({ where: {id: id}})
+      .then(user => Users.update({
+        hash: hash,
+      },
+      {
+        returning: true,
+        where: {id: id}
+      })
+      .then(user => user)),
+
     userDelete: (id) => Users.findOne({ where: {id: id}})
       .then(user => Users.destroy({where: {id:id}})
         .then(x => user)
@@ -54,4 +64,3 @@
 
   }
 }
-
