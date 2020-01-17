@@ -21,7 +21,7 @@ const useStyles = makeStyles({
 
 });
 
-export default () => {
+export default (props:any) => {
   const classes = useStyles();
   const [center, setCenter] = useState({ lat: 63.4189, lng: 10.4027 });
   const [events, setEvents] = useState<any>([]);
