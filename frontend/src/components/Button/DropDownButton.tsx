@@ -22,6 +22,7 @@ import DescriptionIcon from "@material-ui/icons/Description";
 import SettingsIcon from "@material-ui/icons/Settings";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AlertDialog from "../../components/AlertDialog/AlertDialog";
+import { getAuth } from "../../service/Authentication";
 
 const StyledMenu = withStyles({
   paper: {
@@ -72,7 +73,12 @@ export default (props: any) => {
     window.location.hash = "contract/user/" + userId + "/event/" + eventId;
   };
 
-  const role: number = 3; /**Her skal Zaim sin supermetode inn */
+  const [role, setRole] = useState();
+  useEffect(() => {
+    getAuth().then((role: any) => {
+      setRole(role);
+    });
+  }, []);
 
   return (
     <div>
@@ -114,7 +120,9 @@ export default (props: any) => {
                   <ListItemText primary="Edit rider" />
                 </StyledMenuItem>
 
-                <StyledMenuItem>
+                <StyledMenuItem
+                  onClick={e => handleContract(e, props.user, props.event)}
+                >
                   <ListItemIcon>
                     <DescriptionIcon fontSize="small" />
                   </ListItemIcon>
