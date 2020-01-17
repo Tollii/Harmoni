@@ -19,7 +19,7 @@
     "date-fns": "^2.9.0",
     "google-map-react": "^1.1.5",
     "google-maps-react": "^2.0.2",
-    "material-ui-dropzone": "^2.4.7",
+    "material-table": "^1.55.0",
     "material-ui-pickers": "^2.2.4",
     "material-ui-responsive-menu": "^1.19.3",
     "react": "^16.12.0",
