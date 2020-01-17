@@ -145,10 +145,10 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function Navbar() {
+export default function Navbar(props:any) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [auth, setAuth] = React.useState(true);
+  const [auth, setAuth] = React.useState(false);
   const [values, setValues] = React.useState({
     id: 0,
     fullName: "Trump",
@@ -200,7 +200,7 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    setAuth(getCookie("token").length > 1);
+    setAuth(props.loggedIn);
     if (auth) {
       UserService.getOneUser().then(res => {
         setValues({
@@ -211,7 +211,7 @@ export default function Navbar() {
         });
       });
     }
-  }, []);
+  }, [props.loggedIn]);
 
   return (
     <div>

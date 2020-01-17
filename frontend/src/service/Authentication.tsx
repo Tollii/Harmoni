@@ -17,16 +17,16 @@ class Authentication {
       .post("http://" + url + port + "/signup/", information)
       .then((response: { data: Object }) => response.data);
   };
-}
-
-export function getAuth () {
-  if(token){
-    return UserService.getOneUser()
-    .then(user => user.roleID)
-  } else {
-    return 0;
+  getAuth () {
+    if(token){
+      return UserService.getOneUser()
+      .then(user => user.roleID)
+    } else {
+      return Promise.resolve(0);
+    }
   }
 }
+
 
 
 

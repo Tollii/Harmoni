@@ -16,7 +16,7 @@ export default (props: any) => {
 
   return (
     <div>
-      <LoginCard />
+      <LoginCard logFunc={props.logFunc}/>
       <Grid container direction="row" justify="center">
         <Button
           className={classes.marginTop}
@@ -28,51 +28,3 @@ export default (props: any) => {
     </div>
   );
 };
-
-/* <Grid container direction="row">
- ellipse: {
-    height: "100px",
-    backgroundColor: "#f50057",
-    borderTopRightRadius: "400px",
-    borderTopLeftRadius: "400px",
-    borderBottomRightRadius: "400px",
-    borderBottomLeftRadius: "400px",
-    bottom: 0
-  },
-  ellipse1: {
-    borderRadius: 0,
-    position: "absolute",
-    width: "100%",
-    zIndex: 1,
-    marginLeft: 0,
-    overflowX: "hidden"
-  },
-  ellipse2: {
-    position: "absolute",
-    width: "25%",
-    zIndex: 2,
-    marginLeft: "33%"
-  },
-  ellipse3: {
-    borderTopRightRadius: 0,
-    borderBottomRightRadius: 0,
-    position: "absolute",
-    width: "33%",
-    zIndex: 3,
-    right: 0
-  }
-  
-<Box
-className={`${classes.ellipse} ${classes.ellipse1}`}
-boxShadow={10}
-/>
-<Box
-className={`${classes.ellipse} ${classes.ellipse2}`}
-boxShadow={10}
-/>
-<Box
-className={`${classes.ellipse} ${classes.ellipse3}`}
-boxShadow={10}
-/>
-</Grid>
-*/
