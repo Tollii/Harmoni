@@ -7,7 +7,8 @@ import {
   Typography,
   Link,
   createStyles,
-  Theme
+  Theme,
+  Button
 } from "@material-ui/core";
 import {
   KeyboardDatePicker,
@@ -55,10 +56,11 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function Ticket(props: any) {
   const classes = useStyles();
 
-  function deleteTicket() {
-    props.tickets.pop();
+  const deleteTicket = (index: number) => {
+    delete props.tickets[index];
+    // props.tickets.splice(index, 1);
     props.handleChange(props.tickets, "tickets");
-  }
+  };
 
   function addTicket() {
     let newTicket = {
@@ -81,21 +83,15 @@ export default function Ticket(props: any) {
         </Typography>
       </Grid>
       {props.tickets.map((ticket: any, index: number) => (
-          <TicketRow
-            tickets={props.tickets}
-            key={index}
-            id={index}
-            handleChange={props.handleChange}
-          />
-
+        <TicketRow
+          tickets={props.tickets}
+          key={index}
+          id={index}
+          handleChange={props.handleChange}
+          deleteTicket={deleteTicket}
+        />
       ))}
       <Typography>
-        <Link component="button" variant="body2" onClick={deleteTicket}>
-          <Add className={classes.add} />
-          Delete ticket
-        </Link>
-      </Typography>
-        <Typography>
         <Link component="button" variant="body2" onClick={addTicket}>
           <Add className={classes.add} />
           Add ticket
@@ -220,6 +216,7 @@ const TicketRow = (props: any) => {
               onChange={e => handleChange(e, "date_end")}
             />
           </Grid>
+          <Button onClick={() => props.deleteTicket(props.id)}>Slett</Button>
         </Grid>
       </MuiPickersUtilsProvider>
     </CardContent>
