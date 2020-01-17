@@ -34,7 +34,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default () => {
+export default (props:any) => {
   const classes = useStyles();
   const { handleChange, handleSubmit, values, errors } = useForm(
     submit,
@@ -57,7 +57,8 @@ export default () => {
         password: values.password
       }).then((data: any) => {
         document.cookie = "token=" + data + "; expires=" + now.toUTCString();
-        window.location.href = "http://localhost:3000/";
+        props.logFunc(true)
+        window.location.hash = "#/";
       });
     }
   }

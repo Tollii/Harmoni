@@ -400,7 +400,8 @@ export default (props: any) => {
                       getCookie("token") +
                       "; expires=" +
                       new Date().toUTCString();
-                    window.location.href = "http://localhost:3000/";
+                    props.logFunc(false)
+                    window.location.hash = "#/";
                   }}
                 >
                   Logout
