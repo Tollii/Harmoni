@@ -9,7 +9,7 @@ import Button from "../../components/Button/Button";
 import useForm from "../../service/Form/useForm";
 import { validateLogin } from "../../service/Form/Validate";
 import Authentication from "../../service/Authentication";
-
+var loginError:boolean=false;
 const useStyles = makeStyles({
   grid: {
     maxWidth: "450px",
@@ -26,12 +26,16 @@ const useStyles = makeStyles({
   notchedOutline: {
     borderRadius: 0
   },
+  errormessage:{
+    float:"right"
+  },
   custom: {
     minWidth: "250px",
     maxWidth: "450px",
     marginTop: "20px",
     margin: "auto"
   }
+
 });
 
 export default (props:any) => {
@@ -57,8 +61,10 @@ export default (props:any) => {
         password: values.password
       }).then((data: any) => {
         document.cookie = "token=" + data + "; expires=" + now.toUTCString();
-        props.logFunc(true)
         window.location.hash = "#/";
+        props.logFunc(true)
+      }).catch((err:any)=>{
+        loginError=true;
       });
     }
   }
@@ -94,6 +100,7 @@ export default (props:any) => {
                 value={values.password}
                 onChange={handleChange}
               />
+              <div>{loginError ? <h4 className={classes.errormessage}>Invalid email or password</h4> : null }</div>
 
               <Grid container direction="row" justify="space-between">
                 <Button>Forgot password?</Button>
