@@ -26,18 +26,23 @@ const SimpleMap = (props: any) => {
   };
 
   useEffect(() => {
-    Promise.all((props.events.map(async(e: any) => {
+    Promise.all(props.events.map(async(e: any) => {
       return findCenter(e)
-      .then((x:any)=> {
-      return (<Marker
-          key={e.id}
-          lat={x.lat}
-          lng={x.lng}
-          name={e.event_name}
-          img={require("../../assets/img/harmoni_logo_small.png")}
-        />)}
-      )}))).then(function(results:any) {
-        setMarker(results);
+      .then((center:any)=> {
+        console.log(center);
+        if(center !== undefined){
+          return (<Marker
+            key={e.id}
+            lat={center.lat}
+            lng={center.lng}
+            name={e.event_name}
+            img={require("../../assets/img/harmoni_logo_small.png")}
+          />)
+        }
+      }
+      )})).then((results:any) => {
+        console.log(results);
+        setMarker(results)
       })
   }, [props.events])
 
