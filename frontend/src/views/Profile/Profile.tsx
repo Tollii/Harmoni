@@ -23,6 +23,7 @@ import RoleService from "../../service/roles";
 import getCookie from "../../service/cookie";
 import MyEvents from "./MyEvents";
 import EventService from "../../service/events";
+import FileService from "../../service/files"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,6 +39,12 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: "left",
       color: theme.palette.text.secondary,
       width: "500px"
+    },
+    editPic: {
+      fontSize: "12px",
+      "&:hover": {
+        cursor: "pointer",
+      }
     }
   })
 );
@@ -53,6 +60,8 @@ export default (props: any) => {
     setValue(newValue);
   };
 
+  const [pic_url, setPic_url] = useState("")
+  const [file, setFile] = useState(new File(["foo"], ""))
   const [newValues, setNewValues] = useState({
     fullName: "hei",
     email: "email",
@@ -74,7 +83,6 @@ export default (props: any) => {
   };
 
   const handleSubmitData = (event: any) => {
-    console.log("submitted");
     setValues({
       fullName: newValues.fullName,
       email: newValues.email,
@@ -93,7 +101,12 @@ export default (props: any) => {
     setOpenEdit(false);
   };
 
-  const fileSelectedHandler = (event: any) => {};
+  const fileSelectedHandler = (event: any) => {
+    setFile(event.target.files[0])
+  };
+  const uploadProfilePicture = () => {
+    return Promise.resolve(FileService.postProfilePicture(file))
+  };
 
   const resetNewVal = () => {
     setNewValues({
@@ -127,10 +140,11 @@ export default (props: any) => {
 
   const handleCloseEditPic = () => {
     setOpenEditPic(false);
+    setFile(new File(["foo"], ""))
+    window.location.reload();  
   };
 
   useEffect(() => {
-    // Update the document title using the browser API
     UserService.getOneUser().then(res => {
       RoleService.getRole(res.roleID).then((res1: any) => {
         setValues({
@@ -148,6 +162,7 @@ export default (props: any) => {
           telephone: res.phone,
           picture: res.picture
         });
+        setPic_url("http://localhost:8080/image/profile/" + res.id)
       });
     });
   }, []);
@@ -210,15 +225,14 @@ export default (props: any) => {
               <Grid item xs={3}>
                 <img
                   style={{ width: "160px", height: "160px" }}
-                  src={"http://localhost:8080/profile_picture/" + values.id}
+                  src={pic_url}
                   alt={values.picture}
                 />
                 <Typography>
                   <Link
-                    href="#"
                     onClick={handleOpenEditPic}
                     color="inherit"
-                    style={{ fontSize: "12px" }}
+                    className={classes.editPic}
                   >
                     {"Edit profile picture"}
                   </Link>
@@ -235,21 +249,28 @@ export default (props: any) => {
                   <DialogContent>
                     <DialogContentText></DialogContentText>
                     <Paper className={classes.paper}>
-                      <Button variant="contained" component="label">
-                        Choose File
-                        <input
-                          type="file"
-                          accept="image/*"
-                          style={{ display: "none" }}
-                          onChange={fileSelectedHandler}
-                        />
-                      </Button>
+                      <Grid container direction="row">
+                        <Button variant="contained" component="label">
+                          Choose File
+                          <input
+                            type="file"
+                            accept="image/*"
+                            style={{ display: "none" }}
+                            onChange={fileSelectedHandler}
+                          />
+                        </Button>
+                        <Typography style={{marginLeft: "30px"}}>
+                          Chosen file: {file.name}
+                        </Typography>
+                      </Grid>
                     </Paper>
                   </DialogContent>
                   <DialogActions>
                     <Grid container direction="row" justify="center">
                       <Grid item xs={3}>
-                        <Button type="submit">Upload Image</Button>
+                        <Button type="submit" onClick={()=> {uploadProfilePicture().then(()=>{
+                          handleCloseEditPic()
+                          })}}>Upload Image</Button>
                       </Grid>
                       <Grid item xs={3}>
                         <Button onClick={handleCloseEditPic} color="primary">

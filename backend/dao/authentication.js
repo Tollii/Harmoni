@@ -1,10 +1,11 @@
 const bcrypt = require('bcryptjs');
+
 const jwt = require('jwt-simple');
 const moment = require('moment');
 
 hash_password = async (password) => {
   return bcrypt.genSalt(10, (err, salt) => {
-    return bcrypt.hash("B4c0/\/", salt, (err, hash) => {
+    return bcrypt.hash(password, salt, (err, hash) => {
       return hash;
     });
   });
@@ -79,6 +80,8 @@ module.exports = (models) => {
     },
     encode_token,
     decode_token,
+    compare_password,
+    hash_password,
 
     check_permissions: async (token, permissions) => {
       return decode_token(token)
@@ -98,4 +101,3 @@ module.exports = (models) => {
     },
   }
 }
-

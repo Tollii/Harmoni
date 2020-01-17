@@ -26,6 +26,7 @@ module.exports = (app, models, auth) => {
   const filesPath = __basedir + '/saved_files';
   const profilePicturesFolder = filesPath + '/profile_pictures/';
   const eventImagesFolder = filesPath + '/event_images/';
+  const contractFolder = filesPath + '/contracts/';
 
   //// PROFILE PICTURES ////
   /**
@@ -57,7 +58,7 @@ module.exports = (app, models, auth) => {
     if (!req.files || Object.keys(req.files).length === 0) {
       res.status(400).send('No files uploaded');
     } else {
-      let profilePicture = req.files.name;
+      let profilePicture = req.files.image;
       let id = await auth.decode_token(req.headers.token);
       let user = await userControl.userGetOne(id);
 
@@ -139,4 +140,114 @@ module.exports = (app, models, auth) => {
       })
       .catch(err => console.log(err));
   });
+
+    ///////////CONTRACTS///////////
+    /**
+     * @group Files - operations about files
+     * @route GET /files/contract/user/{user_id}/event/{event_id}/
+     * @param {string} token.header.required - token
+     * @param {integer} user_id.path.required - user_id
+     * @param {integer} event_id.path.required - event_id
+     * @returns {object} 200 - returns contract
+     * @returns {error} default - unexpected error
+     */
+    app.get('/files/contract/user/:user_id/event/:event_id', async (req, res) => {
+        console.log(req.headers.token);
+        let id = await auth.decode_token(req.headers.token);
+        if (id != null){
+        console.log(req.params.user_id + " " + req.params.event_id + " " + id);
+        let contract = null;
+        if (id == req.params.user_id) {
+            console.log("in first if")
+            contract = await contractControl.contractGetOne(req.params.user_id, req.params.event_id).then((data)=>
+                res.sendFile(contractFolder + data.contract));
+        }
+        else {
+            console.log("in first else");
+            let roleId = await userControl.userGetOne(id).then(data => data.roleID);
+            if(roleId === 4){
+                contract = await contractControl.getContractForAdmin(id, req.params.user_id, req.params.event_id)
+                    .then((data)=>
+                        res.sendFile(contractFolder + data.contract))
+                    .catch(err => console.log(err));
+            }
+           else if(roleId === 3){
+             let count = await contractControl.contractCountOne(id, req.params.event_id).then((count) => count);
+             if(count>0) {
+                 contract = contractControl.getContractForOrganizer(id, req.params.user_id, req.params.event_id)
+                     .then((data) =>
+                         res.sendFile(contractFolder + data.contract))
+                     .catch(err => console.log(err));
+                  }
+             else {
+                 res.status(400).send("Invalid permission");
+             }
+            }
+           else {
+               res.status(400).send("Invalid permission");
+            }
+
+
+            /* let authenticated = await auth.check_permissions(req.headers.token, ["Admin", "Organizer"]).then(data => data.auth);
+            if(authenticated){
+                console.log("in second if");
+                if( await contractControl.contractCountOne(id, req.query.eventId)){
+                    console.log("in third if");
+                    contract = await contractControl.contractGetOne(req.query.userId, req.query.eventId).then((data)=> data.contract);
+                    res.sendFile(contractFolder + contract);
+                }
+                else {
+                    console.log("in third else");
+                    res.status(400).send("Not authenticated")
+                }
+            } else {
+                console.log("in second else");
+                res.status(400).send("Not authenticated")
+            }
+            */
+        }
+        }
+        else{
+            res.status(400).send("token expired");
+        }
+    });
+
+    /**
+     * @group Files - operations about files
+     * @route PUT /files/contract/user/{user_id}/event/{event_id}/
+     * @param {string} token.header.required - token
+     * @param {integer} user_id.path.required - user_id
+     * @param {integer} event_id.path.required - event_id
+     * @param {file} name.formData.required - name
+     * @returns {object} 200 - ok
+     * @returns {error} default - unexpected error
+     */
+    app.put('/files/contract/user/:user_id/event/:event_id', async (req, res) => {
+        console.log(req.params.user_id + " " + req.params.event_id);
+        if(!req.files || Object.keys(req.files).length === 0) {
+            res.status(400).send('No files uploaded');
+        } else {
+            if(await auth.check_permissions(req.headers.token, ["Admin", "Organizer"])){
+                let contract_file = req.files.name;
+
+                let contract = await contractControl.contractGetOne(req.params.user_id, req.params.event_id);
+
+                let splitName = contract_file.name.split('.');
+                contract_file.name = req.params.user_id + '_' + req.params.event_id + '.' + splitName[splitName.length - 1];
+
+                contractControl.contractUpdate(contract.userID, contract.eventID , contract_file.name);
+
+                contract_file.mv(contractFolder + contract_file.name, function(err) {
+                    if(err) {
+                        return res.sendStatus(500).send(err);
+                    }
+
+                    res.send(contract_file.name);
+                });
+
+            }
+
+        }
+    });
+
 }

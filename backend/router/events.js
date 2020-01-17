@@ -110,7 +110,7 @@ module.exports = (app, models, base, auth) => {
    * @returns {Error}  default - Unexpected error
    */
   app.delete(base + "/:id", (req, res) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer"])
     .then(data => {
       if(data.auth){
         eventControl.eventDelete(req.params.id).then(data => {
@@ -133,7 +133,7 @@ module.exports = (app, models, base, auth) => {
    * @returns {Error}  default - Unexpected error
    */
   app.put(base + "/:id", (req, res) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer"])
     .then(data => {
       if(data.auth){
         eventControl
@@ -189,7 +189,7 @@ module.exports = (app, models, base, auth) => {
    * @returns {Error}  default - Unexpected error
    */
    app.put('/event_archive/:id', (req, res) => {
-     auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
+     auth.check_permissions(req.headers.token, ["Admin", "Organizer"])
      .then(data => {
        if (data.auth) {
          eventControl.eventGetOne(req.params.id)
