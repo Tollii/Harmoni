@@ -25,29 +25,11 @@ export default () => {
   const classes = useStyles();
   const [center, setCenter] = useState({ lat: 63.4189, lng: 10.4027 });
   const [events, setEvents] = useState<any>([]);
-  const googleMapsClient = require("@google/maps").createClient({
-    key: "AIzaSyBpqnFSmQNK7VBnEm521CwPGs8zBkB-SQY",
-    Promise: Promise
-  });
-
-  const printMap = (place: any) => {
-    if (place !== undefined) {
-      googleMapsClient
-      .geocode({ address: place.location })
-      .asPromise()
-      .then((response: any) => {
-        setCenter(response.json.results[0].geometry.location);
-      })
-      .catch((err: any) => {
-        console.log(err);
-      });
-    }
-  };
 
   useEffect(() => {
     EventService.getEvents().then((response: any) => {
       setEvents(response);
-      printMap(response[1])
+      setCenter(response[1])
     });
   }, []);
 
@@ -55,7 +37,7 @@ export default () => {
       <div className={classes.container}>
           <Map events={events} center={center} zoom={11}/>
           <div className={classes.carousel}>
-            <Carousel events={events} printMap={printMap} />
+            <Carousel events={events} setCenter={setCenter} />
           </div>
       </div>
   );

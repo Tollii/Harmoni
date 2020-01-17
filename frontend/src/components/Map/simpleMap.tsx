@@ -44,13 +44,21 @@ const SimpleMap = (props: any) => {
         console.log(results);
         setMarker(results)
       })
+    }
   }, [props.events])
+
+  useEffect(() => {
+    if(props.center){
+      findCenter(props.center)
+      .then((x:any) => setCenter(x))
+    }
+  }, [props.center])
 
   return (
       <GoogleMapReact
         bootstrapURLKeys={{ key: "AIzaSyBpqnFSmQNK7VBnEm521CwPGs8zBkB-SQY" }}
         defaultCenter={center}
-        center={props.center}
+        center={center}
         defaultZoom={props.zoom}
         options={{
           mapTypeControl: false,
