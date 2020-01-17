@@ -5,12 +5,13 @@ let url: string = "http://localhost:8080";
 const token = getCookie("token");
 
 class files {
-  postProfilePicture(data: any, token: String) {
+  postProfilePicture(data: any) {
     let formData = new FormData();
     formData.append("image", data);
     return axios
-      .post(url + "/image/event/" + token, formData, {
+      .post(url + "/image/profile/", formData, {
         headers: {
+          token: token,
           "Content-Type": "multipart/form-data"
         }
       })

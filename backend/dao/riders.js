@@ -7,6 +7,16 @@ module.exports = (models) => {
       return riders;
     }),
 
+    riderGetAllByEvent: async (eventID) => Riders.findAll({
+      where: {
+        eventID: eventID
+      }
+    })
+    .then(riders => {
+      console.log("Fetched all riders from given event");
+      return riders;
+    }),
+
     riderGetOne: async (rider_typeID, eventID, userID) => Riders.findOne({
       where: {
         rider_typeID: rider_typeID,

@@ -81,9 +81,7 @@ module.exports = (app, models, base, auth) => {
     auth
       .check_permissions(req.headers.token, [
         "Admin",
-        "Organizer",
-        "Artist",
-        "User"
+        "Organizer"
       ])
       .then(data => {
         if (data.auth) {
@@ -119,9 +117,7 @@ module.exports = (app, models, base, auth) => {
     auth
       .check_permissions(req.headers.token, [
         "Admin",
-        "Organizer",
-        "Artist",
-        "User"
+        "Organizer"
       ])
       .then(data => {
         if (data.auth) {
@@ -160,9 +156,7 @@ module.exports = (app, models, base, auth) => {
     auth
       .check_permissions(req.headers.token, [
         "Admin",
-        "Organizer",
-        "Artist",
-        "User"
+        "Organizer"
       ])
       .then(data => {
         if (data.auth) {

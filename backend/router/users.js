@@ -19,6 +19,7 @@ module.exports = (app, models, base, auth) => {
   const userControl = require('../dao/users')(models)
 
 
+
   /**
   * @group User - Operations about user
   * @route GET /user/
@@ -106,10 +107,10 @@ module.exports = (app, models, base, auth) => {
           req.body.picture
         )
         .then(() => {
-          res.sendStatus(200).send('User is updated');
+          res.status(200).send('User is updated');
         })
         .catch((err) => {
-          res.sendStatus(400).send('User not updated');
+          res.status(400).send('User not updated');
         })
       } else {
         res.status(400).send("Not authenticated")
