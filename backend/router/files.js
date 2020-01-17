@@ -57,7 +57,7 @@ module.exports = (app, models, auth) => {
     if (!req.files || Object.keys(req.files).length === 0) {
       res.status(400).send('No files uploaded');
     } else {
-      let profilePicture = req.files.name;
+      let profilePicture = req.files.image;
       let id = await auth.decode_token(req.headers.token);
       let user = await userControl.userGetOne(id);
 
