@@ -47,6 +47,67 @@ module.exports = (models) => {
     })
     .then(data => data),
 
+    contractUpdate: async (
+        userID,
+        eventID,
+        contract
+    ) => {
+      return Contract.findOne({
+        where: {
+          userID: userID,
+          eventID: eventID
+        }
+      }).then(() => {
+        return Contract.update(
+            {
+              contract: contract
+            },
+            {
+              where: {
+                userID: userID,
+                eventID: eventID
+              }
+            }
+        ).then(events => events);
+      });
+    },
+
+    getContractForAdmin: async (id, userId, eventId) => {
+      console.log(id + " " + userId + " " + eventId + " " + " getContract ");
+                return Contract.findOne({
+                  where: {
+                    userID: userId,
+                    eventID: eventId
+                  }
+                }).then(contract => contract)
+
+    },
+
+    contractCountOne: (user_id, event_id) => Contract.count({
+      where: {
+        userID: user_id,
+        eventID: event_id
+      }
+    })
+        .then(contract => contract),
+
+
+    getContractForOrganizer: async (id, userId, eventId, roleId) => {
+      console.log(id + " " + userId + " " + eventId + " " + roleId + " getContract ");
+
+        return Contract.findOne({
+          where: {
+            userID: userId,
+            eventID: eventId
+          },
+
+        }).then(contract => contract)
+
+
+
+    },
+
+
     contractDelete: (user_id, event_id) => Contract.findOne({
       where: {
           userID: user_id,
