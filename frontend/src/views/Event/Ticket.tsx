@@ -58,7 +58,6 @@ export default function Ticket(props: any) {
 
   const deleteTicket = (index: number) => {
     delete props.tickets[index];
-    // props.tickets.splice(index, 1);
     props.handleChange(props.tickets, "tickets");
   };
 
