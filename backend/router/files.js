@@ -152,8 +152,8 @@ module.exports = (app, models, auth) => {
      * @returns {error} default - unexpected error
      */
     app.get('/files/contract/user/:user_id/event/:event_id', async (req, res) => {
-        console.log(req.headers.token);
-        let id = await auth.decode_token(req.headers.token);
+        console.log(req.headers.cookie.split('=')[1]);
+        let id = await auth.decode_token(req.headers.cookie.split('=')[1]);
         if (id != null){
         console.log(req.params.user_id + " " + req.params.event_id + " " + id);
         let contract = null;
@@ -228,7 +228,7 @@ module.exports = (app, models, auth) => {
             res.status(400).send('No files uploaded');
         } else {
             if(await auth.check_permissions(req.headers.token, ["Admin", "Organizer"])){
-                let contract_file = req.files.name;
+                let contract_file = req.files.contract;
 
                 let contract = await contractControl.contractGetOne(req.params.user_id, req.params.event_id);
 
