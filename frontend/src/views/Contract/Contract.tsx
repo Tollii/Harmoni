@@ -86,22 +86,24 @@ export default (props: any) => {
   return (
     <Card style={{ width: "80%" }}>
       <CardContent>
-        <Paper className={classes.paper}>
-          <Grid container direction="row">
-            <Button variant="contained" component="label">
-              Choose File
-              <input
-                type="file"
-                accept="image/*"
-                style={{ display: "none" }}
-                onChange={fileSelectedHandler}
-              />
-            </Button>
-            <Typography style={{ marginLeft: "30px" }}>
-              Chosen file: {file.name}
-            </Typography>
-          </Grid>
-        </Paper>
+        <Grid container direction="row" justify="center">
+          <Paper className={classes.paper}>
+            <Grid container direction="row">
+              <Button variant="contained" component="label">
+                Choose File
+                <input
+                  type="file"
+                  accept="application/pdf"
+                  style={{ display: "none" }}
+                  onChange={fileSelectedHandler}
+                />
+              </Button>
+              <Typography style={{ marginLeft: "30px" }}>
+                Chosen file: {file.name}
+              </Typography>
+            </Grid>
+          </Paper>
+        </Grid>
         <Grid container direction="row" justify="center">
           <Grid item xs={3}>
             <Button onClick={() => window.open(contractUrl, "_blank")}>
@@ -113,16 +115,12 @@ export default (props: any) => {
               type="submit"
               onClick={() => {
                 uploadContract().then(() => {
+                  console.log("klikk");
                   handleCloseEditContract();
                 });
               }}
             >
               Upload contract
-            </Button>
-          </Grid>
-          <Grid item xs={3}>
-            <Button onClick={handleCloseEditContract} color="primary">
-              Cancel
             </Button>
           </Grid>
         </Grid>
