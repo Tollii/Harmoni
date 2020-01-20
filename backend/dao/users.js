@@ -5,7 +5,6 @@
 
     userGetAll: async () => Users.findAll()
     .then( users => {
-      console.log("Fetched all users");
       return users;
     }),
 
