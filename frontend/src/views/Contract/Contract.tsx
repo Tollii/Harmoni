@@ -49,6 +49,7 @@ export default (props: any) => {
   const [openEditContract, setOpenEditContract] = React.useState(false);
   const [file, setFile] = useState(new File(["foo"], ""));
   const [contractUrl, setContractUrl] = useState("");
+  const [contract, setContract] = useState();
 
   const handleOpenEditContract = () => {
     setOpenEditContract(true);
@@ -80,7 +81,12 @@ export default (props: any) => {
         "/event/" +
         props.match.params.eventId
     );
-    console.log("Henter kontrakt");
+    setContract(
+      ContractService.getContract(
+        props.match.params.userId,
+        props.match.params.eventId
+      ).contract
+    );
   }, []);
 
   return (
@@ -103,24 +109,21 @@ export default (props: any) => {
               </Typography>
             </Grid>
           </Paper>
+          <Button
+            type="submit"
+            onClick={() => {
+              uploadContract().then(() => {
+                handleCloseEditContract();
+              });
+            }}
+          >
+            Upload contract
+          </Button>
         </Grid>
         <Grid container direction="row" justify="center">
           <Grid item xs={3}>
             <Button onClick={() => window.open(contractUrl, "_blank")}>
               View Contract
-            </Button>
-          </Grid>
-          <Grid item xs={3}>
-            <Button
-              type="submit"
-              onClick={() => {
-                uploadContract().then(() => {
-                  console.log("klikk");
-                  handleCloseEditContract();
-                });
-              }}
-            >
-              Upload contract
             </Button>
           </Grid>
         </Grid>

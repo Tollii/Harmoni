@@ -19,6 +19,9 @@ class ContractService {
   }
 
   getContract(userID: number, eventID: number) {
+    console.log("kjøres serivce contract");
+    console.log(token);
+
     return axios
       .get(
         process.env.REACT_APP_API_URL +
