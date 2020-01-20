@@ -24,7 +24,7 @@ import getCookie from "../../service/cookie";
 import MyEvents from "./MyEvents";
 import EventService from "../../service/events";
 import FileService from "../../service/files";
-import AuthService from "../../service/Authentication";
+import Authentication from "../../service/Authentication";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -203,10 +203,19 @@ export default (props: any) => {
   }, []);
 
   useEffect(() => {
-    EventService.getEventsByUser().then((response: any) => {
-      if (response.length !== 0) {
-        setEvents(response);
-        console.log(response);
+    props.isAuth().then((res: any) => {
+      if (res !== 4) {
+        EventService.getEventsByUser().then((response: any) => {
+          if (response.length !== 0) {
+            setEvents(response);
+          }
+        });
+      } else {
+        EventService.getEvents().then((response: any) => {
+          if (response.length !== 0) {
+            setEvents(response);
+          }
+        });
       }
     });
   }, []);
@@ -461,7 +470,10 @@ export default (props: any) => {
         <CardContent>
           <div style={{ marginBottom: "30px" }}>
             <Grid container spacing={4}>
-              <MyEvents events={events} user={values.id} />
+              {props.isAuth !== 4 && (
+                <MyEvents events={events} user={values.id} />
+              )}
+              {props.isAuth === 4 && <MyEvents events={events} />}
             </Grid>
           </div>
         </CardContent>

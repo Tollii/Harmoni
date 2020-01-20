@@ -57,7 +57,14 @@ const StyledMenuItem = withStyles(theme => ({
 
 export default (props: any) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  
+  const [contractUrl, setContractUrl] = useState(
+    process.env.REACT_APP_API_URL +
+      "/files/contract/user/" +
+      props.user +
+      "/event/" +
+      props.event
+  );
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -173,7 +180,7 @@ export default (props: any) => {
                 </StyledMenuItem>
 
                 <StyledMenuItem
-                  onClick={e => handleContract(e, props.user, props.event)}
+                  onClick={() => window.open(contractUrl, "_blank")}
                 >
                   <ListItemIcon>
                     <DescriptionIcon fontSize="small" />
@@ -228,7 +235,7 @@ export default (props: any) => {
                   <ListItemIcon>
                     <DescriptionIcon fontSize="small" />
                   </ListItemIcon>
-                  <ListItemText primary="Contract" />
+                  <ListItemText primary="See contract" />
                 </StyledMenuItem>
               </StyledMenu>
             </div>
