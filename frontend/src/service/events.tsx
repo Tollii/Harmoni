@@ -48,7 +48,6 @@ class EventService {
   }
 
   getEventCarousel() {
-    console.log(process.env.REACT_APP_API_URL);
     return axios
         .get(process.env.REACT_APP_API_URL + "/eventcarousel")
         .then((response: { data: JSON }) => response.data);
