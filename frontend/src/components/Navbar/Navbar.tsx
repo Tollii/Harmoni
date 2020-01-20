@@ -12,6 +12,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
 import MenuItem from "@material-ui/core/MenuItem";
+import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
@@ -66,11 +67,18 @@ const useStyles = makeStyles((theme: Theme) =>
       left: 0,
       position: "absolute"
     },
+    listButton: {
+      position: "absolute",
+      right: 100,
+      [theme.breakpoints.down(600)]: {
+        display: "none"
+      }
+    },
     addEventButton: {
       backgroundColor: "transparent",
       borderColor: "transparent",
       position: "absolute",
-      right: 100,
+      right: 50,
       [theme.breakpoints.down(600)]: {
         display: "none"
       }
@@ -81,11 +89,6 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.down(600)]: {
         display: "none"
       }
-    },
-    icon: {
-      fontFamily: '"Apple Chancery", Segoe UI',
-      color: "black",
-      fontSize: 20
     },
     mobileMenuButton: {
       color: theme.palette.common.black,
@@ -187,9 +190,11 @@ export default function Navbar(props:any) {
           <Button onClick={() => (window.location.hash = "/")} className={classes.logo}>
             <img src={require("../../assets/img/harmoni_logo_wide.png")} alt="logo.png" width="210"></img>
           </Button>
+          <Button onClick={() => (window.location.hash = "/events")} className={classes.listButton}>
+            <FormatListBulletedIcon />
+          </Button>
           <Button onClick={() => (window.location.hash = "/addEvent")} className={classes.addEventButton}>
             <AddCircleIcon />
-            Add Event
           </Button>
           <Box className={classes.profileButton}>
             {auth ? (
