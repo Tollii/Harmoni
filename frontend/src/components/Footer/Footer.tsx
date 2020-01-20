@@ -6,6 +6,7 @@ import Divider from "@material-ui/core/Divider";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import { Instagram, Twitter } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
+import FeedbackFrom from "../FeedbackForm/FeedbackFrom";
 
 const useStyles = makeStyles({
   root: {
@@ -27,26 +28,29 @@ export default () => {
         © Harmoni Copyright 2020
       </Typography>
       <Divider style={{ margin: "20px auto", width: 100 }} />
-      <Grid container justify={"center"} spacing={2}>
-        <Grid item xs={12} sm={6} md={3}>
+      <Grid container justify={"center"} spacing={1}>
+        <Grid item xs={12} sm={3} md={2}>
           <Link align={"center"} href="#" color={"textSecondary"}>
             About Harmoni
           </Link>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid item xs={12} sm={3} md={2}>
           <Link align={"center"} href="#" color={"textSecondary"}>
             Site Map
           </Link>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid item xs={12} sm={4} md={3}>
           <Link align={"center"} href="#" color={"textSecondary"}>
             Terms & Conditions
           </Link>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid item xs={12} sm={3} md={2}>
           <Link align={"center"} href="#" color={"textSecondary"}>
             Contact us
           </Link>
+        </Grid>
+        <Grid item xs={12} sm={3} md={2}>
+          <FeedbackFrom/>
         </Grid>
       </Grid>
       <Grid container justify="center" spacing={2} className={classes.icons}>
