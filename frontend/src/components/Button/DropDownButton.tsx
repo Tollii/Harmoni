@@ -4,7 +4,6 @@ import {
   Button,
   Card,
   Grid,
-  Link,
   Typography,
   MenuProps,
   Menu,
@@ -211,12 +210,14 @@ export default (props: any) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <StyledMenuItem>
-                  <ListItemIcon>
-                    <SettingsIcon fontSize="small" />
-                  </ListItemIcon>
-                  <ListItemText primary="Edit" />
-                </StyledMenuItem>
+                <Link to={"/editEvent/" + 2}>
+                  <StyledMenuItem>
+                    <ListItemIcon>
+                      <SettingsIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText primary="Edit" />
+                  </StyledMenuItem>
+                </Link>
 
                 <StyledMenuItem
                   onClick={() =>
