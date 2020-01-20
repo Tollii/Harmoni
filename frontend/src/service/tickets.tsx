@@ -40,7 +40,7 @@ class TicketService {
 
   updateTicket(ticket: object, id: number) {
     return axios
-      .put(process.env.REACT_APP_API_URL + "/ticket/" + id, ticket, {headers: {token: token}})
+      .put(process.env.REACT_APP_API_URL + "/ticket/" + id, ticket, {headers: {token: getCookie("token")}})
       .then((response: { data: Ticket }) => console.log(response));
   }
 
