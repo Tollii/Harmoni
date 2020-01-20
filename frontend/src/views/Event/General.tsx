@@ -11,6 +11,7 @@ import {
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { Input, Typography, Button, Menu, MenuItem } from "@material-ui/core";
+import EventService from "../../service/events";
 
 export default (props: any) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -143,12 +144,14 @@ export default (props: any) => {
                   aria-haspopup="true"
                   onClick={handleClick}
                 >
-                  {props.values.eventTypeId === 0
+                  {props.values.eventTypeId === 0 ||
+                  props.eventTypes === undefined
                     ? "Event Type"
-                    : props.eventTypes.find(
-                        (eventType: any) =>
-                          props.values.eventTypeId === eventType.id
-                      ).event_type}
+                    : props.eventTypes.map((eventType: any) => {
+                        if (props.values.eventTypeId === eventType.id) {
+                          return eventType.event_type;
+                        }
+                      })}
                 </Button>
                 <Menu
                   id="simple-menu"

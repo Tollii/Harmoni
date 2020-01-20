@@ -4,13 +4,13 @@ import {
   Button,
   Card,
   Grid,
-  Link,
   Typography,
   MenuProps,
   Menu,
   MenuItem,
   ListItemIcon,
-  ListItemText
+  ListItemText,
+  Link
 } from "@material-ui/core";
 import {
   createStyles,
@@ -39,8 +39,8 @@ import DropDownButton from "../../components/Button/DropDownButton";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    buttons:{
-      margin:"auto"
+    buttons: {
+      margin: "auto"
     },
     description: {
       // padding: theme.spacing(5),
@@ -272,7 +272,6 @@ export default (props: any) => {
                 values.end.toTimeString().substring(0, 5)}
             </p>
           </Typography>
-          <Link href="#">Add to calender</Link>
           <Typography className={classes.smallTitle} variant="h6" gutterBottom>
             Location:
           </Typography>

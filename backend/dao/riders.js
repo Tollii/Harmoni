@@ -55,21 +55,11 @@ module.exports = (models) => {
     })
     .then(rider => rider)),
 
-    riderDelete: async (rider_typeID, eventID, userID) => Riders.findOne({
-      where: {
-        rider_typeID: rider_typeID,
-        eventID: eventID,
-        userID: userID
-      }
-    })
-    .then(rider = Riders.destroy({
+    riderDelete: async (eventID) => Riders.destroy({
         where: {
-          rider_typeID: rider_typeID,
-          eventID: eventID,
-          userID: userID
+          eventID: eventID
         }
       })
-      .then(x => rider)
-    ),
+      .then(x => x)
   }
 }
