@@ -2,7 +2,6 @@ import getCookie from "./cookie";
 const axios = require("axios").default;
 
 let url = "http://localhost:8080";
-const token = getCookie("token");
 
 
 class MailingService {
