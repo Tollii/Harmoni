@@ -1,21 +1,20 @@
 const nodemailer = require("nodemailer");
 
+
 const mailer =  async (recipients, subject, html) => {
 
     const transporter = nodemailer.createTransport({
         pool: true,
-        host: "smtp.ethereal.email",
-        port: 587,
-        secure: false,
+        service: "gmail",
         auth: {
-            user: 'gretchen.lubowitz23@ethereal.email',
-            pass: 'zvDtHYwEYPvjkhNfDF'
+            user: process.env.EMAIL_MAIL,
+            pass: process.env.EMAIL_PASSWORD
         }
     });
 
     transporter.verify((error, success) => {
         if(error) {
-            console.log(errer);
+            console.log(error);
         } else {
             console.log("Server is ready to take our messages;");
         }
