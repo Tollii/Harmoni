@@ -152,37 +152,36 @@ module.exports = (app, models, auth) => {
      * @returns {error} default - unexpected error
      */
     app.get('/files/contract/user/:user_id/event/:event_id', async (req, res) => {
-        console.log(req.headers.token);
-        let id = await auth.decode_token(req.headers.token);
-        if (id != null){
-        console.log(req.params.user_id + " " + req.params.event_id + " " + id);
-        let contract = null;
-        if (id == req.params.user_id) {
-            console.log("in first if")
-            contract = await contractControl.contractGetOne(req.params.user_id, req.params.event_id).then((data)=>
-                res.sendFile(contractFolder + data.contract));
-        }
-        else {
-            console.log("in first else");
-            let roleId = await userControl.userGetOne(id).then(data => data.roleID);
-            if(roleId === 4){
-                contract = await contractControl.getContractForAdmin(id, req.params.user_id, req.params.event_id)
-                    .then((data)=>
-                        res.sendFile(contractFolder + data.contract))
-                    .catch(err => console.log(err));
-            }
-           else if(roleId === 3){
-             let count = await contractControl.contractCountOne(id, req.params.event_id).then((count) => count);
-             if(count>0) {
-                 contract = contractControl.getContractForOrganizer(id, req.params.user_id, req.params.event_id)
-                     .then((data) =>
-                         res.sendFile(contractFolder + data.contract))
-                     .catch(err => console.log(err));
-                  }
-             else {
-                 res.status(400).send("Invalid permission");
-             }
-            }
+      auth.check_permissions(req.headers.cookie.split("=")[1], ["Admin", "Organizer", "Artist"])
+      .then(async data => {
+        if (data.auth) {          
+          let id = data.user.dataValues.id;
+          if (id != null){
+          let contract = null;
+          if (id == req.params.user_id) {
+              contract = await contractControl.contractGetOne(req.params.user_id, req.params.event_id).then((data)=>
+                  res.sendFile(contractFolder + data.contract));
+          }
+          else {
+              let roleId = await userControl.userGetOne(id).then(data => data.roleID);
+              if(roleId === 4){
+                  contract = await contractControl.getContractForAdmin(id, req.params.user_id, req.params.event_id)
+                      .then((data)=>
+                          res.sendFile(contractFolder + data.contract))
+                      .catch(err => console.log(err));
+              }
+            else if(roleId === 3){
+              let count = await contractControl.contractCountOne(id, req.params.event_id).then((count) => count);
+              if(count>0) {
+                  contract = contractControl.getContractForOrganizer(id, req.params.user_id, req.params.event_id)
+                      .then((data) =>
+                          res.sendFile(contractFolder + data.contract))
+                      .catch(err => console.log(err));
+                    }
+              else {
+                  res.status(400).send("Invalid permission");
+              }
+          }
            else {
                res.status(400).send("Invalid permission");
             }
@@ -206,10 +205,10 @@ module.exports = (app, models, auth) => {
             }
             */
         }
-        }
+        }}
         else{
             res.status(400).send("token expired");
-        }
+        }})
     });
 
     /**
@@ -223,12 +222,11 @@ module.exports = (app, models, auth) => {
      * @returns {error} default - unexpected error
      */
     app.put('/files/contract/user/:user_id/event/:event_id', async (req, res) => {
-        console.log(req.params.user_id + " " + req.params.event_id);
         if(!req.files || Object.keys(req.files).length === 0) {
             res.status(400).send('No files uploaded');
         } else {
             if(await auth.check_permissions(req.headers.token, ["Admin", "Organizer"])){
-                let contract_file = req.files.name;
+                let contract_file = req.files.contract;
 
                 let contract = await contractControl.contractGetOne(req.params.user_id, req.params.event_id);
 
