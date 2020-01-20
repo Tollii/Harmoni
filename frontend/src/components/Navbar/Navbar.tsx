@@ -44,7 +44,8 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import getCookie from "../../service/cookie";
 import UserService from "../../service/users";
-const options = ["Catergoris", "Conserts", "Festivals"];
+
+const options = ["Catergories", "Conserts", "Festivals"];
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -62,16 +63,21 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: "rgba(255,255,255,0.5)"
     },
     logo: {
-      left: "none"
+      left: 0,
+      position: "absolute"
     },
     addEventButton: {
       backgroundColor: "transparent",
       borderColor: "transparent",
+      position: "absolute",
+      right: 100,
       [theme.breakpoints.down(600)]: {
         display: "none"
       }
     },
     profileButton: {
+      position: "absolute",
+      right: 0,
       [theme.breakpoints.down(600)]: {
         display: "none"
       }
@@ -89,8 +95,18 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       "&:hover": {
         color: fade(theme.palette.common.black, 0.7)
-      }
+      },
     },
+    drawer: {
+      width: drawerWidth,
+      variant: "persistent",
+    },
+    drawerHeader: {
+
+    },
+    drawPaper: {
+      width: drawerWidth
+    }
   })
 );
 
@@ -104,7 +120,6 @@ export default function Navbar(props:any) {
     roleID: 0,
     picture: ""
   });
-  const [openDrawer, setOpenDrawer] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLDivElement>(null);
   const [selectedIndex, setSelectedIndex] = React.useState(1);
@@ -142,10 +157,10 @@ export default function Navbar(props:any) {
   };
 
   const handleDrawerOpen = () => {
-    setOpenDrawer(true);
+    setOpen(true);
   };
   const handleDrawerClose = () => {
-    setOpenDrawer(false);
+    setOpen(false);
   };
 
   useEffect(() => {
@@ -166,7 +181,7 @@ export default function Navbar(props:any) {
     <div className={classes.root}>
       <AppBar className={classes.backgroundNavbar} position="fixed">
         <Toolbar className={classes.navbar}>
-          <IconButton onClick={handleMenu} className={classes.mobileMenuButton}>
+          <IconButton onClick={handleDrawerOpen} className={classes.mobileMenuButton}>
             <MenuIcon/>
           </IconButton>
           <Button onClick={() => (window.location.hash = "/")} className={classes.logo}>
@@ -176,7 +191,7 @@ export default function Navbar(props:any) {
             <AddCircleIcon />
             Add Event
           </Button>
-          <Box className="profileButton">
+          <Box className={classes.profileButton}>
             {auth ? (
               <Button onClick={() => (window.location.hash = "/profile")}>
                 <Avatar alt="Profile" src={"http://localhost:8080/profile_picture/" + values.id}/>
@@ -190,6 +205,15 @@ export default function Navbar(props:any) {
           </Box>
         </Toolbar>
       </AppBar>
+      <Drawer className={classes.drawer} classes={{ paper: classes.drawPaper }} open={open} anchor="right">
+        <div className={classes.drawerHeader}>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+          </IconButton>
+        </div>
+        <Divider />
+
+      </Drawer>
 
     </div>
   );
