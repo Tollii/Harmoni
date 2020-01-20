@@ -18,7 +18,7 @@ class files {
       .then((response: { data: JSON }) => response.data);
   }
 
-  postContracts(data: any, userID: number, eventID: number) {
+  postContracts(data: any, userID: number, eventID: number) {    
     let formData = new FormData();
     formData.append("contract", data);
     return axios
