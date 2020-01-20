@@ -9,6 +9,7 @@ import Button from "../../components/Button/Button";
 import useForm from "../../service/Form/useForm";
 import { validateLogin } from "../../service/Form/Validate";
 import Authentication from "../../service/Authentication";
+import {Link} from "react-router-dom";
 var loginError:boolean=false;
 const useStyles = makeStyles({
   grid: {
@@ -104,7 +105,9 @@ export default (props:any) => {
               <div>{loginError ? <h4 className={classes.errormessage}>Invalid email or password</h4> : null }</div>
 
               <Grid container direction="row" justify="space-between">
-                <Button>Forgot password?</Button>
+                <Link to="/forgot">
+                  <Button>Forgot password?</Button>
+                </Link>
                 <Button type="submit">Log in</Button>
               </Grid>
             </form>

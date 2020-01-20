@@ -3,7 +3,6 @@ module.exports = (models) => {
   return {
     roleGetAll: async () => Roles.findAll()
     .then(roles => {
-      console.log("Fetched all roles");
       return roles;
     }),
 

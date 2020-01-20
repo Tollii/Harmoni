@@ -3,7 +3,6 @@ module.exports = (models) => {
   return {
     riderGetAll: async () => Riders.findAll()
     .then(riders => {
-      console.log("Fetched all riders");
       return riders;
     }),
 
@@ -13,7 +12,6 @@ module.exports = (models) => {
       }
     })
     .then(riders => {
-      console.log("Fetched all riders from given event");
       return riders;
     }),
 

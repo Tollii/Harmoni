@@ -18,6 +18,7 @@
 
 module.exports = (app, models, auth) => {
   const bcrypt = require("bcryptjs");
+  const userControl = require("../dao/users")(models);
 
   /**
    * @group Authentication - Operations about authentication
@@ -60,6 +61,32 @@ module.exports = (app, models, auth) => {
 
   /**
    * @group Authentication - Operations about user
+   * @route PUT /forgotten/password/
+   * @param {string} token.header.required - user token
+   * @param {string} new_password.header.required - new user password
+   * @returns {object} 200 - return updated User object
+   * @returns {Error}  default - Unexpected error
+   */
+  app.put("/forgotten/password/", async (req, res) => {
+    let id = await auth.decode_token(req.headers.token);
+    userControl.userGetOne(id).then(user => {
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(req.headers.new_password, salt, (err, hash) => {
+          userControl
+              .changePassword(id, hash)
+              .then(() => {
+                res.status(202).send("Password is updated");
+              })
+              .catch(err => {
+                res.status(400).send("Password updated failed");
+              });
+        });
+      });
+    });
+  });
+
+  /**
+   * @group Authentication - Operations about user
    * @route PUT /reset/
    * @param {New_Password.model} password.body.required - User's information
    * @param {string} token.header.required - token
@@ -89,4 +116,31 @@ module.exports = (app, models, auth) => {
       });
     });
   });
+
+  /**
+   * @group Authentication - Operations about user
+   * @route PUT /reset/forgot/
+   * @param {string} token.header.required - user token
+   * @param {New_Password.model} password.body.required - User's information
+   * @returns {object} 200 - return updated User object
+   * @returns {Error}  default - Unexpected error
+   */
+  app.put("/reset/forgot", async (req, res) => {
+    let id = await auth.decode_token(req.headers.token);
+    userControl.userGetOne(id).then(user => {
+          bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(req.body.new_password, salt, (err, hash) => {
+              userControl
+                  .changePassword(id, hash)
+                  .then(() => {
+                    res.status(202).send("Password is updated");
+                  })
+                  .catch(err => {
+                    res.status(400).send("Password updated failed");
+                  });
+            });
+          });
+    });
+  });
+
 };

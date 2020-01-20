@@ -5,6 +5,11 @@ module.exports = models => {
     const Op = Sequelize.Op;
     return {
     eventGetAll: async () => Event.findAll().then(events => events),
+        eventGetCarouselEvent:async ()=>Event.findAll({
+            where: {
+                archived: false
+            },limit:15,order:[['event_start','DESC']]
+        }).then(events => events),
 
       eventGetAllUnarchived: async () => Event.findAll({
           where: {
@@ -52,6 +57,7 @@ module.exports = models => {
       event_start,
       event_end,
       personnel,
+      volunteers,
       event_image,
       description,
       archived,
@@ -69,6 +75,7 @@ module.exports = models => {
             event_start: event_start,
             event_end: event_end,
             personnel: personnel,
+            volunteers: volunteers,
             event_image: event_image,
             description: description,
             archived: archived,
@@ -86,7 +93,6 @@ module.exports = models => {
       eventArchive: async (
           current_time,
       ) => {
-          console.log("eventArchive called");
           return Event.update(
                   {
                       archived: true
@@ -109,6 +115,7 @@ module.exports = models => {
       event_start,
       event_end,
       personnel,
+      volunteers,
       description,
       event_typeID
     ) =>
@@ -118,6 +125,7 @@ module.exports = models => {
         event_start: event_start,
         event_end: event_end,
         personnel: personnel,
+        volunteers: volunteers,
         description: description,
         event_typeID: event_typeID
       }).then(events => events)

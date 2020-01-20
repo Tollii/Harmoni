@@ -86,6 +86,25 @@ module.exports = (app, models, base, auth) => {
     });
   });
 
+
+  /**
+   * @group Events - Operations about event
+   * @route GET /eventcarousel
+   * @returns {object} 200 - The event with the param id
+   * @description Return the 15 latest events to the carousel
+   * @returns {Error}  default - Unexpected error
+   */
+
+  app.get(base + "carousel", (req, res) => {
+    eventControl.eventGetCarouselEvent(req.params.id).then(data => {
+      res.send(data);
+    }).catch(err=>{
+      console.log(err);
+      res.sendStatus(400);
+    });
+  });
+
+
   /**
    * @group Events - Operations about event
    * @route GET /event/user/all/
@@ -294,5 +313,117 @@ module.exports = (app, models, base, auth) => {
       }
     })
     .catch(err => console.log(err))
+  });
+
+    /**
+   * @group Events - Operations about event
+   * @route POST /event/{event_id}/volunteers/
+   * @param {string} token.header.required - user token
+   * @param {number} event_id.path.required - event id
+   * @returns {object} 200 - Updates the archive variable of all events if their ending time has happened
+   * @returns {Error}  default - Unexpected error
+   */
+
+  app.post(base + "/:event_id/volunteers/", (req, res) => {
+    auth.check_permissions(req.headers.token, ["User"])
+    .then(data => {
+      if(data.auth){
+        eventControl.eventGetOne(req.params.event_id)
+        .then(event => {
+          contractControl.getContractVolunteersPerEvent(req.params.event_id)
+          .then(contracts => {
+            if(contracts.count < event.volunteers) {
+              contractControl.contractCreateNoContract(data.user.dataValues.id, req.params.event_id)
+              .then(data => {res.status(200).send("Volunteer registered")})
+              .catch(err => {res.status(400).send("Volunteer already registered")})
+            } else {
+              res.status(400).send("Not any free spots")}
+          })
+          .catch(err => res.status(400).send("Event not found"))
+        })
+        .catch(err =>{res.status(400).send("event not round")})
+      } else {
+        res.status(400).send("Not a volunteer user")
+      }
+    })
+  });
+
+    /**
+   * @group Events - Operations about event
+   * @route GET /event/{event_id}/volunteers/
+   * @param {number} event_id.path.required - Event id
+   * @returns {object} 200 - Updates the archive variable of all events if their ending time has happened
+   * @returns {Error}  default - Unexpected error
+   */
+
+  app.get(base + "/:event_id/volunteers/", (req, res) => {
+    eventControl.eventGetOne(req.params.event_id)
+    .then(event => {
+      contractControl.getContractVolunteersPerEvent(req.params.event_id)
+      .then(contracts => {
+        console.log(contracts.count)
+        console.log(event.volunteers)
+        if(contracts.count < event.volunteers) {
+          res.status(200).send(true)
+        } else {
+          res.status(200).send(false)}
+      })
+      .catch(err => res.status(400).send("Event not found"))
+    })
+    .catch(err =>{res.status(400).send("event not round")})
+  });
+
+  /**
+   * @group Events - Operations about event
+   * @route GET /event/{event_id}/volunteers/{id}/
+   * @param {string} token.header.required - user token
+   * @param {number} event_id.path.required - event id
+   * @returns {object} 200 - Updates the archive variable of all events if their ending time has happened
+   * @returns {Error}  default - Unexpected error
+   */
+  app.get(base + "/:event_id/volunteers/signed", (req, res) => {
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer" ,"User"])
+    .then(data => {
+      if(data.auth){
+        eventControl.eventGetOne(req.params.event_id)
+        .then(event => {
+          contractControl.contractGetOne(data.user.dataValues.id, req.params.event_id)
+          .then(contract => {
+            console.log(contract)
+            res.send(contract)
+          })
+          .catch(err =>{res.status(400).send("contract not found")})
+        })
+        .catch(err =>{res.status(400).send("event not round")})
+      } else {
+        res.status(400).send("Not a volunteer user")
+      }
+    })
+  });
+
+      /**
+   * @group Events - Operations about event
+   * @route DELETE /event/{event_id}/volunteers/{id}/
+   * @param {string} token.header.required - user token
+   * @param {number} event_id.path.required - event id
+   * @param {number} id.path.required - user id
+   * @returns {object} 200 - Updates the archive variable of all events if their ending time has happened
+   * @returns {Error}  default - Unexpected error
+   */
+  app.delete(base + "/:event_id/volunteers/", (req, res) => {
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer" ,"User"])
+    .then(data => {
+      if(data.auth){
+        eventControl.eventGetOne(req.params.event_id)
+        .then(event => {
+          contractControl.contractDelete(data.user.dataValues.id, req.params.event_id)
+          .then(data => {res.status(200).send("User unregistered")})
+          .catch(err => {res.status(400).send(err)})
+        })
+        .catch(err =>{res.status(400).send("event not round")})
+      } else {
+        res.status(400).send("Not a volunteer user")
+      }
+    })
   });
 };
