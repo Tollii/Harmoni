@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {},
     navbar: {
       display: "flex",
-      [theme.breakpoints.down(600)]: {
+      [theme.breakpoints.down("xs")]: {
         flexDirection: 'row-reverse'
       },
     },
@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme: Theme) =>
     listButton: {
       position: "absolute",
       right: 100,
-      [theme.breakpoints.down(600)]: {
+      [theme.breakpoints.down("xs")]: {
         display: "none"
       }
     },
@@ -79,21 +79,21 @@ const useStyles = makeStyles((theme: Theme) =>
       borderColor: "transparent",
       position: "absolute",
       right: 50,
-      [theme.breakpoints.down(600)]: {
+      [theme.breakpoints.down("xs")]: {
         display: "none"
       }
     },
     profileButton: {
       position: "absolute",
       right: 0,
-      [theme.breakpoints.down(600)]: {
+      [theme.breakpoints.down("xs")]: {
         display: "none"
       }
     },
     mobileMenuButton: {
       color: theme.palette.common.black,
       display: "none",
-      [theme.breakpoints.down(600)]: {
+      [theme.breakpoints.down("xs")]: {
         display: "block"
       },
       "&:hover": {
