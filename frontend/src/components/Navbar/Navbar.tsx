@@ -145,7 +145,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function Navbar(props:any) {
+export default function Navbar(props: any) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [auth, setAuth] = React.useState(false);
@@ -225,7 +225,11 @@ export default function Navbar(props:any) {
           <Hidden xsDown>
             <Grid item sm={4}>
               <Button onClick={() => (window.location.hash = "/")}>
-                <img src={require("../../assets/img/harmoni_logo_wide.png")} alt="logo.png" width="210"></img>
+                <img
+                  src={require("../../assets/img/harmoni_logo_wide.png")}
+                  alt="logo.png"
+                  width="210"
+                ></img>
               </Button>
             </Grid>
           </Hidden>
@@ -270,7 +274,11 @@ export default function Navbar(props:any) {
                 >
                   <Avatar
                     alt="Profile"
-                    src={"http://localhost:8080/profile_picture/" + values.id}
+                    src={
+                      process.env.REACT_APP_API_URL +
+                      "/image/profile/" +
+                      values.id
+                    }
                   />
                   {values.fullName}
                 </Button>
@@ -310,7 +318,11 @@ export default function Navbar(props:any) {
         </div>
 
         <Grid>
-          <img src={require("../../assets/img/harmoni_logo_wide.png")} alt="logo.png" width="210"></img>
+          <img
+            src={require("../../assets/img/harmoni_logo_wide.png")}
+            alt="logo.png"
+            width="210"
+          ></img>
         </Grid>
 
         <Divider />
