@@ -1,20 +1,22 @@
 const models = require('../models');
 const userControl = require('../dao/users')(models);
 const rolesControl = require('../dao/roles')(models);
+const authControl = require('../dao/authentication')(models);
 
 
 describe('Get Endpoints', () => {
 
     it('should create one user', async (done) => {
-        let temp = await rolesControl.rolesCreate("not_zaim");
-        const res = await userControl.userCreate("test", "test@test.test", "wasdwasd", "wasdwasd", "12345678", "image.png");
-        expect(res.id).toBeGreaterThanOrEqual(0);
+        await rolesControl.rolesCreate("not_zaim");
+        const res = await authControl.signUp("wasd@wasd.wasd", "wasdwasd", "wasdwasd", "12345678");
+        // expect(res).toEqual(true);
         done();
     });
-
+    
     it('should get all users', async (done) => {
-        await userControl.userCreate("was", "wasd@wasd.wasd", "wasdwasd", "wasdwasd", "12345678", "image.png");
-        await userControl.userCreate("wasd", "wasd@test.no", "wasdwasd", "wasdwasd", "12345678", "image.png");
+        await rolesControl.rolesCreate("not_zaim");
+        await authControl.signUp("wasd1@wasd.wasd", "wasdwasd1", "wasdwasd1", "12345678");
+        await authControl.signUp("wasd2@wasd.wasd", "wasdwasd2", "wasdwasd2", "12345678");
         const res = await userControl.userGetAll();
         expect(res.length).toBeGreaterThanOrEqual(3);
         done();

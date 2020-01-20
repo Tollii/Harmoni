@@ -1,7 +1,6 @@
 import getCookie from "./cookie";
 const axios = require("axios").default;
 
-let url = "http://localhost:8080";
 const token = getCookie("token");
 
 export class Event {
@@ -37,56 +36,63 @@ class FullEvent {
 
 class EventService {
   getEvents() {
+    console.log(process.env.REACT_APP_API_URL);
     return axios
-      .get(url + "/event")
+      .get(process.env.REACT_APP_API_URL + "/event")
       .then((response: { data: JSON }) => response.data);
   }
 
   getEvent(id: number) {
     return axios
-      .get(url + "/event/" + id)
+      .get(process.env.REACT_APP_API_URL + "/event/" + id)
       .then((response: { data: JSON }) => response.data);
   }
 
   getEventsByUser() {
     return axios
-      .get(url + "/event/user/all", { headers: { token: token } })
+      .get(process.env.REACT_APP_API_URL + "/event/user/all", {
+        headers: { token: token }
+      })
       .then((response: { data: JSON }) => response.data);
   }
 
   getArtists(id: number) {
     return axios
-      .get(url + "/event/" + id)
+      .get(process.env.REACT_APP_API_URL + "/event/" + id)
       .then((response: { data: JSON }) => response.data);
   }
 
   postEvent(event: object) {
     return axios
-      .post(url + "/event/", event, { headers: { token: token } })
+      .post(process.env.REACT_APP_API_URL + "/event/", event, {
+        headers: { token: token }
+      })
       .then((response: { data: FullEvent }) => response.data);
   }
 
   updateEvent(event: object, id: number) {
     return axios
-      .put(url + "/event/" + id, event)
+      .put(process.env.REACT_APP_API_URL + "/event/" + id, event)
       .then((response: { data: JSON }) => console.log(response));
   }
 
   updateArchive() {
     return axios
-      .put(url + "/event_archive")
+      .put(process.env.REACT_APP_API_URL + "/event_archive")
       .then((response: { data: JSON }) => console.log(response));
   }
 
   updateArchiveOne(id: number) {
     return axios
-      .put(url + "/event_archive" + id, { headers: { token: token } })
+      .put(process.env.REACT_APP_API_URL + "/event_archive" + id, {
+        headers: { token: token }
+      })
       .then((response: { data: JSON }) => console.log(response));
   }
 
   deleteEvent(id: number) {
     return axios
-      .delete(url + "/event/" + id)
+      .delete(process.env.REACT_APP_API_URL + "/event/" + id)
       .then((response: { data: JSON }) => console.log(response));
   }
 }
