@@ -55,9 +55,7 @@ module.exports = (app, models, base, auth) => {
    */
 
   app.get(base, (req, res) => {
-    console.log("event called")
     eventControl.eventGetAllUnarchived().then(data => {
-      console.log("event DAO called")
       res.send(data);
     });
   });
@@ -70,9 +68,7 @@ module.exports = (app, models, base, auth) => {
    */
 
   app.get(base, (req, res) => {
-    console.log("event called")
     eventControl.eventGetAll().then(data => {
-      console.log("event DAO called")
       res.send(data);
     });
   });
