@@ -44,15 +44,16 @@ export default (props: any) => {
         </TableHead>
         <TableBody>
           {props.events.map((event: any) => (
-            <TableRow
-              key={event.id}
-              hover
-            >
-              <TableCell component="th" scope="row" onClick={e => handleClick(e, event.id)}>
+            <TableRow key={event.id} hover>
+              <TableCell
+                component="th"
+                scope="row"
+                onClick={e => handleClick(e, event.id)}
+              >
                 {event.event_name}
               </TableCell>
 
-              <TableCell align="right" onClick={e => handleClick(e, event.id)}> 
+              <TableCell align="right" onClick={e => handleClick(e, event.id)}>
                 {new Date(event.event_start).toDateString().substring(0, 10) +
                   " " +
                   new Date(event.event_start).toTimeString().substring(0, 5)}
@@ -62,9 +63,11 @@ export default (props: any) => {
                   " " +
                   new Date(event.event_end).toTimeString().substring(0, 5)}
               </TableCell>
-              <TableCell align="right" onClick={e => handleClick(e, event.id)}>{event.location}</TableCell>
+              <TableCell align="right" onClick={e => handleClick(e, event.id)}>
+                {event.location}
+              </TableCell>
               <TableCell align="right">
-                <DropDownButton/>
+                <DropDownButton user={props.user} event={event.id} />
               </TableCell>
             </TableRow>
           ))}

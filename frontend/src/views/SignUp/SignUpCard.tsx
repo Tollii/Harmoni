@@ -51,13 +51,18 @@ export default (props: any) => {
   );
 
   function submit() {
-    console.log("Submitted form");
-    Authentication.signUp({
-      email: values.email,
-      password: values.password,
-      username: values.fullName,
-      phone: values.telephone
-    }).then((data: any) => console.log(data));
+
+    const pattern = /.+@[a-z1-9]+.[a-z]+/;
+    const check = values.email.match(pattern);
+    if(check && values.password && values.fullName && values.telephone) {
+      console.log("Submitted form");
+      Authentication.signUp({
+        email: values.email.toLowerCase(),
+        password: values.password,
+        username: values.fullName,
+        phone: values.telephone
+      }).then((data: any) => console.log(data));
+    }
   }
 
   return (

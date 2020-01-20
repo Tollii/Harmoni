@@ -22,6 +22,7 @@ import DescriptionIcon from "@material-ui/icons/Description";
 import SettingsIcon from "@material-ui/icons/Settings";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AlertDialog from "../../components/AlertDialog/AlertDialog";
+import Authentication from "../../service/Authentication";
 
 const StyledMenu = withStyles({
   paper: {
@@ -64,7 +65,20 @@ export default (props: any) => {
     setAnchorEl(null);
   };
 
-  const role: number = 3; /**Her skal Zaim sin supermetode inn */
+  const handleContract = (
+    event: React.MouseEvent<unknown>,
+    userId: number,
+    eventId: number
+  ) => {
+    window.location.hash = "contract/user/" + userId + "/event/" + eventId;
+  };
+
+  const [role, setRole] = useState();
+  useEffect(() => {
+    Authentication.getAuth().then((role: any) => {
+      setRole(role);
+    });
+  }, []);
 
   return (
     <div>
@@ -106,7 +120,9 @@ export default (props: any) => {
                   <ListItemText primary="Edit rider" />
                 </StyledMenuItem>
 
-                <StyledMenuItem>
+                <StyledMenuItem
+                  onClick={e => handleContract(e, props.user, props.event)}
+                >
                   <ListItemIcon>
                     <DescriptionIcon fontSize="small" />
                   </ListItemIcon>
@@ -154,7 +170,9 @@ export default (props: any) => {
                   <ListItemText primary="Delete" />
                 </StyledMenuItem>
 
-                <StyledMenuItem>
+                <StyledMenuItem
+                  onClick={e => handleContract(e, props.user, props.event)}
+                >
                   <ListItemIcon>
                     <DescriptionIcon fontSize="small" />
                   </ListItemIcon>
