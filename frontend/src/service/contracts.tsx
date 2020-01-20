@@ -1,6 +1,7 @@
 import getCookie from "./cookie";
 const axios = require("axios").default;
 
+let url = process.env.REACT_APP_API_URL;
 const token = getCookie("token");
 
 export class Contract {
@@ -12,19 +13,16 @@ export class Contract {
 class ContractService {
   getContracts() {
     return axios
-      .get(process.env.REACT_APP_API_URL + "/contract", {
+      .get(url + "/contract", {
         headers: { token: token }
       })
       .then((response: { data: Contract[] }) => response.data);
   }
 
   getContract(userID: number, eventID: number) {
-    console.log("kjøres serivce contract");
-    console.log(token);
-
     return axios
       .get(
-        process.env.REACT_APP_API_URL +
+        url +
           "/contract/user" +
           userID +
           "/event/" +
@@ -35,7 +33,7 @@ class ContractService {
 
   postContract(contract: object) {
     return axios
-      .post(process.env.REACT_APP_API_URL + "/contract", contract, {
+      .post(url + "/contract", contract, {
         headers: { token: token }
       })
       .then((response: { data: Contract }) => console.log(response));
@@ -44,7 +42,7 @@ class ContractService {
   deleteContract(userID: number, eventID: number) {
     return axios
       .delete(
-        process.env.REACT_APP_API_URL +
+        url +
           "/contract/user" +
           userID +
           "/event/" +

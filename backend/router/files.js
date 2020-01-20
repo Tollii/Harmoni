@@ -157,15 +157,12 @@ module.exports = (app, models, auth) => {
         if (data.auth) {          
           let id = data.user.dataValues.id;
           if (id != null){
-          console.log(req.params.user_id + " " + req.params.event_id + " " + id);
           let contract = null;
           if (id == req.params.user_id) {
-              console.log("in first if")
               contract = await contractControl.contractGetOne(req.params.user_id, req.params.event_id).then((data)=>
                   res.sendFile(contractFolder + data.contract));
           }
           else {
-              console.log("in first else");
               let roleId = await userControl.userGetOne(id).then(data => data.roleID);
               if(roleId === 4){
                   contract = await contractControl.getContractForAdmin(id, req.params.user_id, req.params.event_id)
@@ -225,7 +222,6 @@ module.exports = (app, models, auth) => {
      * @returns {error} default - unexpected error
      */
     app.put('/files/contract/user/:user_id/event/:event_id', async (req, res) => {
-        console.log(req.params.user_id + " " + req.params.event_id);
         if(!req.files || Object.keys(req.files).length === 0) {
             res.status(400).send('No files uploaded');
         } else {
