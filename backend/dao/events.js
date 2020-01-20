@@ -93,7 +93,6 @@ module.exports = models => {
       eventArchive: async (
           current_time,
       ) => {
-          console.log("eventArchive called");
           return Event.update(
                   {
                       archived: true
