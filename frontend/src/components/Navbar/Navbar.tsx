@@ -15,6 +15,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
+import Box from '@material-ui/core/Box';
 import {
   Button,
   ButtonGroup,
@@ -48,99 +49,48 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    root: {
+      flexGrow: 1,
+    },
+    navbar: {
+      display: "flex",
+      [theme.breakpoints.down(600)]: {
+        flexDirection: 'row-reverse'
+      },
+    },
     backgroundNavbar: {
       backgroundColor: "rgba(255,255,255,0.5)"
     },
-    menuButton: {
-      [theme.breakpoints.up("sm")]: {
+    logo: {
+      left: "none"
+    },
+    addEventButton: {
+      backgroundColor: "transparent",
+      borderColor: "transparent",
+      [theme.breakpoints.down(600)]: {
         display: "none"
       }
     },
-    logo: {
-
-    },
-    search: {
-      position: "relative",
-      borderRadius: theme.shape.borderRadius,
-      backgroundColor: fade(theme.palette.common.black, 0.5),
-      "&:hover": {
-        backgroundColor: fade(theme.palette.common.black, 0.5)
-      },
-      marginRight: theme.spacing(1),
-      marginLeft: 0,
-      width: "100%",
-      [theme.breakpoints.up("sm")]: {
-        width: "auto"
+    profileButton: {
+      [theme.breakpoints.down(600)]: {
+        display: "none"
       }
-    },
-    searchIcon: {
-      width: theme.spacing(80),
-      height: "100%",
-      position: "absolute",
-      pointerEvents: "none",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center"
-    },
-    inputRoot: {
-      color: "inherit"
-    },
-    inputInput: {
-      padding: theme.spacing(1, 1, 1, 2),
-      transition: theme.transitions.create("width"),
-      width: "100%",
-      [theme.breakpoints.up("md")]: {
-        width: 200
-      }
-    },
-    account: {
-      // marginRight: 200
     },
     icon: {
       fontFamily: '"Apple Chancery", Segoe UI',
       color: "black",
       fontSize: 20
     },
-    typography: {
-      fontFamily: '"Apple Chancery", Segoe UI',
-      color: "black",
-      fontSize: 50
+    mobileMenuButton: {
+      color: theme.palette.common.black,
+      display: "none",
+      [theme.breakpoints.down(600)]: {
+        display: "block"
+      },
+      "&:hover": {
+        color: fade(theme.palette.common.black, 0.7)
+      }
     },
-
-    drawer: {
-      width: drawerWidth,
-      flexShrink: 0
-    },
-    drawerPaper: {
-      width: drawerWidth
-    },
-    drawerHeader: {
-      display: "flex",
-      alignItems: "center",
-      padding: theme.spacing(0, 1),
-      ...theme.mixins.toolbar,
-      justifyContent: "flex-end"
-    },
-    root: {
-      padding: "0px 0px",
-      display: "flex",
-      alignItems: "center",
-      width: 300,
-      backgroundColor: "rgba(0, 0, 0, 0.7)"
-    },
-    input: {
-      marginLeft: theme.spacing(1),
-      flex: 1,
-      color: "white"
-    },
-    iconButton: {
-      padding: 5,
-      color: "white"
-    },
-    divider: {
-      height: 28,
-      margin: 4
-    }
   })
 );
 
@@ -213,15 +163,31 @@ export default function Navbar(props:any) {
   }, [props.loggedIn]);
 
   return (
-    <div>
+    <div className={classes.root}>
       <AppBar className={classes.backgroundNavbar} position="fixed">
-        <Toolbar>
-          <Button className={classes.menuButton}>
-            menu
-          </Button>
+        <Toolbar className={classes.navbar}>
+          <IconButton onClick={handleMenu} className={classes.mobileMenuButton}>
+            <MenuIcon/>
+          </IconButton>
           <Button onClick={() => (window.location.hash = "/")} className={classes.logo}>
             <img src={require("../../assets/img/harmoni_logo_wide.png")} alt="logo.png" width="210"></img>
           </Button>
+          <Button onClick={() => (window.location.hash = "/addEvent")} className={classes.addEventButton}>
+            <AddCircleIcon />
+            Add Event
+          </Button>
+          <Box className="profileButton">
+            {auth ? (
+              <Button onClick={() => (window.location.hash = "/profile")}>
+                <Avatar alt="Profile" src={"http://localhost:8080/profile_picture/" + values.id}/>
+                {values.fullName}
+              </Button>
+            ) : (
+              <Button onClick={() => (window.location.hash = "/login")}>
+                <AccountCircle />
+              </Button>
+            )}
+          </Box>
         </Toolbar>
       </AppBar>
 
@@ -407,4 +373,90 @@ export default function Navbar(props:any) {
       )}
     </Grid>
   </List>
-</Drawer> */
+</Drawer>
+
+search: {
+  position: "relative",
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: fade(theme.palette.common.black, 0.5),
+  "&:hover": {
+    backgroundColor: fade(theme.palette.common.black, 0.5)
+  },
+  marginRight: theme.spacing(1),
+  marginLeft: 0,
+  width: "100%",
+  [theme.breakpoints.up("sm")]: {
+    width: "auto"
+  }
+},
+searchIcon: {
+  width: theme.spacing(80),
+  height: "100%",
+  position: "absolute",
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center"
+},
+inputRoot: {
+  color: "inherit"
+},
+inputInput: {
+  padding: theme.spacing(1, 1, 1, 2),
+  transition: theme.transitions.create("width"),
+  width: "100%",
+  [theme.breakpoints.up("md")]: {
+    width: 200
+  }
+},
+account: {
+  // marginRight: 200
+},
+icon: {
+  fontFamily: '"Apple Chancery", Segoe UI',
+  color: "black",
+  fontSize: 20
+},
+typography: {
+  fontFamily: '"Apple Chancery", Segoe UI',
+  color: "black",
+  fontSize: 50
+},
+
+drawer: {
+  width: drawerWidth,
+  flexShrink: 0
+},
+drawerPaper: {
+  width: drawerWidth
+},
+drawerHeader: {
+  display: "flex",
+  alignItems: "center",
+  padding: theme.spacing(0, 1),
+  ...theme.mixins.toolbar,
+  justifyContent: "flex-end"
+},
+root: {
+  padding: "0px 0px",
+  display: "flex",
+  alignItems: "center",
+  width: 300,
+  backgroundColor: "rgba(0, 0, 0, 0.7)"
+},
+input: {
+  marginLeft: theme.spacing(1),
+  flex: 1,
+  color: "white"
+},
+iconButton: {
+  padding: 5,
+  color: "white"
+},
+divider: {
+  height: 28,
+  margin: 4
+}
+})
+
+*/
