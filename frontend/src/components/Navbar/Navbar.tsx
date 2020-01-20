@@ -53,9 +53,7 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      flexGrow: 1,
-    },
+    root: {},
     navbar: {
       display: "flex",
       [theme.breakpoints.down(600)]: {
