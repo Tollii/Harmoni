@@ -24,7 +24,6 @@ class UserService {
       .then(response => response.data);
   }
   getOneUser() {
-    console.log(token)
     return axios
       .get<User>(process.env.REACT_APP_API_URL + "/user/" + token)
       .then(response => response.data);
