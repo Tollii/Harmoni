@@ -11,10 +11,9 @@ import AuthenticationService from "./service/Authentication";
 import Main from "./views/Main/Main";
 import { HashRouter, Route } from "react-router-dom";
 import getCookie from "./service/cookie";
+import Contract from "./views/Contract/Contract";
 
-
-const useStyles = makeStyles({
-});
+const useStyles = makeStyles({});
 
 export default () => {
   const classes = useStyles();
@@ -22,14 +21,69 @@ export default () => {
 
   return (
     <HashRouter>
-      <Navbar isAuth={AuthenticationService.getAuth} loggedIn={loggedIn}/>
-      <Route exact path="/" render={(props:any) => <Main {...props} isAuth={AuthenticationService.getAuth} />} />
-      <Route exact path="/event/:id" render={(props:any) => <EventPage {...props} isAuth={AuthenticationService.getAuth} />}/>
+      <Navbar isAuth={AuthenticationService.getAuth} loggedIn={loggedIn} />
+      <Route
+        exact
+        path="/"
+        render={(props: any) => (
+          <Main {...props} isAuth={AuthenticationService.getAuth} />
+        )}
+      />
+      <Route
+        exact
+        path="/event/:id"
+        render={(props: any) => (
+          <EventPage {...props} isAuth={AuthenticationService.getAuth} />
+        )}
+      />
       <div style={{ marginTop: "150px" }}>
-        <Route exact path="/addEvent" render={(props:any) => <Event {...props} isAuth={AuthenticationService.getAuth} />} />
-        <Route exact path="/signUp" render={(props:any) => <SignUp {...props} isAuth={AuthenticationService.getAuth} />} />
-        <Route exact path="/login" render={(props:any) => <Login {...props} isAuth={AuthenticationService.getAuth} logFunc={setLoggedIn}/>} />
-        <Route exact path="/profile" render={(props:any) => <Profile {...props} isAuth={AuthenticationService.getAuth} logFunc={setLoggedIn} />}/>
+        <Route
+          exact
+          path="/addEvent"
+          render={(props: any) => (
+            <Event {...props} isAuth={AuthenticationService.getAuth} />
+          )}
+        />
+        <Route
+          exact
+          path="/signUp"
+          render={(props: any) => (
+            <SignUp {...props} isAuth={AuthenticationService.getAuth} />
+          )}
+        />
+        <Route
+          exact
+          path="/login"
+          render={(props: any) => (
+            <Login
+              {...props}
+              isAuth={AuthenticationService.getAuth}
+              logFunc={setLoggedIn}
+            />
+          )}
+        />
+        <Route
+          exact
+          path="/profile"
+          render={(props: any) => (
+            <Profile
+              {...props}
+              isAuth={AuthenticationService.getAuth}
+              logFunc={setLoggedIn}
+            />
+          )}
+        />
+        <Route
+          exact
+          path="/contract/user/:userId/event/:eventId"
+          render={(props: any) => (
+            <Contract
+              {...props}
+              isAuth={AuthenticationService.getAuth}
+              logFunc={setLoggedIn}
+            />
+          )}
+        />
       </div>
       <Footer />
     </HashRouter>
