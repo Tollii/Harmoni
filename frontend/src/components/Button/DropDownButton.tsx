@@ -23,6 +23,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import AlertDialog from "../../components/AlertDialog/AlertDialog";
 import Authentication from "../../service/Authentication";
 import EventService from "../../service/events"
+import { Link } from "react-router-dom";
 
 const StyledMenu = withStyles({
   paper: {
