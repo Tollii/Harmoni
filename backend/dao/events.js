@@ -5,6 +5,11 @@ module.exports = models => {
     const Op = Sequelize.Op;
     return {
     eventGetAll: async () => Event.findAll().then(events => events),
+        eventGetCarouselEvent:async ()=>Event.findAll({
+            where: {
+                archived: false
+            },limit:15,order:[['event_start','DESC']]
+        }).then(events => events),
 
       eventGetAllUnarchived: async () => Event.findAll({
           where: {
