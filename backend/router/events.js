@@ -61,6 +61,22 @@ module.exports = (app, models, base, auth) => {
       res.send(data);
     });
   });
+
+   /**
+   * @group Events - Operations about event
+   * @route GET /event/
+   * @returns {object} 200 - An array of events
+   * @returns {Error}  default - Unexpected error
+   */
+
+  app.get(base, (req, res) => {
+    console.log("event called")
+    eventControl.eventGetAll().then(data => {
+      console.log("event DAO called")
+      res.send(data);
+    });
+  });
+
   /**
    * @group Events - Operations about event
    * @route GET /event/{id}/
