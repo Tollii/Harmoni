@@ -127,15 +127,21 @@ module.exports = (models) => {
       })
       .then(x => contract)
       ),
-      getContractVolunteersPerEvent: async (eventId) => {
-        return Contract.findAllAnd({
+
+    getContractVolunteersPerEvent: async (eventId) => {
+      return User.findAndCountAll({
+        where: {
+          roleID: 1
+        },
+        include: [{
+          model: Contract,
           where: {
-            userID: userId,
             eventID: eventId
-          },
-        }).then(contract => contract)
+          }
+      }],
+      }).then(contracts => contracts)
     },
   }
-  
+
 }
 
