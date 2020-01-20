@@ -63,7 +63,7 @@ class EventService {
   getContractsByEvent(id: number) {
     return axios
       .get(process.env.REACT_APP_API_URL + "/event/contract/" + id, {
-        headers: { token: token }
+        headers: { token: getCookie("token") }
       })
       .then((response: { data: JSON }) => response.data);
   }
@@ -85,7 +85,7 @@ class EventService {
   updateEvent(event: object, id: number) {
     return axios
       .put(process.env.REACT_APP_API_URL + "/event/" + id, event, {
-        headers: { token: token }
+        headers: { token: getCookie("token") }
       })
       .then((response: { data: JSON }) => response.data);
   }
