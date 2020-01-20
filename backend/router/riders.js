@@ -179,22 +179,21 @@ module.exports = (app, models, base, auth) => {
   * @returns {object} 200 - Rider is deleted
   * @returns {Error}  default - Unexpected error
   */
-  app.delete(base+"/rider_type/:rider_type_id/event/:event_id/user/:user_id/", (req, res) => {
+  app.delete(base+"/event/:event_id/", (req, res) => {
     auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"])
     .then(data => {
       if(data.auth){
         ridersControl.riderDelete(
-          req.params.rider_type_id,
-          req.params.event_id,
-          req.params.user_id
-        )
-        .then((data) => {
-          res.send(data);
+          req.params.event_id
+          )
+          .then((data) => {
+          res.send("Riders are deleted");
         })
+        .catch((err) => res.send(err))
       } else {
         res.status(400).send("Not authenticated")
       }
     })
-    .catch(err => console.log(err))
+    .catch(err => res.send(err))
   });
 };

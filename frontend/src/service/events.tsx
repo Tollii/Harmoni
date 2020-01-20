@@ -60,6 +60,14 @@ class EventService {
       .then((response: { data: JSON }) => response.data);
   }
 
+  getContractsByEvent(id: number) {
+    return axios
+      .get(process.env.REACT_APP_API_URL + "/event/contract/" + id, {
+        headers: { token: token }
+      })
+      .then((response: { data: JSON }) => response.data);
+  }
+
   getArtists(id: number) {
     return axios
       .get(process.env.REACT_APP_API_URL + "/event/" + id)
@@ -76,14 +84,16 @@ class EventService {
 
   updateEvent(event: object, id: number) {
     return axios
-      .put(process.env.REACT_APP_API_URL + "/event/" + id, event)
-      .then((response: { data: JSON }) => console.log(response));
+      .put(process.env.REACT_APP_API_URL + "/event/" + id, event, {
+        headers: { token: token }
+      })
+      .then((response: { data: JSON }) => response.data);
   }
 
   updateArchive() {
     return axios
       .put(process.env.REACT_APP_API_URL + "/event_archive")
-      .then((response: { data: JSON }) => console.log(response));
+      .then((response: { data: JSON }) => response.data);
   }
 
   updateArchiveOne(id: number) {
@@ -91,13 +101,13 @@ class EventService {
       .put(process.env.REACT_APP_API_URL + "/event_archive" + id, {
         headers: { token: getCookie("token") }
       })
-      .then((response: { data: JSON }) => console.log(response));
+      .then((response: { data: JSON }) => response.data);
   }
 
   deleteEvent(id: number) {
     return axios
       .delete(process.env.REACT_APP_API_URL + "/event/" + id)
-      .then((response: { data: JSON }) => console.log(response));
+      .then((response: { data: JSON }) => response.data);
   }
 
   getEventVolunteer(event_id: number) {

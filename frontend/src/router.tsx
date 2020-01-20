@@ -47,7 +47,22 @@ export default () => {
           exact
           path="/addEvent"
           render={(props: any) => (
-            <Event {...props} isAuth={AuthenticationService.getAuth} />
+            <Event
+              {...props}
+              isAuth={AuthenticationService.getAuth}
+              edit={false}
+            />
+          )}
+        />
+        <Route
+          exact
+          path="/editEvent/:id"
+          render={(props: any) => (
+            <Event
+              {...props}
+              isAuth={AuthenticationService.getAuth}
+              edit={true}
+            />
           )}
         />
         <Route

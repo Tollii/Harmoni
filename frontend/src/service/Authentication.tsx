@@ -33,7 +33,7 @@ class Authentication {
       .post(process.env.REACT_APP_API_URL + "/signup/", information)
       .then((response: { data: Object }) => response.data);
   }
-  getAuth() {
+  getAuth(): any {
     if (token) {
       return UserService.getOneUser().then((user: any) => user.roleID);
     } else {

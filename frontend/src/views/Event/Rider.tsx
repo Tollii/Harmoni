@@ -64,7 +64,7 @@ export default function(props: any) {
             key={index}
             artistName={artist.name}
             artistID={artist.id}
-            riderTypes={props.values.riderTypes}
+            riderTypes={props.riderTypes}
             riders={props.values.riders}
             handleChange={props.handleChange}
           />

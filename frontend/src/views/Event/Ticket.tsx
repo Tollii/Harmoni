@@ -83,6 +83,7 @@ export default function Ticket(props: any) {
       </Grid>
       {props.tickets.map((ticket: any, index: number) => (
         <TicketRow
+          ticket={ticket}
           tickets={props.tickets}
           key={index}
           id={index}
@@ -112,31 +113,27 @@ const TicketRow = (props: any) => {
   });
 
   useEffect(() => {
-    let ticket = props.tickets.find((ticket: any) => ticket.id === props.id);
-    if (ticket !== undefined) {
+    if (props.ticket !== undefined) {
       setValues({
-        ticket_name: ticket.ticket_name,
-        price: ticket.price,
-        ticket_amount: ticket.ticket_amount,
-        date_start: ticket.date_start,
-        date_end: ticket.date_end
+        ticket_name: props.ticket.ticket_name,
+        price: props.ticket.price,
+        ticket_amount: props.ticket.ticket_amount,
+        date_start: props.ticket.date_start,
+        date_end: props.ticket.date_end
       });
     }
   }, []);
 
   useEffect(() => {
-    let ticketsArray = props.tickets.filter(
-      (ticket: any) => ticket.id !== props.id
-    );
-    ticketsArray.push({
-      id: props.id,
+    props.tickets[props.tickets.indexOf(props.ticket)] = {
+      id: props.ticket.id,
       ticket_name: values.ticket_name,
       price: values.price,
       ticket_amount: values.ticket_amount,
       date_start: values.date_start,
       date_end: values.date_end
-    });
-    props.handleChange(ticketsArray, "tickets");
+    };
+    props.handleChange(props.tickets, "tickets");
   }, [values]);
 
   const handleChange = (event: any, name: string = "") => {
@@ -159,7 +156,7 @@ const TicketRow = (props: any) => {
             <InputField
               label="Name"
               name="ticket_name"
-              value={values.ticket_name}
+              value={props.ticket.ticket_name}
               onChange={handleChange}
             ></InputField>
           </Grid>
@@ -170,7 +167,7 @@ const TicketRow = (props: any) => {
             <InputField
               label="Price"
               name="price"
-              value={values.price}
+              value={props.ticket.price}
               onChange={handleChange}
             ></InputField>
           </Grid>
@@ -181,7 +178,7 @@ const TicketRow = (props: any) => {
             <InputField
               label="Quantity"
               name="ticket_amount"
-              value={values.ticket_amount}
+              value={props.ticket.ticket_amount}
               onChange={handleChange}
             ></InputField>
           </Grid>
@@ -190,12 +187,12 @@ const TicketRow = (props: any) => {
               name="date_start"
               disableToolbar
               variant="inline"
-              format="yyyy-MM-dd"
+              format="dd-MM-yy"
               margin="normal"
               id="date-picker-inline"
               autoOk={true}
               label="Start Date"
-              value={values.date_start}
+              value={props.ticket.date_start}
               onChange={e => handleChange(e, "date_start")}
               KeyboardButtonProps={{
                 "aria-label": "change date"
@@ -207,11 +204,11 @@ const TicketRow = (props: any) => {
               name="date_end"
               disableToolbar
               variant="inline"
-              format="yyyy-MM-dd"
+              format="dd-MM-yy"
               margin="normal"
               id="date-picker-inline"
               label="End Date"
-              value={values.date_end}
+              value={props.ticket.date_end}
               onChange={e => handleChange(e, "date_end")}
             />
           </Grid>
