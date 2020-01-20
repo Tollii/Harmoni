@@ -28,6 +28,15 @@ module.exports = (models) => {
     })
     .then(data => data),
 
+    contractGetAllByEvent: (event_id) => User.findAll({
+        include: [{
+            model: Contract,
+            where: {
+                eventID: event_id
+            }
+        }]
+    }).then(data => data),
+
     contractCreate: (contract, userID, eventID) => Contract.create({
       contract:contract,
       userID:userID,
