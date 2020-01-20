@@ -2,7 +2,6 @@ import getCookie from "./cookie";
 
 const axios = require("axios");
 let url = process.env.REACT_APP_API_URL;
-const token = getCookie("token");
 
 class files {
   postProfilePicture(data: any) {
@@ -11,7 +10,7 @@ class files {
     return axios
       .post(url + "/image/profile/", formData, {
         headers: {
-          token: token,
+          token: getCookie("token"),
           "Content-Type": "multipart/form-data"
         }
       })
@@ -31,7 +30,7 @@ class files {
         formData,
         {
           headers: {
-            token: token,
+            token: getCookie("token"),
             "Content-Type": "multipart/form-data"
           }
         }
@@ -45,7 +44,7 @@ class files {
     return axios
       .post(url + "/image/event/" + id, formData, {
         headers: {
-          token: token,
+          token: getCookie("token"),
           "Content-Type": "multipart/form-data"
         }
       })

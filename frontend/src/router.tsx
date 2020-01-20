@@ -19,6 +19,10 @@ export default () => {
   const classes = useStyles();
   const [loggedIn, setLoggedIn] = React.useState(getCookie("token"));
 
+  useEffect(() => {
+    setLoggedIn(getCookie("token"))
+  }, [loggedIn]);
+
   return (
     <HashRouter>
       <Navbar isAuth={AuthenticationService.getAuth} loggedIn={loggedIn} />

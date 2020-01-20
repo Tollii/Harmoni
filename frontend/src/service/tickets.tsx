@@ -1,8 +1,6 @@
 import getCookie from "./cookie";
 const axios = require("axios").default;
 
-let token = getCookie("token");
-
 export class Ticket {
   id!: number;
   ticket_name!: string;
@@ -17,7 +15,7 @@ class TicketService {
   getTickets() {
     return axios
       .get(process.env.REACT_APP_API_URL + "/ticket/", {
-        headers: { token: token }
+        headers: { token: getCookie("token") }
       })
       .then((response: { data: Ticket[] }) => response.data);
   }
