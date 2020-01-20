@@ -1,7 +1,5 @@
 const axios = require("axios").default;
 
-let url = "http://localhost:8080/rider/";
-
 export class Riders {
   additions!: string;
   rider_typeID!: number;
@@ -11,13 +9,15 @@ export class Riders {
 
 class RiderService {
   getRiders() {
-    return axios.get(url).then((response: { data: JSON }) => response.data);
+    return axios
+      .get(process.env.REACT_APP_API_URL + "/rider/")
+      .then((response: { data: JSON }) => response.data);
   }
   getRider(rider_type_id: number, event_id: number, token: string) {
     return axios
       .get(
-        url +
-          "rider_type/" +
+        process.env.REACT_APP_API_URL +
+          "/rider/rider_type/" +
           rider_type_id +
           "/event/" +
           event_id +
@@ -29,7 +29,7 @@ class RiderService {
 
   postRider(rider: object) {
     return axios
-      .post(url, rider)
+      .post(process.env.REACT_APP_API_URL + "/rider/", rider)
       .then((response: { data: JSON }) => console.log(response));
   }
 
@@ -41,8 +41,8 @@ class RiderService {
   ) {
     return axios
       .put(
-        url +
-          "rider_type/" +
+        process.env.REACT_APP_API_URL +
+          "/rider/rider_type/" +
           rider_type_id +
           "/event/" +
           event_id +
@@ -56,8 +56,8 @@ class RiderService {
   deleteRider(rider_type_id: number, event_id: number, token: string) {
     axios
       .delete(
-        url +
-          "rider_type/" +
+        process.env.REACT_APP_API_URL +
+          "/rider/rider_type/" +
           rider_type_id +
           "/event/" +
           event_id +

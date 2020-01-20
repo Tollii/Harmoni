@@ -2,6 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://harmoni-ui.herokuapp.com",
   "dependencies": {
     "@date-io/date-fns": "1.3.13",
     "@google/maps": "^1.0.2",
@@ -17,6 +18,7 @@
     "@types/react-dom": "^16.9.4",
     "axios": "^0.19.1",
     "date-fns": "^2.9.0",
+    "dotenv": "^8.2.0",
     "google-map-react": "^1.1.5",
     "google-maps-react": "^2.0.2",
     "material-table": "^1.55.0",
@@ -39,6 +41,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
+  },
+  "engines": {
+    "node": "8.12.0",
+    "npm": "6.4.1"
   },
   "eslintConfig": {
     "extends": "react-app"

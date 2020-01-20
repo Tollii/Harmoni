@@ -18,10 +18,9 @@ const useStyles = makeStyles({
     top: "80%",
     left: "0"
   }
-
 });
 
-export default (props:any) => {
+export default (props: any) => {
   const classes = useStyles();
   const [center, setCenter] = useState({ lat: 63.4189, lng: 10.4027 });
   const [events, setEvents] = useState<any>([]);
@@ -29,16 +28,16 @@ export default (props:any) => {
   useEffect(() => {
     EventService.getEvents().then((response: any) => {
       setEvents(response);
-      setCenter(response[1])
+      setCenter(response[1]);
     });
   }, []);
 
   return (
-      <div className={classes.container}>
-          <Map events={events} center={center} zoom={11}/>
-          <div className={classes.carousel}>
-            <Carousel events={events} setCenter={setCenter} />
-          </div>
+    <div className={classes.container}>
+      <Map events={events} center={center} zoom={11} />
+      <div className={classes.carousel}>
+        <Carousel events={events} setCenter={setCenter} />
       </div>
+    </div>
   );
 };
