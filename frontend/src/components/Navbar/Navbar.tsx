@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     backgroundNavbar: {
-      backgroundColor: "rgba(255,255,255,0.5)"
+      backgroundColor: "rgba(255,255,255,0.9)",
     },
     logo: {
       left: 0,
@@ -199,7 +199,11 @@ export default function Navbar(props: any) {
             <MenuIcon/>
           </IconButton>
           <Button onClick={() => (window.location.hash = "/")} className={classes.logo}>
-            <img src={require("../../assets/img/harmoni_logo_wide.png")} alt="logo.png" width="210"></img>
+            <Typography
+              style={{fontFamily: "Roboto", fontSize: "21pt", fontWeight: 200}}
+            >
+              HARMONI
+            </Typography>
           </Button>
           <Box className={classes.rightButtons}>
             <Grid container direction="row">
