@@ -57,6 +57,7 @@ module.exports = models => {
       event_start,
       event_end,
       personnel,
+      volunteers,
       event_image,
       description,
       archived,
@@ -74,6 +75,7 @@ module.exports = models => {
             event_start: event_start,
             event_end: event_end,
             personnel: personnel,
+            volunteers: volunteers,
             event_image: event_image,
             description: description,
             archived: archived,
@@ -114,6 +116,7 @@ module.exports = models => {
       event_start,
       event_end,
       personnel,
+      volunteers,
       description,
       event_typeID
     ) =>
@@ -123,6 +126,7 @@ module.exports = models => {
         event_start: event_start,
         event_end: event_end,
         personnel: personnel,
+        volunteers: volunteers,
         description: description,
         event_typeID: event_typeID
       }).then(events => events)
