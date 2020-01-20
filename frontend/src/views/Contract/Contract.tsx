@@ -19,6 +19,7 @@ import {
   Box
 } from "@material-ui/core";
 import FileService from "../../service/files";
+import Authentication from "../../service/Authentication";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -49,7 +50,6 @@ export default (props: any) => {
   const [openEditContract, setOpenEditContract] = React.useState(false);
   const [file, setFile] = useState(new File(["foo"], ""));
   const [contractUrl, setContractUrl] = useState("");
-  const [contract, setContract] = useState();
 
   const handleOpenEditContract = () => {
     setOpenEditContract(true);
@@ -74,18 +74,23 @@ export default (props: any) => {
     );
   };
 
+  const deleteContract = () => {
+    return Promise.resolve(
+      FileService.postContracts(
+        file,
+        props.match.params.userId,
+        props.match.params.eventId
+      )
+    );
+  };
+
   useEffect(() => {
     setContractUrl(
-      process.env.REACT_APP_API_URL + "/files/contract/user/" +
+      process.env.REACT_APP_API_URL +
+        "/files/contract/user/" +
         props.match.params.userId +
         "/event/" +
         props.match.params.eventId
-    );
-    setContract(
-      ContractService.getContract(
-        props.match.params.userId,
-        props.match.params.eventId
-      ).contract
     );
   }, []);
 
@@ -125,6 +130,9 @@ export default (props: any) => {
             <Button onClick={() => window.open(contractUrl, "_blank")}>
               View Contract
             </Button>
+          </Grid>
+          <Grid item xs={3}>
+            <Button onClick={() => deleteContract()}>Delete Contract</Button>
           </Grid>
         </Grid>
       </CardContent>
