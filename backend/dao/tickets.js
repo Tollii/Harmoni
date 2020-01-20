@@ -4,7 +4,6 @@ module.exports = models => {
   return {
     ticketGetAll: () =>
       Tickets.findAll().then(tickets => {
-        console.log("Fetched all tickets");
         return tickets;
       }),
 

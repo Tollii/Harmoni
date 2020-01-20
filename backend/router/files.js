@@ -87,7 +87,6 @@ module.exports = (app, models, auth) => {
    * @returns {error} default - unexpected error
    */
   app.get('/image/event/:id', async (req, res) => {
-    console.log("aaaaa " + req.params.id);
     if (req.params.id > 0) {
       eventControl.eventGetOne(req.params.id)
       .then(data => {
@@ -100,7 +99,6 @@ module.exports = (app, models, auth) => {
 
 
   });
-
   /**
    * @group Files - operations about files
    * @route POST /image/event/{id}/
@@ -185,25 +183,6 @@ module.exports = (app, models, auth) => {
            else {
                res.status(400).send("Invalid permission");
             }
-
-
-            /* let authenticated = await auth.check_permissions(req.headers.token, ["Admin", "Organizer"]).then(data => data.auth);
-            if(authenticated){
-                console.log("in second if");
-                if( await contractControl.contractCountOne(id, req.query.eventId)){
-                    console.log("in third if");
-                    contract = await contractControl.contractGetOne(req.query.userId, req.query.eventId).then((data)=> data.contract);
-                    res.sendFile(contractFolder + contract);
-                }
-                else {
-                    console.log("in third else");
-                    res.status(400).send("Not authenticated")
-                }
-            } else {
-                console.log("in second else");
-                res.status(400).send("Not authenticated")
-            }
-            */
         }
         }}
         else{

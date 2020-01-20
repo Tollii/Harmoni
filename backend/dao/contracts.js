@@ -82,7 +82,6 @@ module.exports = (models) => {
     },
 
     getContractForAdmin: async (id, userId, eventId) => {
-      console.log(id + " " + userId + " " + eventId + " " + " getContract ");
                 return Contract.findOne({
                   where: {
                     userID: userId,
