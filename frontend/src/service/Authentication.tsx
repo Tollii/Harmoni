@@ -16,6 +16,13 @@ class Authentication {
       .put(url + "/reset/", password, { headers: { token: token } })
       .then((response: { data: Password }) => response.data);
   }
+
+  changePasswordForgot(password: any) {
+    return axios
+        .put(url + "/reset/forgot", password, { headers: { token: password.token } })
+        .then((response: { data: Password }) => response.data);
+  }
+
   getLogin(credentials: any) {
     return axios
       .put(process.env.REACT_APP_API_URL + "/login/", credentials)
