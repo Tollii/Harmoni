@@ -60,7 +60,6 @@ module.exports = models => {
       volunteers,
       event_image,
       description,
-      archived,
       event_typeID
     ) => {
       return Event.findOne({
@@ -78,7 +77,6 @@ module.exports = models => {
             volunteers: volunteers,
             event_image: event_image,
             description: description,
-            archived: archived,
             event_typeID: event_typeID
           },
           {
