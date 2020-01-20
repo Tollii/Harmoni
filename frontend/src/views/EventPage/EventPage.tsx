@@ -192,7 +192,7 @@ export default (props: any) => {
     setAnchorEl(null);
   };
 
-  const role: number = 3; /**Her skal Zaim sin supermetode inn */
+  const role: number = 2; /**Her skal Zaim sin supermetode inn */
 
   return (
     <div style={{ overflow: "hidden" }}>
