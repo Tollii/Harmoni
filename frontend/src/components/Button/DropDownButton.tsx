@@ -22,7 +22,7 @@ import DescriptionIcon from "@material-ui/icons/Description";
 import SettingsIcon from "@material-ui/icons/Settings";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AlertDialog from "../../components/AlertDialog/AlertDialog";
-import { getAuth } from "../../service/Authentication";
+import Authentication from "../../service/Authentication";
 
 const StyledMenu = withStyles({
   paper: {
@@ -75,7 +75,7 @@ export default (props: any) => {
 
   const [role, setRole] = useState();
   useEffect(() => {
-    getAuth().then((role: any) => {
+    Authentication.getAuth().then((role: any) => {
       setRole(role);
     });
   }, []);
