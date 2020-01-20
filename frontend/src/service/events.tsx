@@ -95,6 +95,35 @@ class EventService {
       .delete(process.env.REACT_APP_API_URL + "/event/" + id)
       .then((response: { data: JSON }) => console.log(response));
   }
+
+  getEventVolunteer(event_id: number) {
+    return axios
+    .get(process.env.REACT_APP_API_URL + "/event/"+event_id+"/volunteers/")
+    .then((response: { data: JSON }) => response.data);
+  }
+  getEventIsVolunteer(event_id: number) {
+    return axios
+    .get(process.env.REACT_APP_API_URL + "/event/"+event_id+"/volunteers/signed/", {headers: { token: token }})
+    .then((response: { data: JSON }) => {
+      console.log(response.data)
+      return response.data ? true : false
+    });
+  }
+  postEventVolunteer(event_id: number) {
+    return axios
+    .post(process.env.REACT_APP_API_URL + "/event/"+event_id+"/volunteers/",{}, {headers: { token: token }})
+    .then((response: { data: JSON }) => {
+      return response.data
+    });
+  }
+  deleteEventVolunteer(event_id: number) {
+    return axios
+    .delete(process.env.REACT_APP_API_URL + "/event/"+event_id+"/volunteers/", {headers: { token: token }})
+    .then((response: { data: JSON }) => {
+      return response.data
+    });
+  }
+
 }
 
 export default new EventService();
