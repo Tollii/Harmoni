@@ -76,7 +76,7 @@ export default (props: any) => {
 
   useEffect(() => {
     setContractUrl(
-      "http://localhost:8080/files/contract/user/" +
+      process.env.REACT_APP_API_URL + "/files/contract/user/" +
         props.match.params.userId +
         "/event/" +
         props.match.params.eventId

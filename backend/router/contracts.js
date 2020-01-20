@@ -16,7 +16,6 @@ module.exports = (app, models, base, auth) => {
   */
 
   app.get(base, ( req, res ) => {
-    console.log(req.headers)
     auth.check_permissions(req.headers.token, ["Admin", "Organizer"])
     .then(data => {
       if(data.auth){
