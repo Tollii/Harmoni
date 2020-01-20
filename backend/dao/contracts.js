@@ -81,16 +81,6 @@ module.exports = (models) => {
       });
     },
 
-    getContractForAdmin: async (id, userId, eventId) => {
-                return Contract.findOne({
-                  where: {
-                    userID: userId,
-                    eventID: eventId
-                  }
-                }).then(contract => contract)
-
-    },
-
     contractCountOne: (user_id, event_id) => Contract.count({
       where: {
         userID: user_id,
@@ -100,11 +90,9 @@ module.exports = (models) => {
         .then(contract => contract),
 
 
-    getContractForOrganizer: async (id, userId, eventId, roleId) => {
-
-        return Contract.findOne({
+    getContractsByEvent: async (eventId) => {
+        return Contract.findAll({
           where: {
-            userID: userId,
             eventID: eventId
           },
 

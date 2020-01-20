@@ -20,13 +20,7 @@ class ContractService {
 
   getContract(userID: number, eventID: number) {
     return axios
-      .get(
-        url +
-          "/contract/user" +
-          userID +
-          "/event/" +
-          eventID
-      )
+      .get(url + "/contract/user" + userID + "/event/" + eventID)
       .then((response: { data: Contract }) => response.data);
   }
 
@@ -40,14 +34,10 @@ class ContractService {
 
   deleteContract(userID: number, eventID: number) {
     return axios
-      .delete(
-        url +
-          "/contract/user" +
-          userID +
-          "/event/" +
-          eventID
-      )
-      .then((response: { data: Contract }) => console.log(response));
+      .delete(url + "/contract/user/" + userID + "/event/" + eventID, {
+        headers: { token: getCookie("token") }
+      })
+      .then((response: { data: Contract }) => response.data);
   }
 }
 
