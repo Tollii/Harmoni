@@ -126,7 +126,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function Navbar(props:any) {
+export default function Navbar(props: any) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [auth, setAuth] = React.useState(false);

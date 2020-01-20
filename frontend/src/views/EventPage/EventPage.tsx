@@ -36,7 +36,6 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import AlertDialog from "../../components/AlertDialog/AlertDialog";
 import Map from "../../components/Map/simpleMap";
 
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     description: {
@@ -80,14 +79,14 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     container: {
       height: "90vh",
-      width: "100%",
+      width: "100%"
     },
-    map:{
+    map: {
       height: "20vw",
       width: "100%",
       position: "relative",
-      marginBottom: "10px",
-    },
+      marginBottom: "10px"
+    }
   })
 );
 
@@ -151,7 +150,7 @@ export default (props: any) => {
         name: event.event_name,
         start: new Date(event.event_start),
         end: new Date(event.event_end),
-        image: "http://localhost:8080/image/event/" + event.id,
+        image: process.env.REACT_APP_API_URL + "/image/event/" + event.id,
         personnel: event.personnel,
         description: event.description,
         typeID: event.event_typeID,
@@ -192,7 +191,7 @@ export default (props: any) => {
     setAnchorEl(null);
   };
 
-  const role: number = 3; /**Her skal Zaim sin supermetode inn */
+  const role: number = 2; /**Her skal Zaim sin supermetode inn */
 
   return (
     <div style={{ overflow: "hidden" }}>
@@ -305,7 +304,7 @@ export default (props: any) => {
             {values.location}
           </Typography>
           <div className={classes.map}>
-            <Map events={[values]} center={values} zoom={11}/>
+            <Map events={[values]} center={values} zoom={11} />
           </div>
           <Grid container>
             <Grid>
