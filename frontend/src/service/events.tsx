@@ -36,7 +36,6 @@ class FullEvent {
 
 class EventService {
   getEvents() {
-    console.log(process.env.REACT_APP_API_URL);
     return axios
       .get(process.env.REACT_APP_API_URL + "/event")
       .then((response: { data: JSON }) => response.data);
@@ -46,6 +45,13 @@ class EventService {
     return axios
       .get(process.env.REACT_APP_API_URL + "/event/" + id)
       .then((response: { data: JSON }) => response.data);
+  }
+
+  getEventCarousel() {
+    console.log(process.env.REACT_APP_API_URL);
+    return axios
+        .get(process.env.REACT_APP_API_URL + "/eventcarousel")
+        .then((response: { data: JSON }) => response.data);
   }
 
   getEventsByUser() {
