@@ -12,6 +12,7 @@ import Main from "./views/Main/Main";
 import { HashRouter, Route } from "react-router-dom";
 import getCookie from "./service/cookie";
 import Contract from "./views/Contract/Contract";
+import EventlistPage from "./views/EventlistVeiw/eventlistPage";
 import ForgotPassword from "./views/ForgotPassword/ForgotPassword";
 import ForgotForm from "./views/ForgotPassword/ForgotForm";
 
@@ -105,24 +106,28 @@ export default () => {
             />
           )}
         />
-          <Route
-              exact
-              path="/forgotpassword/:token"
-              render={(props: any) => (
-                  <ForgotPassword
-                      {...props}
-                  />
-              )}
+        <Route
+          exact
+          path="/events"
+          render={(props: any) => (
+            <EventlistPage {...props} isAuth={AuthenticationService.getAuth} />
+          )}
+        />
+
+        <Route
+          exact
+          path="/forgotpassword/:token"
+          render={(props: any) => (
+            <ForgotPassword {...props} />
+          )}
           />
 
-          <Route
-              exact
-              path="/forgot"
-              render={(props: any) => (
-                  <ForgotForm
-                      {...props}
-                  />
-              )}
+        <Route
+          exact
+          path="/forgot"
+          render={(props: any) => (
+            <ForgotForm {...props} />
+          )}
           />
       </div>
       <Footer />
