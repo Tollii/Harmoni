@@ -206,21 +206,23 @@ module.exports = (app, models, auth) => {
         } else {
             if(await auth.check_permissions(req.headers.token, ["Admin", "Organizer"])){
                 let contract_file = req.files.contract;
-
                 let contract = await contractControl.contractGetOne(req.params.user_id, req.params.event_id);
 
-                let splitName = contract_file.name.split('.');
-                contract_file.name = req.params.user_id + '_' + req.params.event_id + '.' + splitName[splitName.length - 1];
+                if(contract_file.name !== ""){                        
+                  let splitName = contract_file.name.split('.');
+                  contract_file.name = req.params.user_id + '_' + req.params.event_id + '.' + splitName[splitName.length - 1];
+                  contractControl.contractUpdate(contract.userID, contract.eventID , contract_file.name);
 
-                contractControl.contractUpdate(contract.userID, contract.eventID , contract_file.name);
+                  contract_file.mv(contractFolder + contract_file.name, function(err) {
+                      if(err) {
+                          return res.sendStatus(500).send(err);
+                      }
 
-                contract_file.mv(contractFolder + contract_file.name, function(err) {
-                    if(err) {
-                        return res.sendStatus(500).send(err);
-                    }
-
-                    res.send(contract_file.name);
-                });
+                      res.send(contract_file.name);
+                  });
+               }else {
+                  contractControl.contractUpdate(contract.userID, contract.eventID , "");
+               }
 
             }
 

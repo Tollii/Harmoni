@@ -35,9 +35,10 @@ class FullEvent {
 class EventService {
   getEvents() {
     return axios
-      .get(process.env.REACT_APP_API_URL + "/event")
+      .get(process.env.REACT_APP_API_URL + "/event/")
       .then((response: { data: JSON }) => response.data);
   }
+  
 
   getEvent(id: number) {
     return axios
