@@ -2,7 +2,10 @@ import React, { useEffect } from "react";
 import MaterialTable, { Column } from "material-table";
 import { Grid } from "@material-ui/core";
 import EventService from "../../service/events";
+import { Link } from "react-router-dom";
+import Button from "../../components/Button/Button";
 interface Row {
+  id: number;
   title: string;
   startDate: string;
   endDate: string;
@@ -36,7 +39,16 @@ export default function(props: any) {
       { title: "Name", field: "name" },
       { title: "Start date", field: "startDate" },
       { title: "End date", field: "endDate" },
-      { title: "Location", field: "location" }
+      { title: "Location", field: "location" },
+      {
+        title: "Event Page",
+        field: "eventInfo",
+        render: rowData => (
+          <Link to={"/event/" + rowData.id} style={{ textDecoration: "none" }}>
+            <Button>More info</Button>
+          </Link>
+        )
+      }
     ],
     data: []
   });
