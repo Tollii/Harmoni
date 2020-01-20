@@ -97,6 +97,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export default (props: any) => {
   const classes = useStyles();
   const [values, setValues] = useState({
+    id: 0,
     name: "",
     start: new Date(),
     end: new Date(),
@@ -121,6 +122,7 @@ export default (props: any) => {
   useEffect(() => {
     EventService.getEvent(props.match.params.id).then((event: any) => {
       setValues({
+        id: event.id,
         name: event.event_name,
         start: new Date(event.event_start),
         end: new Date(event.event_end),
@@ -290,7 +292,7 @@ export default (props: any) => {
                 Buy Ticket
               </Button>
             </Grid>
-            <DropDownButton />
+            <DropDownButton event={values.id}/>
           </Grid>
         </Grid>
       </Grid>
