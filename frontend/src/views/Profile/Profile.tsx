@@ -261,7 +261,7 @@ export default (props: any) => {
           </Paper>
         </Grid>
       </div>
-      <TabPanel value={value} index={0}>
+      {value === 0 ? 
         <CardContent>
           <div style={{ marginBottom: "30px" }}>
             <Grid container spacing={4}>
@@ -465,8 +465,7 @@ export default (props: any) => {
             </Grid>
           </div>
         </CardContent>
-      </TabPanel>
-      <TabPanel value={value} index={1}>
+        :
         <CardContent>
           <div style={{ marginBottom: "30px" }}>
             <Grid container spacing={4}>
@@ -477,7 +476,7 @@ export default (props: any) => {
             </Grid>
           </div>
         </CardContent>
-      </TabPanel>
+        }
     </Card>
   );
 };
