@@ -15,6 +15,13 @@
     })
     .then(user => user),
 
+    userGetOneByEmail: async (email) => Users.findOne({
+      where: {
+        email: email
+      }
+    })
+        .then(user => user),
+
     userUpdate: (id, username, email, phone, picture) => Users.findOne({ where: {id: id}})
       .then(user => Users.update({
         username:username,
