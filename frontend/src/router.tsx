@@ -12,12 +12,18 @@ import Main from "./views/Main/Main";
 import { HashRouter, Route } from "react-router-dom";
 import getCookie from "./service/cookie";
 import Contract from "./views/Contract/Contract";
+import ForgotPassword from "./views/ForgotPassword/ForgotPassword";
+import ForgotForm from "./views/ForgotPassword/ForgotForm";
 
 const useStyles = makeStyles({});
 
 export default () => {
   const classes = useStyles();
   const [loggedIn, setLoggedIn] = React.useState(getCookie("token"));
+
+  useEffect(() => {
+    setLoggedIn(getCookie("token"))
+  }, [loggedIn]);
 
   return (
     <HashRouter>
@@ -84,6 +90,25 @@ export default () => {
             />
           )}
         />
+          <Route
+              exact
+              path="/forgotpassword/:token"
+              render={(props: any) => (
+                  <ForgotPassword
+                      {...props}
+                  />
+              )}
+          />
+
+          <Route
+              exact
+              path="/forgot"
+              render={(props: any) => (
+                  <ForgotForm
+                      {...props}
+                  />
+              )}
+          />
       </div>
       <Footer />
     </HashRouter>

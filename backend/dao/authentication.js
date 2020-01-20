@@ -28,24 +28,9 @@ encode_token = userId => {
 
 decode_token = async token => {
   const payload = jwt.decode(token, process.env.TOKEN_SECRET);
-  console.log("user id in token" + payload.sub);
   let now = moment().format();
-  console.log(
-    "time not working right probably current time: " +
-      now +
-      " exp time " +
-      payload.exp +
-      "time of creation " +
-      payload.iat
-  );
   if (now > payload.exp) {
     //callback('Token has expired, please log in again');
-    console.log(
-      "time not working right probably current time: " +
-        now +
-        " exp time " +
-        payload.exp
-    );
     return null;
   } else {
     return payload.sub;

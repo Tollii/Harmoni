@@ -5,7 +5,6 @@
 
     userGetAll: async () => Users.findAll()
     .then( users => {
-      console.log("Fetched all users");
       return users;
     }),
 
@@ -15,6 +14,13 @@
       }
     })
     .then(user => user),
+
+    userGetOneByEmail: async (email) => Users.findOne({
+      where: {
+        email: email
+      }
+    })
+        .then(user => user),
 
     userUpdate: (id, username, email, phone, picture) => Users.findOne({ where: {id: id}})
       .then(user => Users.update({

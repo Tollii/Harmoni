@@ -47,6 +47,7 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import getCookie from "../../service/cookie";
 import UserService from "../../service/users";
+import Authentication from "../../service/Authentication";
 
 const options = ["Catergories", "Conserts", "Festivals"];
 const drawerWidth = 240;
@@ -67,9 +68,11 @@ const useStyles = makeStyles((theme: Theme) =>
       left: 0,
       position: "absolute"
     },
-    listButton: {
+    rightButtons: {
       position: "absolute",
-      right: 100,
+      right: 0
+    },
+    listButton: {
       [theme.breakpoints.down("xs")]: {
         display: "none"
       }
@@ -77,15 +80,11 @@ const useStyles = makeStyles((theme: Theme) =>
     addEventButton: {
       backgroundColor: "transparent",
       borderColor: "transparent",
-      position: "absolute",
-      right: 50,
       [theme.breakpoints.down("xs")]: {
         display: "none"
       }
     },
     profileButton: {
-      position: "absolute",
-      right: 0,
       [theme.breakpoints.down("xs")]: {
         display: "none"
       }
@@ -130,6 +129,7 @@ export default function Navbar(props: any) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [auth, setAuth] = React.useState(false);
+  const [role, setRole] = React.useState();
   const [values, setValues] = React.useState({
     id: 0,
     fullName: "Trump",
@@ -185,6 +185,10 @@ export default function Navbar(props: any) {
         });
       });
     }
+
+    Authentication.getAuth().then((role: any) => {
+      setRole(role);
+    });
   }, [props.loggedIn]);
 
   return (
@@ -197,23 +201,30 @@ export default function Navbar(props: any) {
           <Button onClick={() => (window.location.hash = "/")} className={classes.logo}>
             <img src={require("../../assets/img/harmoni_logo_wide.png")} alt="logo.png" width="210"></img>
           </Button>
-          <Button onClick={() => (window.location.hash = "/events")} className={classes.listButton}>
-            <FormatListBulletedIcon />
-          </Button>
-          <Button onClick={() => (window.location.hash = "/addEvent")} className={classes.addEventButton}>
-            <AddCircleIcon />
-          </Button>
-          <Box className={classes.profileButton}>
-            {auth ? (
-              <Button onClick={() => (window.location.hash = "/profile")}>
-                <Avatar alt="Profile" src={"http://localhost:8080/profile_picture/" + values.id}/>
-                {values.fullName}
+          <Box className={classes.rightButtons}>
+            <Grid container direction="row">
+              <Button onClick={() => (window.location.hash = "/events")} className={classes.listButton}>
+                <FormatListBulletedIcon />
               </Button>
-            ) : (
-              <Button onClick={() => (window.location.hash = "/login")}>
-                <AccountCircle />
-              </Button>
-            )}
+              { (role == 3 || role == 4) && (
+                  <Button onClick={() => (window.location.hash = "/addEvent")} className={classes.addEventButton}>
+                    <AddCircleIcon />
+                  </Button>
+                )
+              }
+              <Box className={classes.profileButton}>
+                {auth ? (
+                  <Button onClick={() => (window.location.hash = "/profile")}>
+                    <Avatar alt="Profile" src={"http://localhost:8080/profile_picture/" + values.id}/>
+                    {values.fullName}
+                  </Button>
+                ) : (
+                  <Button onClick={() => (window.location.hash = "/login")}>
+                    <AccountCircle />
+                  </Button>
+                )}
+              </Box>
+            </Grid>
           </Box>
         </Toolbar>
       </AppBar>
@@ -233,10 +244,13 @@ export default function Navbar(props: any) {
             <ListItemText> Show all events </ListItemText>
           </ListItem>
 
-          <ListItem button onClick={handleDrawerAddEvent}>
-            <ListItemAvatar> <AddCircleIcon /> </ListItemAvatar>
-            <ListItemText> Add event </ListItemText>
-          </ListItem>
+          { (role == 3 || role == 4) && (
+              <ListItem button onClick={handleDrawerAddEvent}>
+                <ListItemAvatar> <AddCircleIcon /> </ListItemAvatar>
+                <ListItemText> Add event </ListItemText>
+              </ListItem>
+            )
+          }
         </List>
         <Box className={classes.drawerProfile}>
           <Divider />

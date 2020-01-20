@@ -2,7 +2,6 @@ import getCookie from "./cookie";
 const axios = require("axios").default;
 
 let url = process.env.REACT_APP_API_URL;
-const token = getCookie("token");
 
 export class Contract {
   contract!: string;
@@ -14,7 +13,7 @@ class ContractService {
   getContracts() {
     return axios
       .get(url + "/contract", {
-        headers: { token: token }
+        headers: { token: getCookie("token") }
       })
       .then((response: { data: Contract[] }) => response.data);
   }
@@ -34,7 +33,7 @@ class ContractService {
   postContract(contract: object) {
     return axios
       .post(url + "/contract", contract, {
-        headers: { token: token }
+        headers: { token: getCookie("token") }
       })
       .then((response: { data: Contract }) => console.log(response));
   }

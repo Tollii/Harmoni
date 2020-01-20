@@ -1,14 +1,19 @@
 import getCookie from "./cookie";
 const axios = require("axios").default;
 
-let url = "http://localhost:8080";
-const token = getCookie("token");
+let url = process.env.REACT_APP_API_URL;
 
 
 class MailingService {
     cancelEventMail(token: string, eventID: number) {
         return axios
-            .post(url + "/mailer/event/" + eventID + "/", { headers: { token: token } })
+            .post(url + "/mailer/event/" + eventID + "/", { headers: { token: getCookie("token") } })
+            .then((response: { data: any }) => console.log(response));
+    }
+
+    forgotMail(email: string) {
+        return axios
+            .get(url + "/mailer/password", { headers: { email: email, path: process.env.REACT_APP_API_URL } })
             .then((response: { data: any }) => console.log(response));
     }
 }

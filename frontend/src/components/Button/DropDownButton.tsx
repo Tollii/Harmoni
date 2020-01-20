@@ -23,6 +23,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AlertDialog from "../../components/AlertDialog/AlertDialog";
 import Authentication from "../../service/Authentication";
+import EventService from "../../service/events"
 
 const StyledMenu = withStyles({
   paper: {
@@ -67,11 +68,11 @@ export default (props: any) => {
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
-
+  
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  
   const handleContract = (
     event: React.MouseEvent<unknown>,
     userId: number,
@@ -81,24 +82,75 @@ export default (props: any) => {
   };
 
   const [role, setRole] = useState();
+  const [volunteer, setVolunteer] = React.useState(false);
+  const [isVolunteer, setIsVolunteer] = React.useState(false);
+
   useEffect(() => {
     Authentication.getAuth().then((role: any) => {
       setRole(role);
     });
   }, []);
+  useEffect(() => {
+    EventService.getEventVolunteer(props.event)
+    .then((data:boolean) =>{
+      setVolunteer(data)
+    });
+    EventService.getEventIsVolunteer(props.event)
+    .then((data:boolean) =>{
+      setIsVolunteer(data)
+    });
+  }, [props.event]);
 
   return (
     <div>
       <Grid container>
         <Grid item style={{ margin: "auto" }}>
           {role == 1 && (
+            isVolunteer ? (
+              <Button
+                style={{ fontSize: "1.5vw", width: "80%", backgroundColor:"red", color: "white" }}
+                variant="contained"
+                color="inherit"
+                onClick={()=> {
+                  EventService.deleteEventVolunteer(props.event)
+                  .then((data:any) =>{
+                    console.log("quit")
+                    setIsVolunteer(false)
+                  });
+                }}
+                >
+              QUIT!!
+            </Button>
+            )
+            :
+            (
+              volunteer ? (
+                <Button
+                style={{ fontSize: "1.5vw", width: "80%" }}
+                variant="contained"
+                color="primary"
+                onClick={()=> {
+                  console.log("quit not")
+                  EventService.postEventVolunteer(props.event)
+                  .then((data:any) =>{
+                    setIsVolunteer(true)
+                  });
+                }}
+              >
+                Register
+            </Button>
+            )
+            :
+            (
             <Button
               style={{ fontSize: "1.5vw", width: "80%" }}
               variant="contained"
-              color="primary"
+              disabled={true}
             >
-              Register
+              Full
             </Button>
+            )
+            )
           )}
           {role ==
             2 /**om man er artist skal man kun få se kontrakt og endre rider */ && (
