@@ -18,6 +18,7 @@
 
 module.exports = (app, models, auth) => {
   const bcrypt = require("bcryptjs");
+  const userControl = require("../dao/users")(models);
 
   /**
    * @group Authentication - Operations about authentication

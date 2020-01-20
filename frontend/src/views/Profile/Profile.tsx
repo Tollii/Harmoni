@@ -24,6 +24,7 @@ import getCookie from "../../service/cookie";
 import MyEvents from "./MyEvents";
 import EventService from "../../service/events";
 import FileService from "../../service/files";
+import AuthService from "../../service/Authentication";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -55,6 +56,8 @@ export default (props: any) => {
   const [openChangePass, setOpenChangePass] = React.useState(false);
   const [openEditPic, setOpenEditPic] = React.useState(false);
   const [value, setValue] = React.useState(0);
+  const [events, setEvents] = useState<any>([]);
+  const [pic_url, setPic_url] = useState("");
 
   const handleChangeTabs = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
@@ -63,24 +66,26 @@ export default (props: any) => {
   const [pic_url, setPic_url] = useState("");
   const [file, setFile] = useState(new File(["foo"], ""));
   const [newValues, setNewValues] = useState({
-    fullName: "hei",
-    email: "email",
-    telephone: "telephone",
+    fullName: "",
+    email: "",
+    telephone: "",
     picture: ""
   });
   const [values, setValues] = useState({
     id: 0,
-    fullName: "hei",
+    fullName: "",
     roleID: 0,
-    role: "role",
-    email: "email",
-    telephone: "telephone",
+    role: "",
+    email: "",
+    telephone: "",
     picture: ""
   });
-  const handleChange = (event: any) => {
-    const { name, value } = event.target;
-    setNewValues({ ...newValues, [name]: value });
-  };
+
+  const [password, setPassword] = useState({
+    old_password: "",
+    new_password: "",
+    confirmed_password: ""
+  });
 
   const handleSubmitData = (event: any) => {
     setValues({
@@ -92,6 +97,7 @@ export default (props: any) => {
       role: values.role,
       picture: values.picture
     });
+
     UserService.updateOneUser(values.id, {
       username: newValues.fullName,
       email: newValues.email,
@@ -116,6 +122,29 @@ export default (props: any) => {
       picture: values.picture
     });
   };
+  const resetPassword = () => {
+    setPassword({ old_password: "", new_password: "", confirmed_password: "" });
+  };
+
+  const handleChange = (event: any) => {
+    const { name, value } = event.target;
+    setNewValues({ ...newValues, [name]: value });
+  };
+  const handlePasswordChange = (event: any) => {
+    const { name, value } = event.target;
+    setPassword({ ...password, [name]: value });
+  };
+
+  const handleChangeTabs = (event: React.ChangeEvent<{}>, newValue: number) => {
+    setValue(newValue);
+  };
+
+  const fileSelectedHandler = (event: any) => {
+    setFile(event.target.files[0]);
+  };
+  const uploadProfilePicture = () => {
+    return Promise.resolve(FileService.postProfilePicture(file));
+  };
 
   const handleOpenEdit = () => {
     setOpenEdit(true);
@@ -132,6 +161,7 @@ export default (props: any) => {
 
   const handleCloseChangePass = () => {
     setOpenChangePass(false);
+    resetPassword();
   };
 
   const handleOpenEditPic = () => {
@@ -142,6 +172,23 @@ export default (props: any) => {
     setOpenEditPic(false);
     setFile(new File(["foo"], ""));
     window.location.reload();
+  };
+
+  const handleSubmitPassword = (event: any) => {
+    if (
+      password.new_password === password.confirmed_password &&
+      password.old_password != "" &&
+      password.new_password != "" &&
+      password.old_password != password.new_password
+    ) {
+      AuthService.changePassword({
+        old_password: password.old_password,
+        new_password: password.new_password
+      });
+      setOpenChangePass(false);
+    } else {
+      //feil med nytt passord
+    }
   };
 
   useEffect(() => {
@@ -166,8 +213,6 @@ export default (props: any) => {
       });
     });
   }, []);
-
-  const [events, setEvents] = useState<any>([]);
 
   useEffect(() => {
     EventService.getEventsByUser().then((response: any) => {
@@ -366,31 +411,36 @@ export default (props: any) => {
                     <DialogContentText></DialogContentText>
                     <InputField
                       autoFocus
-                      name="oldPassword"
-                      label="Old Password"
-                      type="text"
-                      onChange={handleChange}
+                      name="old_password"
+                      label="Old Password"
+                      type="password"
+                      value={password.old_password}
+                      onChange={handlePasswordChange}
                     />
+                                        
                     <InputField
                       autoFocus
-                      name="newPassword"
-                      label="New Password"
-                      type="text"
-                      onChange={handleChange}
+                      name="new_password"
+                      label="New Password"
+                      type="password"
+                      value={password.new_password}
+                      onChange={handlePasswordChange}
                     />
+                                        
                     <InputField
                       autoFocus
-                      name="confirmPassword"
-                      label="Confirm Password"
-                      type="text"
-                      onChange={handleChange}
+                      name="confirmed_password"
+                      label="Confirm Password"
+                      type="password"
+                      value={password.confirmed_password}
+                      onChange={handlePasswordChange}
                     />
                   </DialogContent>
                   <DialogActions>
                     <Grid container direction="row" justify="center">
-                      <Grid item xs={3}>
-                        <Button color="primary">Change</Button>
-                      </Grid>
+                      <Button color="primary" onClick={handleSubmitPassword}>
+                                                  Change
+                      </Button>
                       <Grid item xs={3}>
                         <Button onClick={handleCloseChangePass} color="primary">
                           Cancel
