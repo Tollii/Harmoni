@@ -102,7 +102,6 @@ module.exports = (models) => {
 
 
     getContractForOrganizer: async (id, userId, eventId, roleId) => {
-      console.log(id + " " + userId + " " + eventId + " " + roleId + " getContract ");
 
         return Contract.findOne({
           where: {
@@ -111,9 +110,6 @@ module.exports = (models) => {
           },
 
         }).then(contract => contract)
-
-
-
     },
 
 
@@ -131,6 +127,15 @@ module.exports = (models) => {
       })
       .then(x => contract)
       ),
+      getContractVolunteersPerEvent: async (eventId) => {
+        return Contract.findAllAnd({
+          where: {
+            userID: userId,
+            eventID: eventId
+          },
+        }).then(contract => contract)
+    },
   }
+  
 }
 

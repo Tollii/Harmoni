@@ -303,3 +303,14 @@ module.exports = (app, models, base, auth) => {
     .catch(err => console.log(err))
   });
 };
+
+app.put(base + "/:event_id/volunteers/join/:id/", (req, res) => {
+  auth.check_permissions(req.headers.token, ["Admin", "User"])
+  .then(data => {
+    if(data.auth){
+      eventControl.eventGetOne(req.params.event_id)
+      .then(event => {
+        contractControl.
+      })
+    }
+});
