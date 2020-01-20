@@ -59,11 +59,6 @@ export default (props: any) => {
   const [events, setEvents] = useState<any>([]);
   const [pic_url, setPic_url] = useState("");
 
-  const handleChangeTabs = (event: React.ChangeEvent<{}>, newValue: number) => {
-    setValue(newValue);
-  };
-
-  const [pic_url, setPic_url] = useState("");
   const [file, setFile] = useState(new File(["foo"], ""));
   const [newValues, setNewValues] = useState({
     fullName: "",
@@ -105,13 +100,6 @@ export default (props: any) => {
       picture: newValues.picture
     }).then(res => console.log(res));
     setOpenEdit(false);
-  };
-
-  const fileSelectedHandler = (event: any) => {
-    setFile(event.target.files[0]);
-  };
-  const uploadProfilePicture = () => {
-    return Promise.resolve(FileService.postProfilePicture(file));
   };
 
   const resetNewVal = () => {
