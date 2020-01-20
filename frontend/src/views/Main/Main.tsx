@@ -24,10 +24,15 @@ export default (props: any) => {
   const classes = useStyles();
   const [center, setCenter] = useState({ lat: 63.4189, lng: 10.4027 });
   const [events, setEvents] = useState<any>([]);
+  const [eventsCard, setEventsCard] = useState<any>([]);
 
   useEffect(() => {
     EventService.getEvents().then((response: any) => {
       setEvents(response);
+    });
+
+    EventService.getEventCarousel().then((response: any) => {
+      setEventsCard(response);
       setCenter(response[1]);
     });
   }, []);
@@ -36,7 +41,7 @@ export default (props: any) => {
     <div className={classes.container}>
       <Map events={events} center={center} zoom={11} />
       <div className={classes.carousel}>
-        <Carousel events={events} setCenter={setCenter} />
+        <Carousel events={eventsCard} setCenter={setCenter} />
       </div>
     </div>
   );
