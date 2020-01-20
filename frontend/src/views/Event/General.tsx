@@ -131,6 +131,17 @@ export default (props: any) => {
                 Valgt header: {props.values.eventImage.name}
               </Typography>
             </Grid>
+            <Grid container item xs direction="column" justify="center" alignItems="center">
+              <Grid>
+                <InputField
+                    name="volunteers"
+                    label="Volunteers"
+                    type="number"
+                    value={props.values.volunteers}
+                    onChange={props.handleChange}
+                  />
+              </Grid>
+            </Grid>
             <Grid
               container
               xs
