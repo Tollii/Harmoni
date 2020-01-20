@@ -24,7 +24,7 @@ import getCookie from "../../service/cookie";
 import MyEvents from "./MyEvents";
 import EventService from "../../service/events";
 import FileService from "../../service/files";
-import Authentication from "../../service/Authentication";
+import AuthService from "../../service/Authentication";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
