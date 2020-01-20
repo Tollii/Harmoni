@@ -74,6 +74,25 @@ module.exports = (app, models, base, auth) => {
     });
   });
 
+
+  /**
+   * @group Events - Operations about event
+   * @route GET /eventcarousel
+   * @returns {object} 200 - The event with the param id
+   * @description Return the 15 latest events to the carousel
+   * @returns {Error}  default - Unexpected error
+   */
+
+  app.get(base + "carousel", (req, res) => {
+    eventControl.eventGetCarouselEvent(req.params.id).then(data => {
+      res.send(data);
+    }).catch(err=>{
+      console.log(err);
+      res.sendStatus(400);
+    });
+  });
+
+
   /**
    * @group Events - Operations about event
    * @route GET /event/user/all/
