@@ -14,18 +14,17 @@ export class User {
   updatedAt!: string;
   roleID!: number;
 }
-const token = getCookie("token");
 class UserService {
   getAllUsers() {
     return axios
       .get<User[]>(process.env.REACT_APP_API_URL + "/user/", {
-        headers: { token: token }
+        headers: { token: getCookie("token") }
       })
       .then(response => response.data);
   }
   getOneUser() {
     return axios
-      .get<User>(process.env.REACT_APP_API_URL + "/user/" + token)
+      .get<User>(process.env.REACT_APP_API_URL + "/user/" + getCookie("token"))
       .then(response => response.data);
   }
   postOneUser(user: object) {
@@ -36,7 +35,7 @@ class UserService {
   updateOneUser(id: number, user: object) {
     return axios
       .put(process.env.REACT_APP_API_URL + "/user/" + id, user, {
-        headers: { token: token }
+        headers: { token: getCookie("token") }
       })
       .then(response => response.data);
   }

@@ -1,8 +1,6 @@
 import getCookie from "./cookie";
 const axios = require("axios").default;
 
-const token = getCookie("token");
-
 export class Event {
   id!: number;
   event_name!: string;
@@ -56,7 +54,7 @@ class EventService {
   getEventsByUser() {
     return axios
       .get(process.env.REACT_APP_API_URL + "/event/user/all", {
-        headers: { token: token }
+        headers: { token: getCookie("token") }
       })
       .then((response: { data: JSON }) => response.data);
   }
@@ -70,7 +68,7 @@ class EventService {
   postEvent(event: object) {
     return axios
       .post(process.env.REACT_APP_API_URL + "/event/", event, {
-        headers: { token: token }
+        headers: { token: getCookie("token") }
       })
       .then((response: { data: FullEvent }) => response.data);
   }
@@ -90,7 +88,7 @@ class EventService {
   updateArchiveOne(id: number) {
     return axios
       .put(process.env.REACT_APP_API_URL + "/event_archive" + id, {
-        headers: { token: token }
+        headers: { token: getCookie("token") }
       })
       .then((response: { data: JSON }) => console.log(response));
   }
@@ -108,7 +106,7 @@ class EventService {
   }
   getEventIsVolunteer(event_id: number) {
     return axios
-    .get(process.env.REACT_APP_API_URL + "/event/"+event_id+"/volunteers/signed/", {headers: { token: token }})
+    .get(process.env.REACT_APP_API_URL + "/event/"+event_id+"/volunteers/signed/", {headers: { token: getCookie("token") }})
     .then((response: { data: JSON }) => {
       console.log(response.data)
       return response.data ? true : false
@@ -116,14 +114,14 @@ class EventService {
   }
   postEventVolunteer(event_id: number) {
     return axios
-    .post(process.env.REACT_APP_API_URL + "/event/"+event_id+"/volunteers/",{}, {headers: { token: token }})
+    .post(process.env.REACT_APP_API_URL + "/event/"+event_id+"/volunteers/",{}, {headers: { token: getCookie("token") }})
     .then((response: { data: JSON }) => {
       return response.data
     });
   }
   deleteEventVolunteer(event_id: number) {
     return axios
-    .delete(process.env.REACT_APP_API_URL + "/event/"+event_id+"/volunteers/", {headers: { token: token }})
+    .delete(process.env.REACT_APP_API_URL + "/event/"+event_id+"/volunteers/", {headers: { token: getCookie("token") }})
     .then((response: { data: JSON }) => {
       return response.data
     });
