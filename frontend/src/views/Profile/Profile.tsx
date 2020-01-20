@@ -83,7 +83,6 @@ export default (props: any) => {
   });
 
   const handleSubmitData = (event: any) => {
-
     setValues({
       fullName: newValues.fullName,
       email: newValues.email,
@@ -93,7 +92,7 @@ export default (props: any) => {
       role: values.role,
       picture: values.picture
     });
-    
+
     UserService.updateOneUser(values.id, {
       username: newValues.fullName,
       email: newValues.email,
@@ -122,7 +121,6 @@ export default (props: any) => {
   const handlePasswordChange = (event: any) => {
     const { name, value } = event.target;
     setPassword({ ...password, [name]: value });
-    console.log(value);
   };
 
   const handleChangeTabs = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -171,7 +169,6 @@ export default (props: any) => {
       password.new_password != "" &&
       password.old_password != password.new_password
     ) {
-      console.log("Kaller på change password");
       AuthService.changePassword({
         old_password: password.old_password,
         new_password: password.new_password
@@ -179,7 +176,6 @@ export default (props: any) => {
       setOpenChangePass(false);
     } else {
       //feil med nytt passord
-      console.log("Noe er galt med passordet ditt");
     }
   };
 
@@ -404,7 +400,7 @@ export default (props: any) => {
                       autoFocus
                       name="old_password"
                       label="Old Password"
-                      type="text"
+                      type="password"
                       value={password.old_password}
                       onChange={handlePasswordChange}
                     />
@@ -413,7 +409,7 @@ export default (props: any) => {
                       autoFocus
                       name="new_password"
                       label="New Password"
-                      type="text"
+                      type="password"
                       value={password.new_password}
                       onChange={handlePasswordChange}
                     />
@@ -422,7 +418,7 @@ export default (props: any) => {
                       autoFocus
                       name="confirmed_password"
                       label="Confirm Password"
-                      type="text"
+                      type="password"
                       value={password.confirmed_password}
                       onChange={handlePasswordChange}
                     />
