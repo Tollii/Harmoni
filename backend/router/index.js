@@ -12,6 +12,6 @@ module.exports = app => {
   require('./riders')(app, models, '/rider', auth);
   require('./authentication')(app, models, auth);
   require('./files')(app, models, auth);
-  require('./mailer')(app, "/mailer", auth);
+  require('./mailer')(app, models, "/mailer", auth);
 
 };

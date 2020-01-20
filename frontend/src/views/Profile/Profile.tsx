@@ -59,6 +59,11 @@ export default (props: any) => {
   const [events, setEvents] = useState<any>([]);
   const [pic_url, setPic_url] = useState("");
 
+  const handleChangeTabs = (event: React.ChangeEvent<{}>, newValue: number) => {
+    setValue(newValue);
+  };
+
+  const [pic_url, setPic_url] = useState("");
   const [file, setFile] = useState(new File(["foo"], ""));
   const [newValues, setNewValues] = useState({
     fullName: "",
@@ -100,6 +105,13 @@ export default (props: any) => {
       picture: newValues.picture
     }).then(res => console.log(res));
     setOpenEdit(false);
+  };
+
+  const fileSelectedHandler = (event: any) => {
+    setFile(event.target.files[0]);
+  };
+  const uploadProfilePicture = () => {
+    return Promise.resolve(FileService.postProfilePicture(file));
   };
 
   const resetNewVal = () => {
@@ -197,7 +209,7 @@ export default (props: any) => {
           telephone: res.phone,
           picture: res.picture
         });
-        setPic_url("http://localhost:8080/image/profile/" + res.id);
+        setPic_url(process.env.REACT_APP_API_URL + "/image/profile/" + res.id);
       });
     });
   }, []);
@@ -206,6 +218,7 @@ export default (props: any) => {
     EventService.getEventsByUser().then((response: any) => {
       if (response.length !== 0) {
         setEvents(response);
+        console.log(response);
       }
     });
   }, []);
@@ -460,7 +473,7 @@ export default (props: any) => {
         <CardContent>
           <div style={{ marginBottom: "30px" }}>
             <Grid container spacing={4}>
-              <MyEvents events={events} />
+              <MyEvents events={events} user={values.id} />
             </Grid>
           </div>
         </CardContent>

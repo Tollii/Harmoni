@@ -52,7 +52,11 @@ module.exports = (app, models, auth) => {
         req.body.username,
         req.body.phone
       )
-      .then(data => res.sendStatus(200));
+      .then(data =>
+        data
+          ? res.status(200).send("Registered")
+          : res.status(400).send("Registration failed")
+      );
   });
 
   /**

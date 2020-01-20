@@ -35,10 +35,13 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AlertDialog from "../../components/AlertDialog/AlertDialog";
 import Map from "../../components/Map/simpleMap";
-
+import DropDownButton from "../../components/Button/DropDownButton";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    buttons:{
+      margin:"auto"
+    },
     description: {
       // padding: theme.spacing(5),
       margin: "10%",
@@ -80,46 +83,16 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     container: {
       height: "90vh",
-      width: "100%",
+      width: "100%"
     },
-    map:{
+    map: {
       height: "20vw",
       width: "100%",
       position: "relative",
-      marginBottom: "10px",
-    },
+      marginBottom: "10px"
+    }
   })
 );
-
-const StyledMenu = withStyles({
-  paper: {
-    border: "1px solid #d3d4d5"
-  }
-})((props: MenuProps) => (
-  <Menu
-    elevation={0}
-    getContentAnchorEl={null}
-    anchorOrigin={{
-      vertical: "bottom",
-      horizontal: "center"
-    }}
-    transformOrigin={{
-      vertical: "top",
-      horizontal: "center"
-    }}
-    {...props}
-  />
-));
-const StyledMenuItem = withStyles(theme => ({
-  root: {
-    "&:focus": {
-      backgroundColor: theme.palette.primary.main,
-      "& .MuiListItemIcon-root, & .MuiListItemText-primary": {
-        color: theme.palette.common.white
-      }
-    }
-  }
-}))(MenuItem);
 
 export default (props: any) => {
   const classes = useStyles();
@@ -151,7 +124,7 @@ export default (props: any) => {
         name: event.event_name,
         start: new Date(event.event_start),
         end: new Date(event.event_end),
-        image: "http://localhost:8080/image/event/" + event.id,
+        image: process.env.REACT_APP_API_URL + "/image/event/" + event.id,
         personnel: event.personnel,
         description: event.description,
         typeID: event.event_typeID,
@@ -192,7 +165,7 @@ export default (props: any) => {
     setAnchorEl(null);
   };
 
-  const role: number = 3; /**Her skal Zaim sin supermetode inn */
+  const role: number = 2; /**Her skal Zaim sin supermetode inn */
 
   return (
     <div style={{ overflow: "hidden" }}>
@@ -305,10 +278,10 @@ export default (props: any) => {
             {values.location}
           </Typography>
           <div className={classes.map}>
-            <Map events={[values]} center={values} zoom={11}/>
+            <Map events={[values]} center={values} zoom={11} />
           </div>
           <Grid container>
-            <Grid>
+            <Grid className={classes.buttons}>
               <Button
                 style={{ fontSize: "1.5vw" }}
                 variant="contained"
@@ -317,103 +290,7 @@ export default (props: any) => {
                 Buy Ticket
               </Button>
             </Grid>
-            <Grid item style={{ margin: "auto" }}>
-              {role == 1 && (
-                <Button
-                  style={{ fontSize: "1.5vw" }}
-                  variant="contained"
-                  color="primary"
-                >
-                  Register
-                </Button>
-              )}
-              {role ==
-                2 /**om man er artist skal man kun få se kontrakt og endre rider */ && (
-                <div>
-                  <Button
-                    aria-controls="customized-menu"
-                    aria-haspopup="true"
-                    onClick={handleClick}
-                    style={{ fontSize: "1.5vw" }}
-                    variant="contained"
-                    color="primary"
-                  >
-                    Settings
-                  </Button>
-                  <StyledMenu
-                    id="customized-menu"
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}
-                  >
-                    <StyledMenuItem>
-                      <ListItemIcon>
-                        <SettingsIcon fontSize="small" />
-                      </ListItemIcon>
-                      <ListItemText primary="Edit rider" />
-                    </StyledMenuItem>
-
-                    <StyledMenuItem>
-                      <ListItemIcon>
-                        <DescriptionIcon fontSize="small" />
-                      </ListItemIcon>
-                      <ListItemText primary="See contract" />
-                    </StyledMenuItem>
-                  </StyledMenu>
-                </div>
-              )}
-              {(role == 3 ||
-                role ==
-                  4) /**om man har rolle 3/4(arrang/admin) skal man få knapp med alt */ && (
-                <div>
-                  <Button
-                    aria-controls="customized-menu"
-                    aria-haspopup="true"
-                    onClick={handleClick}
-                    style={{ fontSize: "1.5vw" }}
-                    variant="contained"
-                    color="primary"
-                  >
-                    Settings
-                  </Button>
-                  <StyledMenu
-                    id="customized-menu"
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}
-                  >
-                    <StyledMenuItem>
-                      <ListItemIcon>
-                        <SettingsIcon fontSize="small" />
-                      </ListItemIcon>
-                      <ListItemText primary="Edit" />
-                    </StyledMenuItem>
-
-                    <StyledMenuItem
-                      onClick={() =>
-                        "Her skal det komme en pop opp som spør at du vil slette"
-                      }
-                    >
-                      <ListItemIcon>
-                        <DeleteIcon fontSize="small" />
-                      </ListItemIcon>
-                      <ListItemText primary="Delete" />
-                    </StyledMenuItem>
-
-                    <StyledMenuItem>
-                      <ListItemIcon>
-                        <DescriptionIcon fontSize="small" />
-                      </ListItemIcon>
-                      <ListItemText primary="Contract" />
-                    </StyledMenuItem>
-                  </StyledMenu>
-                </div>
-              )}
-              {role == 0 && <div></div>}
-              {/**om man ikke er logget inn, så skal ikke knappen vises */}
-            </Grid>
+            <DropDownButton />
           </Grid>
         </Grid>
       </Grid>

@@ -1,7 +1,7 @@
 import getCookie from "./cookie";
 const axios = require("axios").default;
 
-let url = "http://localhost:8080";
+let url = process.env.REACT_APP_API_URL;
 const token = getCookie("token");
 
 export class Contract {
@@ -13,25 +13,41 @@ export class Contract {
 class ContractService {
   getContracts() {
     return axios
-      .get(url + "/contract", { headers: { token: token } })
+      .get(url + "/contract", {
+        headers: { token: token }
+      })
       .then((response: { data: Contract[] }) => response.data);
   }
 
   getContract(userID: number, eventID: number) {
     return axios
-      .get(url + "/contract/user" + userID + "/event/" + eventID)
+      .get(
+        url +
+          "/contract/user" +
+          userID +
+          "/event/" +
+          eventID
+      )
       .then((response: { data: Contract }) => response.data);
   }
 
-  postContract(token: string, contract: object) {
+  postContract(contract: object) {
     return axios
-      .post(url + "/contract", contract, { headers: { token: token } })
+      .post(url + "/contract", contract, {
+        headers: { token: token }
+      })
       .then((response: { data: Contract }) => console.log(response));
   }
 
   deleteContract(userID: number, eventID: number) {
     return axios
-      .delete(url + "/contract/user" + userID + "/event/" + eventID)
+      .delete(
+        url +
+          "/contract/user" +
+          userID +
+          "/event/" +
+          eventID
+      )
       .then((response: { data: Contract }) => console.log(response));
   }
 }
