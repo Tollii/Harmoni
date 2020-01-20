@@ -23,7 +23,7 @@ import RoleService from "../../service/roles";
 import getCookie from "../../service/cookie";
 import MyEvents from "./MyEvents";
 import EventService from "../../service/events";
-import FileService from "../../service/files"
+import FileService from "../../service/files";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
     editPic: {
       fontSize: "12px",
       "&:hover": {
-        cursor: "pointer",
+        cursor: "pointer"
       }
     }
   })
@@ -60,8 +60,8 @@ export default (props: any) => {
     setValue(newValue);
   };
 
-  const [pic_url, setPic_url] = useState("")
-  const [file, setFile] = useState(new File(["foo"], ""))
+  const [pic_url, setPic_url] = useState("");
+  const [file, setFile] = useState(new File(["foo"], ""));
   const [newValues, setNewValues] = useState({
     fullName: "hei",
     email: "email",
@@ -102,10 +102,10 @@ export default (props: any) => {
   };
 
   const fileSelectedHandler = (event: any) => {
-    setFile(event.target.files[0])
+    setFile(event.target.files[0]);
   };
   const uploadProfilePicture = () => {
-    return Promise.resolve(FileService.postProfilePicture(file))
+    return Promise.resolve(FileService.postProfilePicture(file));
   };
 
   const resetNewVal = () => {
@@ -140,8 +140,8 @@ export default (props: any) => {
 
   const handleCloseEditPic = () => {
     setOpenEditPic(false);
-    setFile(new File(["foo"], ""))
-    window.location.reload();  
+    setFile(new File(["foo"], ""));
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -162,7 +162,7 @@ export default (props: any) => {
           telephone: res.phone,
           picture: res.picture
         });
-        setPic_url("http://localhost:8080/image/profile/" + res.id)
+        setPic_url(process.env.REACT_APP_API_URL + "/image/profile/" + res.id);
       });
     });
   }, []);
@@ -259,7 +259,7 @@ export default (props: any) => {
                             onChange={fileSelectedHandler}
                           />
                         </Button>
-                        <Typography style={{marginLeft: "30px"}}>
+                        <Typography style={{ marginLeft: "30px" }}>
                           Chosen file: {file.name}
                         </Typography>
                       </Grid>
@@ -268,9 +268,16 @@ export default (props: any) => {
                   <DialogActions>
                     <Grid container direction="row" justify="center">
                       <Grid item xs={3}>
-                        <Button type="submit" onClick={()=> {uploadProfilePicture().then(()=>{
-                          handleCloseEditPic()
-                          })}}>Upload Image</Button>
+                        <Button
+                          type="submit"
+                          onClick={() => {
+                            uploadProfilePicture().then(() => {
+                              handleCloseEditPic();
+                            });
+                          }}
+                        >
+                          Upload Image
+                        </Button>
                       </Grid>
                       <Grid item xs={3}>
                         <Button onClick={handleCloseEditPic} color="primary">
@@ -400,7 +407,7 @@ export default (props: any) => {
                       getCookie("token") +
                       "; expires=" +
                       new Date().toUTCString();
-                    props.logFunc(false)
+                    props.logFunc(false);
                     window.location.hash = "#/";
                   }}
                 >

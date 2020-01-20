@@ -1,7 +1,6 @@
 import getCookie from "./cookie";
 
 const axios = require("axios");
-let url: string = "http://localhost:8080";
 const token = getCookie("token");
 
 class files {
@@ -9,7 +8,7 @@ class files {
     let formData = new FormData();
     formData.append("image", data);
     return axios
-      .post(url + "/image/profile/", formData, {
+      .post(process.env.REACT_APP_API_URL + "/image/profile/", formData, {
         headers: {
           token: token,
           "Content-Type": "multipart/form-data"
@@ -23,7 +22,11 @@ class files {
     formData.append("contract", data);
     return axios
       .put(
-        url + "/files/contract/user/" + userID + "/event/" + eventID,
+        process.env.REACT_APP_API_URL +
+          "/files/contract/user/" +
+          userID +
+          "/event/" +
+          eventID,
         formData,
         {
           headers: {
@@ -39,7 +42,7 @@ class files {
     let formData = new FormData();
     formData.append("image", data);
     return axios
-      .post(url + "/image/event/" + id, formData, {
+      .post(process.env.REACT_APP_API_URL + "/image/event/" + id, formData, {
         headers: {
           token: token,
           "Content-Type": "multipart/form-data"
