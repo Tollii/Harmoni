@@ -47,7 +47,7 @@ module.exports = (app, models, base, auth) => {
   const contractControl = require("../dao/contracts")(models);
   const riderControl = require("../dao/riders")(models);
   const ticketControl = require("../dao/tickets")(models);
-
+  
   /**
    * @group Events - Operations about event
    * @route GET /event/
@@ -56,20 +56,20 @@ module.exports = (app, models, base, auth) => {
    */
 
   app.get(base, (req, res) => {
-    eventControl.eventGetAllUnarchived().then(data => {
+    eventControl.eventGetAll().then(data => {
       res.send(data);
     });
   });
 
-   /**
+  /**
    * @group Events - Operations about event
-   * @route GET /event/
+   * @route GET /eventUnarchived/
    * @returns {object} 200 - An array of events
    * @returns {Error}  default - Unexpected error
    */
 
   app.get(base, (req, res) => {
-    eventControl.eventGetAll().then(data => {
+    eventControl.eventGetAllUnarchived().then(data => {
       res.send(data);
     });
   });
