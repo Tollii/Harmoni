@@ -53,7 +53,7 @@ export default function(props: any) {
     data: []
   });
   useEffect(() => {
-    EventService.getEvents().then((events: any) => {
+    EventService.getEventsUnarchived().then((events: any) => {      
       Promise.all(
         events.map((event: any) => {
           let start = String(event.event_start).substring(0, 10);

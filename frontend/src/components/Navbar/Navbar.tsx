@@ -12,14 +12,14 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
 import MenuItem from "@material-ui/core/MenuItem";
-import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
+import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import HomeIcon from '@material-ui/icons/Home';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Box from '@material-ui/core/Box';
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import HomeIcon from "@material-ui/icons/Home";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import Box from "@material-ui/core/Box";
 import {
   Button,
   ButtonGroup,
@@ -58,11 +58,11 @@ const useStyles = makeStyles((theme: Theme) =>
     navbar: {
       display: "flex",
       [theme.breakpoints.down("xs")]: {
-        flexDirection: 'row-reverse'
-      },
+        flexDirection: "row-reverse"
+      }
     },
     backgroundNavbar: {
-      backgroundColor: "rgba(255,255,255,0.9)",
+      backgroundColor: "rgba(255,255,255,0.9)"
     },
     logo: {
       left: 0,
@@ -97,17 +97,17 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       "&:hover": {
         color: fade(theme.palette.common.black, 0.7)
-      },
+      }
     },
     drawer: {
       width: drawerWidth,
-      variant: "persistent",
+      variant: "persistent"
     },
     drawerHeader: {
-      display: 'flex',
-      alignItems: 'center',
+      display: "flex",
+      alignItems: "center",
       ...theme.mixins.toolbar,
-      justifyContent: 'flex-start',
+      justifyContent: "flex-start"
     },
     drawerHome: {
       position: "absolute",
@@ -151,27 +151,27 @@ export default function Navbar(props: any) {
   const handleDrawerHome = () => {
     window.location.hash = "/";
     handleDrawerClose();
-  }
+  };
 
   const handleDrawerAllEvents = () => {
-    window.location.hash = "/events";
+    window.location.hash = "eventUnarchived";
     handleDrawerClose();
-  }
+  };
 
   const handleDrawerAddEvent = () => {
     window.location.hash = "/addEvent";
     handleDrawerClose();
-  }
+  };
 
   const handleDrawerLogin = () => {
     window.location.hash = "/login";
     handleDrawerClose();
-  }
+  };
 
   const handleDrawerProfile = () => {
     window.location.hash = "/profile";
     handleDrawerClose();
-  }
+  };
 
   useEffect(() => {
     setAuth(props.loggedIn);
@@ -195,31 +195,49 @@ export default function Navbar(props: any) {
     <div className={classes.root}>
       <AppBar className={classes.backgroundNavbar} position="fixed">
         <Toolbar className={classes.navbar}>
-          <IconButton onClick={handleDrawerOpen} className={classes.mobileMenuButton}>
-            <MenuIcon/>
+          <IconButton
+            onClick={handleDrawerOpen}
+            className={classes.mobileMenuButton}
+          >
+            <MenuIcon />
           </IconButton>
-          <Button onClick={() => (window.location.hash = "/")} className={classes.logo}>
+          <Button
+            onClick={() => (window.location.hash = "/")}
+            className={classes.logo}
+          >
             <Typography
-              style={{fontFamily: "Roboto", fontSize: "21pt", fontWeight: 200}}
+              style={{
+                fontFamily: "Roboto",
+                fontSize: "21pt",
+                fontWeight: 200
+              }}
             >
               HARMONI
             </Typography>
           </Button>
           <Box className={classes.rightButtons}>
             <Grid container direction="row">
-              <Button onClick={() => (window.location.hash = "/events")} className={classes.listButton}>
+              <Button
+                onClick={() => (window.location.hash = "eventUnarchived")}
+                className={classes.listButton}
+              >
                 <FormatListBulletedIcon />
               </Button>
-              { (role == 3 || role == 4) && (
-                  <Button onClick={() => (window.location.hash = "/addEvent")} className={classes.addEventButton}>
-                    <AddCircleIcon />
-                  </Button>
-                )
-              }
+              {(role == 3 || role == 4) && (
+                <Button
+                  onClick={() => (window.location.hash = "/addEvent")}
+                  className={classes.addEventButton}
+                >
+                  <AddCircleIcon />
+                </Button>
+              )}
               <Box className={classes.profileButton}>
                 {auth ? (
                   <Button onClick={() => (window.location.hash = "/profile")}>
-                    <Avatar alt="Profile" src={"http://localhost:8080/profile_picture/" + values.id}/>
+                    <Avatar
+                      alt="Profile"
+                      src={"http://localhost:8080/profile_picture/" + values.id}
+                    />
                     {values.fullName}
                   </Button>
                 ) : (
@@ -232,10 +250,19 @@ export default function Navbar(props: any) {
           </Box>
         </Toolbar>
       </AppBar>
-      <Drawer className={classes.drawer} classes={{ paper: classes.drawPaper }} open={open} anchor="right">
+      <Drawer
+        className={classes.drawer}
+        classes={{ paper: classes.drawPaper }}
+        open={open}
+        anchor="right"
+      >
         <Box className={classes.drawerHeader}>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            {theme.direction === "rtl" ? (
+              <ChevronLeftIcon />
+            ) : (
+              <ChevronRightIcon />
+            )}
           </IconButton>
           <IconButton onClick={handleDrawerHome} className={classes.drawerHome}>
             <HomeIcon />
@@ -244,34 +271,47 @@ export default function Navbar(props: any) {
         <Divider />
         <List>
           <ListItem button onClick={handleDrawerAllEvents}>
-            <ListItemAvatar> <FormatListBulletedIcon /> </ListItemAvatar>
+            <ListItemAvatar>
+              {" "}
+              <FormatListBulletedIcon />{" "}
+            </ListItemAvatar>
             <ListItemText> Show all events </ListItemText>
           </ListItem>
 
-          { (role == 3 || role == 4) && (
-              <ListItem button onClick={handleDrawerAddEvent}>
-                <ListItemAvatar> <AddCircleIcon /> </ListItemAvatar>
-                <ListItemText> Add event </ListItemText>
-              </ListItem>
-            )
-          }
+          {(role == 3 || role == 4) && (
+            <ListItem button onClick={handleDrawerAddEvent}>
+              <ListItemAvatar>
+                {" "}
+                <AddCircleIcon />{" "}
+              </ListItemAvatar>
+              <ListItemText> Add event </ListItemText>
+            </ListItem>
+          )}
         </List>
         <Box className={classes.drawerProfile}>
           <Divider />
           {auth ? (
             <ListItem button onClick={handleDrawerProfile}>
-              <ListItemAvatar> <Avatar alt="Profile" src={"http://localhost:8080/profile_picture/" + values.id} /> </ListItemAvatar>
+              <ListItemAvatar>
+                {" "}
+                <Avatar
+                  alt="Profile"
+                  src={"http://localhost:8080/profile_picture/" + values.id}
+                />{" "}
+              </ListItemAvatar>
               <ListItemText> {values.fullName} </ListItemText>
             </ListItem>
           ) : (
-            <ListItem  button onClick={handleDrawerLogin}>
-              <ListItemAvatar> <AccountCircle /> </ListItemAvatar>
+            <ListItem button onClick={handleDrawerLogin}>
+              <ListItemAvatar>
+                {" "}
+                <AccountCircle />{" "}
+              </ListItemAvatar>
               <ListItemText> Login </ListItemText>
             </ListItem>
           )}
         </Box>
       </Drawer>
-
     </div>
   );
 }
