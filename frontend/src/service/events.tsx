@@ -115,6 +115,12 @@ class EventService {
     .get(process.env.REACT_APP_API_URL + "/event/"+event_id+"/volunteers/")
     .then((response: { data: JSON }) => response.data);
   }
+
+  getEventVolunteerAdmin(event_id: number) {
+    return axios
+    .get(process.env.REACT_APP_API_URL + "/event/"+event_id+"/volunteers/admin/", {headers: { token: getCookie("token") }})
+    .then((response: { data: JSON }) => response.data);
+  }
   getEventIsVolunteer(event_id: number) {
     return axios
     .get(process.env.REACT_APP_API_URL + "/event/"+event_id+"/volunteers/signed/", {headers: { token: getCookie("token") }})
