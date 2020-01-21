@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Card from "../../components/Card/Card";
 import CardContent from "@material-ui/core/CardContent";
 import InputField from "../../components/InputField/InputField";
@@ -11,7 +11,6 @@ import {
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { Input, Typography, Button, Menu, MenuItem } from "@material-ui/core";
-import EventService from "../../service/events";
 
 export default (props: any) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
