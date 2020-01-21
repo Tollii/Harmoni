@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   Box,
-  Button,
   Card,
   Grid,
   Typography,
@@ -24,6 +23,7 @@ import AlertDialog from "../../components/AlertDialog/AlertDialog";
 import Authentication from "../../service/Authentication";
 import EventService from "../../service/events";
 import { Link } from "react-router-dom";
+import Button from "./Button";
 
 const StyledMenu = withStyles({
   paper: {
@@ -153,9 +153,6 @@ export default (props: any) => {
                 aria-controls="customized-menu"
                 aria-haspopup="true"
                 onClick={handleClick}
-                style={{ fontSize: "1.5vw" }}
-                variant="contained"
-                color="primary"
               >
                 Settings
               </Button>
@@ -192,9 +189,6 @@ export default (props: any) => {
                 aria-controls="customized-menu"
                 aria-haspopup="true"
                 onClick={handleClick}
-                style={{ fontSize: "1.5vw" }}
-                variant="contained"
-                color="primary"
               >
                 Settings
               </Button>
@@ -205,7 +199,7 @@ export default (props: any) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <Link to={"/editEvent/" + 2}>
+                <Link to={"/editEvent/" + props.event}>
                   <StyledMenuItem>
                     <ListItemIcon>
                       <SettingsIcon fontSize="small" />

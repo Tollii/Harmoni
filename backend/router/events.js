@@ -5,8 +5,8 @@
  * @property {string} event_start.required - Event start date
  * @property {string} event_end.required - Event end date
  * @property {string} personnel.required - Text request of personnel
+ * @property {integer} volunteers.required - Nr of volunteers
  * @property {string} description.required - Text description of event
- * @property {boolean} archived.required - Verification of archived event
  * @property {integer} event_typeID.required - ID of event_type
  */
 
@@ -33,6 +33,7 @@
  * @property {string} event_start.required - Event start date
  * @property {string} event_end.required - Event end date
  * @property {string} personnel.required - Text request of personnel
+ * @property {integer} volunteers.required - Nr of volunteers
  * @property {string} description.required - Text description of event
  * @property {boolean} archived.required - Verification of archived event
  * @property {integer} event_typeID.required - ID of event_type
@@ -198,8 +199,9 @@ module.exports = (app, models, base, auth) => {
           req.body.event_start,
           req.body.event_end,
           req.body.personnel,
+          req.body.volunteers,
+          req.body.event_image,
           req.body.description,
-          req.body.archived,
           req.body.event_typeID
         )
         .then(() => {
@@ -212,7 +214,7 @@ module.exports = (app, models, base, auth) => {
         res.status(400).send("Not authenticated")
       }
     })
-    .catch(err => console.log(err))
+    .catch(err => res.status(400).send(err))
   });
 
   /**
@@ -291,6 +293,7 @@ module.exports = (app, models, base, auth) => {
           req.body.event_start,
           req.body.event_end,
           req.body.personnel,
+          req.body.volunteers,
           req.body.description,
           req.body.event_typeID
         )

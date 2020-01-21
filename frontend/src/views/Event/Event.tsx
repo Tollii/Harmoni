@@ -80,6 +80,7 @@ interface Values {
   dateStart: Date;
   dateEnd: Date;
   personnel: string;
+  volunteers: number;
   eventImage: any;
   eventTypeId: number;
   artists: Array<{
@@ -119,6 +120,7 @@ export default (props: any) => {
     dateStart: new Date(),
     dateEnd: new Date(),
     personnel: "",
+    volunteers: 0,
     eventImage: new File(["foo"], ""),
     eventTypeId: 0,
     artists: [],
@@ -148,7 +150,7 @@ export default (props: any) => {
           (previousArtists: any) => {
             let initialArtists: any = [];
             previousArtists.map((contract: any) => {
-              values.artists.map(artist => {
+              values.artists.map((artist:any) => {
                 if (contract.userID === artist.id) {
                   artist.checked = true;
                   initialArtists.push(artist);
@@ -195,6 +197,7 @@ export default (props: any) => {
           dateStart: response.event_start,
           dateEnd: response.event_end,
           personnel: response.personnel,
+          volunteers: response.volunteers,
           eventTypeId: response.event_typeID,
           eventImage: new File(["foo"], "")
         });
@@ -204,10 +207,15 @@ export default (props: any) => {
 
   const handleChange = (event: any, name: string = "") => {
     if (name === "") {
-      const { name, value } = event.target;
-      setValues({ ...values, [name]: value });
+      let { name, value } = event.target;
+      if(event.target.type === "number"){
+        if(value < 0) value = 0;
+        setValues({ ...values, [name]: value });
+      }else{
+        setValues({ ...values, [name]: value });
+      }
     } else {
-      setValues(values => ({ ...values, [name]: event }));
+      setValues((values:any) => ({ ...values, [name]: event }));
     }
   };
 
@@ -218,8 +226,8 @@ export default (props: any) => {
     let timeEnd = String(values.timeEnd).substring(11, 19);
     let artists: number[] = [];
     values.artists
-      .filter(artist => artist.checked === true)
-      .map(artist => {
+      .filter((artist:any) => artist.checked === true)
+      .map((artist:any) => {
         artists.push(artist.id);
       });
     let riders: Array<{
@@ -227,7 +235,7 @@ export default (props: any) => {
       userID: number;
       additions: string;
     }> = [];
-    values.riders.map(rider => {
+    values.riders.map((rider:any) => {
       if (artists.includes(rider.userID)) {
         riders.push(rider);
       }
@@ -238,6 +246,7 @@ export default (props: any) => {
       event_start: dateStart + " " + timeStart,
       event_end: dateEnd + " " + timeEnd,
       personnel: values.personnel,
+      volunteers: values.volunteers,
       description: values.description,
       event_typeID: values.eventTypeId,
       artists: artists,
@@ -264,6 +273,7 @@ export default (props: any) => {
           event_start: dateStart + " " + timeStart,
           event_end: dateEnd + " " + timeEnd,
           personnel: values.personnel,
+          volunteers: values.volunteers,
           description: values.description,
           event_typeID: values.eventTypeId
         },
@@ -277,7 +287,7 @@ export default (props: any) => {
         .catch((error: any) => {
           console.log(error);
         });
-      values.tickets.map(ticket => {
+      values.tickets.map((ticket:any) => {
         TicketService.updateTicket(ticket, ticket.id);
       });
       RiderService.deleteRider(props.match.params.id)
