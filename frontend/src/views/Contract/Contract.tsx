@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(2),
       textAlign: "left",
       color: theme.palette.text.secondary,
-      width: "500px"
+      width: "100%"
     },
     editPic: {
       fontSize: "12px",
