@@ -10,7 +10,7 @@ import FeedbackFrom from "../FeedbackForm/FeedbackFrom";
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 800,
+    maxWidth: "100%",
     textAlign: "center",
     margin: "auto",
     marginTop: "20px"
