@@ -29,6 +29,30 @@ module.exports = (app, models, base, auth) => {
     .catch(err => console.log(err))
   });
 
+
+  /**
+  * @group Contract - Operations about contract
+  * @route GET /contract/event/{event_id}/
+  * @param {string} token.header.required - token
+  * @param {integer} event_id.path.required - Contract event id
+  * @returns {object} 200 - An array of contracts info
+  * @returns {Error}  default - Unexpected error
+  */
+
+ app.get(base+"/event/:event_id", ( req, res ) => {
+  auth.check_permissions(req.headers.token, ["Admin", "Organizer"])
+  .then(data => {
+    if(data.auth){
+      contractControl.contractGetAllByEvent(req.params.event_id).then((data)=>{
+        res.send(data);
+      })
+    } else {
+      res.status(400).send("Not authenticated")
+    }
+  })
+  .catch(err => console.log(err))
+});
+
   /**
   * @group Contract - Operations about contract
   * @route GET /contract/user/{user_id}/event/{event_id}/

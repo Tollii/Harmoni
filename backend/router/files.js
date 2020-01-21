@@ -161,7 +161,7 @@ module.exports = (app, models, auth) => {
           else {
               let roleId = await userControl.userGetOne(id).then(data => data.roleID);
               if(roleId === 4){
-                  contract = await contractControl.getContractForAdmin(id, req.params.user_id, req.params.event_id)
+                  contract = await contractControl.contractGetOne(req.params.user_id, req.params.event_id)
                       .then((data)=>
                           res.sendFile(contractFolder + data.contract))
                       .catch(err => console.log(err));
