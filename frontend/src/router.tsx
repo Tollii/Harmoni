@@ -109,7 +109,7 @@ export default () => {
         />
         <Route
           exact
-          path="/events"
+          path="/eventUnarchived"
           render={(props: any) => (
             <EventList {...props} isAuth={AuthenticationService.getAuth} />
           )}

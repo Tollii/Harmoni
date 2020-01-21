@@ -38,7 +38,12 @@ class EventService {
       .get(process.env.REACT_APP_API_URL + "/event/")
       .then((response: { data: JSON }) => response.data);
   }
-  
+
+  getEventsUnarchived() {    
+    return axios
+      .get(process.env.REACT_APP_API_URL + "/eventUnarchived/")
+      .then((response: { data: JSON }) => response.data);
+  }
 
   getEvent(id: number) {
     return axios
@@ -48,8 +53,8 @@ class EventService {
 
   getEventCarousel() {
     return axios
-        .get(process.env.REACT_APP_API_URL + "/eventcarousel")
-        .then((response: { data: JSON }) => response.data);
+      .get(process.env.REACT_APP_API_URL + "/eventcarousel")
+      .then((response: { data: JSON }) => response.data);
   }
 
   getEventsByUser() {
@@ -112,38 +117,59 @@ class EventService {
 
   getEventVolunteer(event_id: number) {
     return axios
-    .get(process.env.REACT_APP_API_URL + "/event/"+event_id+"/volunteers/")
-    .then((response: { data: JSON }) => response.data);
+      .get(
+        process.env.REACT_APP_API_URL + "/event/" + event_id + "/volunteers/"
+      )
+      .then((response: { data: JSON }) => response.data);
   }
 
   getEventVolunteerAdmin(event_id: number) {
     return axios
-    .get(process.env.REACT_APP_API_URL + "/event/"+event_id+"/volunteers/admin/", {headers: { token: getCookie("token") }})
-    .then((response: { data: JSON }) => response.data);
+      .get(
+        process.env.REACT_APP_API_URL +
+          "/event/" +
+          event_id +
+          "/volunteers/admin/",
+        { headers: { token: getCookie("token") } }
+      )
+      .then((response: { data: JSON }) => response.data);
   }
   getEventIsVolunteer(event_id: number) {
     return axios
-    .get(process.env.REACT_APP_API_URL + "/event/"+event_id+"/volunteers/signed/", {headers: { token: getCookie("token") }})
-    .then((response: { data: JSON }) => {
-      console.log(response.data)
-      return response.data ? true : false
-    });
+      .get(
+        process.env.REACT_APP_API_URL +
+          "/event/" +
+          event_id +
+          "/volunteers/signed/",
+        { headers: { token: getCookie("token") } }
+      )
+      .then((response: { data: JSON }) => {
+        console.log(response.data);
+        return response.data ? true : false;
+      });
   }
   postEventVolunteer(event_id: number) {
     return axios
-    .post(process.env.REACT_APP_API_URL + "/event/"+event_id+"/volunteers/",{}, {headers: { token: getCookie("token") }})
-    .then((response: { data: JSON }) => {
-      return response.data
-    });
+      .post(
+        process.env.REACT_APP_API_URL + "/event/" + event_id + "/volunteers/",
+        {},
+        { headers: { token: getCookie("token") } }
+      )
+      .then((response: { data: JSON }) => {
+        return response.data;
+      });
   }
   deleteEventVolunteer(event_id: number) {
     return axios
-    .delete(process.env.REACT_APP_API_URL + "/event/"+event_id+"/volunteers/", {headers: { token: getCookie("token") }})
-    .then((response: { data: JSON }) => {
-      return response.data
-    });
+      .delete(
+        process.env.REACT_APP_API_URL + "/event/" + event_id + "/volunteers/",
+        { headers: { token: getCookie("token") } }
+      )
+      .then((response: { data: JSON }) => {
+        return response.data;
+      });
   }
-  
+
   deleteEventTickets(event_id: number) {
     return axios
       .delete(
@@ -154,7 +180,6 @@ class EventService {
         return response.data;
       });
   }
-
 }
 
 export default new EventService();
