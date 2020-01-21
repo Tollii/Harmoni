@@ -103,7 +103,7 @@ class EventService {
 
   updateArchiveOne(id: number) {
     return axios
-      .put(process.env.REACT_APP_API_URL + "/event_archive" + id, {
+      .put(process.env.REACT_APP_API_URL + "/event_archive/" + id, {
         headers: { token: getCookie("token") }
       })
       .then((response: { data: JSON }) => response.data);
@@ -111,8 +111,10 @@ class EventService {
 
   deleteEvent(id: number) {
     return axios
-      .delete(process.env.REACT_APP_API_URL + "/event/" + id)
-      .then((response: { data: JSON }) => response.data);
+      .delete(process.env.REACT_APP_API_URL + "/event/" + id, {
+        headers: { token: getCookie("token") }
+      })
+      .then((response: { data: JSON }) => console.log(response));
   }
 
   getEventVolunteer(event_id: number) {

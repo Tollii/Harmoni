@@ -56,8 +56,10 @@ module.exports = (app, models, base, auth) => {
    */
 
   app.get(base, (req, res) => {
-    eventControl.eventGetAll().then(data => {
+      eventControl.eventArchive().then(data => {
+        eventControl.eventGetAll().then(data => {
       res.send(data);
+        });
     });
   });
 
@@ -69,8 +71,10 @@ module.exports = (app, models, base, auth) => {
    */
 
   app.get(base + "Unarchived", (req, res) => {
-    eventControl.eventGetAllUnarchived().then(data => {
+    eventControl.eventArchive().then(data => {
+      eventControl.eventGetAllUnarchived().then(data => {
       res.send(data);
+      });
     });
   });
 
@@ -129,7 +133,6 @@ module.exports = (app, models, base, auth) => {
    * @returns {Error}  default - Unexpected error
    */
   app.get(base + "/artist/:id", (req, res) => {
-    console.log("Running get all artists for one event");
     contractControl.contractGetAllByRole(req.params.id, 2).then(data => {
       res.send(data);
     });
@@ -232,13 +235,8 @@ module.exports = (app, models, base, auth) => {
    */
 
   app.put("/event_archive/", (req, res) => {
-    console.log("Put eventArchive called");
-    let currentDate = new Date()
-      .toISOString()
-      .slice(0, 19)
-      .replace("T", " ");
     eventControl
-      .eventArchive(currentDate)
+      .eventArchive()
       .then(() => {
         res.sendStatus(200).send("Events are archived");
       })
@@ -246,44 +244,21 @@ module.exports = (app, models, base, auth) => {
         res.sendStatus(400).send("Event are NOT archived");
       });
   });
-
   /**
    * @group Events - Operations about event
-   * @route PUT /event_archive/{id}
-   * @param {string} token.header.required - user token
-   * @param {number} id.path.required - event id
-   * @returns {object} 200 - Updates the archive variable of all events if their ending time has happened
+   * @route PUT /event_archive/{id}/
+   * @param {integer} id.path.required - event id
+   * @returns {object} 200 - Updates the archive variable of one events
    * @returns {Error}  default - Unexpected error
    */
   app.put("/event_archive/:id", (req, res) => {
-    auth
-      .check_permissions(req.headers.token, ["Admin", "Organizer"])
-      .then(data => {
-        if (data.auth) {
-          eventControl.eventGetOne(req.params.id).then(event => {
-            eventControl
-              .eventUpdate(
-                req.params.id,
-                event.event_name,
-                event.location,
-                event.event_start,
-                event.event_end,
-                event.personnel,
-                event.event_image,
-                event.description,
-                true,
-                event.event_typeID
-              )
-              .then(() => {
-                res.sendStatus(200).send("Events are archived");
-              })
-              .catch(err => {
-                res.sendStatus(400).send("Event are NOT archived");
-              });
-          });
-        } else {
-          res.status(400).send("Not authenticated");
-        }
+    eventControl
+      .eventArchiveOne(req.params.id)
+      .then(() => {
+        res.sendStatus(200).send("Events are archived");
+      })
+      .catch(err => {
+        res.sendStatus(400).send("Event are NOT archived");
       });
   });
 
@@ -416,23 +391,20 @@ module.exports = (app, models, base, auth) => {
    */
 
   app.get(base + "/:event_id/volunteers/", (req, res) => {
-    eventControl
-      .eventGetOne(req.params.event_id)
-      .then(event => {
-        contractControl
-          .getContractVolunteersPerEvent(req.params.event_id)
-          .then(contracts => {
-            if (contracts.count < event.volunteers) {
-              res.status(200).send(true);
-            } else {
-              res.status(200).send(false);
-            }
-          })
-          .catch(err => res.status(400).send("Event not found"));
-      })
-      .catch(err => {
-        res.status(400).send("event not round");
-      });
+    eventControl.eventGetOne(req.params.event_id).then(event => {
+      contractControl
+        .getContractVolunteersPerEvent(req.params.event_id)
+        .then(contracts => {
+          if (contracts.count < event.volunteers) {
+            res.status(200).send(true);
+          } else {
+            res.status(200).send(false);
+          }
+        })
+        .catch(err => {
+          res.status(400).send("event not found");
+        });
+    });
   });
   /**
    * @group Events - Operations about event

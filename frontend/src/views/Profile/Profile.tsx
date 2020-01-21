@@ -244,7 +244,7 @@ export default (props: any) => {
   }
 
   return (
-    <Card width={"100%"} style={{ minWidth: "85%", maxWidth: "100%" }}>
+    <Card width={"100%"}>
       <div>
         <Grid container direction="row">
           <Paper className={classes.root}>
