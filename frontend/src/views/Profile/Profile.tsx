@@ -268,7 +268,11 @@ export default (props: any) => {
               <Grid item xs={4}>
                 <Grid container justify="center">
                   <img
-                    style={{ objectFit: "cover", maxWidth: "100%", minWidth: "85%"}}
+                    style={{
+                      objectFit: "cover",
+                      maxWidth: "100%",
+                      minWidth: "85%"
+                    }}
                     src={pic_url}
                     alt={values.picture}
                   />
@@ -401,7 +405,9 @@ export default (props: any) => {
                 <Grid container justify="flex-start">
                   <Grid item xs={6}>
                     <Grid container justify="flex-start">
-                      <Button onClick={handleOpenChangePass}>Change Password</Button>
+                      <Button onClick={handleOpenChangePass}>
+                        Change Password
+                      </Button>
                     </Grid>
                     <Dialog
                       open={openChangePass}
@@ -443,11 +449,17 @@ export default (props: any) => {
                       </DialogContent>
                       <DialogActions>
                         <Grid container direction="row" justify="center">
-                          <Button color="primary" onClick={handleSubmitPassword}>
+                          <Button
+                            color="primary"
+                            onClick={handleSubmitPassword}
+                          >
                                                       Change
                           </Button>
                           <Grid item xs={3}>
-                            <Button onClick={handleCloseChangePass} color="primary">
+                            <Button
+                              onClick={handleCloseChangePass}
+                              color="primary"
+                            >
                               Cancel
                             </Button>
                           </Grid>
