@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(2),
       textAlign: "left",
       color: theme.palette.text.secondary,
-      width: "500px"
+      width: "100%"
     },
     editPic: {
       fontSize: "12px",
@@ -244,7 +244,7 @@ export default (props: any) => {
   }
 
   return (
-    <Card width={"100%"} style={{ minWidth: "500px", maxWidth: "800px" }}>
+    <Card width={"100%"} style={{ minWidth: "85%", maxWidth: "100%" }}>
       <div>
         <Grid container direction="row">
           <Paper className={classes.root}>
