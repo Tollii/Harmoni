@@ -36,14 +36,14 @@ export default () => {
           <Main {...props} isAuth={AuthenticationService.getAuth} />
         )}
       />
-      <Route
-        exact
-        path="/event/:id"
-        render={(props: any) => (
-          <EventPage {...props} isAuth={AuthenticationService.getAuth} />
-        )}
-      />
-      <div style={{ marginTop: "150px" }}>
+      <div style={{ marginTop: "70px" }}>
+        <Route
+          exact
+          path="/event/:id"
+          render={(props: any) => (
+            <EventPage {...props} isAuth={AuthenticationService.getAuth} />
+          )}
+        />
         <Route
           exact
           path="/addEvent"
