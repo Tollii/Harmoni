@@ -406,8 +406,7 @@ export default (props: any) => {
                         <InputField
                           autoFocus
                           name="old_password"
-                          label="Old Password"
-                          type="password"
+                          label="Password"
                           value={password.old_password}
                           onChange={handlePasswordChange}
                         />
@@ -415,8 +414,7 @@ export default (props: any) => {
                         <InputField
                           autoFocus
                           name="new_password"
-                          label="New Password"
-                          type="password"
+                          label="Password"
                           value={password.new_password}
                           onChange={handlePasswordChange}
                         />
@@ -424,8 +422,7 @@ export default (props: any) => {
                         <InputField
                           autoFocus
                           name="confirmed_password"
-                          label="Confirm Password"
-                          type="password"
+                          label="Password"
                           value={password.confirmed_password}
                           onChange={handlePasswordChange}
                         />
