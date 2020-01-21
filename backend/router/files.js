@@ -61,9 +61,8 @@ module.exports = (app, models, auth) => {
       let profilePicture = req.files.image;
       let id = await auth.decode_token(req.headers.token);
       let user = await userControl.userGetOne(id);
-
       let splitName = profilePicture.name.split('.');
-      if (["jpeg", "png", "svg", "jpg", "JPEG", "PNG", "SVG", "JPG", "gif", "GIF"].includes(splitName[splitName.length - 1])) {
+      if (req.files.mimetype.split('/') == 'image') {
         profilePicture.name = id + '_' + user.username + '.' + splitName[splitName.length - 1];
         userControl.userUpdate(id, user.username, user.email, user.phone, profilePicture.name);
         profilePicture.mv(profilePicturesFolder + profilePicture.name, function (err) {
@@ -104,7 +103,7 @@ module.exports = (app, models, auth) => {
    * @route POST /image/event/{id}/
    * @param {integer} id.path.required - event id
    * @param {string} token.header.required - token
-   * @param {file} name.formData.required - name
+   * @param {file} image.formData.required - name
    * @returns {object} 200 - ok
    * @returns {error} default - unexpected error
    */
@@ -117,11 +116,10 @@ module.exports = (app, models, auth) => {
           } else {
             let eventImage = req.files.image;
             let event = await eventControl.eventGetOne(req.params.id);
-
             let splitName = eventImage.name.split('.');
-            if (["jpeg", "png", "svg", "jpg", "JPEG", "PNG", "SVG", "JPG", "gif", "GIF"].includes(splitName[splitName.length - 1])) {
+            if (eventImage.mimetype.split('/')[0] == 'image') {
               eventImage.name = req.params.id + '_' + event.event_name + '.' + splitName[splitName.length - 1];
-              eventControl.eventUpdate(req.params.id, event.event_name, event.location, event.event_start, event.event_end, event.personnel, eventImage.name, event.description, event.archived);
+              eventControl.eventUpdate(req.params.id, event.event_name, event.location, event.event_start, event.event_end, event.personnel, event.volunteers, eventImage.name, event.description, event.event_typeID);
               eventImage.mv(eventImagesFolder + eventImage.name, function (err) {
                 if (err) {
                   return res.sendStatus(500).send(err);
@@ -152,7 +150,7 @@ module.exports = (app, models, auth) => {
     app.get('/files/contract/user/:user_id/event/:event_id', async (req, res) => {
       auth.check_permissions(req.headers.cookie.split("=")[1], ["Admin", "Organizer", "Artist"])
       .then(async data => {
-        if (data.auth) {          
+        if (data.auth) {
           let id = data.user.dataValues.id;
           if (id != null){
           let contract = null;
@@ -208,7 +206,7 @@ module.exports = (app, models, auth) => {
                 let contract_file = req.files.contract;
                 let contract = await contractControl.contractGetOne(req.params.user_id, req.params.event_id);
 
-                if(contract_file.name !== ""){                        
+                if(contract_file.name !== ""){
                   let splitName = contract_file.name.split('.');
                   contract_file.name = req.params.user_id + '_' + req.params.event_id + '.' + splitName[splitName.length - 1];
                   contractControl.contractUpdate(contract.userID, contract.eventID , contract_file.name);
