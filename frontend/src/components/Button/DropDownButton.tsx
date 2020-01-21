@@ -126,7 +126,7 @@ export default (props: any) => {
             (
               volunteer ? (
                 <Button
-                style={{ fontSize: "1.5vw", width: "80%" }}
+                style={{ fontSize: "15px", width: "80%" }}
                 variant="contained"
                 color="primary"
                 onClick={()=> {
@@ -143,7 +143,7 @@ export default (props: any) => {
             :
             (
             <Button
-              style={{ fontSize: "1.5vw", width: "80%" }}
+              style={{ fontSize: "15px", width: "80%" }}
               variant="contained"
               disabled={true}
             >
@@ -159,7 +159,7 @@ export default (props: any) => {
                 aria-controls="customized-menu"
                 aria-haspopup="true"
                 onClick={handleClick}
-                style={{ fontSize: "1.5vw" }}
+                style={{ fontSize: "15px" }}
                 variant="contained"
                 color="primary"
               >
@@ -198,7 +198,7 @@ export default (props: any) => {
                 aria-controls="customized-menu"
                 aria-haspopup="true"
                 onClick={handleClick}
-                style={{ fontSize: "1.5vw" }}
+                style={{ fontSize: "15px" }}
                 variant="contained"
                 color="primary"
               >
