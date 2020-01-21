@@ -18,6 +18,7 @@ import EventTypeService from "../../service/event_types";
 import ContractService from "../../service/contracts";
 import RiderService from "../../service/riders";
 import TicketService from "../../service/tickets";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -91,7 +92,9 @@ interface Values {
     contractFile: any;
   }>;
   riders: Array<{ additions: string; rider_typeID: number; userID: number }>;
-  tickets: Array<{
+  tickets: any;
+  /*
+  Array<{
     id: number;
     ticket_name: string;
     price: number;
@@ -99,6 +102,7 @@ interface Values {
     date_start: Object;
     date_end: Object;
   }>;
+  */
 }
 
 export default (props: any) => {
@@ -111,6 +115,13 @@ export default (props: any) => {
   const [renderGeneral, setRenderGeneral] = useState(false);
   const [riderTypes, setRiderTypes] = useState([]);
   const [initialArtists, setInitialArtists] = useState([]);
+  const [edit, setEdit] = useState({
+    editGeneral: false,
+    editEventImage: false,
+    editArtists: false,
+    editTicket: false,
+    editRiders: false
+  });
   const [values, setValues] = useState<Values>({
     name: "",
     description: "",
@@ -150,7 +161,7 @@ export default (props: any) => {
           (previousArtists: any) => {
             let initialArtists: any = [];
             previousArtists.map((contract: any) => {
-              values.artists.map((artist:any) => {
+              values.artists.map((artist: any) => {
                 if (contract.userID === artist.id) {
                   artist.checked = true;
                   initialArtists.push(artist);
@@ -208,26 +219,48 @@ export default (props: any) => {
   const handleChange = (event: any, name: string = "") => {
     if (name === "") {
       let { name, value } = event.target;
-      if(event.target.type === "number"){
-        if(value < 0) value = 0;
+      if (event.target.type === "number") {
+        if (value < 0) value = 0;
         setValues({ ...values, [name]: value });
-      }else{
+      } else {
         setValues({ ...values, [name]: value });
       }
     } else {
-      setValues((values:any) => ({ ...values, [name]: event }));
+      setValues((values: any) => ({ ...values, [name]: event }));
+    }
+    if (name === "") {
+      const targetName = event.target.name;
+      if (
+        targetName === "name" ||
+        targetName === "description" ||
+        targetName === "location" ||
+        targetName === "personnel"
+      ) {
+        setEdit({ ...edit, editGeneral: true });
+      }
+    } else {
+      if (name === "artists") {
+        setEdit({ ...edit, editArtists: true });
+      } else if (name === "tickets") {
+        setEdit({ ...edit, editTicket: true });
+      } else if (name === "riders") {
+        setEdit({ ...edit, editRiders: true });
+      } else if (name === "eventImage") {
+        setEdit({ ...edit, editEventImage: true });
+      }
     }
   };
 
   const submit = () => {
+    console.log("submitting...");
     let dateStart = String(values.dateStart).substring(0, 10);
     let dateEnd = String(values.dateEnd).substring(0, 10);
     let timeStart = String(values.timeStart).substring(11, 19);
     let timeEnd = String(values.timeEnd).substring(11, 19);
     let artists: number[] = [];
     values.artists
-      .filter((artist:any) => artist.checked === true)
-      .map((artist:any) => {
+      .filter((artist: any) => artist.checked === true)
+      .map((artist: any) => {
         artists.push(artist.id);
       });
     let riders: Array<{
@@ -235,7 +268,7 @@ export default (props: any) => {
       userID: number;
       additions: string;
     }> = [];
-    values.riders.map((rider:any) => {
+    values.riders.map((rider: any) => {
       if (artists.includes(rider.userID)) {
         riders.push(rider);
       }
@@ -266,66 +299,79 @@ export default (props: any) => {
           console.log(error);
         });
     } else {
-      EventService.updateEvent(
-        {
-          event_name: values.name,
-          location: values.location,
-          event_start: dateStart + " " + timeStart,
-          event_end: dateEnd + " " + timeEnd,
-          personnel: values.personnel,
-          volunteers: values.volunteers,
-          description: values.description,
-          event_typeID: values.eventTypeId
-        },
-        props.match.params.id
-      )
-        .then((response: any) => {
+      if (edit.editGeneral) {
+        EventService.updateEvent(
+          {
+            event_name: values.name,
+            location: values.location,
+            event_start: dateStart + " " + timeStart,
+            event_end: dateEnd + " " + timeEnd,
+            personnel: values.personnel,
+            description: values.description,
+            event_typeID: values.eventTypeId
+          },
+          props.match.params.id
+        )
+          .then((response: any) => {})
+          .catch((error: any) => {
+            console.log(error);
+          });
+        if (edit.editEventImage) {
           FileService.postEventPicture(values.eventImage, props.match.params.id)
             .then(() => null)
             .catch((err: any) => console.log(err));
-        })
-        .catch((error: any) => {
-          console.log(error);
-        });
-      values.tickets.map((ticket:any) => {
-        TicketService.updateTicket(ticket, ticket.id);
-      });
-      RiderService.deleteRider(props.match.params.id)
-        .then((response: any) => {
-          values.riders.map((rider: any) => {
-            RiderService.postRider({
-              ...rider,
+        }
+      }
+      if (edit.editTicket) {
+        EventService.deleteEventTickets(props.match.params.id).then(() => {
+          values.tickets.map((ticket: any) => {
+            TicketService.postTicket({
+              ...ticket,
               eventID: props.match.params.id
-            }).then((response: any) => {});
+            });
           });
-        })
-        .catch((err: any) => console.log(err));
-      initialArtists.map((initArtist: any) => {
-        let artistObj = values.artists.find(
-          (artist: any) => artist.id === initArtist.id
-        );
-        if (artistObj !== undefined) {
-          let checked = artistObj.checked;
-          if (!checked) {
-            ContractService.deleteContract(
-              initArtist.id,
-              props.match.params.id
-            ).then((resp: any) => console.log(resp));
+        });
+      }
+      if (edit.editRiders) {
+        RiderService.deleteRider(props.match.params.id)
+          .then((response: any) => {
+            values.riders.map((rider: any) => {
+              RiderService.postRider({
+                ...rider,
+                eventID: props.match.params.id
+              }).then((response: any) => {});
+            });
+          })
+          .catch((err: any) => console.log(err));
+      }
+      if (edit.editArtists) {
+        initialArtists.map((initArtist: any) => {
+          let artistObj = values.artists.find(
+            (artist: any) => artist.id === initArtist.id
+          );
+          if (artistObj !== undefined) {
+            let checked = artistObj.checked;
+            if (!checked) {
+              ContractService.deleteContract(
+                initArtist.id,
+                props.match.params.id
+              ).then((resp: any) => console.log(resp));
+            }
           }
-        }
-      });
-      values.artists.map((artist: any) => {
-        let initArtist = initialArtists.find(
-          (initArtist: any) => initArtist.id === artist.id
-        );
-        if (initArtist === undefined && artist.checked) {
-          ContractService.postContract({
-            contract: null,
-            userID: artist.id,
-            eventID: props.match.params.id
-          });
-        }
-      });
+        });
+        values.artists.map((artist: any) => {
+          let initArtist = initialArtists.find(
+            (initArtist: any) => initArtist.id === artist.id
+          );
+          if (initArtist === undefined && artist.checked) {
+            ContractService.postContract({
+              contract: null,
+              userID: artist.id,
+              eventID: props.match.params.id
+            });
+          }
+        });
+      }
     }
   };
 
@@ -378,15 +424,35 @@ export default (props: any) => {
                 >
                   Back
                 </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={
-                    activeStep === steps.length - 1 ? submit : handleNext
-                  }
-                >
-                  {activeStep === steps.length - 1 ? "Finish" : "Next"}
-                </Button>
+                {activeStep === steps.length - 1 ? (
+                  <Link
+                    to={props.edit ? "/event/" + props.match.params.id : "/"}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => {
+                        submit();
+                        setTimeout(function() {
+                          window.location.reload(false);
+                        }, 1000);
+                      }}
+                    >
+                      {activeStep === steps.length - 1 ? "Finish" : "Next"}
+                    </Button>
+                  </Link>
+                ) : (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={
+                      activeStep === steps.length - 1 ? submit : handleNext
+                    }
+                  >
+                    {activeStep === steps.length - 1 ? "Finish" : "Next"}
+                  </Button>
+                )}
               </Grid>
             </div>
           </div>

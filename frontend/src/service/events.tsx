@@ -143,6 +143,17 @@ class EventService {
       return response.data
     });
   }
+  
+  deleteEventTickets(event_id: number) {
+    return axios
+      .delete(
+        process.env.REACT_APP_API_URL + "/event/" + event_id + "/tickets/",
+        { headers: { token: getCookie("token") } }
+      )
+      .then((response: { data: JSON }) => {
+        return response.data;
+      });
+  }
 
 }
 

@@ -477,7 +477,7 @@ module.exports = (app, models, base, auth) => {
     })
   });
 
-      /**
+  /**
    * @group Events - Operations about event
    * @route DELETE /event/{event_id}/volunteers/{id}/
    * @param {string} token.header.required - user token
@@ -495,6 +495,30 @@ module.exports = (app, models, base, auth) => {
           contractControl.contractDelete(data.user.dataValues.id, req.params.event_id)
           .then(data => {res.status(200).send("User unregistered")})
           .catch(err => {res.status(400).send(err)})
+        })
+        .catch(err =>{res.status(400).send("event not round")})
+      } else {
+        res.status(400).send("Not a volunteer user")
+      }
+    })
+  });
+
+
+  /**
+   * @group Events - Operations about event
+   * @route DELETE /event/{event_id}/tickets/
+   * @param {string} token.header.required - user token
+   * @param {number} event_id.path.required - event id
+   * @returns {object} 200 - Deletes all tickets associated to an event
+   * @returns {Error}  default - Unexpected error
+   */
+  app.delete(base + "/:event_id/tickets/", (req, res) => {
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer"])
+    .then(data => {
+      if(data.auth){
+        eventControl.ticketDeleteByEvent(req.params.event_id)
+        .then(event => {
+          res.status(202).send("all tickets for event deleted")
         })
         .catch(err =>{res.status(400).send("event not round")})
       } else {
