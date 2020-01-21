@@ -63,13 +63,13 @@ export default (props: any) => {
   const fileSelectedHandler = (event: any) => {
     setFile(event.target.files[0]);
   };
-  const uploadContract = (userId: any) => {
+  const uploadContract = (userId: number) => {
     return Promise.resolve(
       FileService.postContracts(file, userId, props.match.params.eventId)
     );
   };
 
-  const deleteContract = (userId: any) => {
+  const deleteContract = (userId: number) => {
     return Promise.resolve(
       FileService.postContracts(file, userId, props.match.params.eventId)
     );
@@ -89,7 +89,7 @@ export default (props: any) => {
   return (
     <div>
       {users.map((user: any, index: number) => (
-        <Card style={{ width: "80%", marginTop: "20px" }}>
+        <Card key={index} style={{ width: "80%", marginTop: "20px" }}>
           <CardContent>
             <Typography>{user.username}</Typography>
             <Grid container direction="row" justify="center">
