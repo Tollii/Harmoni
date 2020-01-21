@@ -74,7 +74,7 @@ export default function(props: any) {
   return (
     <Grid container spacing={2} direction="row">
       <Grid item xs={1} />
-      <Grid item xs={10}>
+      <Grid item sm={10} xs={12}>
         <MaterialTable
           onRowClick={(e: any) => {}}
           title="Event List"
