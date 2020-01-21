@@ -12,7 +12,7 @@ import Main from "./views/Main/Main";
 import { HashRouter, Route } from "react-router-dom";
 import getCookie from "./service/cookie";
 import Contract from "./views/Contract/Contract";
-import EventlistPage from "./views/EventlistVeiw/eventlistPage";
+import EventList from "./views/EventList/EventList";
 import ForgotPassword from "./views/ForgotPassword/ForgotPassword";
 import ForgotForm from "./views/ForgotPassword/ForgotForm";
 
@@ -110,7 +110,7 @@ export default () => {
           exact
           path="/events"
           render={(props: any) => (
-            <EventlistPage {...props} isAuth={AuthenticationService.getAuth} />
+            <EventList {...props} isAuth={AuthenticationService.getAuth} />
           )}
         />
 
