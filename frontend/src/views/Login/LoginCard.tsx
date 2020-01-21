@@ -97,7 +97,6 @@ export default (props:any) => {
               <InputField
                 name="password"
                 label="Password"
-                type="password"
                 autoComplete="current-password"
                 value={values.password}
                 onChange={handleChange}
