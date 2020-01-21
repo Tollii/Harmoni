@@ -6,20 +6,9 @@ import Button from "../../components/Button/Button";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import Link from "@material-ui/core/Link";
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Paper,
-  Tabs,
-  Tab,
-  Box
-} from "@material-ui/core";
+import { Paper } from "@material-ui/core";
 import FileService from "../../service/files";
-import Authentication from "../../service/Authentication";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -47,18 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export default (props: any) => {
   const classes = useStyles();
 
-  const [openEditContract, setOpenEditContract] = React.useState(false);
   const [file, setFile] = useState(new File(["foo"], ""));
-
-  const handleOpenEditContract = () => {
-    setOpenEditContract(true);
-  };
-
-  const handleCloseEditContract = () => {
-    setOpenEditContract(false);
-    setFile(new File(["foo"], ""));
-    window.location.reload();
-  };
 
   const fileSelectedHandler = (event: any) => {
     setFile(event.target.files[0]);
@@ -79,12 +57,10 @@ export default (props: any) => {
   useEffect(() => {
     ContractService.getContractsByEvent(props.match.params.eventId).then(
       (res: any) => {
-        console.log(res[0].Contracts[0].contract);
-
         setUsers(res);
       }
     );
-  }, []);
+  }, [props.match.params.eventId]);
 
   return (
     <div>
@@ -113,7 +89,8 @@ export default (props: any) => {
                 type="submit"
                 onClick={() => {
                   uploadContract(user.id).then(() => {
-                    handleCloseEditContract();
+                    setFile(new File(["foo"], ""));
+                    window.location.reload();
                   });
                 }}
               >
@@ -121,7 +98,7 @@ export default (props: any) => {
               </Button>
             </Grid>
             <Grid container direction="row" justify="center">
-              {user.Contracts[0].contract != "" && (
+              {user.Contracts[0].contract !== "" && (
                 <Grid item xs={3}>
                   <Button
                     onClick={() =>
@@ -140,14 +117,21 @@ export default (props: any) => {
                 </Grid>
               )}
               <Grid item xs={3}>
-                <Button
-                  onClick={() => {
-                    deleteContract(user.id);
-                    window.location.reload();
-                  }}
+                <Link
+                  to={"/contract/event/" + props.match.params.eventId}
+                  style={{ textDecoration: "none" }}
                 >
-                  Delete Contract
-                </Button>
+                  <Button
+                    onClick={() => {
+                      deleteContract(user.id);
+                      setTimeout(function() {
+                        window.location.reload(false);
+                      }, 1000);
+                    }}
+                  >
+                    Delete Contract
+                  </Button>
+                </Link>
               </Grid>
             </Grid>
           </CardContent>

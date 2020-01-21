@@ -15,9 +15,7 @@ interface TableState {
   columns: Array<Column<Row>>;
   data: Row[];
 }
-const handleClick = (id: number) => {
-  window.location.hash = "event/" + id;
-};
+
 function createData(
   id: number,
   name: string,
@@ -67,7 +65,7 @@ export default function(props: any) {
           );
         })
       ).then((newData: any) => {
-        setState({ ...state, data: newData });
+        setState(state => ({ ...state, data: newData }));
       });
     });
   }, []);

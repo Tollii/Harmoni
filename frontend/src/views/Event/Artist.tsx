@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import clsx from "clsx";
 import {
   createStyles,
@@ -237,11 +237,13 @@ export default (props: any) => {
     if (event.target.checked) {
       props.values.artists.map((artist: any) => {
         artist.checked = true;
+        return null;
       });
       props.handleChange(props.values.artists, "artists");
     } else {
       props.values.artists.map((artist: any) => {
         artist.checked = false;
+        return null;
       });
       props.handleChange(props.values.artists, "artists");
     }

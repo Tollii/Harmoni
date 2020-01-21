@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   fade,
   makeStyles,
@@ -10,46 +10,29 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import InputBase from "@material-ui/core/InputBase";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
-import SearchIcon from "@material-ui/icons/Search";
+import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import HomeIcon from "@material-ui/icons/Home";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Box from "@material-ui/core/Box";
+import HomeIcon from '@material-ui/icons/Home';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Box from '@material-ui/core/Box';
 import {
   Button,
-  ButtonGroup,
-  Grow,
-  Hidden,
-  Menu,
   ListItem,
   List,
   ListItemText,
   Divider,
   Drawer,
-  Fab,
   Avatar
 } from "@material-ui/core";
-import DirectionsIcon from "@material-ui/icons/Directions";
 
 import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Popper from "@material-ui/core/Popper";
-import MenuList from "@material-ui/core/MenuList";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import getCookie from "../../service/cookie";
 import UserService from "../../service/users";
 import Authentication from "../../service/Authentication";
 
-const options = ["Catergories", "Conserts", "Festivals"];
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -127,7 +110,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function Navbar(props: any) {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [auth, setAuth] = React.useState(false);
   const [role, setRole] = React.useState();
   const [values, setValues] = React.useState({
@@ -137,8 +119,6 @@ export default function Navbar(props: any) {
     picture: ""
   });
   const [open, setOpen] = React.useState(false);
-  const anchorRef = React.useRef<HTMLDivElement>(null);
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
   const theme = useTheme();
 
   const handleDrawerOpen = () => {
@@ -189,7 +169,7 @@ export default function Navbar(props: any) {
     Authentication.getAuth().then((role: any) => {
       setRole(role);
     });
-  }, [props.loggedIn]);
+  }, [props.loggedIn, auth]);
 
   return (
     <div className={classes.root}>
@@ -223,14 +203,12 @@ export default function Navbar(props: any) {
               >
                 <FormatListBulletedIcon />
               </Button>
-              {(role == 3 || role == 4) && (
-                <Button
-                  onClick={() => (window.location.hash = "/addEvent")}
-                  className={classes.addEventButton}
-                >
-                  <AddCircleIcon />
-                </Button>
-              )}
+              { (role === 3 || role === 4) && (
+                  <Button onClick={() => (window.location.hash = "/addEvent")} className={classes.addEventButton}>
+                    <AddCircleIcon />
+                  </Button>
+                )
+              }
               <Box className={classes.profileButton}>
                 {auth ? (
                   <Button onClick={() => (window.location.hash = "/profile")}>
@@ -278,15 +256,13 @@ export default function Navbar(props: any) {
             <ListItemText> Show all events </ListItemText>
           </ListItem>
 
-          {(role == 3 || role == 4) && (
-            <ListItem button onClick={handleDrawerAddEvent}>
-              <ListItemAvatar>
-                {" "}
-                <AddCircleIcon />{" "}
-              </ListItemAvatar>
-              <ListItemText> Add event </ListItemText>
-            </ListItem>
-          )}
+          { (role === 3 || role === 4) && (
+              <ListItem button onClick={handleDrawerAddEvent}>
+                <ListItemAvatar> <AddCircleIcon /> </ListItemAvatar>
+                <ListItemText> Add event </ListItemText>
+              </ListItem>
+            )
+          }
         </List>
         <Box className={classes.drawerProfile}>
           <Divider />

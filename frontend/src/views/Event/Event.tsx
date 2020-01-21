@@ -155,6 +155,7 @@ export default (props: any) => {
           checked: false,
           contractFile: null
         });
+        return null;
       });
       if (props.edit) {
         EventService.getContractsByEvent(props.match.params.id).then(
@@ -166,39 +167,41 @@ export default (props: any) => {
                   artist.checked = true;
                   initialArtists.push(artist);
                 }
+                return null;
               });
+              return null;
             });
             setInitialArtists(initialArtists);
           }
         );
         TicketService.getEventTickets(props.match.params.id).then(
           (tickets: any) => {
-            setValues({
+            setValues(values => ({
               ...values,
               tickets: tickets
-            });
+            }));
           }
         );
       }
     });
-  }, []);
+  }, [props.edit, props.match.params.id, values.artists]);
 
   useEffect(() => {
     if (props.edit) {
       RiderService.getEventRiders(props.match.params.id).then((riders: any) => {
-        setValues({
+        setValues(values => ({
           ...values,
           riders: riders
-        });
-        setRenderGeneral(!renderGeneral);
+        }));
+        setRenderGeneral(prev => !prev);
       });
     }
-  }, [initialArtists]);
+  }, [initialArtists, props.edit, props.match.params.id]);
 
   useEffect(() => {
     if (props.edit) {
       EventService.getEvent(props.match.params.id).then((response: any) => {
-        setValues({
+        setValues(values => ({
           ...values,
           name: response.event_name,
           description: response.description,
@@ -211,10 +214,10 @@ export default (props: any) => {
           volunteers: response.volunteers,
           eventTypeId: response.event_typeID,
           eventImage: new File(["foo"], "")
-        });
+        }));
       });
     }
-  }, [renderGeneral]);
+  }, [renderGeneral, props.edit, props.match.params.id]);
 
   const handleChange = (event: any, name: string = "") => {
     if (name === "") {
@@ -262,6 +265,7 @@ export default (props: any) => {
       .filter((artist: any) => artist.checked === true)
       .map((artist: any) => {
         artists.push(artist.id);
+        return null;
       });
     let riders: Array<{
       rider_typeID: number;
@@ -272,6 +276,7 @@ export default (props: any) => {
       if (artists.includes(rider.userID)) {
         riders.push(rider);
       }
+      return null;
     });
     let event = {
       event_name: values.name,
@@ -316,11 +321,11 @@ export default (props: any) => {
           .catch((error: any) => {
             console.log(error);
           });
-        if (edit.editEventImage) {
-          FileService.postEventPicture(values.eventImage, props.match.params.id)
-            .then(() => null)
-            .catch((err: any) => console.log(err));
-        }
+      }
+      if (edit.editEventImage) {
+        FileService.postEventPicture(values.eventImage, props.match.params.id)
+          .then(() => null)
+          .catch((err: any) => console.log(err));
       }
       if (edit.editTicket) {
         EventService.deleteEventTickets(props.match.params.id).then(() => {
@@ -329,6 +334,7 @@ export default (props: any) => {
               ...ticket,
               eventID: props.match.params.id
             });
+            return null;
           });
         });
       }
@@ -340,6 +346,7 @@ export default (props: any) => {
                 ...rider,
                 eventID: props.match.params.id
               }).then((response: any) => {});
+              return null;
             });
           })
           .catch((err: any) => console.log(err));
@@ -358,6 +365,7 @@ export default (props: any) => {
               ).then((resp: any) => console.log(resp));
             }
           }
+          return null;
         });
         values.artists.map((artist: any) => {
           let initArtist = initialArtists.find(
@@ -370,6 +378,7 @@ export default (props: any) => {
               eventID: props.match.params.id
             });
           }
+          return null;
         });
       }
     }

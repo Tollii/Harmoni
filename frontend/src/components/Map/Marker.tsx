@@ -2,7 +2,7 @@ import React from "react";
 import "./Marker.css";
 
 const Marker = (props: any) => {
-  const { img, name, id } = props;
+  const { img, name } = props;
   return (
     <div>
       <img
@@ -10,6 +10,7 @@ const Marker = (props: any) => {
         className="marker"
         style={{cursor: "pointer" }}
         title={name}
+        alt="Map pin"
       />
       <div className="pin" style={{cursor: "pointer" }}></div>
     </div>

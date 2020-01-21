@@ -2,7 +2,6 @@ import React from "react";
 import LoginCard from "./LoginCard";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid/Grid";
-import { Box } from "@material-ui/core";
 import Button from "../../components/Button/Button";
 
 const useStyles = makeStyles({
