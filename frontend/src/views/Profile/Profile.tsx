@@ -14,8 +14,7 @@ import {
   DialogTitle,
   Paper,
   Tabs,
-  Tab,
-  Box
+  Tab
 } from "@material-ui/core";
 import InputField from "../../components/InputField/InputField";
 import UserService from "../../service/users";
@@ -165,9 +164,9 @@ export default (props: any) => {
   const handleSubmitPassword = (event: any) => {
     if (
       password.new_password === password.confirmed_password &&
-      password.old_password != "" &&
-      password.new_password != "" &&
-      password.old_password != password.new_password
+      password.old_password !== "" &&
+      password.new_password !== "" &&
+      password.old_password !== password.new_password
     ) {
       AuthService.changePassword({
         old_password: password.old_password,
@@ -218,29 +217,13 @@ export default (props: any) => {
         });
       }
     });
-  }, []);
+  }, [props]);
 
   function a11yProps(index: any) {
     return {
       id: `simple-tab-${index}`,
       "aria-controls": `simple-tabpanel-${index}`
     };
-  }
-  function TabPanel(props: any) {
-    const { children, value, index, ...other } = props;
-
-    return (
-      <Typography
-        component="div"
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        {...other}
-      >
-        {value === index && <Box p={3}>{children}</Box>}
-      </Typography>
-    );
   }
 
   return (

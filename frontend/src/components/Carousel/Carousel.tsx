@@ -12,7 +12,7 @@ export default (props: any) => {
 
   useEffect(() => {
     props.setCenter(props.events[itemID])
-  }, [itemID]);
+  }, [itemID, props]);
 
   var mod = function (n:any, m:any) {
     var remain = n % m;
@@ -68,9 +68,9 @@ export default (props: any) => {
       afterChange={(e, i)=> {
         let index = i.currentSlide;
         if(oldID === undefined){
-          if(index == 7){
+          if(index === 7){
             next(index)
-          }else if(index == 5){
+          }else if(index === 5){
             prev(index)
           }
         }else {

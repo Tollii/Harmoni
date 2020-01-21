@@ -24,7 +24,7 @@ const useForm = (callback: any, initialValues: any, validate: any) => {
     if (Object.keys(errors).length === 0 && isSubmitting) {
       callback();
     }
-  }, [errors]);
+  }, [errors, callback, isSubmitting]);
   return {
     handleChange,
     handleSubmit,

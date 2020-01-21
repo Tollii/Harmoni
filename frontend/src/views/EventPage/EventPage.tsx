@@ -1,27 +1,8 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  Card,
-  Grid,
-  Typography,
-  MenuProps,
-  Menu,
-  MenuItem,
-  ListItemIcon,
-  ListItemText,
-  Link
-} from "@material-ui/core";
-import {
-  createStyles,
-  makeStyles,
-  Theme,
-  withStyles
-} from "@material-ui/core/styles";
+import { Box, Button, Card, Grid, Typography } from "@material-ui/core";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import EventService from "../../service/events";
 import TicketService from "../../service/tickets";
-import ContractService from "../../service/contracts";
-import UserService from "../../service/users";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -30,10 +11,6 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
-import DescriptionIcon from "@material-ui/icons/Description";
-import SettingsIcon from "@material-ui/icons/Settings";
-import DeleteIcon from "@material-ui/icons/Delete";
-import AlertDialog from "../../components/AlertDialog/AlertDialog";
 import Map from "../../components/Map/simpleMap";
 import DropDownButton from "../../components/Button/DropDownButton";
 
@@ -147,45 +124,23 @@ export default (props: any) => {
         setTickets(tickets);
       }
     );
-    let artists: any = [];
-    UserService.getAllUsers().then((allUsers: any) => {
-      console.log(allUsers);
-      ContractService.getContracts().then((allContracts: any) => {
-        console.log(allContracts);
-        allContracts
-          .filter(
-            (contract: any) =>
-              contract.eventID === parseInt(props.match.params.id)
-          )
-          .map((contract: any) => {
-            artists.push(
-              allUsers.find((user: any) => user.id === contract.userID)
-            );
-          });
-        setArtists(artists);
-      });
-    });
-  }, []);
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const role: number = 2; /**Her skal Zaim sin supermetode inn */
+    EventService.getArtists(props.match.params.id).then((response: any) =>
+      setArtists(response)
+    );
+  }, [props.match.params.id]);
 
   return (
-    <div style={{ overflow: "hidden"}}>
+    <div style={{ overflow: "hidden" }}>
       <Card className={classes.card} elevation={0}>
-        <img className={classes.image} src={values.image}></img>
+        <img
+          className={classes.image}
+          src={values.image}
+          alt="Event header"
+        ></img>
       </Card>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={8} style={{ height: "100%" }}>
-          <Box >
+          <Box>
             <Typography className={classes.title} variant="h2">
               {values.name}
             </Typography>
@@ -293,9 +248,10 @@ export default (props: any) => {
           <Grid container spacing={1} justify="center" alignItems="center">
             <Grid item lg={6} sm={12} xs={6}>
               <Grid container>
-                <Grid item style={{margin: "auto"}}>
-                  <Button className={classes.buttons}
-                    style={{ fontSize: "15px"}}
+                <Grid item style={{ margin: "auto" }}>
+                  <Button
+                    className={classes.buttons}
+                    style={{ fontSize: "15px" }}
                     variant="contained"
                     color="secondary"
                   >
@@ -305,7 +261,7 @@ export default (props: any) => {
               </Grid>
             </Grid>
             <Grid item lg={6} sm={12} xs={6}>
-              <DropDownButton event={values.id}/>
+              <DropDownButton event={values.id} />
             </Grid>
           </Grid>
         </Grid>

@@ -6,17 +6,12 @@ import {
   MenuItem,
   ListItemIcon,
   ListItemText,
-  DialogTitle,
-  Dialog,
-  DialogContentText,
-  DialogContent,
-  DialogActions
+  Dialog
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import DescriptionIcon from "@material-ui/icons/Description";
 import SettingsIcon from "@material-ui/icons/Settings";
 import DeleteIcon from "@material-ui/icons/Delete";
-import AlertDialog from "../../components/AlertDialog/AlertDialog";
 import Authentication from "../../service/Authentication";
 import EventService from "../../service/events";
 import { Link } from "react-router-dom";
@@ -66,7 +61,7 @@ interface TableState {
 
 export default (props: any) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [contractUrl, setContractUrl] = useState(
+  const [contractUrl] = useState(
     process.env.REACT_APP_API_URL +
       "/files/contract/user/" +
       props.user +
@@ -110,16 +105,6 @@ export default (props: any) => {
     data: []
   });
 
-  const setData = (user: any) => {
-    return {
-      key: user.id,
-      username: user.username,
-      phone: user.phone,
-      email: user.email
-    };
-  };
-  const [alertOpen, setAlertOpen] = useState(false);
-
   useEffect(() => {
     Authentication.getAuth().then((role: any) => {
       setRole(role);
@@ -135,13 +120,13 @@ export default (props: any) => {
         setState({ ...state, data: volunteers.rows });
       }
     });
-  }, [props.event]);
+  }, [props.event, state]);
 
   return (
     <div>
       <Grid container>
         <Grid item style={{ margin: "auto" }}>
-          {role == 1 &&
+          {role === 1 &&
             (isVolunteer ? (
               <Button
                 style={{
@@ -187,7 +172,8 @@ export default (props: any) => {
                 Full
               </Button>
             ))}
-          {role == 2 && (
+          {role ===
+            2 /**om man er artist skal man kun få se kontrakt og endre rider */ && (
             <div>
               <Button
                 aria-controls="customized-menu"
@@ -221,7 +207,9 @@ export default (props: any) => {
               </StyledMenu>
             </div>
           )}
-          {(role == 3 || role == 4) && (
+          {(role === 3 ||
+            role ===
+              4) /**om man har rolle 3/4(arrang/admin) skal man få knapp med alt */ && (
             <div>
               <Button
                 aria-controls="customized-menu"
@@ -276,7 +264,7 @@ export default (props: any) => {
               />
             </div>
           )}
-          {role == 0 && <div></div>}
+          {role === 0 && <div></div>}
         </Grid>
       </Grid>
       <Dialog
