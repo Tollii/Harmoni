@@ -44,7 +44,7 @@ export default (props: any) => {
         </TableHead>
         <TableBody>
           {props.events.map((event: any) => (
-            <TableRow key={event.id} hover>
+            <TableRow key={event.id} hover selected={event.archived}>
               <TableCell
                 component="th"
                 scope="row"
