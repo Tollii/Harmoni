@@ -34,14 +34,18 @@ class TicketService {
 
   postTicket(ticket: object) {
     return axios
-      .post(process.env.REACT_APP_API_URL + "/ticket", ticket)
-      .then((response: { data: Ticket }) => console.log(response));
+      .post(process.env.REACT_APP_API_URL + "/ticket/", ticket, {
+        headers: { token: getCookie("token") }
+      })
+      .then((response: { data: Ticket }) => response.data);
   }
 
   updateTicket(ticket: object, id: number) {
     return axios
-      .put(process.env.REACT_APP_API_URL + "/ticket/" + id, ticket, {headers: {token: getCookie("token")}})
-      .then((response: { data: Ticket }) => console.log(response));
+      .put(process.env.REACT_APP_API_URL + "/ticket/" + id, ticket, {
+        headers: { token: getCookie("token") }
+      })
+      .then((response: { data: Ticket }) => response.data);
   }
 
   deleteTicket(id: number) {
