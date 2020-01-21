@@ -140,7 +140,12 @@ export default (props: any) => {
                 </Grid>
               )}
               <Grid item xs={3}>
-                <Button onClick={() => deleteContract(user.id)}>
+                <Button
+                  onClick={() => {
+                    deleteContract(user.id);
+                    window.location.reload();
+                  }}
+                >
                   Delete Contract
                 </Button>
               </Grid>
