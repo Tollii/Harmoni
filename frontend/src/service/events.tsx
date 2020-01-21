@@ -39,6 +39,12 @@ class EventService {
       .then((response: { data: JSON }) => response.data);
   }
 
+  getEventsUnarchived() {    
+    return axios
+      .get(process.env.REACT_APP_API_URL + "/eventUnarchived/")
+      .then((response: { data: JSON }) => response.data);
+  }
+
   getEvent(id: number) {
     return axios
       .get(process.env.REACT_APP_API_URL + "/event/" + id)
@@ -121,8 +127,14 @@ class EventService {
 
   getEventVolunteerAdmin(event_id: number) {
     return axios
-    .get(process.env.REACT_APP_API_URL + "/event/"+event_id+"/volunteers/admin/", {headers: { token: getCookie("token") }})
-    .then((response: { data: JSON }) => response.data);
+      .get(
+        process.env.REACT_APP_API_URL +
+          "/event/" +
+          event_id +
+          "/volunteers/admin/",
+        { headers: { token: getCookie("token") } }
+      )
+      .then((response: { data: JSON }) => response.data);
   }
   getEventIsVolunteer(event_id: number) {
     return axios
@@ -159,7 +171,7 @@ class EventService {
         return response.data;
       });
   }
-  
+
   deleteEventTickets(event_id: number) {
     return axios
       .delete(
@@ -170,7 +182,6 @@ class EventService {
         return response.data;
       });
   }
-
 }
 
 export default new EventService();

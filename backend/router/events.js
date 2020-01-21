@@ -56,24 +56,24 @@ module.exports = (app, models, base, auth) => {
    */
 
   app.get(base, (req, res) => {
-    eventControl.eventArchive().then(data => {
-      eventControl.eventGetAllUnarchived().then(data => {
-        res.send(data);
-      });
+      eventControl.eventArchive().then(data => {
+        eventControl.eventGetAll().then(data => {
+      res.send(data);
+        });
     });
   });
 
   /**
    * @group Events - Operations about event
-   * @route GET /event/
+   * @route GET /eventUnarchived/
    * @returns {object} 200 - An array of events
    * @returns {Error}  default - Unexpected error
    */
 
-  app.get(base, (req, res) => {
+  app.get(base + "Unarchived", (req, res) => {
     eventControl.eventArchive().then(data => {
-      eventControl.eventGetAll().then(data => {
-        res.send(data);
+      eventControl.eventGetAllUnarchived().then(data => {
+      res.send(data);
       });
     });
   });
@@ -100,16 +100,15 @@ module.exports = (app, models, base, auth) => {
    */
 
   app.get(base + "carousel", (req, res) => {
-    eventControl.eventArchive().then(data => {
-      eventControl
-        .eventGetCarouselEvent(req.params.id)
-        .then(data => {
-          res.send(data);
-        })
-        .catch(err => {
-          res.sendStatus(400);
-        });
-    });
+    eventControl
+      .eventGetCarouselEvent(req.params.id)
+      .then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        console.log(err);
+        res.sendStatus(400);
+      });
   });
 
   /**
@@ -252,7 +251,6 @@ module.exports = (app, models, base, auth) => {
    * @returns {object} 200 - Updates the archive variable of one events
    * @returns {Error}  default - Unexpected error
    */
-
   app.put("/event_archive/:id", (req, res) => {
     eventControl
       .eventArchiveOne(req.params.id)
