@@ -90,12 +90,8 @@ export default (props: any) => {
     setAnchorEl(null);
   };
 
-  const handleContract = (
-    event: React.MouseEvent<unknown>,
-    userId: number,
-    eventId: number
-  ) => {
-    window.location.hash = "contract/user/" + userId + "/event/" + eventId;
+  const handleAllContracts = (eventId: number) => {
+    window.location.hash = "contract/event/" + eventId;
   };
 
   const [role, setRole] = useState();
@@ -145,7 +141,7 @@ export default (props: any) => {
             (isVolunteer ? (
               <Button
                 style={{
-                  fontSize: "1.5vw",
+                  fontSize: "15px",
                   width: "80%",
                   backgroundColor: "red",
                   color: "white"
@@ -257,9 +253,7 @@ export default (props: any) => {
                   <ListItemText primary="See contract" />
                 </StyledMenuItem>
 
-                <StyledMenuItem
-                  onClick={e => setVolunteerDialog(true)}
-                >
+                <StyledMenuItem onClick={e => handleAllContracts(props.event)}>
                   <ListItemIcon>
                     <DescriptionIcon fontSize="small" />
                   </ListItemIcon>

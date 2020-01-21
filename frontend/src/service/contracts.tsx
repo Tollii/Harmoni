@@ -24,6 +24,14 @@ class ContractService {
       .then((response: { data: Contract }) => response.data);
   }
 
+  getContractsByEvent(eventID: number) {
+    return axios
+      .get(url + "/contract/event/" + eventID, {
+        headers: { token: getCookie("token") }
+      })
+      .then((response: { data: Contract[] }) => response.data);
+  }
+
   postContract(contract: object) {
     return axios
       .post(url + "/contract", contract, {
