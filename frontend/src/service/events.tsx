@@ -75,7 +75,7 @@ class EventService {
 
   getArtists(id: number) {
     return axios
-      .get(process.env.REACT_APP_API_URL + "/event/" + id)
+      .get(process.env.REACT_APP_API_URL + "/event/artist/" + id)
       .then((response: { data: JSON }) => response.data);
   }
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import GoogleMapReact from "google-map-react";
 import Marker from "./Marker";
 
@@ -11,7 +11,7 @@ const SimpleMap = (props: any) => {
     Promise: Promise
   });
 
-  const findCenter = (place: any): any => {
+  const findCenter = useCallback((place: any): any => {
     if (place !== undefined) {
       return googleMapsClient
         .geocode({ address: place.location })
@@ -23,7 +23,7 @@ const SimpleMap = (props: any) => {
           console.log(err);
         });
     }
-  };
+  }, []);
 
   useEffect(() => {
     Promise.all(
@@ -45,7 +45,7 @@ const SimpleMap = (props: any) => {
     ).then((results: any) => {
       setMarker(results);
     });
-  }, [props.events]);
+  }, [props.events, findCenter]);
 
   useEffect(() => {
     if (props.center) {
