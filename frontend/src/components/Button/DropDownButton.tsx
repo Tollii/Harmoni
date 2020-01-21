@@ -17,6 +17,7 @@ import EventService from "../../service/events";
 import { Link } from "react-router-dom";
 import Button from "./Button";
 import MaterialTable, { Column } from "material-table";
+import AlertDialog from "../AlertDialog/AlertDialog";
 
 const StyledMenu = withStyles({
   paper: {
@@ -93,6 +94,7 @@ export default (props: any) => {
   };
 
   const [role, setRole] = useState();
+  const [alertOpen, setAlertOpen] = useState(false);
   const [volunteer, setVolunteer] = React.useState(false);
   const [isVolunteer, setIsVolunteer] = React.useState(false);
   const [volunteerDialog, setVolunteerDialog] = useState(false);
