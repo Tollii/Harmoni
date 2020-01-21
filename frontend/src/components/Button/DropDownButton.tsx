@@ -103,7 +103,7 @@ export default (props: any) => {
             (isVolunteer ? (
               <Button
                 style={{
-                  fontSize: "1.5vw",
+                  fontSize: "15px",
                   width: "80%",
                   backgroundColor: "red",
                   color: "white"
@@ -123,7 +123,7 @@ export default (props: any) => {
               </Button>
             ) : volunteer ? (
               <Button
-                style={{ fontSize: "1.5vw", width: "80%" }}
+                style={{ fontSize: "15px", width: "80%" }}
                 variant="contained"
                 color="primary"
                 onClick={() => {
@@ -139,7 +139,7 @@ export default (props: any) => {
               </Button>
             ) : (
               <Button
-                style={{ fontSize: "1.5vw", width: "80%" }}
+                style={{ fontSize: "15px", width: "80%" }}
                 variant="contained"
                 disabled={true}
               >
