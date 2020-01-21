@@ -131,6 +131,7 @@ module.exports = models => {
     },
 
     eventCreate: async (
+      event_name,
       location,
       event_start,
       event_end,
