@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
-  Box,
-  Card,
   Grid,
-  Typography,
   MenuProps,
   Menu,
   MenuItem,
@@ -15,12 +12,7 @@ import {
   DialogContent,
   DialogActions
 } from "@material-ui/core";
-import {
-  createStyles,
-  makeStyles,
-  Theme,
-  withStyles
-} from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import DescriptionIcon from "@material-ui/icons/Description";
 import SettingsIcon from "@material-ui/icons/Settings";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -93,6 +85,17 @@ export default (props: any) => {
   const handleAllContracts = (eventId: number) => {
     window.location.hash = "contract/event/" + eventId;
   };
+  function handleAlert(open: boolean) {
+    setAlertOpen(open);
+  }
+
+  const handleContract = (
+    event: React.MouseEvent<unknown>,
+    userId: number,
+    eventId: number
+  ) => {
+    window.location.hash = "contract/user/" + userId + "/event/" + eventId;
+  };
 
   const [role, setRole] = useState();
   const [volunteer, setVolunteer] = React.useState(false);
@@ -115,6 +118,7 @@ export default (props: any) => {
       email: user.email
     };
   };
+  const [alertOpen, setAlertOpen] = useState(false);
 
   useEffect(() => {
     Authentication.getAuth().then((role: any) => {
@@ -122,9 +126,6 @@ export default (props: any) => {
     });
   }, []);
   useEffect(() => {
-    EventService.getEventVolunteer(props.event).then((data: boolean) => {
-      setVolunteer(data);
-    });
     EventService.getEventIsVolunteer(props.event).then((data: boolean) => {
       setIsVolunteer(data);
     });
@@ -186,8 +187,7 @@ export default (props: any) => {
                 Full
               </Button>
             ))}
-          {role ==
-            2 /**om man er artist skal man kun få se kontrakt og endre rider */ && (
+          {role == 2 && (
             <div>
               <Button
                 aria-controls="customized-menu"
@@ -221,9 +221,7 @@ export default (props: any) => {
               </StyledMenu>
             </div>
           )}
-          {(role == 3 ||
-            role ==
-              4) /**om man har rolle 3/4(arrang/admin) skal man få knapp med alt */ && (
+          {(role == 3 || role == 4) && (
             <div>
               <Button
                 aria-controls="customized-menu"
@@ -239,7 +237,10 @@ export default (props: any) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <Link to={"/editEvent/" + props.event}>
+                <Link
+                  to={"/editEvent/" + props.event}
+                  style={{ textDecoration: "none", color: "black" }}
+                >
                   <StyledMenuItem>
                     <ListItemIcon>
                       <SettingsIcon fontSize="small" />
@@ -261,17 +262,18 @@ export default (props: any) => {
                   <ListItemText primary="See volunteers" />
                 </StyledMenuItem>
 
-                <StyledMenuItem
-                  onClick={() =>
-                    "Her skal det komme en pop opp som spør at du vil slette"
-                  }
-                >
+                <StyledMenuItem onClick={() => setAlertOpen(!alertOpen)}>
                   <ListItemIcon>
                     <DeleteIcon fontSize="small" />
                   </ListItemIcon>
                   <ListItemText primary="Delete" />
                 </StyledMenuItem>
               </StyledMenu>
+              <AlertDialog
+                open={alertOpen}
+                handleAlert={handleAlert}
+                eventID={props.event}
+              />
             </div>
           )}
           {role == 0 && <div></div>}
