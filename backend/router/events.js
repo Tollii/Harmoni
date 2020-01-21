@@ -327,6 +327,10 @@ module.exports = (app, models, base, auth) => {
           })
           return data;
         })
+        .then( event => {
+          contractControl.contractCreateNoContract(data.user.dataValues.id, event.id)
+          return data
+        })
         .then( data => {
           res.send(data)
         })
@@ -384,8 +388,6 @@ module.exports = (app, models, base, auth) => {
     .then(event => {
       contractControl.getContractVolunteersPerEvent(req.params.event_id)
       .then(contracts => {
-        console.log(contracts.count)
-        console.log(event.volunteers)
         if(contracts.count < event.volunteers) {
           res.status(200).send(true)
         } else {
@@ -395,16 +397,64 @@ module.exports = (app, models, base, auth) => {
     })
     .catch(err =>{res.status(400).send("event not round")})
   });
+  /**
+   * @group Events - Operations about event
+   * @route GET /event/{event_id}/volunteers/admin/
+   * @param {string} token.header.required - user token
+   * @param {number} event_id.path.required - Event id
+   * @returns {object} 200 - Updates the archive variable of all events if their ending time has happened
+   * @returns {Error}  default - Unexpected error
+   */
+
+  app.get(base + "/:event_id/volunteers/admin/", (req, res) => {
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer"])
+    .then(data => {
+      if(data.auth){
+        eventControl.eventGetOne(req.params.event_id)
+        .then(event => {
+          if(data.role.dataValues.role_name == 'Organizer') {
+            contractControl.contractGetOne(data.user.dataValues.id, req.params.event_id)
+            .then((contract) => {
+              if(contract == null) {
+                res.status(400).send("Not authorized")
+              }else {
+                contractControl.getContractVolunteersPerEvent(req.params.event_id)
+                .then(contracts => {
+                  res.status(200).send(contracts)
+                })
+                .catch(err => {
+                  res.status(400).send("Volunteers not found")
+                })            }
+            })
+            .catch((err) => {
+              res.status(400).send(err)
+            })
+          } else {
+            contractControl.getContractVolunteersPerEvent(req.params.event_id)
+            .then(contracts => {
+              res.status(200).send(contracts)
+            })
+            .catch(err => {
+              res.status(400).send("Volunteers not found")
+            })
+          }
+        })
+        .catch(err =>{res.status(400).send("Event not round")})
+        } else {
+          res.status(400).send("Not authenticated")
+        }
+    })
+  })
 
   /**
    * @group Events - Operations about event
-   * @route GET /event/{event_id}/volunteers/{id}/
+   * @route GET /event/{event_id}/volunteers/signed/
    * @param {string} token.header.required - user token
    * @param {number} event_id.path.required - event id
    * @returns {object} 200 - Updates the archive variable of all events if their ending time has happened
    * @returns {Error}  default - Unexpected error
    */
-  app.get(base + "/:event_id/volunteers/signed", (req, res) => {
+  app.get(base + "/:event_id/volunteers/signed/", (req, res) => {
     auth.check_permissions(req.headers.token, ["Admin", "Organizer" ,"User"])
     .then(data => {
       if(data.auth){
