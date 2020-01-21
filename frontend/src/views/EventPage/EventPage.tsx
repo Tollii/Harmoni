@@ -89,7 +89,16 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "20vw",
       width: "100%",
       position: "relative",
-      marginBottom: "10px"
+      marginBottom: "10px",
+      [theme.breakpoints.down("xs")]: {
+        height: "40vw"
+      }
+    },
+    box: {
+      borderRight: 1,
+      [theme.breakpoints.down("xs")]: {
+        borderRight: 0
+      }
     }
   })
 );
@@ -170,13 +179,13 @@ export default (props: any) => {
   const role: number = 2; /**Her skal Zaim sin supermetode inn */
 
   return (
-    <div style={{ overflow: "hidden" }}>
+    <div style={{ overflow: "hidden"}}>
       <Card className={classes.card} elevation={0}>
         <img className={classes.image} src={values.image}></img>
       </Card>
       <Grid container spacing={3}>
-        <Grid item xs={8} style={{ height: "100%" }}>
-          <Box borderRight={1}>
+        <Grid item xs={12} sm={8} style={{ height: "100%" }}>
+          <Box >
             <Typography className={classes.title} variant="h2">
               {values.name}
             </Typography>
@@ -254,7 +263,7 @@ export default (props: any) => {
             </TableContainer>
           </Box>
         </Grid>
-        <Grid item xs={3} style={{ margin: "10px" }}>
+        <Grid item sm={3} xs={12} style={{ margin: "10px" }}>
           <Typography className={classes.smallTitle} variant="h6" gutterBottom>
             Date & Time:
           </Typography>
@@ -281,17 +290,23 @@ export default (props: any) => {
           <div className={classes.map}>
             <Map events={[values]} center={values} zoom={11} />
           </div>
-          <Grid container>
-            <Grid className={classes.buttons}>
-              <Button
-                style={{ fontSize: "1.5vw" }}
-                variant="contained"
-                color="secondary"
-              >
-                Buy Ticket
-              </Button>
+          <Grid container spacing={1} justify="center" alignItems="center">
+            <Grid item lg={6} sm={12} xs={6}>
+              <Grid container>
+                <Grid item style={{margin: "auto"}}>
+                  <Button className={classes.buttons}
+                    style={{ fontSize: "15px"}}
+                    variant="contained"
+                    color="secondary"
+                  >
+                    Buy Ticket
+                  </Button>
+                </Grid>
+              </Grid>
             </Grid>
-            <DropDownButton event={values.id}/>
+            <Grid item lg={6} sm={12} xs={6}>
+              <DropDownButton event={values.id}/>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>

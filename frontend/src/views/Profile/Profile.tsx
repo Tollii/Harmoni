@@ -265,12 +265,14 @@ export default (props: any) => {
         <CardContent>
           <div style={{ marginBottom: "30px" }}>
             <Grid container spacing={4}>
-              <Grid item xs={3}>
-                <img
-                  style={{ width: "160px", height: "160px" }}
-                  src={pic_url}
-                  alt={values.picture}
-                />
+              <Grid item xs={4}>
+                <Grid container justify="center">
+                  <img
+                    style={{ objectFit: "cover", maxWidth: "100%", minWidth: "85%"}}
+                    src={pic_url}
+                    alt={values.picture}
+                  />
+                </Grid>
                 <Typography>
                   <Link
                     onClick={handleOpenEditPic}
@@ -331,7 +333,7 @@ export default (props: any) => {
                   </DialogActions>
                 </Dialog>
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={4}>
                 <p>{values.fullName}</p>
                 <p>{values.role}</p>
                 <p>{values.email}</p>
@@ -340,9 +342,11 @@ export default (props: any) => {
             </Grid>
           </div>
           <div>
-            <Grid container direction="row" justify="center">
-              <Grid item xs={3}>
-                <Button onClick={handleOpenEdit}>Edit</Button>
+            <Grid container direction="row" justify="center" spacing={4}>
+              <Grid item xs={4}>
+                <Grid container justify="center">
+                  <Button onClick={handleOpenEdit}>Edit</Button>
+                </Grid>
                 <Dialog
                   open={openEdit}
                   onClose={handleCloseEdit}
@@ -393,74 +397,82 @@ export default (props: any) => {
                   </DialogActions>
                 </Dialog>
               </Grid>
-              <Grid item xs={3}>
-                <Button onClick={handleOpenChangePass}>Change Password</Button>
-                <Dialog
-                  open={openChangePass}
-                  onClose={handleCloseChangePass}
-                  aria-labelledby="form-dialog-title"
-                  style={{ width: "100%" }}
-                >
-                  <DialogTitle id="form-dialog-title">
-                    Change PassWord
-                  </DialogTitle>
-                  <DialogContent>
-                    <DialogContentText></DialogContentText>
-                    <InputField
-                      autoFocus
-                      name="old_password"
-                      label="Old Password"
-                      type="password"
-                      value={password.old_password}
-                      onChange={handlePasswordChange}
-                    />
-                                        
-                    <InputField
-                      autoFocus
-                      name="new_password"
-                      label="New Password"
-                      type="password"
-                      value={password.new_password}
-                      onChange={handlePasswordChange}
-                    />
-                                        
-                    <InputField
-                      autoFocus
-                      name="confirmed_password"
-                      label="Confirm Password"
-                      type="password"
-                      value={password.confirmed_password}
-                      onChange={handlePasswordChange}
-                    />
-                  </DialogContent>
-                  <DialogActions>
-                    <Grid container direction="row" justify="center">
-                      <Button color="primary" onClick={handleSubmitPassword}>
-                                                  Change
-                      </Button>
-                      <Grid item xs={3}>
-                        <Button onClick={handleCloseChangePass} color="primary">
-                          Cancel
-                        </Button>
-                      </Grid>
+              <Grid item xs={8}>
+                <Grid container justify="flex-start">
+                  <Grid item xs={6}>
+                    <Grid container justify="flex-start">
+                      <Button onClick={handleOpenChangePass}>Change Password</Button>
                     </Grid>
-                  </DialogActions>
-                </Dialog>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  onClick={() => {
-                    document.cookie =
-                      "token=" +
-                      getCookie("token") +
-                      "; expires=" +
-                      new Date().toUTCString();
-                    props.logFunc(false);
-                    window.location.hash = "#/";
-                  }}
-                >
-                  Logout
-                </Button>
+                    <Dialog
+                      open={openChangePass}
+                      onClose={handleCloseChangePass}
+                      aria-labelledby="form-dialog-title"
+                      style={{ width: "100%" }}
+                    >
+                      <DialogTitle id="form-dialog-title">
+                        Change PassWord
+                      </DialogTitle>
+                      <DialogContent>
+                        <DialogContentText></DialogContentText>
+                        <InputField
+                          autoFocus
+                          name="old_password"
+                          label="Old Password"
+                          type="password"
+                          value={password.old_password}
+                          onChange={handlePasswordChange}
+                        />
+                                            
+                        <InputField
+                          autoFocus
+                          name="new_password"
+                          label="New Password"
+                          type="password"
+                          value={password.new_password}
+                          onChange={handlePasswordChange}
+                        />
+                                            
+                        <InputField
+                          autoFocus
+                          name="confirmed_password"
+                          label="Confirm Password"
+                          type="password"
+                          value={password.confirmed_password}
+                          onChange={handlePasswordChange}
+                        />
+                      </DialogContent>
+                      <DialogActions>
+                        <Grid container direction="row" justify="center">
+                          <Button color="primary" onClick={handleSubmitPassword}>
+                                                      Change
+                          </Button>
+                          <Grid item xs={3}>
+                            <Button onClick={handleCloseChangePass} color="primary">
+                              Cancel
+                            </Button>
+                          </Grid>
+                        </Grid>
+                      </DialogActions>
+                    </Dialog>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Grid container justify="flex-start">
+                      <Button
+                        onClick={() => {
+                          document.cookie =
+                            "token=" +
+                            getCookie("token") +
+                            "; expires=" +
+                            new Date().toUTCString();
+                          props.logFunc(false);
+                          window.location.hash = "#/";
+                        }}
+                      >
+                        Logout
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </Grid>
               </Grid>
             </Grid>
           </div>
