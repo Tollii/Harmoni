@@ -95,7 +95,11 @@ module.exports = models => {
       });
     },
 
-    eventArchive: async current_time => {
+    eventArchive: async () => {
+      let currentDate = new Date()
+        .toISOString()
+        .slice(0, 19)
+        .replace("T", " ");
       return Event.update(
         {
           archived: true
@@ -103,8 +107,7 @@ module.exports = models => {
         {
           where: {
             event_end: {
-              // if current_time < event_end
-              [Op.lt]: current_time
+              [Op.lt]: currentDate
             }
           }
         }
@@ -114,8 +117,20 @@ module.exports = models => {
     ticketDeleteByEvent: async event_ID =>
       Ticket.destroy({ where: { eventID: event_ID } }).then(events => events),
 
+    eventArchiveOne: async id => {
+      return Event.update(
+        {
+          archived: true
+        },
+        {
+          where: {
+            id: id
+          }
+        }
+      ).then(events => events);
+    },
+
     eventCreate: async (
-      event_name,
       location,
       event_start,
       event_end,
