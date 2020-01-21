@@ -29,7 +29,7 @@ import Authentication from "../../service/Authentication";
 import EventService from "../../service/events";
 import { Link } from "react-router-dom";
 import Button from "./Button";
-import MaterialTable, { Column } from 'material-table';
+import MaterialTable, { Column } from "material-table";
 
 const StyledMenu = withStyles({
   paper: {
@@ -100,17 +100,21 @@ export default (props: any) => {
   const [volunteerDialog, setVolunteerDialog] = useState(false);
   const [state, setState] = React.useState<TableState>({
     columns: [
-      { title: 'Name', field: 'username' },
-      { title: 'Phone', field: 'phone' },
-      { title: 'Email', field: 'email' },
+      { title: "Name", field: "username" },
+      { title: "Phone", field: "phone" },
+      { title: "Email", field: "email" }
     ],
-    data: [],
-  })
+    data: []
+  });
 
-
-  const setData = (user:any) => {
-    return {key: user.id, username: user.username, phone: user.phone, email: user.email}
-  }
+  const setData = (user: any) => {
+    return {
+      key: user.id,
+      username: user.username,
+      phone: user.phone,
+      email: user.email
+    };
+  };
 
   useEffect(() => {
     Authentication.getAuth().then((role: any) => {
@@ -124,13 +128,12 @@ export default (props: any) => {
     EventService.getEventIsVolunteer(props.event).then((data: boolean) => {
       setIsVolunteer(data);
     });
-    EventService.getEventVolunteerAdmin(props.event)
-    .then((volunteers:any)=> {
-      console.log(volunteers)
-      if(volunteers.count > 0) {
-        setState({...state, data: volunteers.rows })}
+    EventService.getEventVolunteerAdmin(props.event).then((volunteers: any) => {
+      console.log(volunteers);
+      if (volunteers.count > 0) {
+        setState({ ...state, data: volunteers.rows });
       }
-    )
+    });
   }, [props.event]);
 
   return (
@@ -244,16 +247,14 @@ export default (props: any) => {
                     <ListItemText primary="Edit" />
                   </StyledMenuItem>
                 </Link>
-                <StyledMenuItem
-                  onClick={e => handleContract(e, props.user, props.event)}
-                >
+                <StyledMenuItem onClick={e => handleAllContracts(props.event)}>
                   <ListItemIcon>
                     <DescriptionIcon fontSize="small" />
                   </ListItemIcon>
                   <ListItemText primary="See contract" />
                 </StyledMenuItem>
 
-                <StyledMenuItem onClick={e => handleAllContracts(props.event)}>
+                <StyledMenuItem onClick={() => setVolunteerDialog(true)}>
                   <ListItemIcon>
                     <DescriptionIcon fontSize="small" />
                   </ListItemIcon>
@@ -280,8 +281,8 @@ export default (props: any) => {
         open={volunteerDialog}
         aria-labelledby="alert-dialog-volunteer"
         aria-describedby="alert-dialog-description"
-        onBackdropClick={()=> {
-          setVolunteerDialog(false)
+        onBackdropClick={() => {
+          setVolunteerDialog(false);
           console.log(state);
         }}
       >
