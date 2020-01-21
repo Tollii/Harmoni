@@ -204,7 +204,7 @@ export default (props: any) => {
 
   useEffect(() => {
     props.isAuth().then((res: any) => {
-      if (res !== 4) {
+      if (res !== 4 && res !== 3) {
         EventService.getEventsByUser().then((response: any) => {
           if (response.length !== 0) {
             setEvents(response);
@@ -261,7 +261,7 @@ export default (props: any) => {
           </Paper>
         </Grid>
       </div>
-      {value === 0 ? 
+      {value === 0 ? (
         <CardContent>
           <div style={{ marginBottom: "30px" }}>
             <Grid container spacing={4}>
@@ -465,18 +465,15 @@ export default (props: any) => {
             </Grid>
           </div>
         </CardContent>
-        :
+      ) : (
         <CardContent>
           <div style={{ marginBottom: "30px" }}>
             <Grid container spacing={4}>
-              {props.isAuth !== 4 && (
-                <MyEvents events={events} user={values.id} />
-              )}
-              {props.isAuth === 4 && <MyEvents events={events} />}
+              <MyEvents events={events} user={values.id} />
             </Grid>
           </div>
         </CardContent>
-        }
+      )}
     </Card>
   );
 };

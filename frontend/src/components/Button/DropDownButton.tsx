@@ -22,7 +22,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AlertDialog from "../../components/AlertDialog/AlertDialog";
 import Authentication from "../../service/Authentication";
-import EventService from "../../service/events"
+import EventService from "../../service/events";
 import { Link } from "react-router-dom";
 
 const StyledMenu = withStyles({
@@ -68,17 +68,13 @@ export default (props: any) => {
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  
+
   const handleClose = () => {
     setAnchorEl(null);
   };
-  
-  const handleContract = (
-    event: React.MouseEvent<unknown>,
-    userId: number,
-    eventId: number
-  ) => {
-    window.location.hash = "contract/user/" + userId + "/event/" + eventId;
+
+  const handleAllContracts = (eventId: number) => {
+    window.location.hash = "contract/event/" + eventId;
   };
 
   const [role, setRole] = useState();
@@ -91,13 +87,11 @@ export default (props: any) => {
     });
   }, []);
   useEffect(() => {
-    EventService.getEventVolunteer(props.event)
-    .then((data:boolean) =>{
-      setVolunteer(data)
+    EventService.getEventVolunteer(props.event).then((data: boolean) => {
+      setVolunteer(data);
     });
-    EventService.getEventIsVolunteer(props.event)
-    .then((data:boolean) =>{
-      setIsVolunteer(data)
+    EventService.getEventIsVolunteer(props.event).then((data: boolean) => {
+      setIsVolunteer(data);
     });
   }, [props.event]);
 
@@ -105,53 +99,53 @@ export default (props: any) => {
     <div>
       <Grid container>
         <Grid item style={{ margin: "auto" }}>
-          {role == 1 && (
-            isVolunteer ? (
+          {role == 1 &&
+            (isVolunteer ? (
               <Button
-                style={{ fontSize: "1.5vw", width: "80%", backgroundColor:"red", color: "white" }}
+                style={{
+                  fontSize: "1.5vw",
+                  width: "80%",
+                  backgroundColor: "red",
+                  color: "white"
+                }}
                 variant="contained"
                 color="inherit"
-                onClick={()=> {
-                  EventService.deleteEventVolunteer(props.event)
-                  .then((data:any) =>{
-                    console.log("quit")
-                    setIsVolunteer(false)
-                  });
+                onClick={() => {
+                  EventService.deleteEventVolunteer(props.event).then(
+                    (data: any) => {
+                      console.log("quit");
+                      setIsVolunteer(false);
+                    }
+                  );
                 }}
-                >
-              QUIT!!
-            </Button>
-            )
-            :
-            (
-              volunteer ? (
-                <Button
+              >
+                QUIT!!
+              </Button>
+            ) : volunteer ? (
+              <Button
                 style={{ fontSize: "1.5vw", width: "80%" }}
                 variant="contained"
                 color="primary"
-                onClick={()=> {
-                  console.log("quit not")
-                  EventService.postEventVolunteer(props.event)
-                  .then((data:any) =>{
-                    setIsVolunteer(true)
-                  });
+                onClick={() => {
+                  console.log("quit not");
+                  EventService.postEventVolunteer(props.event).then(
+                    (data: any) => {
+                      setIsVolunteer(true);
+                    }
+                  );
                 }}
               >
                 Register
-            </Button>
-            )
-            :
-            (
-            <Button
-              style={{ fontSize: "1.5vw", width: "80%" }}
-              variant="contained"
-              disabled={true}
-            >
-              Full
-            </Button>
-            )
-            )
-          )}
+              </Button>
+            ) : (
+              <Button
+                style={{ fontSize: "1.5vw", width: "80%" }}
+                variant="contained"
+                disabled={true}
+              >
+                Full
+              </Button>
+            ))}
           {role ==
             2 /**om man er artist skal man kun få se kontrakt og endre rider */ && (
             <div>
@@ -231,9 +225,7 @@ export default (props: any) => {
                   <ListItemText primary="Delete" />
                 </StyledMenuItem>
 
-                <StyledMenuItem
-                  onClick={e => handleContract(e, props.user, props.event)}
-                >
+                <StyledMenuItem onClick={e => handleAllContracts(props.event)}>
                   <ListItemIcon>
                     <DescriptionIcon fontSize="small" />
                   </ListItemIcon>
