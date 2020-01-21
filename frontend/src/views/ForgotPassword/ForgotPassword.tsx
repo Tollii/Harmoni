@@ -72,8 +72,7 @@ export default (props: any) => {
                         {errors.password && <Typography>{errors.password}</Typography>}
                         <InputField
                             name="password"
-                            label="Password *"
-                            type="password"
+                            label="Password"
                             autoComplete="current-password"
                             value={values.password}
                             onChange={handleChange}
@@ -84,8 +83,7 @@ export default (props: any) => {
 
                         <InputField
                             name="passwordConfirmed"
-                            label="Confirm password *"
-                            type="password"
+                            label="Password"
                             autoComplete="current-password"
                             value={values.passwordConfirmed}
                             onChange={handleChange}
