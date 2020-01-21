@@ -37,8 +37,8 @@ export default function(props: any) {
   const [state, setState] = React.useState<TableState>({
     columns: [
       { title: "Name", field: "name" },
-      { title: "Start date", field: "startDate" },
-      { title: "End date", field: "endDate" },
+      { title: "Start date", field: "startDate", type: "datetime" },
+      { title: "End date", field: "endDate", type: "datetime" },
       { title: "Location", field: "location" },
       {
         title: "Event Page",
@@ -56,8 +56,8 @@ export default function(props: any) {
     EventService.getEvents().then((events: any) => {
       Promise.all(
         events.map((event: any) => {
-          const start = new Date(event.event_start).toDateString();
-          const end = new Date(event.event_end).toDateString();
+          let start = String(event.event_start).substring(0, 10);
+          let end = String(event.event_end).substring(0, 10);
           return createData(
             event.id,
             event.event_name,
