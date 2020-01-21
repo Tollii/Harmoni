@@ -15,6 +15,7 @@ import Contract from "./views/Contract/Contract";
 import EventlistPage from "./views/EventlistVeiw/eventlistPage";
 import ForgotPassword from "./views/ForgotPassword/ForgotPassword";
 import ForgotForm from "./views/ForgotPassword/ForgotForm";
+import MyEvents from "./views/Profile/MyEvents";
 
 const useStyles = makeStyles({});
 
@@ -23,7 +24,7 @@ export default () => {
   const [loggedIn, setLoggedIn] = React.useState(getCookie("token"));
 
   useEffect(() => {
-    setLoggedIn(getCookie("token"))
+    setLoggedIn(getCookie("token"));
   }, [loggedIn]);
 
   return (
@@ -97,7 +98,7 @@ export default () => {
         />
         <Route
           exact
-          path="/contract/user/:userId/event/:eventId"
+          path="/contract/event/:eventId"
           render={(props: any) => (
             <Contract
               {...props}
@@ -117,18 +118,14 @@ export default () => {
         <Route
           exact
           path="/forgotpassword/:token"
-          render={(props: any) => (
-            <ForgotPassword {...props} />
-          )}
-          />
+          render={(props: any) => <ForgotPassword {...props} />}
+        />
 
         <Route
           exact
           path="/forgot"
-          render={(props: any) => (
-            <ForgotForm {...props} />
-          )}
-          />
+          render={(props: any) => <ForgotForm {...props} />}
+        />
       </div>
       <Footer />
     </HashRouter>

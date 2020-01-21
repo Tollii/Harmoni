@@ -49,7 +49,6 @@ export default (props: any) => {
 
   const [openEditContract, setOpenEditContract] = React.useState(false);
   const [file, setFile] = useState(new File(["foo"], ""));
-  const [contractUrl, setContractUrl] = useState("");
 
   const handleOpenEditContract = () => {
     setOpenEditContract(true);
@@ -64,78 +63,91 @@ export default (props: any) => {
   const fileSelectedHandler = (event: any) => {
     setFile(event.target.files[0]);
   };
-  const uploadContract = () => {
+  const uploadContract = (userId: any) => {
     return Promise.resolve(
-      FileService.postContracts(
-        file,
-        props.match.params.userId,
-        props.match.params.eventId
-      )
+      FileService.postContracts(file, userId, props.match.params.eventId)
     );
   };
 
-  const deleteContract = () => {
+  const deleteContract = (userId: any) => {
     return Promise.resolve(
-      FileService.postContracts(
-        file,
-        props.match.params.userId,
-        props.match.params.eventId
-      )
+      FileService.postContracts(file, userId, props.match.params.eventId)
     );
   };
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    setContractUrl(
-      process.env.REACT_APP_API_URL +
-        "/files/contract/user/" +
-        props.match.params.userId +
-        "/event/" +
-        props.match.params.eventId
+    ContractService.getContractsByEvent(props.match.params.eventId).then(
+      (res: any) => {
+        console.log(res[0].Contracts[0].contract);
+
+        setUsers(res);
+      }
     );
   }, []);
 
   return (
-    <Card style={{ width: "80%" }}>
-      <CardContent>
-        <Grid container direction="row" justify="center">
-          <Paper className={classes.paper}>
-            <Grid container direction="row">
-              <Button variant="contained" component="label">
-                Choose File
-                <input
-                  type="file"
-                  accept="application/pdf"
-                  style={{ display: "none" }}
-                  onChange={fileSelectedHandler}
-                />
+    <div>
+      {users.map((user: any, index: number) => (
+        <Card style={{ width: "80%", marginTop: "20px" }}>
+          <CardContent>
+            <Typography>{user.username}</Typography>
+            <Grid container direction="row" justify="center">
+              <Paper className={classes.paper}>
+                <Grid container direction="row">
+                  <Button variant="contained" component="label">
+                    Choose File
+                    <input
+                      type="file"
+                      accept="application/pdf"
+                      style={{ display: "none" }}
+                      onChange={fileSelectedHandler}
+                    />
+                  </Button>
+                  <Typography style={{ marginLeft: "30px" }}>
+                    Chosen file: {file.name}
+                  </Typography>
+                </Grid>
+              </Paper>
+              <Button
+                type="submit"
+                onClick={() => {
+                  uploadContract(user.id).then(() => {
+                    handleCloseEditContract();
+                  });
+                }}
+              >
+                Upload contract
               </Button>
-              <Typography style={{ marginLeft: "30px" }}>
-                Chosen file: {file.name}
-              </Typography>
             </Grid>
-          </Paper>
-          <Button
-            type="submit"
-            onClick={() => {
-              uploadContract().then(() => {
-                handleCloseEditContract();
-              });
-            }}
-          >
-            Upload contract
-          </Button>
-        </Grid>
-        <Grid container direction="row" justify="center">
-          <Grid item xs={3}>
-            <Button onClick={() => window.open(contractUrl, "_blank")}>
-              View Contract
-            </Button>
-          </Grid>
-          <Grid item xs={3}>
-            <Button onClick={() => deleteContract()}>Delete Contract</Button>
-          </Grid>
-        </Grid>
-      </CardContent>
-    </Card>
+            <Grid container direction="row" justify="center">
+              {user.Contracts[0].contract != "" && (
+                <Grid item xs={3}>
+                  <Button
+                    onClick={() =>
+                      window.open(
+                        process.env.REACT_APP_API_URL +
+                          "/files/contract/user/" +
+                          user.id +
+                          "/event/" +
+                          props.match.params.eventId,
+                        "_blank"
+                      )
+                    }
+                  >
+                    View Contract
+                  </Button>
+                </Grid>
+              )}
+              <Grid item xs={3}>
+                <Button onClick={() => deleteContract(user.id)}>
+                  Delete Contract
+                </Button>
+              </Grid>
+            </Grid>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
   );
 };
