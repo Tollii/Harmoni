@@ -1,25 +1,5 @@
-import React, { constructor, useState, useCallback, useEffect } from "react";
+import React from "react";
 import MaterialTable, { Column } from "material-table";
-
-import Card from "../../components/Card/Card";
-import {
-  Grid,
-  CardContent,
-  makeStyles,
-  Typography,
-  Link,
-  createStyles,
-  Theme,
-  Button
-} from "@material-ui/core";
-import {
-  KeyboardDatePicker,
-  KeyboardTimePicker,
-  MuiPickersUtilsProvider
-} from "@material-ui/pickers";
-import DateFnsUtils from "@date-io/date-fns";
-import InputField from "../../components/InputField/InputField";
-import { Add } from "@material-ui/icons";
 
 interface Row {
   ticket_name: string;
@@ -31,12 +11,10 @@ interface Row {
 
 interface TableState {
   columns: Array<Column<Row>>;
-  data: Row[];
 }
 
 export default (props: any) => {
-  const [edited, setEdited] = useState(false);
-  const [state, setState] = useState<TableState>({
+  const state: TableState = {
     columns: [
       { title: "Name", field: "ticket_name" },
       { title: "Price", field: "price", type: "numeric" },
@@ -51,9 +29,8 @@ export default (props: any) => {
         field: "date_end",
         type: "datetime"
       }
-    ],
-    data: props.tickets
-  });
+    ]
+  };
 
   return (
     <MaterialTable
@@ -73,11 +50,9 @@ export default (props: any) => {
         onRowUpdate: (newData, oldData) =>
           new Promise(resolve => {
             setTimeout(() => {
-              setEdited(true);
               resolve();
               if (oldData) {
                 const data = [...props.tickets];
-                console.log(data);
                 data[data.indexOf(oldData)] = newData;
                 props.handleChange(data, "tickets");
               }
@@ -86,7 +61,6 @@ export default (props: any) => {
         onRowDelete: oldData =>
           new Promise(resolve => {
             setTimeout(() => {
-              setEdited(true);
               resolve();
               const data = [...props.tickets];
               data.splice(data.indexOf(oldData), 1);

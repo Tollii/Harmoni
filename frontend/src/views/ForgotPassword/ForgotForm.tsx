@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "../../components/Card/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -37,7 +37,7 @@ const useStyles = makeStyles({
 export default (props: any) => {
     const classes = useStyles(props);
 
-    const { handleChange, handleSubmit, values, errors } = useForm(
+    const { handleChange, handleSubmit, values } = useForm(
         submit,
         {
             email: "",

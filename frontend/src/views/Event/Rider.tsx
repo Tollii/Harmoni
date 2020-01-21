@@ -98,15 +98,15 @@ function RiderCard(props: any) {
     if (additional !== undefined) {
       setAddition(additional.additions);
     }
-    allUser.map((rider: any) => {
+    allUser.map((rider: any) =>
       selectedRiders.push(
         props.riderTypes.find(
           (riderType: any) => riderType.id === rider.rider_typeID
         ).description
-      );
-    });
+      )
+    );
     setRiderName(selectedRiders);
-  }, []);
+  }, [props.artistID, props.riderTypes, props.riders]);
 
   const handleChangeRider = (event: React.ChangeEvent<{ value: any }>) => {
     setRiderName(event.target.value as string[]);
@@ -131,6 +131,7 @@ function RiderCard(props: any) {
           additions: ""
         });
       }
+      return null;
     });
 
     props.handleChange(ridersArray, "riders");

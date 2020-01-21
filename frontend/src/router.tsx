@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import Navbar from "./components/Navbar/Navbar";
 import Event from "./views/Event/Event";
 import SignUp from "./views/SignUp/SignUp";
@@ -15,12 +14,8 @@ import Contract from "./views/Contract/Contract";
 import EventList from "./views/EventList/EventList";
 import ForgotPassword from "./views/ForgotPassword/ForgotPassword";
 import ForgotForm from "./views/ForgotPassword/ForgotForm";
-import MyEvents from "./views/Profile/MyEvents";
-
-const useStyles = makeStyles({});
 
 export default () => {
-  const classes = useStyles();
   const [loggedIn, setLoggedIn] = React.useState(getCookie("token"));
 
   useEffect(() => {

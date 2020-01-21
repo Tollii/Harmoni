@@ -6,13 +6,10 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  makeStyles,
-  Typography
+  makeStyles
 } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
-import Button from "../../components/Button/Button";
 import DropDownButton from "../../components/Button/DropDownButton";
-import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   table: {
