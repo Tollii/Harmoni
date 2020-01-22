@@ -136,7 +136,7 @@ export default (props: any) => {
           className={classes.image}
           src={values.image}
           alt="Event header"
-        ></img>
+        />
       </Card>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={8} style={{ height: "100%" }}>
