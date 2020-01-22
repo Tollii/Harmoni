@@ -56,10 +56,10 @@ module.exports = (app, models, base, auth) => {
    */
 
   app.get(base, (req, res) => {
-      eventControl.eventArchive().then(data => {
-        eventControl.eventGetAll().then(data => {
-      res.send(data);
-        });
+    eventControl.eventArchive().then(data => {
+      eventControl.eventGetAll().then(data => {
+        res.send(data);
+      });
     });
   });
 
@@ -73,7 +73,7 @@ module.exports = (app, models, base, auth) => {
   app.get(base + "Unarchived", (req, res) => {
     eventControl.eventArchive().then(data => {
       eventControl.eventGetAllUnarchived().then(data => {
-      res.send(data);
+        res.send(data);
       });
     });
   });
@@ -215,16 +215,15 @@ module.exports = (app, models, base, auth) => {
               req.body.event_typeID
             )
             .then(() => {
-              res.sendStatus(200).send("Event is updated");
+              res.status(200).send("Event is updated");
             })
             .catch(err => {
-              res.sendStatus(400).send("Event is NOT updated");
+              res.status(400).send("Event is NOT updated");
             });
         } else {
           res.status(400).send("Not authenticated");
         }
-      })
-      .catch(err => res.status(400).send(err));
+      });
   });
 
   /**
@@ -238,10 +237,10 @@ module.exports = (app, models, base, auth) => {
     eventControl
       .eventArchive()
       .then(() => {
-        res.sendStatus(200).send("Events are archived");
+        res.status(200).send("Events are archived");
       })
       .catch(err => {
-        res.sendStatus(400).send("Event are NOT archived");
+        res.status(400).send("Event are NOT archived");
       });
   });
   /**
@@ -324,7 +323,7 @@ module.exports = (app, models, base, auth) => {
                 data.user.dataValues.id,
                 event.id
               );
-              return data;
+              return event;
             })
             .then(data => {
               res.send(data);
@@ -482,8 +481,11 @@ module.exports = (app, models, base, auth) => {
               contractControl
                 .contractGetOne(data.user.dataValues.id, req.params.event_id)
                 .then(contract => {
-                  console.log(contract);
-                  res.send(contract);
+                  if (contract === null) {
+                    res.send(false);
+                  } else {
+                    res.send(true);
+                  }
                 })
                 .catch(err => {
                   res.status(400).send("contract not found");

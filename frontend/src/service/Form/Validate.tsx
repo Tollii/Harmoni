@@ -33,6 +33,10 @@ export default function validateSignUp(values: any) {
   }
   if (!values.telephone) {
     errors.telephone = "Telephone required";
+  } else if (values.telephone.length < 8) {
+    errors.telephone = "8 digits required";
+  } else if (values.telephone.replace(/[^0-9]/g).length !== 8) {
+    errors.telephone = "8 digits required";
   }
 
   return errors;
