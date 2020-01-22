@@ -71,7 +71,7 @@ export default function(props: any) {
     const [riderName, setRiderName] = useState<string[]>([]);
     const [addition, setAddition] = useState("");
     const [riderTypes, setRiderTypes] = useState<Array<{id: number, description: string}>>([]);
-    const [riders, setRiders] = useState<Array<{addition: string, rider_typeID: number, eventID: number, userID: number}>>([]);
+    const [riders, setRiders] = useState<Array<{additions: string, rider_typeID: number, eventID: number, userID: number}>>([]);
     const [selected, setSelected] = useState<string[]>([]);
 
     const handleClickSave = () => {
@@ -84,27 +84,30 @@ export default function(props: any) {
     };
 
     useEffect(() => {
-        RiderService.getRidersForArtist(props.match.params.eventID, props.match.params.userID).then((response: any) => {
-            console.log(response);
-            setRiders(riders);
-            let xyz: any = [];
-            response.map((rider: any) => {
-                if (rider.rider_typeID === 1) {
-                    setAddition(rider.addition);
-                } else {
-                    let temp: any = riderTypes.find(riderType => riderType.id === rider.rider_typeID);
-                    console.log(temp);
-                    if (temp !== undefined) {
-                        xyz.push(temp.description);
+        Rider_TypeService.getRider_Types().then((resRiderTypes: any) => {
+          console.log(resRiderTypes);
+            setRiderTypes(resRiderTypes);
+            RiderService.getRidersForArtist(props.match.params.eventID, props.match.params.userID).then((resRiders: any) => {
+                setRiders(resRiders);
+                let xyz: any = [];
+                resRiders.map((rider: any) => {
+                  console.log(rider);
+                    if (rider.rider_typeID === 1) {
+                        setAddition(rider.additions);
+                    } else {
+                        let temp: any = resRiderTypes.find((riderType: any) => riderType.id === rider.rider_typeID);
+                        console.log(temp);
+                        if (temp !== undefined) {
+                            xyz.push(temp.description);
+                        }
                     }
-                    setSelected(xyz);
-                }
+                });
+                setSelected(xyz);
+                console.log(xyz);
             });
-            console.log(xyz);
         });
-        Rider_TypeService.getRider_Types().then((response: any) => {
-            setRiderTypes(response);
-        });
+
+
 
         let allUser = riders.filter(
             (rider: any) => rider.userID === props.match.params.artistID
@@ -125,23 +128,19 @@ export default function(props: any) {
 
     const handleChangeRider = (event: React.ChangeEvent<{ value: any }>) => {
         setRiderName(event.target.value as string[]);
-        let ridersArray: any = props.riders.filter(
+        let ridersArray: any = riders.filter(
             (rider: any) => rider.userID !== props.artistID
         );
         event.target.value.map((rider: any) => {
-            let riderID = props.riderTypes.find(
-                (riderType: any) => riderType.description === rider
-            ).id;
-
-            if (riderID === 1) {
+            if (rider.rider_typeID === 1) {
                 ridersArray.push({
-                    rider_typeID: riderID,
+                    rider_typeID: rider.rider_typeID,
                     userID: props.artistID,
                     additions: addition
                 });
             } else {
                 ridersArray.push({
-                    rider_typeID: riderID,
+                    rider_typeID: rider.rider_typeID,
                     userID: props.artistID,
                     additions: ""
                 });
