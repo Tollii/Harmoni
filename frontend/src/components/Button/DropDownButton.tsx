@@ -85,14 +85,6 @@ export default (props: any) => {
     setAlertOpen(open);
   }
 
-  const handleContract = (
-    event: React.MouseEvent<unknown>,
-    userId: number,
-    eventId: number
-  ) => {
-    window.location.hash = "contract/user/" + userId + "/event/" + eventId;
-  };
-
   const [role, setRole] = useState();
   const [alertOpen, setAlertOpen] = useState(false);
   const [volunteer, setVolunteer] = React.useState(false);
