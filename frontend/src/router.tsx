@@ -122,7 +122,7 @@ export default () => {
           render={(props: any) => <ForgotForm {...props} />}
         />
       </div>
-      <Footer />
+        <Footer />
     </HashRouter>
   );
 };

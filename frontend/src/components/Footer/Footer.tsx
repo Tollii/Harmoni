@@ -13,7 +13,8 @@ const useStyles = makeStyles({
     maxWidth: "85%",
     textAlign: "center",
     margin: "auto",
-    marginTop: "20px"
+    marginTop: "20px",
+    zIndex: 200
   },
   icons: {
     margin: "20px auto"
@@ -23,7 +24,7 @@ const useStyles = makeStyles({
 export default () => {
   const classes = useStyles();
   return (
-    <div className={classes.root}>
+    <div className={classes.root} >
       <Typography variant="caption" align={"center"} color={"textSecondary"}>
         © Harmoni Copyright 2020
       </Typography>
