@@ -29,7 +29,7 @@ export default () => {
   return (
     <SnackbarProvider SnackbarProps={{ autoHideDuration: 4000 }}>
       <HashRouter>
-        <Navbar isAuth={AuthenticationService.getAuth} loggedIn={loggedIn} />
+        <Navbar isAuth={AuthenticationService.getAuth} logFunc={setLoggedIn} loggedIn={loggedIn} />
         <Route
           exact
           path="/"
@@ -92,7 +92,6 @@ export default () => {
               <Profile
                 {...props}
                 isAuth={AuthenticationService.getAuth}
-                logFunc={setLoggedIn}
               />
             )}
           />
