@@ -7,13 +7,13 @@ describe('events DAO', () => {
 
     it('should create one event', async (done) => {
         await event_typesControl.event_typesCreate("new event type");
-        const res = await eventsControl.eventCreate("wasd", "cola", new Date('1995-12-17T03:24:00'), new Date('1995-12-19T03:24:00'), "wasdwasd", "wasdwasd", 1);
+        const res = await eventsControl.eventCreate("wasd", "cola", new Date('1995-12-17T03:24:00'), new Date('1995-12-19T03:24:00'), "wasdwasd", 10, "Wasasd", 1);
         expect(res.id).toBeGreaterThanOrEqual(1);
         done();
     });
 
     it('should get all events', async (done) => {
-        await eventsControl.eventCreate("chat", "wasd", new Date('1995-12-20T03:24:00'), new Date('1995-12-21T03:24:00'), "wasdwasd", "wasdwasd", 1);
+        await eventsControl.eventCreate("chat", "cola", new Date('1995-12-17T03:24:00'), new Date('1995-12-19T03:24:00'), "wasdwasd", 10, "Wasasd", 1);
         const res = await eventsControl.eventGetAll();
         expect(res.length).toBeGreaterThanOrEqual(2);
         done();
