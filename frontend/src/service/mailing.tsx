@@ -19,6 +19,14 @@ class MailingService {
       })
       .then((response: { data: any }) => console.log(response));
   }
+
+    sendFeedback(userFeedback: object) {
+        return axios
+            .post(url + "/mailer/feedback", userFeedback, {
+                headers: { token: getCookie("token") }
+            })
+            .then((response: { data: any }) => console.log(response));
+    }
 }
 
 export default new MailingService();
