@@ -15,7 +15,7 @@ describe('contracts DAO', () => {
     await rolesControl.rolesCreate("new role");
     await authControl.signUp("wasd3@wasd.wasd", "wasdwasd", "wasdwasd", "12345678");
     await event_typesControl.event_typesCreate("new event type");
-    await eventControl.eventCreate("new event", "location", "10/10/1010", "10/10/1010", "personnel", "description", 1);
+    await eventControl.eventCreate("new event", "cola", new Date('1995-12-17T03:24:00'), new Date('1995-12-19T03:24:00'), "wasdwasd", 10, "Wasasd", 1);
     const res = await contractControl.contractCreate("new contract", 1, 1);
     expect(res.userID).toBeGreaterThanOrEqual(0);
     expect(res.eventID).toBeGreaterThanOrEqual(0);
