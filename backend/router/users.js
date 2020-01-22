@@ -28,11 +28,8 @@ module.exports = (app, models, base, auth) => {
   app.get(base, (req, res) => {
     auth
       .check_permissions(req.headers.token, [
-        "Admin",
-        "Organizer",
-        "Artist",
-        "User"
-      ])
+        "Admin"
+      ], 0, 0)
       .then(data => {
         if (data.auth) {
           userControl.userGetAll().then(data => {
@@ -62,43 +59,6 @@ module.exports = (app, models, base, auth) => {
 
   /**
    * @group User - Operations about user
-   * @route POST /user/
-   * @param {Users.model} user.body.required - User's information
-   * @param {string} token.header.required - token
-   * @returns {object} 200 - return User object
-   * @returns {Error}  default - Unexpected error
-   */
-  app.post(base, (req, res) => {
-    auth
-      .check_permissions(req.headers.token, [
-        "Admin",
-        "Organizer",
-        "Artist",
-        "User"
-      ])
-      .then(data => {
-        if (data.auth) {
-          userControl
-            .userCreate(
-              req.body.username,
-              req.body.email,
-              req.body.hash,
-              req.body.salt,
-              req.body.phone,
-              req.body.picture
-            )
-            .then(data => {
-              res.send(data);
-            });
-        } else {
-          res.status(400).send("Not authenticated");
-        }
-      })
-      .catch(err => console.log(err));
-  });
-
-  /**
-   * @group User - Operations about user
    * @route PUT /user/{id}/
    * @param {integer} id.path.required - user id
    * @param {Users_PUT.model} user.body.required - User's information
@@ -113,7 +73,7 @@ module.exports = (app, models, base, auth) => {
         "Organizer",
         "Artist",
         "User"
-      ])
+      ], 0, req.params.id)
       .then(data => {
         if (data.auth) {
           userControl
@@ -152,7 +112,7 @@ module.exports = (app, models, base, auth) => {
         "Organizer",
         "Artist",
         "User"
-      ])
+      ], 0, req.params.id)
       .then(data => {
         if (data.auth) {
           userControl.userDelete(req.params.id).then(data => {

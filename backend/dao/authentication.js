@@ -40,6 +40,7 @@ decode_token = async token => {
 module.exports = models => {
   const Users_dao = require("./users.js")(models);
   const Roles_dao = require("./roles.js")(models);
+  const Contract_dao = require("./contracts.js")(models);
 
   const Users = models.Users;
   return {
@@ -91,13 +92,103 @@ module.exports = models => {
     compare_password,
     hash_password,
 
-    check_permissions: async (token, permissions) => {
+    check_permissions: async (token, permissions, event_id, user_id) => {
       return decode_token(token)
         .then(id => {
           return Users_dao.userGetOne(id).then(user => {
             return Roles_dao.roleGetOne(user.roleID).then(role => {
+              if(permissions.includes("Admin")){
+                if(permissions.includes(role.dataValues.role_name)){
+                  return {
+                    auth: true,
+                    user: user,
+                    role: role
+                  };
+                }
+              }
+              if(permissions.includes("Organizer")) {
+                if(permissions.includes(role.dataValues.role_name)){
+                  if(event_id !== 0){
+                    Contract_dao.contractGetOne(id, event_id)
+                    .then(contract=> {
+                      if(contract !== null){
+                        return {
+                          auth: true,
+                          user: user,
+                          role: role
+                        };
+                      }
+                    })
+                  } else {
+                    if(user_id === 0) {
+                      return {
+                        auth: true,
+                        user: user,
+                        role: role
+                      }
+                    } else {
+                      if(user_id === id){
+                        return {
+                          auth: true,
+                          user: user,
+                          role: role
+                        };
+                      }
+                    }
+                  }
+                }
+              }
+              if(permissions.includes("Artist")) {
+                if(permissions.includes(role.dataValues.role_name)){
+                  if(user_id === 0 && event_id === 0) {
+                    return {
+                      auth: true,
+                      user: user,
+                      role: role
+                    };
+                  }
+                  if(user_id === id) {
+                    if(event_id === 0){
+                      return {
+                        auth: true,
+                        user: user,
+                        role: role
+                      };
+                    }else {
+                      Contract_dao.contractGetOne(id, event_id)
+                      .then(contract=> {
+                        if(contract !== null){
+                          return {
+                            auth: true,
+                            user: user,
+                            role: role
+                          };
+                        }
+                      })
+                    }
+                  }
+                }
+              }
+              if(permissions.includes("User")) {
+                if(permissions.includes(role.dataValues.role_name)){
+                  if(user_id !== 0 && user_id === id){
+                    return {
+                      auth: true,
+                      user: user,
+                      role: role
+                    };
+                  }
+                  if(user_id === 0){
+                    return {
+                      auth: true,
+                      user: user,
+                      role: role
+                    };
+                  }
+                }
+              }
               return {
-                auth: permissions.includes(role.dataValues.role_name),
+                auth: false,
                 user: user,
                 role: role
               };
@@ -110,3 +201,10 @@ module.exports = models => {
     }
   };
 };
+
+// "Admin", "Organizer", "Artist", "User"
+// return {
+//   auth: permissions.includes(role.dataValues.role_name),
+//   user: user,
+//   role: role
+// };
