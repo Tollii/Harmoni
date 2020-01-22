@@ -20,7 +20,6 @@ const SimpleMap = (props: any) => {
           return response.json.results[0].geometry.location;
         })
         .catch((err: any) => {
-          console.log(err);
         });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -58,7 +57,6 @@ const SimpleMap = (props: any) => {
   return (
     <GoogleMapReact
       bootstrapURLKeys={{ key: "AIzaSyBpqnFSmQNK7VBnEm521CwPGs8zBkB-SQY" }}
-      defaultCenter={center}
       center={center}
       defaultZoom={props.zoom}
       options={{

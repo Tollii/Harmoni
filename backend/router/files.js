@@ -50,7 +50,7 @@ module.exports = (app, models, auth) => {
    * @group Files - operations about files
    * @route POST /image/profile/
    * @param {string} token.header.required - token
-   * @param {file} name.formData.required - name
+   * @param {file} image.formData.required - name
    * @returns {object} 200 - ok
    * @returns {error} default - unexpected error
    */
@@ -61,8 +61,8 @@ module.exports = (app, models, auth) => {
       let profilePicture = req.files.image;
       let id = await auth.decode_token(req.headers.token);
       let user = await userControl.userGetOne(id);
-      let splitName = profilePicture.name.split('.');
-      if (req.files.mimetype.split('/') == 'image') {
+      let splitName = profilePicture.name.split(".");
+      if (profilePicture.mimetype.split('/')[0] == 'image') {
         profilePicture.name = id + '_' + user.username + '.' + splitName[splitName.length - 1];
         userControl.userUpdate(id, user.username, user.email, user.phone, profilePicture.name);
         profilePicture.mv(profilePicturesFolder + profilePicture.name, function (err) {
@@ -70,7 +70,7 @@ module.exports = (app, models, auth) => {
             return res.sendStatus(500).send(err);
           }
           res.send(profilePicture.name);
-        });
+        });console.log(req.files)
       } else {
         res.status(400).send("Invalid filetype");
       }

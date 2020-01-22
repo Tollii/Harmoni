@@ -103,18 +103,22 @@ export default (props: any) => {
     Authentication.getAuth().then((role: any) => {
       setRole(role);
     });
-  }, []);
+  }, [props.event]);
+
   useEffect(() => {
+    EventService.getEventVolunteer(props.event).then((data: boolean) => {
+      setVolunteer(data);
+    });
     EventService.getEventIsVolunteer(props.event).then((data: boolean) => {
       setIsVolunteer(data);
     });
     EventService.getEventVolunteerAdmin(props.event).then((volunteers: any) => {
-      console.log(volunteers);
       if (volunteers.count > 0) {
         setState(state => ({ ...state, data: volunteers.rows }));
       }
     });
-  }, [props.event]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.event, role]);
 
   return (
     <div>
@@ -147,7 +151,6 @@ export default (props: any) => {
                 variant="contained"
                 color="primary"
                 onClick={() => {
-                  console.log("quit not");
                   EventService.postEventVolunteer(props.event).then(
                     (data: any) => {
                       setIsVolunteer(true);
