@@ -4,13 +4,12 @@ import {
   Button,
   Card,
   Grid,
-  Link,
   Typography,
   MenuProps,
   Menu,
   MenuItem,
   ListItemIcon,
-  ListItemText
+  ListItemText, ListItem
 } from "@material-ui/core";
 import {
   createStyles,
@@ -35,6 +34,8 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AlertDialog from "../../components/AlertDialog/AlertDialog";
 import Map from "../../components/Map/simpleMap";
+import {Link} from "react-router-dom";
+
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -192,7 +193,7 @@ export default (props: any) => {
     setAnchorEl(null);
   };
 
-  const role: number = 3; /**Her skal Zaim sin supermetode inn */
+  const role: number = 2; /**Her skal Zaim sin supermetode inn */
 
   return (
     <div style={{ overflow: "hidden" }}>
@@ -297,7 +298,6 @@ export default (props: any) => {
                 values.end.toTimeString().substring(0, 5)}
             </p>
           </Typography>
-          <Link href="#">Add to calender</Link>
           <Typography className={classes.smallTitle} variant="h6" gutterBottom>
             Location:
           </Typography>
@@ -347,13 +347,16 @@ export default (props: any) => {
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                   >
+                    <Link to={"/artist/editRider/" + props.match.params.id}>
                     <StyledMenuItem>
                       <ListItemIcon>
                         <SettingsIcon fontSize="small" />
                       </ListItemIcon>
-                      <ListItemText primary="Edit rider" />
+                      <ListItem>
+                        <ListItemText primary="Edit rider"/>
+                      </ListItem>
                     </StyledMenuItem>
-
+                    </Link>
                     <StyledMenuItem>
                       <ListItemIcon>
                         <DescriptionIcon fontSize="small" />
