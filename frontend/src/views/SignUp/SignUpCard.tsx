@@ -16,21 +16,10 @@ const useStyles = makeStyles({
     minWidth: "250px"
   },
 
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)"
-  },
   title: {
     marginLeft: "auto",
     marginRight: "auto",
     marginBottom: "20px"
-  },
-  pos: {
-    marginBottom: 12
-  },
-  notchedOutline: {
-    borderRadius: 0
   }
 });
 
@@ -51,10 +40,9 @@ export default (props: any) => {
   );
 
   function submit() {
-
     const pattern = /.+@[a-z1-9]+.[a-z]+/;
     const check = values.email.match(pattern);
-    if(check && values.password && values.fullName && values.telephone) {
+    if (check && values.password && values.fullName && values.telephone) {
       console.log("Submitted form");
       Authentication.signUp({
         email: values.email.toLowerCase(),
@@ -66,7 +54,10 @@ export default (props: any) => {
   }
 
   return (
-    <Card width={"80%"} style={{ minWidth: "250px", maxWidth: "450px" }}>
+    <Card
+      width={"80%"}
+      style={{ marginTop: "10%", minWidth: "250px", maxWidth: "450px" }}
+    >
       <Grid container className={classes.grid}>
         <CardContent>
           <Grid container justify="center" direction="row">
@@ -75,69 +66,88 @@ export default (props: any) => {
             </Typography>
           </Grid>
           <form onSubmit={handleSubmit} noValidate>
-            {errors.email && <Typography>{errors.email}</Typography>}
+            <Grid container justify="center" direction="row">
+              {errors.email && (
+                <Typography color="error">{errors.email}</Typography>
+              )}
 
-            <InputField
-              name="email"
-              label="Email"
-              type="text"
-              required={true}
-              value={values.email}
-              onChange={handleChange}
-            />
-            {errors.emailConfirmed && (
-              <Typography>{errors.emailConfirmed}</Typography>
-            )}
+              <InputField
+                name="email"
+                label="Email"
+                type="text"
+                required={true}
+                value={values.email}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid container justify="center" direction="row">
+              {errors.emailConfirmed && (
+                <Typography color="error">{errors.emailConfirmed}</Typography>
+              )}
 
-            <InputField
-              name="emailConfirmed"
-              label="Confirm email"
-              type="text"
-              required={true}
-              value={values.emailConfirmed}
-              onChange={handleChange}
-            />
-            {errors.password && <Typography>{errors.password}</Typography>}
+              <InputField
+                name="emailConfirmed"
+                label="Confirm email"
+                type="text"
+                required={true}
+                value={values.emailConfirmed}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid container justify="center" direction="row">
+              {errors.password && (
+                <Typography color="error">{errors.password}</Typography>
+              )}
 
-            <InputField
-              name="password"
-              label="Password"
-              autoComplete="current-password"
-              value={values.password}
-              onChange={handleChange}
-            />
-            {errors.passwordConfirmed && (
-              <Typography>{errors.passwordConfirmed}</Typography>
-            )}
+              <InputField
+                name="password"
+                label="Password"
+                autoComplete="current-password"
+                value={values.password}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid container justify="center" direction="row">
+              {errors.passwordConfirmed && (
+                <Typography color="error">
+                  {errors.passwordConfirmed}
+                </Typography>
+              )}
+              <InputField
+                name="passwordConfirmed"
+                label="Password"
+                autoComplete="current-password"
+                value={values.passwordConfirmed}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid container justify="center" direction="row">
+              {errors.fullName && (
+                <Typography color="error">{errors.fullName}</Typography>
+              )}
 
-            <InputField
-              name="passwordConfirmed"
-              label="Password"
-              autoComplete="current-password"
-              value={values.passwordConfirmed}
-              onChange={handleChange}
-            />
-            {errors.fullName && <Typography>{errors.fullName}</Typography>}
+              <InputField
+                name="fullName"
+                label="Full name"
+                type="text"
+                required={true}
+                value={values.fullName}
+                onChange={handleChange}
+              />
+              {errors.telephone && (
+                <Typography color="error">{errors.telephone}</Typography>
+              )}
 
-            <InputField
-              name="fullName"
-              label="Full name"
-              type="text"
-              required={true}
-              value={values.fullName}
-              onChange={handleChange}
-            />
-            {errors.telephone && <Typography>{errors.telephone}</Typography>}
-
-            <InputField
-              name="telephone"
-              label="Telephone"
-              type="text"
-              pattern="[0-9]*"
-              required={true}
-              value={values.telephone}
-              onChange={handleChange}
-            />
+              <InputField
+                name="telephone"
+                label="Telephone"
+                type="numeric"
+                pattern="[0-9]*"
+                required={true}
+                value={values.telephone}
+                onChange={handleChange}
+              />
+            </Grid>
             <Grid container direction="row" justify="space-between">
               <Button onClick={() => (window.location.hash = "/login")}>
                 Already have a user?
