@@ -1,7 +1,6 @@
 import React from 'react';
 import {
     Button,
-    TextField,
     Dialog,
     DialogTitle,
     DialogActions,
@@ -13,21 +12,14 @@ import {
     Theme,
     Typography
 } from '@material-ui/core';
-import Autocomplete, {createFilterOptions} from '@material-ui/lab/Autocomplete';
 import MailingService from "../../service/mailing";
 import InputField from "../InputField/InputField";
 import useForm from "../../service/Form/useForm";
 import validateSignUp from "../../service/Form/Validate";
-import {Simulate} from "react-dom/test-utils";
 
 interface FeedbackOptionType {
     item: string;
 }
-
-const filterOptions = createFilterOptions({
-    matchFrom: 'start',
-    stringify: (option: FeedbackOptionType) => option.item,
-});
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -49,11 +41,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function(props: any) {
     const classes = useStyles();
-    const defaultProps = {
-        style: {
-            marginTop: 0,
-        },
-    };
 
 
     const submitButton = () => {
@@ -64,7 +51,7 @@ export default function(props: any) {
     };
 
     let submit = "";
-    const { handleChange, handleSubmit, values, errors } = useForm(
+    const { handleChange, values } = useForm(
         submit,
         {
             text: "",
