@@ -23,6 +23,7 @@ const SimpleMap = (props: any) => {
           console.log(err);
         });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -51,6 +52,7 @@ const SimpleMap = (props: any) => {
     if (props.center) {
       findCenter(props.center).then((x: any) => setCenter(x));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.center]);
 
   return (
