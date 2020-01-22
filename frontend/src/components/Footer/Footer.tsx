@@ -14,7 +14,7 @@ const useStyles = makeStyles({
     textAlign: "center",
     margin: "auto",
     marginTop: "20px",
-    zIndex: 200
+    zIndex: 9999,
   },
   icons: {
     margin: "20px auto"
