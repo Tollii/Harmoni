@@ -122,6 +122,7 @@ export default function(props: any) {
         );
 
         ridersArray.push({
+            eventID: parseInt(props.match.params.eventID),
             rider_typeID: 1,
             userID: parseInt(props.match.params.userID),
             additions: event.target.value
