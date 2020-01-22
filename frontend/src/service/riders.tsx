@@ -95,6 +95,19 @@ class RiderService {
         )
         .then((response: { data: JSON }) => console.log(response));
   }
+
+  deleteRidersForArtist(event_id: number, user_id: number) {
+    axios
+        .delete(
+            url +
+            "event/" +
+            event_id +
+            "/user/" +
+            user_id,
+            { headers: { token: token } }
+        )
+        .then((response: { data: JSON }) => console.log(response));
+  }
 }
 
 export default new RiderService();
