@@ -229,7 +229,8 @@ export default (props: any) => {
         targetName === "name" ||
         targetName === "description" ||
         targetName === "location" ||
-        targetName === "personnel"
+        targetName === "personnel" ||
+        targetName === "volunteers"
       ) {
         setEdit({ ...edit, editGeneral: true });
       }
@@ -302,6 +303,7 @@ export default (props: any) => {
             event_start: dateStart + " " + timeStart,
             event_end: dateEnd + " " + timeEnd,
             personnel: values.personnel,
+            volunteers: values.volunteers,
             description: values.description,
             event_typeID: values.eventTypeId
           },
@@ -313,9 +315,11 @@ export default (props: any) => {
           });
       }
       if (edit.editEventImage) {
-        FileService.postEventPicture(values.eventImage, props.match.params.id)
-          .then(() => null)
-          .catch((err: any) => console.log(err));
+        setTimeout(function() {
+          FileService.postEventPicture(values.eventImage, props.match.params.id)
+            .then(() => null)
+            .catch((err: any) => console.log(err));
+        }, 1000);
       }
       if (edit.editTicket) {
         EventService.deleteEventTickets(props.match.params.id).then(() => {
