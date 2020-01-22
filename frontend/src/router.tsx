@@ -16,10 +16,6 @@ import ForgotPassword from "./views/ForgotPassword/ForgotPassword";
 import ForgotForm from "./views/ForgotPassword/ForgotForm";
 import EditRidersForArtist from "./views/EditRidersForArtist/EditRidersForArtist";
 
-
-const useStyles = makeStyles({
-});
-
 export default () => {
   const [loggedIn, setLoggedIn] = React.useState(getCookie("token"));
 

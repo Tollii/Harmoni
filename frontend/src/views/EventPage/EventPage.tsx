@@ -19,6 +19,8 @@ import {
 } from "@material-ui/core/styles";
 import EventService from "../../service/events";
 import TicketService from "../../service/tickets";
+import UserService from "../../service/users";
+import ContractService from "../../service/contracts"
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -146,7 +148,6 @@ export default (props: any) => {
     EventService.getArtists(props.match.params.id).then((response: any) =>
       setArtists(response)
     );
-  }, [props.match.params.id]);
     let artists: any = [];
     UserService.getAllUsers().then((allUsers: any) => {
       console.log(allUsers);
@@ -165,7 +166,7 @@ export default (props: any) => {
         setArtists(artists);
       });
     });
-  }, []);
+  }, [props.match.params.id]);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -309,59 +310,6 @@ export default (props: any) => {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item style={{ margin: "auto" }}>
-              {role == 1 && (
-                <Button
-                  style={{ fontSize: "1.5vw" }}
-                  variant="contained"
-                  color="primary"
-                >
-                  Register
-                </Button>
-              )}
-              {role ==
-                2 /**om man er artist skal man kun få se kontrakt og endre rider */ && (
-                <div>
-                  <Button
-                    aria-controls="customized-menu"
-                    aria-haspopup="true"
-                    onClick={handleClick}
-                    style={{ fontSize: "1.5vw" }}
-                    variant="contained"
-                    color="primary"
-                  >
-                    Settings
-                  </Button>
-                  <StyledMenu
-                    id="customized-menu"
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}
-                  >
-                    <Link to={"/artist/editRider/" + props.match.params.id}>
-                    <StyledMenuItem>
-                      <ListItemIcon>
-                        <SettingsIcon fontSize="small" />
-                      </ListItemIcon>
-                      <ListItem>
-                        <ListItemText primary="Edit rider"/>
-                      </ListItem>
-                    </StyledMenuItem>
-                    </Link>
-                    <StyledMenuItem>
-                      <ListItemIcon>
-                        <DescriptionIcon fontSize="small" />
-                      </ListItemIcon>
-                      <ListItemText primary="See contract" />
-                    </StyledMenuItem>
-                  </StyledMenu>
-                </div>
-              )}
-              {(role == 3 ||
-                role ==
-                  4) /**om man har rolle 3/4(arrang/admin) skal man få knapp med alt */ && (
-                <div>
             <Grid item lg={6} sm={12} xs={6}>
               <DropDownButton event={values.id} />
             </Grid>
