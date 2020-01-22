@@ -95,12 +95,6 @@ class EventService {
       .then((response: { data: JSON }) => response.data);
   }
 
-  updateArchive() {
-    return axios
-      .put(process.env.REACT_APP_API_URL + "/event_archive")
-      .then((response: { data: JSON }) => response.data);
-  }
-
   updateArchiveOne(id: number) {
     return axios
       .put(process.env.REACT_APP_API_URL + "/event_archive/" + id, {
