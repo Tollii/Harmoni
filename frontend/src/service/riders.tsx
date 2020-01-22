@@ -24,6 +24,20 @@ class RiderService {
       .then((response: { data: JSON }) => response.data);
   }
 
+  getRidersForArtist(event_id: number, user_id: number) {
+    console.log(event_id + " " + user_id);
+    return axios
+        .get(
+            process.env.REACT_APP_API_URL +
+            "event/" +
+            event_id +
+            "/user/" +
+            user_id ,
+            { headers: { token: token } }
+        )
+        .then((response: { data: JSON }) => response.data);
+  }
+
   getRider(rider_type_id: number, event_id: number, token: string) {
     return axios
       .get(
@@ -58,7 +72,7 @@ class RiderService {
         rider,
         { headers: { token: token } }
       )
-      .then((response: { data: JSON }) => console.log(response));
+      .then((response: { data: JSON }) => response);
   }
 
   deleteRider(event_id: number) {
@@ -67,6 +81,19 @@ class RiderService {
         headers: { token: token }
       })
       .then((response: { data: JSON }) => console.log(response));
+  }
+
+  deleteRidersForArtist(event_id: number, user_id: number) {
+    axios
+        .delete(
+            url +
+            "event/" +
+            event_id +
+            "/user/" +
+            user_id,
+            { headers: { token: token } }
+        )
+        .then((response: { data: JSON }) => console.log(response));
   }
 }
 
