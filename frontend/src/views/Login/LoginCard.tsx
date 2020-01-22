@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "../../components/Card/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -10,7 +10,6 @@ import useForm from "../../service/Form/useForm";
 import { validateLogin } from "../../service/Form/Validate";
 import Authentication from "../../service/Authentication";
 import { Link } from "react-router-dom";
-var loginError: boolean = false;
 const useStyles = makeStyles({
 
   title: {
@@ -46,12 +45,13 @@ export default (props: any) => {
     },
     validateLogin
   );
+  const [loginError, setError] = useState(false);
 
   function submit() {
     const pattern = /.+@[a-z1-9]+.[a-z]+/;
     const check = values.email.match(pattern);
+
     if (check && values.password) {
-      console.log("Submitting form");
       const now = new Date();
       now.setTime(now.getTime() + 1 * 3600 * 1000);
       Authentication.getLogin({
@@ -64,7 +64,7 @@ export default (props: any) => {
           props.logFunc(true);
         })
         .catch((err: any) => {
-          loginError = true;
+          setError(true);
         });
     }
   }
@@ -81,26 +81,31 @@ export default (props: any) => {
           <CardContent className={classes.cardContent}>
             <form onSubmit={handleSubmit} noValidate>
               {errors.email && <Typography>{errors.email}</Typography>}
-              <Grid item xs={12}>
-                <InputField
-                    name="email"
-                    label="Email"
-                    type="text"
-                    value={values.email}
-                    onChange={handleChange}
-                />
-                {errors.password && <Typography>{errors.password}</Typography>}
-              </Grid>
-              <Grid item xs={12}>
-                <InputField
-                    name="password"
-                    label="Password"
-                    autoComplete="current-password"
-                    value={values.password}
-                    onChange={handleChange}
-                />
-                <div>{loginError ? <h4 className={classes.errormessage}>Invalid email or password</h4> : null }</div>
-              </Grid>
+
+              <InputField
+                name="email"
+                label="Email"
+                type="text"
+                value={values.email}
+                onChange={handleChange}
+              />
+              {errors.password && <Typography>{errors.password}</Typography>}
+
+              <InputField
+                name="password"
+                label="Password"
+                autoComplete="current-password"
+                value={values.password}
+                onChange={handleChange}
+              />
+              <div>
+                {loginError ? (
+                  <h4 className={classes.errormessage}>
+                    Invalid email or password
+                  </h4>
+                ) : null}
+              </div>
+
               <Grid container direction="row" justify="space-between">
                 <Link className={classes.link} to="/forgot">
                   <Button>Forgot password?</Button>
