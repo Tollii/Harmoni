@@ -12,21 +12,27 @@ import Authentication from "../../service/Authentication";
 import { Link } from "react-router-dom";
 var loginError: boolean = false;
 const useStyles = makeStyles({
-  grid: {
-    maxWidth: "450px",
-    minWidth: "250px"
-  },
+
   title: {
     marginLeft: "auto",
     marginRight: "auto",
     marginBottom: "20px"
   },
-
-  errormessage: {
-    float: "right"
+  errormessage:{
+    float:"right"
   },
-  content: {
-    margin: "auto auto "
+  custom: {
+    minWidth: "250px",
+    maxWidth: "450px",
+    marginTop: "20px",
+    margin: "auto"
+  },
+  cardContent: {
+    width: '400px',
+    marginLeft: '1.5vw'
+  },
+  link: {
+    color: 'red',
   }
 });
 
@@ -64,66 +70,47 @@ export default (props: any) => {
   }
 
   return (
-    <Card
-      width={"80%"}
-      style={{ marginTop: "10%", minWidth: "250px", maxWidth: "450px" }}
-    >
-      <Grid container className={classes.grid}>
-        <CardContent className={classes.content}>
-          <Grid container justify="center" direction="row">
-            <Typography className={classes.title} variant="h3" align="center">
-              Login
-            </Typography>
-          </Grid>
-          <form onSubmit={handleSubmit} noValidate>
-            <Grid container justify="center" direction="row">
-              <Grid container justify="center" direction="row">
-                {errors.email && (
-                  <Typography color="error">{errors.email}</Typography>
-                )}
+    <div className={classes.custom}>
+      <Card>
+        <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography className={classes.title} variant="h3" align="center">
+                Login
+              </Typography>
+            </Grid>
+          <CardContent className={classes.cardContent}>
+            <form onSubmit={handleSubmit} noValidate>
+              {errors.email && <Typography>{errors.email}</Typography>}
+              <Grid item xs={12}>
+                <InputField
+                    name="email"
+                    label="Email"
+                    type="text"
+                    value={values.email}
+                    onChange={handleChange}
+                />
+                {errors.password && <Typography>{errors.password}</Typography>}
               </Grid>
-
-              <InputField
-                name="email"
-                label="Email"
-                type="text"
-                value={values.email}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid container justify="center" direction="row">
-              <Grid container justify="center" direction="row">
-                {errors.password && (
-                  <Typography color="error">{errors.password}</Typography>
-                )}
+              <Grid item xs={12}>
+                <InputField
+                    name="password"
+                    label="Password"
+                    autoComplete="current-password"
+                    value={values.password}
+                    onChange={handleChange}
+                />
+                <div>{loginError ? <h4 className={classes.errormessage}>Invalid email or password</h4> : null }</div>
               </Grid>
-              <InputField
-                name="password"
-                label="Password"
-                autoComplete="current-password"
-                value={values.password}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid container justify="center" direction="row">
-              <div>
-                {loginError ? (
-                  <Typography color="error" className={classes.errormessage}>
-                    Invalid email or password
-                  </Typography>
-                ) : null}
-              </div>
-            </Grid>
-
-            <Grid container direction="row" justify="space-between">
-              <Link to="/forgot" style={{ textDecoration: "none" }}>
-                <Button>Forgot password?</Button>
-              </Link>
-              <Button type="submit">Log in</Button>
-            </Grid>
-          </form>
-        </CardContent>
-      </Grid>
-    </Card>
+              <Grid container direction="row" justify="space-between">
+                <Link className={classes.link} to="/forgot">
+                  <Button>Forgot password?</Button>
+                </Link>
+                <Button type="submit">Log in</Button>
+              </Grid>
+            </form>
+          </CardContent>
+        </Grid>
+      </Card>
+    </div>
   );
 };
