@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
         form: {
             '& .MuiTextField-root': {
                 margin: theme.spacing(3),
-                width: '40vw',
+                width: '20vw',
             },
         },
         feedback: {
