@@ -14,7 +14,7 @@ module.exports = (app, models, base, auth) => {
    * @returns {Error} defauls - Unexpected error
    */
   app.get(base, (req, res) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"], 0, 0)
     .then(data => {
       if(data.auth){
         event_typesControl.event_typesGetAll().then(data => {
@@ -36,7 +36,7 @@ module.exports = (app, models, base, auth) => {
    * @returns {Error} defauls - Unexpected error
    */
   app.get(base + "/:id", (req, res) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"], 0, 0)
     .then(data => {
       if(data.auth){
         event_typesControl.event_typesGetOne(req.params.id).then(data => {

@@ -119,10 +119,18 @@ module.exports = (app, models, base, auth) => {
    * @returns {Error}  default - Unexpected error
    */
   app.get(base + "/user/all", async (req, res) => {
-    let id = await auth.decode_token(req.headers.token);
-    eventControl.eventGetByUser(id).then(data => {
-      res.send(data);
-    });
+    auth
+    .check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"], 0, 0)
+    .then(data => {
+      if (data.auth) {
+        eventControl.eventGetByUser(data.user.dataValues.id).then(data => {
+          res.send(data);
+        });
+      } else {
+        res.status(400).send("Not authenticated");
+      }
+    })
+    .catch(err => res.status(400).send(err));
   });
 
   /**
@@ -148,7 +156,7 @@ module.exports = (app, models, base, auth) => {
    */
   app.get(base + "/contract/:event_id", (req, res) => {
     auth
-      .check_permissions(req.headers.token, ["Admin", "Organizer"])
+      .check_permissions(req.headers.token, ["Admin", "Organizer"], req.params.event_id, 0)
       .then(data => {
         if (data.auth) {
           contractControl
@@ -174,7 +182,7 @@ module.exports = (app, models, base, auth) => {
    */
   app.delete(base + "/:id", (req, res) => {
     auth
-      .check_permissions(req.headers.token, ["Admin", "Organizer"])
+      .check_permissions(req.headers.token, ["Admin", "Organizer"], req.params.event_id, 0)
       .then(data => {
         if (data.auth) {
           eventControl.eventDelete(req.params.id).then(data => {
@@ -198,7 +206,7 @@ module.exports = (app, models, base, auth) => {
    */
   app.put(base + "/:id", (req, res) => {
     auth
-      .check_permissions(req.headers.token, ["Admin", "Organizer"])
+      .check_permissions(req.headers.token, ["Admin", "Organizer"], req.params.event_id, 0)
       .then(data => {
         if (data.auth) {
           eventControl
@@ -271,7 +279,7 @@ module.exports = (app, models, base, auth) => {
    */
   app.post(base, (req, res) => {
     auth
-      .check_permissions(req.headers.token, ["Admin", "Organizer"])
+      .check_permissions(req.headers.token, ["Admin", "Organizer"], 0, 0)
       .then(data => {
         if (data.auth) {
           eventControl
@@ -346,7 +354,7 @@ module.exports = (app, models, base, auth) => {
    */
 
   app.post(base + "/:event_id/volunteers/", (req, res) => {
-    auth.check_permissions(req.headers.token, ["User"]).then(data => {
+    auth.check_permissions(req.headers.token, ["User"], 0, 0).then(data => {
       if (data.auth) {
         eventControl
           .eventGetOne(req.params.event_id)
@@ -416,46 +424,18 @@ module.exports = (app, models, base, auth) => {
 
   app.get(base + "/:event_id/volunteers/admin/", (req, res) => {
     auth
-      .check_permissions(req.headers.token, ["Admin", "Organizer"])
+      .check_permissions(req.headers.token, ["Admin", "Organizer"], req.params.event_id, 0)
       .then(data => {
         if (data.auth) {
           eventControl
             .eventGetOne(req.params.event_id)
             .then(event => {
-              if (data.role.dataValues.role_name == "Organizer") {
-                contractControl
-                  .contractGetOne(data.user.dataValues.id, req.params.event_id)
-                  .then(contract => {
-                    if (contract == null) {
-                      res.status(400).send("Not authorized");
-                    } else {
-                      contractControl
-                        .getContractVolunteersPerEvent(req.params.event_id)
-                        .then(contracts => {
-                          res.status(200).send(contracts);
-                        })
-                        .catch(err => {
-                          res.status(400).send("Volunteers not found");
-                        });
-                    }
-                  })
-                  .catch(err => {
-                    res.status(400).send(err);
-                  });
-              } else {
-                contractControl
-                  .getContractVolunteersPerEvent(req.params.event_id)
-                  .then(contracts => {
-                    res.status(200).send(contracts);
-                  })
-                  .catch(err => {
-                    res.status(400).send("Volunteers not found");
-                  });
-              }
+            contractControl
+              .getContractVolunteersPerEvent(req.params.event_id)
+              .then(contracts => {
+                res.status(200).send(contracts);
+              })
             })
-            .catch(err => {
-              res.status(400).send("Event not round");
-            });
         } else {
           res.status(400).send("Not authenticated");
         }
@@ -472,7 +452,7 @@ module.exports = (app, models, base, auth) => {
    */
   app.get(base + "/:event_id/volunteers/signed/", (req, res) => {
     auth
-      .check_permissions(req.headers.token, ["Admin", "Organizer", "User"])
+      .check_permissions(req.headers.token, ["User"], 0, 0)
       .then(data => {
         if (data.auth) {
           eventControl
@@ -511,7 +491,7 @@ module.exports = (app, models, base, auth) => {
    */
   app.delete(base + "/:event_id/volunteers/", (req, res) => {
     auth
-      .check_permissions(req.headers.token, ["Admin", "Organizer", "User"])
+      .check_permissions(req.headers.token, ["Admin", "Organizer", "User"], req.params.event_id, req.params.id)
       .then(data => {
         if (data.auth) {
           eventControl
@@ -545,7 +525,7 @@ module.exports = (app, models, base, auth) => {
    */
   app.delete(base + "/:event_id/tickets/", (req, res) => {
     auth
-      .check_permissions(req.headers.token, ["Admin", "Organizer"])
+      .check_permissions(req.headers.token, ["Admin", "Organizer"], req.params.event_id, 0)
       .then(data => {
         if (data.auth) {
           eventControl
