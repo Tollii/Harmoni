@@ -22,7 +22,7 @@ module.exports = (app, models, base, auth) => {
   */
   app.get(base, (req, res) => {
     console.log(req.headers);
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer"])
+    auth.check_permissions(req.headers.token, ["Admin"], 0, 0)
     .then(data => {
       console.log(data);
       if(data.auth){
@@ -46,7 +46,7 @@ module.exports = (app, models, base, auth) => {
   */
   app.get(base + "/event/:eventID", (req, res) => {
     console.log(req.headers);
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer"], req.params.eventID, 0)
     .then(data => {
       console.log(data);
       if(data.auth){
@@ -96,7 +96,7 @@ module.exports = (app, models, base, auth) => {
   * @returns {Error}  default - Unexpected error
   */
   app.get(base+"/rider_type/:rider_type_id/event/:event_id/user/:user_id/", (req, res) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"], req.params.event_id, req.params.user_id)
     .then(data => {
       if(data.auth){
         ridersControl.riderGetOne(
@@ -123,10 +123,9 @@ module.exports = (app, models, base, auth) => {
   * @returns {Error}  default - Unexpected error
   */
   app.post(base, (req, res) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"], req.body.eventID, req.body.userID)
     .then(data => {
       if(data.auth){
-        if(["Admin", "Organizer"].includes(data.role.dataValues.role_name)){
           ridersControl.riderCreate(
             req.body.additions,
             req.body.rider_typeID,
@@ -136,26 +135,9 @@ module.exports = (app, models, base, auth) => {
           .then((data)=>{
             res.send(data)
           })
-        } else if (["Artist"].includes(data.role.dataValues.role_name)){
-          if(data.user.dataValues.id === req.body.userID){
-            ridersControl.riderCreate(
-              req.body.additions,
-              req.body.rider_typeID,
-              req.body.eventID,
-              req.body.userID,
-            )
-            .then((data)=>{
-              res.send(data)
-            })
-          } else {
-            res.status(400).send("Can't edit riders that are not yours")
-          }
         } else {
           res.status(400).send("Not authenticated")
         }
-      } else {
-        res.status(400).send("Not authenticated")
-      }
     })
     .catch(err => console.log(err))
   });
@@ -172,7 +154,7 @@ module.exports = (app, models, base, auth) => {
   * @returns {Error}  default - Unexpected error
   */
   app.put(base+"/rider_type/:rider_type_id/event/:event_id/user/:user_id/", (req, res) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"], req.params.event_id, req.params.user_id)
     .then(data => {
       if(data.auth){
         ridersControl.riderUpdate(
@@ -203,7 +185,7 @@ module.exports = (app, models, base, auth) => {
   * @returns {Error}  default - Unexpected error
   */
   app.delete(base+"/event/:event_id/", (req, res) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"], req.params.event_id, req.params.user_id)
     .then(data => {
       if(data.auth){
         ridersControl.riderDelete(
