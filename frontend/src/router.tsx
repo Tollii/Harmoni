@@ -14,6 +14,11 @@ import Contract from "./views/Contract/Contract";
 import EventList from "./views/EventList/EventList";
 import ForgotPassword from "./views/ForgotPassword/ForgotPassword";
 import ForgotForm from "./views/ForgotPassword/ForgotForm";
+import EditRidersForArtist from "./views/EditRidersForArtist/EditRidersForArtist";
+
+
+const useStyles = makeStyles({
+});
 
 export default () => {
   const [loggedIn, setLoggedIn] = React.useState(getCookie("token"));
@@ -121,6 +126,12 @@ export default () => {
           path="/forgot"
           render={(props: any) => <ForgotForm {...props} />}
         />
+        <Route
+          exact
+          path="/artist/editRider/:eventID/user/:userID"
+          render={(props:any) =>
+            <EditRidersForArtist {...props} isAuth={AuthenticationService.getAuth}  />}
+          />
       </div>
       <Footer />
     </HashRouter>

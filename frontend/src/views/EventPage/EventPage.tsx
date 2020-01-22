@@ -1,6 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Card, Grid, Typography } from "@material-ui/core";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import {
+  Box,
+  Button,
+  Card,
+  Grid,
+  Typography,
+  MenuProps,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  ListItemText, ListItem
+} from "@material-ui/core";
+import {
+  createStyles,
+  makeStyles,
+  Theme,
+  withStyles
+} from "@material-ui/core/styles";
 import EventService from "../../service/events";
 import TicketService from "../../service/tickets";
 import Table from "@material-ui/core/Table";
@@ -13,6 +29,9 @@ import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
 import Map from "../../components/Map/simpleMap";
 import DropDownButton from "../../components/Button/DropDownButton";
+import {Link} from "react-router-dom";
+
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -128,6 +147,36 @@ export default (props: any) => {
       setArtists(response)
     );
   }, [props.match.params.id]);
+    let artists: any = [];
+    UserService.getAllUsers().then((allUsers: any) => {
+      console.log(allUsers);
+      ContractService.getContracts().then((allContracts: any) => {
+        console.log(allContracts);
+        allContracts
+          .filter(
+            (contract: any) =>
+              contract.eventID === parseInt(props.match.params.id)
+          )
+          .map((contract: any) => {
+            artists.push(
+              allUsers.find((user: any) => user.id === contract.userID)
+            );
+          });
+        setArtists(artists);
+      });
+    });
+  }, []);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const role: number = 2; /**Her skal Zaim sin supermetode inn */
 
   return (
     <div style={{ overflow: "hidden" }}>
@@ -260,6 +309,59 @@ export default (props: any) => {
                 </Grid>
               </Grid>
             </Grid>
+            <Grid item style={{ margin: "auto" }}>
+              {role == 1 && (
+                <Button
+                  style={{ fontSize: "1.5vw" }}
+                  variant="contained"
+                  color="primary"
+                >
+                  Register
+                </Button>
+              )}
+              {role ==
+                2 /**om man er artist skal man kun få se kontrakt og endre rider */ && (
+                <div>
+                  <Button
+                    aria-controls="customized-menu"
+                    aria-haspopup="true"
+                    onClick={handleClick}
+                    style={{ fontSize: "1.5vw" }}
+                    variant="contained"
+                    color="primary"
+                  >
+                    Settings
+                  </Button>
+                  <StyledMenu
+                    id="customized-menu"
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                  >
+                    <Link to={"/artist/editRider/" + props.match.params.id}>
+                    <StyledMenuItem>
+                      <ListItemIcon>
+                        <SettingsIcon fontSize="small" />
+                      </ListItemIcon>
+                      <ListItem>
+                        <ListItemText primary="Edit rider"/>
+                      </ListItem>
+                    </StyledMenuItem>
+                    </Link>
+                    <StyledMenuItem>
+                      <ListItemIcon>
+                        <DescriptionIcon fontSize="small" />
+                      </ListItemIcon>
+                      <ListItemText primary="See contract" />
+                    </StyledMenuItem>
+                  </StyledMenu>
+                </div>
+              )}
+              {(role == 3 ||
+                role ==
+                  4) /**om man har rolle 3/4(arrang/admin) skal man få knapp med alt */ && (
+                <div>
             <Grid item lg={6} sm={12} xs={6}>
               <DropDownButton event={values.id} />
             </Grid>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   Grid,
+  Typography,
   MenuProps,
   Menu,
   MenuItem,
@@ -191,13 +192,14 @@ export default (props: any) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
+                <Link to={"/artist/editRider/" + 10 + "/" + 21}>
                 <StyledMenuItem>
                   <ListItemIcon>
                     <SettingsIcon fontSize="small" />
                   </ListItemIcon>
                   <ListItemText primary="Edit rider" />
                 </StyledMenuItem>
-
+              </Link>
                 <StyledMenuItem
                   onClick={() => window.open(contractUrl, "_blank")}
                 >
