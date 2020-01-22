@@ -15,6 +15,7 @@ import EventList from "./views/EventList/EventList";
 import ForgotPassword from "./views/ForgotPassword/ForgotPassword";
 import ForgotForm from "./views/ForgotPassword/ForgotForm";
 
+
 export default () => {
   const [loggedIn, setLoggedIn] = React.useState(getCookie("token"));
 
@@ -22,9 +23,11 @@ export default () => {
     setLoggedIn(getCookie("token"));
   }, [loggedIn]);
 
+
+
   return (
     <HashRouter>
-      <Navbar isAuth={AuthenticationService.getAuth} loggedIn={loggedIn} />
+      <Navbar isAuth={AuthenticationService.getAuth} logFunc={setLoggedIn} loggedIn={loggedIn} />
       <Route
         exact
         path="/"
@@ -32,14 +35,14 @@ export default () => {
           <Main {...props} isAuth={AuthenticationService.getAuth} />
         )}
       />
+      <Route
+        exact
+        path="/event/:id"
+        render={(props: any) => (
+          <EventPage {...props} isAuth={AuthenticationService.getAuth} />
+        )}
+      />
       <div style={{ marginTop: "70px" }}>
-        <Route
-          exact
-          path="/event/:id"
-          render={(props: any) => (
-            <EventPage {...props} isAuth={AuthenticationService.getAuth} />
-          )}
-        />
         <Route
           exact
           path="/addEvent"
@@ -87,7 +90,6 @@ export default () => {
             <Profile
               {...props}
               isAuth={AuthenticationService.getAuth}
-              logFunc={setLoggedIn}
             />
           )}
         />
