@@ -86,20 +86,7 @@ class RiderService {
   deleteRidersForArtist(event_id: number, user_id: number) {
     axios
         .delete(
-            url +
-            "event/" +
-            event_id +
-            "/user/" +
-            user_id,
-            { headers: { token: token } }
-        )
-        .then((response: { data: JSON }) => console.log(response));
-  }
-
-  deleteRidersForArtist(event_id: number, user_id: number) {
-    axios
-        .delete(
-            url +
+            process.env.REACT_APP_API_URL +
             "event/" +
             event_id +
             "/user/" +
