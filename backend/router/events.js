@@ -56,10 +56,10 @@ module.exports = (app, models, base, auth) => {
    */
 
   app.get(base, (req, res) => {
-      eventControl.eventArchive().then(data => {
-        eventControl.eventGetAll().then(data => {
-      res.send(data);
-        });
+    eventControl.eventArchive().then(data => {
+      eventControl.eventGetAll().then(data => {
+        res.send(data);
+      });
     });
   });
 
@@ -73,7 +73,7 @@ module.exports = (app, models, base, auth) => {
   app.get(base + "Unarchived", (req, res) => {
     eventControl.eventArchive().then(data => {
       eventControl.eventGetAllUnarchived().then(data => {
-      res.send(data);
+        res.send(data);
       });
     });
   });
@@ -324,7 +324,7 @@ module.exports = (app, models, base, auth) => {
                 data.user.dataValues.id,
                 event.id
               );
-              return data;
+              return event;
             })
             .then(data => {
               res.send(data);
