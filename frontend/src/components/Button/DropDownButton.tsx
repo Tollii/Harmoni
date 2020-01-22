@@ -119,10 +119,10 @@ export default (props: any) => {
     EventService.getEventVolunteerAdmin(props.event).then((volunteers: any) => {
       console.log(volunteers);
       if (volunteers.count > 0) {
-        setState({ ...state, data: volunteers.rows });
+        setState(state => ({ ...state, data: volunteers.rows }));
       }
     });
-  }, [props.event, state]);
+  }, [props.event]);
 
   return (
     <div>
