@@ -25,11 +25,10 @@ class RiderService {
   }
 
   getRidersForArtist(event_id: number, user_id: number) {
-    console.log(event_id + " " + user_id);
     return axios
         .get(
             process.env.REACT_APP_API_URL +
-            "event/" +
+            "/rider/event/" +
             event_id +
             "/user/" +
             user_id ,
