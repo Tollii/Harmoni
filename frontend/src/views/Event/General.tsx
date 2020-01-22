@@ -4,13 +4,14 @@ import CardContent from "@material-ui/core/CardContent";
 import InputField from "../../components/InputField/InputField";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
+import Button from "../../components/Button/Button";
 import {
   KeyboardDatePicker,
   KeyboardTimePicker,
   MuiPickersUtilsProvider
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-import { Input, Typography, Button, Menu, MenuItem } from "@material-ui/core";
+import { Typography, Menu, MenuItem } from "@material-ui/core";
 
 export default (props: any) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -119,15 +120,20 @@ export default (props: any) => {
               <Typography variant="h6" style={{ marginTop: "20px" }}>
                 Event header
               </Typography>
-              <Input
-                name="eventImage"
-                type="file"
-                onChange={(event: any) =>
-                  props.handleChange(event.target.files[0], "eventImage")
-                }
-              ></Input>
+              <Button variant="contained" component="label">
+                Choose file
+                <input
+                  name="eventImage"
+                  type="file"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  onChange={(event: any) =>
+                    props.handleChange(event.target.files[0], "eventImage")
+                  }
+                />
+              </Button>
               <Typography style={{ marginTop: "20px" }}>
-                Valgt header: {props.values.eventImage.name}
+                Current header: {props.values.eventImage.name}
               </Typography>
             </Grid>
             <Grid
