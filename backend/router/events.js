@@ -482,8 +482,11 @@ module.exports = (app, models, base, auth) => {
               contractControl
                 .contractGetOne(data.user.dataValues.id, req.params.event_id)
                 .then(contract => {
-                  console.log(contract);
-                  res.send(contract);
+                  if(contract === null) {
+                    res.send(false)
+                  }else {
+                    res.send(true)
+                  }
                 })
                 .catch(err => {
                   res.status(400).send("contract not found");
