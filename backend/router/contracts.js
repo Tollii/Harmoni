@@ -16,7 +16,7 @@ module.exports = (app, models, base, auth) => {
   */
 
   app.get(base, ( req, res ) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer"], 0, 0)
     .then(data => {
       if(data.auth){
         contractControl.contractGetAll().then((data)=>{
@@ -40,7 +40,7 @@ module.exports = (app, models, base, auth) => {
   */
 
  app.get(base+"/event/:event_id", ( req, res ) => {
-  auth.check_permissions(req.headers.token, ["Admin", "Organizer"])
+  auth.check_permissions(req.headers.token, ["Admin", "Organizer"], req.params.event_id, 0)
   .then(data => {
     if(data.auth){
       contractControl.contractGetAllByEvent(req.params.event_id).then((data)=>{
@@ -63,7 +63,7 @@ module.exports = (app, models, base, auth) => {
   * @returns {Error}  default - Unexpected error
   */
   app.get(base+"/user/:user_id/event/:event_id", ( req, res ) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"], req.params.event_id, req.params.user_id)
     .then(data => {
       if(data.auth){
         contractControl.contractGetOne(req.params.user_id, req.params.event_id).then((data)=>{
@@ -85,7 +85,7 @@ module.exports = (app, models, base, auth) => {
   * @returns {Error}  default - Unexpected error
   */
   app.post(base, (req, res) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer"], req.body.eventID, 0)
     .then(data => {
       if(data.auth){
         contractControl.contractCreateNoContract(
@@ -111,7 +111,7 @@ module.exports = (app, models, base, auth) => {
   * @returns {Error}  default - Unexpected error
   */
   app.delete(base+"/user/:user_id/event/:event_id", (req, res) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer"], req.params.event_id, req.params.user_id)
     .then(data => {
       if(data.auth){
         contractControl.contractDelete(req.params.user_id, req.params.event_id)
