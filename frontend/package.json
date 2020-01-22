@@ -30,6 +30,7 @@
     "react-coverflow": "^0.2.20",
     "react-dom": "^16.12.0",
     "react-draggable": "latest",
+    "react-geocode": "^0.2.1",
     "react-multi-carousel": "^2.5.0",
     "react-redux": "^7.1.3",
     "react-router": "^5.1.2",
