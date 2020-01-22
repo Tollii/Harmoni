@@ -115,7 +115,7 @@ export default (props: any) => {
               )}
               <InputField
                 name="passwordConfirmed"
-                label="Password"
+                label="Confirm Password"
                 autoComplete="current-password"
                 value={values.passwordConfirmed}
                 onChange={handleChange}

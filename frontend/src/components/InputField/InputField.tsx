@@ -21,7 +21,7 @@ const useStyles = makeStyles({
 export default (props: any) => {
   const classes = useStyles();
 
-  if (props.label === "Password") {
+  if (props.label.includes("Password")) {
     return <PasswordInput
     label={props.label}
     {...props}

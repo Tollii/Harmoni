@@ -57,6 +57,7 @@ export default (props: any) => {
   const [value, setValue] = React.useState(0);
   const [events, setEvents] = useState<any>([]);
   const [pic_url, setPic_url] = useState("");
+  const [passwordOk, setChangePass] = React.useState(false);
 
   const [file, setFile] = useState(new File(["foo"], "empty"));
   const [newValues, setNewValues] = useState({
@@ -165,6 +166,10 @@ export default (props: any) => {
     window.location.reload();
   };
 
+  const handlePasswordError = () => {
+    setChangePass(false);
+  };
+
   const handleSubmitPassword = (event: any) => {
     if (
       password.new_password === password.confirmed_password &&
@@ -178,7 +183,7 @@ export default (props: any) => {
       });
       setOpenChangePass(false);
     } else {
-      //feil med nytt passord
+      setChangePass(true);
     }
   };
 
@@ -229,6 +234,24 @@ export default (props: any) => {
       "aria-controls": `simple-tabpanel-${index}`
     };
   }
+
+  const errorPasswordMsg = () => {
+    return (
+      <Dialog open={passwordOk} onClose={handlePasswordError}>
+        <DialogTitle>{"An error occurred. Please try again"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Type in your old password and confirm your new password below.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button color="primary" onClick={handlePasswordError}>
+            Ok
+          </Button>
+        </DialogActions>
+      </Dialog>
+    );
+  };
 
   return (
     <Card width={"100%"}>
@@ -394,14 +417,16 @@ export default (props: any) => {
                       style={{ width: "100%" }}
                     >
                       <DialogTitle id="form-dialog-title">
-                        Change Password
+                        <Grid container justify="center" direction="row">
+                          Change Password
+                        </Grid>
                       </DialogTitle>
                       <DialogContent>
                         <DialogContentText></DialogContentText>
                         <InputField
                           autoFocus
                           name="old_password"
-                          label="Password"
+                          label="Old Password"
                           value={password.old_password}
                           onChange={handlePasswordChange}
                         />
@@ -409,7 +434,7 @@ export default (props: any) => {
                         <InputField
                           autoFocus
                           name="new_password"
-                          label="Password"
+                          label="New Password"
                           value={password.new_password}
                           onChange={handlePasswordChange}
                         />
@@ -417,7 +442,7 @@ export default (props: any) => {
                         <InputField
                           autoFocus
                           name="confirmed_password"
-                          label="Password"
+                          label="Confirm New Password"
                           value={password.confirmed_password}
                           onChange={handlePasswordChange}
                         />
@@ -428,19 +453,18 @@ export default (props: any) => {
                             color="primary"
                             onClick={handleSubmitPassword}
                           >
-                            Change
+                            Change
                           </Button>
-                          <Grid item xs={3}>
-                            <Button
-                              onClick={handleCloseChangePass}
-                              color="primary"
-                            >
-                              Cancel
-                            </Button>
-                          </Grid>
+                          <Button
+                            onClick={handleCloseChangePass}
+                            color="primary"
+                          >
+                            Cancel
+                          </Button>
                         </Grid>
                       </DialogActions>
                     </Dialog>
+                    {passwordOk && errorPasswordMsg()}
                   </Grid>
                 </Grid>
               </Grid>
