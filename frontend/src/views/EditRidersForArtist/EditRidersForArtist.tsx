@@ -225,7 +225,7 @@ export default function(props: any) {
                             Save
                         </Button>
                     </Grid>
-                    <Grid xs={6} md={3}>
+                    <Grid item xs={6} md={3}>
                         <Button variant="contained" color="secondary" onClick={handleClickCancel} style={{fontSize: "1.1vw"}}>
                             Cancel
                         </Button>
