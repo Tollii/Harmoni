@@ -121,6 +121,7 @@ export default () => {
           path="/forgot"
           render={(props: any) => <ForgotForm {...props} />}
         />
+
       </div>
         <Footer />
     </HashRouter>
