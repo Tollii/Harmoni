@@ -9,8 +9,8 @@ import Button from "../../components/Button/Button";
 import useForm from "../../service/Form/useForm";
 import { validateLogin } from "../../service/Form/Validate";
 import Authentication from "../../service/Authentication";
-import {Link} from "react-router-dom";
-var loginError:boolean=false;
+import { Link } from "react-router-dom";
+var loginError: boolean = false;
 const useStyles = makeStyles({
   grid: {
     maxWidth: "450px",
@@ -21,25 +21,16 @@ const useStyles = makeStyles({
     marginRight: "auto",
     marginBottom: "20px"
   },
-  pos: {
-    marginBottom: 12
-  },
-  notchedOutline: {
-    borderRadius: 0
-  },
-  errormessage:{
-    float:"right"
-  },
-  custom: {
-    minWidth: "250px",
-    maxWidth: "450px",
-    marginTop: "20px",
-    margin: "auto"
-  }
 
+  errormessage: {
+    float: "right"
+  },
+  content: {
+    margin: "auto auto "
+  }
 });
 
-export default (props:any) => {
+export default (props: any) => {
   const classes = useStyles();
   const { handleChange, handleSubmit, values, errors } = useForm(
     submit,
@@ -51,7 +42,6 @@ export default (props:any) => {
   );
 
   function submit() {
-
     const pattern = /.+@[a-z1-9]+.[a-z]+/;
     const check = values.email.match(pattern);
     if (check && values.password) {
@@ -61,29 +51,37 @@ export default (props:any) => {
       Authentication.getLogin({
         email: values.email.toLowerCase(),
         password: values.password
-      }).then((data: any) => {
-        document.cookie = "token=" + data + "; expires=" + now.toUTCString();
-        window.location.hash = "#/";
-        props.logFunc(true)
-      }).catch((err:any)=>{
-        loginError=true;
-      });
+      })
+        .then((data: any) => {
+          document.cookie = "token=" + data + "; expires=" + now.toUTCString();
+          window.location.hash = "#/";
+          props.logFunc(true);
+        })
+        .catch((err: any) => {
+          loginError = true;
+        });
     }
   }
 
   return (
-    <div className={classes.custom}>
-      <Card>
-        <Grid container className={classes.grid}>
-          <CardContent>
-            <Grid item>
-              <Typography className={classes.title} variant="h3" align="center">
-                Login
-              </Typography>
-            </Grid>
-
-            <form onSubmit={handleSubmit} noValidate>
-              {errors.email && <Typography>{errors.email}</Typography>}
+    <Card
+      width={"80%"}
+      style={{ marginTop: "10%", minWidth: "250px", maxWidth: "450px" }}
+    >
+      <Grid container className={classes.grid}>
+        <CardContent className={classes.content}>
+          <Grid container justify="center" direction="row">
+            <Typography className={classes.title} variant="h3" align="center">
+              Login
+            </Typography>
+          </Grid>
+          <form onSubmit={handleSubmit} noValidate>
+            <Grid container justify="center" direction="row">
+              <Grid container justify="center" direction="row">
+                {errors.email && (
+                  <Typography color="error">{errors.email}</Typography>
+                )}
+              </Grid>
 
               <InputField
                 name="email"
@@ -92,8 +90,13 @@ export default (props:any) => {
                 value={values.email}
                 onChange={handleChange}
               />
-              {errors.password && <Typography>{errors.password}</Typography>}
-
+            </Grid>
+            <Grid container justify="center" direction="row">
+              <Grid container justify="center" direction="row">
+                {errors.password && (
+                  <Typography color="error">{errors.password}</Typography>
+                )}
+              </Grid>
               <InputField
                 name="password"
                 label="Password"
@@ -101,18 +104,26 @@ export default (props:any) => {
                 value={values.password}
                 onChange={handleChange}
               />
-              <div>{loginError ? <h4 className={classes.errormessage}>Invalid email or password</h4> : null }</div>
+            </Grid>
+            <Grid container justify="center" direction="row">
+              <div>
+                {loginError ? (
+                  <Typography color="error" className={classes.errormessage}>
+                    Invalid email or password
+                  </Typography>
+                ) : null}
+              </div>
+            </Grid>
 
-              <Grid container direction="row" justify="space-between">
-                <Link to="/forgot">
-                  <Button>Forgot password?</Button>
-                </Link>
-                <Button type="submit">Log in</Button>
-              </Grid>
-            </form>
-          </CardContent>
-        </Grid>
-      </Card>
-    </div>
+            <Grid container direction="row" justify="space-between">
+              <Link to="/forgot" style={{ textDecoration: "none" }}>
+                <Button>Forgot password?</Button>
+              </Link>
+              <Button type="submit">Log in</Button>
+            </Grid>
+          </form>
+        </CardContent>
+      </Grid>
+    </Card>
   );
 };
