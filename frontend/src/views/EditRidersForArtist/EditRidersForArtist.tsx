@@ -131,7 +131,8 @@ export default function(props: any) {
 
     const handleClickSave = () => {
         console.log(riders);
-        RiderService.deleteRidersForArtist(parseInt(props.match.params.event_id), parseInt(props.match.params.user_id));
+        RiderService.deleteRidersForArtist(parseInt(props.match.params.eventID), parseInt(props.match.params.userID));
+        riders.map(rider => RiderService.postRider(rider));
         console.log('saved')
     };
     const handleClickCancel = () => {
