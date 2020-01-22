@@ -4,7 +4,6 @@ import {
   Button,
   Card,
   Grid,
-  Link,
   Typography,
   MenuProps,
   Menu,
@@ -22,6 +21,7 @@ import DescriptionIcon from "@material-ui/icons/Description";
 import SettingsIcon from "@material-ui/icons/Settings";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AlertDialog from "../../components/AlertDialog/AlertDialog";
+import {Link} from "react-router-dom";
 
 const StyledMenu = withStyles({
   paper: {
@@ -99,13 +99,14 @@ export default (props: any) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
+                <Link to={"/artist/editRider/" + 10 + "/" + 21}>
                 <StyledMenuItem>
                   <ListItemIcon>
                     <SettingsIcon fontSize="small" />
                   </ListItemIcon>
                   <ListItemText primary="Edit rider" />
                 </StyledMenuItem>
-
+                </Link>
                 <StyledMenuItem>
                   <ListItemIcon>
                     <DescriptionIcon fontSize="small" />

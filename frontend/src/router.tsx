@@ -11,6 +11,7 @@ import AuthenticationService from "./service/Authentication";
 import Main from "./views/Main/Main";
 import { HashRouter, Route } from "react-router-dom";
 import getCookie from "./service/cookie";
+import EditRidersForArtist from "./views/EditRidersForArtist/EditRidersForArtist";
 
 
 const useStyles = makeStyles({
@@ -30,6 +31,7 @@ export default () => {
         <Route exact path="/signUp" render={(props:any) => <SignUp {...props} isAuth={AuthenticationService.getAuth} />} />
         <Route exact path="/login" render={(props:any) => <Login {...props} isAuth={AuthenticationService.getAuth} logFunc={setLoggedIn}/>} />
         <Route exact path="/profile" render={(props:any) => <Profile {...props} isAuth={AuthenticationService.getAuth} logFunc={setLoggedIn} />}/>
+        <Route exact path="/artist/editRider/:eventID/user/:userID" render={(props:any) => <EditRidersForArtist {...props} isAuth={AuthenticationService.getAuth}  />}/>
       </div>
       <Footer />
     </HashRouter>
