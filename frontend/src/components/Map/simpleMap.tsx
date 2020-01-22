@@ -1,26 +1,25 @@
 import React, { useState, useEffect, useCallback } from "react";
 import GoogleMapReact from "google-map-react";
 import Marker from "./Marker";
+//@ts-ignore
+import Geocode from "react-geocode";
 
 const SimpleMap = (props: any) => {
   const [center, setCenter] = useState({ lat: 63.4189, lng: 10.4027 });
   const [marker, setMarker] = useState([]);
 
-  const googleMapsClient = require("@google/maps").createClient({
-    key: "AIzaSyBpqnFSmQNK7VBnEm521CwPGs8zBkB-SQY",
-    Promise: Promise
-  });
+  Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API_KEY);
 
   const findCenter = useCallback((place: any): any => {
     if (place !== undefined) {
-      return googleMapsClient
-        .geocode({ address: place.location })
-        .asPromise()
-        .then((response: any) => {
-          return response.json.results[0].geometry.location;
-        })
-        .catch((err: any) => {
-        });
+      return Geocode.fromAddress(place.location).then(
+        (response:any) => {
+          return response.results[0].geometry.location;
+        },
+        (err:any) => {
+          console.error(err);
+        }
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -43,6 +42,7 @@ const SimpleMap = (props: any) => {
         });
       })
     ).then((results: any) => {
+      console.log(results)
       setMarker(results);
     });
   }, [props.events, findCenter]);
@@ -56,7 +56,7 @@ const SimpleMap = (props: any) => {
 
   return (
     <GoogleMapReact
-      bootstrapURLKeys={{ key: "AIzaSyBpqnFSmQNK7VBnEm521CwPGs8zBkB-SQY" }}
+      bootstrapURLKeys={{ key: ""+process.env.REACT_APP_GOOGLE_API_KEY }}
       center={center}
       defaultZoom={props.zoom}
       options={{
