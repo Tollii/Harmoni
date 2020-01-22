@@ -13,6 +13,7 @@ import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
 import Map from "../../components/Map/simpleMap";
 import DropDownButton from "../../components/Button/DropDownButton";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -76,12 +77,19 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.down("xs")]: {
         borderRight: 0
       }
+    },
+    loadingIcon: {
+      width: "100%",
+      marginTop: "200px",
+      display: "flex",
+      justifyContent: "center"
     }
   })
 );
 
 export default (props: any) => {
   const classes = useStyles();
+  const [loaded, setLoaded] = useState(false);
   const [values, setValues] = useState({
     id: 0,
     name: "",
@@ -106,166 +114,185 @@ export default (props: any) => {
   const [artists, setArtists] = useState<any>([]);
 
   useEffect(() => {
-    EventService.getEvent(props.match.params.id).then((event: any) => {
-      setValues({
-        id: event.id,
-        name: event.event_name,
-        start: new Date(event.event_start),
-        end: new Date(event.event_end),
-        image: process.env.REACT_APP_API_URL + "/image/event/" + event.id,
-        personnel: event.personnel,
-        description: event.description,
-        typeID: event.event_typeID,
-        location: event.location
+    setTimeout(function() {
+      EventService.getEvent(props.match.params.id).then((event: any) => {
+        setValues({
+          id: event.id,
+          name: event.event_name,
+          start: new Date(event.event_start),
+          end: new Date(event.event_end),
+          image: process.env.REACT_APP_API_URL + "/image/event/" + event.id,
+          personnel: event.personnel,
+          description: event.description,
+          typeID: event.event_typeID,
+          location: event.location
+        });
       });
-    });
-    TicketService.getEventTickets(props.match.params.id).then(
-      (tickets: any) => {
-        setTickets(tickets);
-      }
-    );
-    EventService.getArtists(props.match.params.id).then((response: any) =>
-      setArtists(response)
-    );
+      TicketService.getEventTickets(props.match.params.id).then(
+        (tickets: any) => {
+          setTickets(tickets);
+        }
+      );
+      EventService.getArtists(props.match.params.id).then((response: any) =>
+        setArtists(response)
+      );
+      setLoaded(true);
+    }, 1500);
   }, [props.match.params.id]);
 
-  return (
-    <div style={{ overflow: "hidden" }}>
-      <Card className={classes.card} elevation={0}>
-        <img
-          className={classes.image}
-          src={values.image}
-          alt="Event header"
-        />
-      </Card>
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={8} style={{ height: "100%" }}>
-          <Box>
-            <Typography className={classes.title} variant="h2">
-              {values.name}
-            </Typography>
-            <Typography
-              className={classes.description}
-              variant="subtitle1"
-              gutterBottom
-            >
-              {values.description}
-            </Typography>
-            <Typography className={classes.smallTitle} variant="h6">
-              Artists
-            </Typography>
-            <Grid
-              container
-              direction="row"
-              justify="space-between"
-              className={classes.avatarIcons}
-            >
-              {artists.map((artist: any, index: number) => (
-                <Grid item>
-                  <Avatar
-                    style={{ marginLeft: "auto", marginRight: "auto" }}
-                    alt={artist.username}
-                    src={artist.picture}
-                  />
-                  <Typography>{artist.username}</Typography>
-                </Grid>
-              ))}
-            </Grid>
-            <Typography className={classes.smallTitle} variant="h6">
-              Personnel
-            </Typography>
-            <Typography
-              className={classes.description}
-              variant="subtitle1"
-              gutterBottom
-            >
-              {values.personnel}
-            </Typography>
-            <Typography className={classes.smallTitle} variant="h6">
-              Tickets
-            </Typography>
-            <TableContainer component={Paper}>
-              <Table className={classes.table}>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Ticket Name</TableCell>
-                    <TableCell align="right">Price</TableCell>
-                    <TableCell align="right">Quantity</TableCell>
-                    <TableCell align="right">Post Date</TableCell>
-                    <TableCell align="right">Removed Date</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {tickets.map((ticket, index) => (
-                    <TableRow key={index}>
-                      <TableCell component="th" scope="row">
-                        {ticket.ticket_name}
-                      </TableCell>
-                      <TableCell align="right">{ticket.price}</TableCell>
-                      <TableCell align="right">
-                        {ticket.ticket_amount}
-                      </TableCell>
-                      <TableCell align="right">
-                        {new Date(ticket.date_start).toDateString()}
-                      </TableCell>
-                      <TableCell align="right">
-                        {new Date(ticket.date_end).toDateString()}
-                      </TableCell>
+  if (loaded) {
+    return (
+      <div style={{ overflow: "hidden" }}>
+        <Card className={classes.card} elevation={0}>
+          <img
+            className={classes.image}
+            src={values.image}
+            alt="Event header"
+          ></img>
+        </Card>
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={8} style={{ height: "100%" }}>
+            <Box>
+              <Typography className={classes.title} variant="h2">
+                {values.name}
+              </Typography>
+              <Typography
+                className={classes.description}
+                variant="subtitle1"
+                gutterBottom
+              >
+                {values.description}
+              </Typography>
+              <Typography className={classes.smallTitle} variant="h6">
+                Artists
+              </Typography>
+              <Grid
+                container
+                direction="row"
+                justify="space-between"
+                className={classes.avatarIcons}
+              >
+                {artists.map((artist: any, index: number) => (
+                  <Grid item>
+                    <Avatar
+                      style={{ marginLeft: "auto", marginRight: "auto" }}
+                      alt={artist.username}
+                      src={artist.picture}
+                    />
+                    <Typography>{artist.username}</Typography>
+                  </Grid>
+                ))}
+              </Grid>
+              <Typography className={classes.smallTitle} variant="h6">
+                Personnel
+              </Typography>
+              <Typography
+                className={classes.description}
+                variant="subtitle1"
+                gutterBottom
+              >
+                {values.personnel}
+              </Typography>
+              <Typography className={classes.smallTitle} variant="h6">
+                Tickets
+              </Typography>
+              <TableContainer component={Paper}>
+                <Table className={classes.table}>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Ticket Name</TableCell>
+                      <TableCell align="right">Price</TableCell>
+                      <TableCell align="right">Quantity</TableCell>
+                      <TableCell align="right">Post Date</TableCell>
+                      <TableCell align="right">Removed Date</TableCell>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Box>
-        </Grid>
-        <Grid item sm={3} xs={12} style={{ margin: "10px" }}>
-          <Typography className={classes.smallTitle} variant="h6" gutterBottom>
-            Date & Time:
-          </Typography>
-          <Typography variant="subtitle1" gutterBottom>
-            <p>
-              <strong>Event starts: </strong>
-              {values.start.toDateString().substring(0, 10) +
-                " " +
-                values.start.toTimeString().substring(0, 5)}
-            </p>
-            <p>
-              <strong>End date: </strong>
-              {values.end.toDateString().substring(0, 10) +
-                " " +
-                values.end.toTimeString().substring(0, 5)}
-            </p>
-          </Typography>
-          <Typography className={classes.smallTitle} variant="h6" gutterBottom>
-            Location:
-          </Typography>
-          <Typography variant="subtitle1" gutterBottom>
-            {values.location}
-          </Typography>
-          <div className={classes.map}>
-            <Map events={[values]} center={values} zoom={11} />
-          </div>
-          <Grid container spacing={1} justify="center" alignItems="center">
-            <Grid item lg={6} sm={12} xs={6}>
-              <Grid container>
-                <Grid item style={{ margin: "auto" }}>
-                  <Button
-                    className={classes.buttons}
-                    style={{ fontSize: "15px" }}
-                    variant="contained"
-                    color="secondary"
-                  >
-                    Buy Ticket
-                  </Button>
+                  </TableHead>
+                  <TableBody>
+                    {tickets.map((ticket, index) => (
+                      <TableRow key={index}>
+                        <TableCell component="th" scope="row">
+                          {ticket.ticket_name}
+                        </TableCell>
+                        <TableCell align="right">{ticket.price}</TableCell>
+                        <TableCell align="right">
+                          {ticket.ticket_amount}
+                        </TableCell>
+                        <TableCell align="right">
+                          {new Date(ticket.date_start).toDateString()}
+                        </TableCell>
+                        <TableCell align="right">
+                          {new Date(ticket.date_end).toDateString()}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Box>
+          </Grid>
+          <Grid item sm={3} xs={12} style={{ margin: "10px" }}>
+            <Typography
+              className={classes.smallTitle}
+              variant="h6"
+              gutterBottom
+            >
+              Date & Time:
+            </Typography>
+            <Typography variant="subtitle1" gutterBottom>
+              <p>
+                <strong>Event starts: </strong>
+                {values.start.toDateString().substring(0, 10) +
+                  " " +
+                  values.start.toTimeString().substring(0, 5)}
+              </p>
+              <p>
+                <strong>End date: </strong>
+                {values.end.toDateString().substring(0, 10) +
+                  " " +
+                  values.end.toTimeString().substring(0, 5)}
+              </p>
+            </Typography>
+            <Typography
+              className={classes.smallTitle}
+              variant="h6"
+              gutterBottom
+            >
+              Location:
+            </Typography>
+            <Typography variant="subtitle1" gutterBottom>
+              {values.location}
+            </Typography>
+            <div className={classes.map}>
+              <Map events={[values]} center={values} zoom={11} />
+            </div>
+            <Grid container spacing={1} justify="center" alignItems="center">
+              <Grid item lg={6} sm={12} xs={6}>
+                <Grid container>
+                  <Grid item style={{ margin: "auto" }}>
+                    <Button
+                      className={classes.buttons}
+                      style={{ fontSize: "15px" }}
+                      variant="contained"
+                      color="secondary"
+                    >
+                      Buy Ticket
+                    </Button>
+                  </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-            <Grid item lg={6} sm={12} xs={6}>
-              <DropDownButton event={values.id} />
+              <Grid item lg={6} sm={12} xs={6}>
+                <DropDownButton event={values.id} />
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
-    </div>
-  );
+      </div>
+    );
+  } else {
+    return (
+      <div className={classes.loadingIcon}>
+        <CircularProgress />
+      </div>
+    );
+  }
 };

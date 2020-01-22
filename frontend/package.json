@@ -8,6 +8,7 @@
     "@google/maps": "^1.0.2",
     "@material-ui/core": "^4.8.3",
     "@material-ui/icons": "^4.5.1",
+    "@material-ui/lab": "4.0.0-alpha.39",
     "@material-ui/pickers": "^3.2.8",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
@@ -24,17 +25,17 @@
     "material-table": "^1.55.0",
     "material-ui-pickers": "^2.2.4",
     "material-ui-responsive-menu": "^1.19.3",
+    "material-ui-snackbar-provider": "^1.3.1",
     "react": "^16.12.0",
     "react-coverflow": "^0.2.20",
     "react-dom": "^16.12.0",
+    "react-draggable": "latest",
     "react-multi-carousel": "^2.5.0",
     "react-redux": "^7.1.3",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.3.0",
-    "typescript": "^3.7.4",
-    "react-draggable": "latest",
-    "@material-ui/lab": "4.0.0-alpha.39"
+    "typescript": "^3.7.4"
   },
   "scripts": {
     "start": "react-scripts start",
