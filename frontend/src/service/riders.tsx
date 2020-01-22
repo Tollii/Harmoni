@@ -32,7 +32,7 @@ class RiderService {
             event_id +
             "/user/" +
             user_id ,
-            { headers: { token: token } }
+            { headers: { token: token} }
         )
         .then((response: { data: JSON }) => response.data);
   }

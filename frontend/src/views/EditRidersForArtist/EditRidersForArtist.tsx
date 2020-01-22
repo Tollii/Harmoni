@@ -96,45 +96,42 @@ export default function(props: any) {
 
     const handleChangeRider = (event: React.ChangeEvent<{ value: any }>) => {
         setRiderName(event.target.value as string[]);
-        event.target.value.map((rider: any) => {
-            if (rider.rider_typeID === 1) {
-                riders.push({
-                    eventID: props.match.params.eventID,
-                    rider_typeID: rider.rider_typeID,
-                    userID: props.artistID,
-                    additions: addition
-                });
-            } else {
-                riders.push({
-                    eventID: props.match.params.eventID,
-                    rider_typeID: rider.rider_typeID,
-                    userID: props.artistID,
-                    additions: ""
-                });
-            }
-        });
+        let ridersArray: any = riders.filter((rider: any) => rider.rider_typeID === 1);
 
+        event.target.value.map((rider: any) => {
+          let riderType = riderTypes.find((rType: any) => rType.description === rider);
+          if (riderType !== undefined) {
+            let riderTypeID = riderType.id;
+            ridersArray.push({
+              additions: "",
+              rider_typeID: riderTypeID,
+              eventID: parseInt(props.match.params.eventID),
+              userID: parseInt(props.match.params.userID)
+            })
+          }
+        })
+        setRiders(ridersArray);
+        console.log(ridersArray);
     };
 
     const handleChangeAddition = (event: React.ChangeEvent<HTMLInputElement>) => {
         setAddition(event.target.value);
         let ridersArray: any = riders.filter(
             (rider: any) =>
-                rider.rider_typeID !== 1 || rider.userID !== props.artistID
+                rider.rider_typeID !== 1
         );
 
         ridersArray.push({
             rider_typeID: 1,
-            userID: props.artistID,
+            userID: parseInt(props.match.params.userID),
             additions: event.target.value
         });
-        props.handleChange(ridersArray, "riders");
+        setRiders(ridersArray);
     };
 
     const handleClickSave = () => {
-      console.log(riders);
-        RiderService.deleteRidersForArtist(props.match.params.event_id, props.match.params.user_id);
-        riders.map(rider => RiderService.postRider(rider));
+        console.log(riders);
+        RiderService.deleteRidersForArtist(parseInt(props.match.params.event_id), parseInt(props.match.params.user_id));
         console.log('saved')
     };
     const handleClickCancel = () => {
