@@ -14,12 +14,12 @@ import {
   DialogTitle,
   Paper,
   Tabs,
-  Tab
+  Tab,
+  Avatar
 } from "@material-ui/core";
 import InputField from "../../components/InputField/InputField";
 import UserService from "../../service/users";
 import RoleService from "../../service/roles";
-import getCookie from "../../service/cookie";
 import MyEvents from "./MyEvents";
 import EventService from "../../service/events";
 import FileService from "../../service/files";
@@ -58,7 +58,7 @@ export default (props: any) => {
   const [events, setEvents] = useState<any>([]);
   const [pic_url, setPic_url] = useState("");
 
-  const [file, setFile] = useState(new File(["foo"], ""));
+  const [file, setFile] = useState(new File(["foo"], "empty"));
   const [newValues, setNewValues] = useState({
     fullName: "",
     email: "",
@@ -155,6 +155,10 @@ export default (props: any) => {
     setOpenEditPic(true);
   };
 
+  const handleCloseNoEditPic = () => {
+    setOpenEditPic(false);
+  };
+
   const handleCloseEditPic = () => {
     setOpenEditPic(false);
     setFile(new File(["foo"], ""));
@@ -246,20 +250,15 @@ export default (props: any) => {
       </div>
       {value === 0 ? (
         <CardContent>
-          <div style={{ marginBottom: "30px" }}>
-            <Grid container spacing={4}>
-              <Grid item xs={4}>
-                <Grid container justify="center">
-                  <img
-                    style={{
-                      objectFit: "cover",
-                      maxWidth: "100%",
-                      minWidth: "85%"
-                    }}
-                    src={pic_url}
-                    alt={values.picture}
-                  />
+            <Grid container direction={"column"} alignItems={"center"} justify={"center"} spacing={0}>
+              <Grid item >
+                {pic_url !== "" &&
+                <Avatar style={{height: "250px", width: "250px"}} alt={values.picture} src={pic_url} >
+                  Picture
+                </Avatar>
+                }
                 </Grid>
+               <Grid item >
                 <Typography>
                   <Link
                     onClick={handleOpenEditPic}
@@ -269,19 +268,34 @@ export default (props: any) => {
                     {"Edit profile picture"}
                   </Link>
                 </Typography>
+              </Grid>
+              <Grid item>
+                <Typography style={{fontFamily: "Roboto", fontSize: "26pt", fontWeight: 300,}}>{values.fullName}</Typography>
+              </Grid>
+              <Grid item >
+                <Typography style={{fontFamily: "Roboto", fontSize: "15pt", fontWeight: 200,}}>{values.role}</Typography>
+              </Grid>
+              <Grid item >
+                <Typography style={{fontFamily: "Roboto", fontSize: "15pt", fontWeight: 200,}}>{values.email}</Typography>
+              </Grid>
+              <Grid item >
+                <Typography style={{fontFamily: "Roboto", fontSize: "15pt", fontWeight: 200,}}>{values.telephone}</Typography>
+              </Grid>
+              <Grid item>
+                  <Button onClick={handleOpenEdit}>Edit</Button>
+                  <Button onClick={handleOpenChangePass}>Change Password</Button>
+              </Grid>
+            </Grid>
+              <Grid item xs={4}>
                 <Dialog
                   open={openEditPic}
-                  onClose={handleCloseEditPic}
+                  onClose={handleCloseNoEditPic}
                   aria-labelledby="form-dialog-title"
                   style={{ width: "100%" }}
                 >
-                  <DialogTitle id="form-dialog-title">
-                    Edit Profile Picture
-                  </DialogTitle>
+                  <DialogTitle id="form-dialog-title">Edit Profile</DialogTitle>
                   <DialogContent>
-                    <DialogContentText></DialogContentText>
-                    <Paper className={classes.paper}>
-                      <Grid container direction="row">
+                    <Grid container direction="row">
                         <Button variant="contained" component="label">
                           Choose File
                           <input
@@ -295,24 +309,22 @@ export default (props: any) => {
                           Chosen file: {file.name}
                         </Typography>
                       </Grid>
-                    </Paper>
                   </DialogContent>
                   <DialogActions>
-                    <Grid container direction="row" justify="center">
+                    <Grid container direction="row"  justify="center">
                       <Grid item xs={3}>
                         <Button
-                          type="submit"
-                          onClick={() => {
-                            uploadProfilePicture().then(() => {
-                              handleCloseEditPic();
-                            });
-                          }}
-                        >
-                          Upload Image
+                        onClick={() => {
+                          uploadProfilePicture().then(() => {
+                            handleCloseEditPic();
+                          });
+                        }}
+                        color="primary">
+                        Upload Image
                         </Button>
                       </Grid>
                       <Grid item xs={3}>
-                        <Button onClick={handleCloseEditPic} color="primary">
+                        <Button onClick={handleCloseNoEditPic} color="primary">
                           Cancel
                         </Button>
                       </Grid>
@@ -320,20 +332,8 @@ export default (props: any) => {
                   </DialogActions>
                 </Dialog>
               </Grid>
+
               <Grid item xs={4}>
-                <p>{values.fullName}</p>
-                <p>{values.role}</p>
-                <p>{values.email}</p>
-                <p>{values.telephone}</p>
-              </Grid>
-            </Grid>
-          </div>
-          <div>
-            <Grid container direction="row" justify="center" spacing={4}>
-              <Grid item xs={4}>
-                <Grid container justify="center">
-                  <Button onClick={handleOpenEdit}>Edit</Button>
-                </Grid>
                 <Dialog
                   open={openEdit}
                   onClose={handleCloseEdit}
@@ -385,13 +385,8 @@ export default (props: any) => {
                 </Dialog>
               </Grid>
               <Grid item xs={8}>
-                <Grid container justify="flex-start">
+                <Grid container >
                   <Grid item xs={6}>
-                    <Grid container justify="flex-start">
-                      <Button onClick={handleOpenChangePass}>
-                        Change Password
-                      </Button>
-                    </Grid>
                     <Dialog
                       open={openChangePass}
                       onClose={handleCloseChangePass}
@@ -399,7 +394,7 @@ export default (props: any) => {
                       style={{ width: "100%" }}
                     >
                       <DialogTitle id="form-dialog-title">
-                        Change PassWord
+                        Change Password
                       </DialogTitle>
                       <DialogContent>
                         <DialogContentText></DialogContentText>
@@ -433,7 +428,7 @@ export default (props: any) => {
                             color="primary"
                             onClick={handleSubmitPassword}
                           >
-                                                      Change
+                            Change
                           </Button>
                           <Grid item xs={3}>
                             <Button
@@ -447,27 +442,8 @@ export default (props: any) => {
                       </DialogActions>
                     </Dialog>
                   </Grid>
-                  <Grid item xs={6}>
-                    <Grid container justify="flex-start">
-                      <Button
-                        onClick={() => {
-                          document.cookie =
-                            "token=" +
-                            getCookie("token") +
-                            "; expires=" +
-                            new Date().toUTCString();
-                          props.logFunc(false);
-                          window.location.hash = "#/";
-                        }}
-                      >
-                        Logout
-                      </Button>
-                    </Grid>
-                  </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-          </div>
         </CardContent>
       ) : (
         <CardContent>
