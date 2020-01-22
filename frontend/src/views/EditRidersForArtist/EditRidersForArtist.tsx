@@ -74,56 +74,24 @@ export default function(props: any) {
     const [riders, setRiders] = useState<Array<{additions: string, rider_typeID: number, eventID: number, userID: number}>>([]);
     const [selected, setSelected] = useState<string[]>([]);
 
-    const handleClickSave = () => {
-        RiderService.deleteRidersForArtist(props.match.params.event_id, props.match.params.user_id);
-        riders.map(rider => RiderService.postRider(rider));
-        console.log('saved')
-    };
-    const handleClickCancel = () => {
-        console.log('canceled')
-    };
-
     useEffect(() => {
         Rider_TypeService.getRider_Types().then((resRiderTypes: any) => {
-          console.log(resRiderTypes);
             setRiderTypes(resRiderTypes);
             RiderService.getRidersForArtist(props.match.params.eventID, props.match.params.userID).then((resRiders: any) => {
                 setRiders(resRiders);
-                let xyz: any = [];
                 resRiders.map((rider: any) => {
-                  console.log(rider);
                     if (rider.rider_typeID === 1) {
                         setAddition(rider.additions);
                     } else {
                         let temp: any = resRiderTypes.find((riderType: any) => riderType.id === rider.rider_typeID);
-                        console.log(temp);
                         if (temp !== undefined) {
-                            xyz.push(temp.description);
+                            selectedRiders.push(temp.description);
                         }
                     }
                 });
-                setSelected(xyz);
-                console.log(xyz);
+                setRiderName(selectedRiders);
             });
         });
-
-
-
-        let allUser = riders.filter(
-            (rider: any) => rider.userID === props.match.params.artistID
-        );
-        let additional: any = allUser.find((rider: any) => rider.rider_typeID === 1);
-        if (additional !== undefined) {
-            setAddition(additional.additions);
-        }
-        allUser.map((rider: any) => {
-            selectedRiders.push(
-                props.riderTypes.find(
-                    (riderType: any) => riderType.id === rider.rider_typeID
-                ).description
-            );
-        });
-        setRiderName(selectedRiders);
     }, []);
 
     const handleChangeRider = (event: React.ChangeEvent<{ value: any }>) => {
@@ -162,6 +130,17 @@ export default function(props: any) {
             additions: event.target.value
         });
         props.handleChange(ridersArray, "riders");
+    };
+
+    const handleClickSave = () => {
+      console.log(riders);
+        RiderService.deleteRidersForArtist(props.match.params.event_id, props.match.params.user_id);
+        riders.map(rider => RiderService.postRider(rider));
+        console.log('saved')
+    };
+    const handleClickCancel = () => {
+        console.log('canceled');
+        window.location.hash = "/event/" + props.match.params.eventID;
     };
 
     return (

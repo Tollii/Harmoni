@@ -75,7 +75,7 @@ module.exports = (app, models, base, auth) => {
     .then(data => {
       console.log(data);
       if(data.auth){
-        ridersControl.riderGetAllArtist(req.params.eventID, req.params.userID).then((data) => {
+        ridersControl.riderGetAllByArtist(req.params.eventID, req.params.userID).then((data) => {
           res.send(data);
         })
       } else {
@@ -197,9 +197,7 @@ module.exports = (app, models, base, auth) => {
   /**
   * @group Riders - Operations about riders
   * @route DELETE /rider/rider_type/{rider_type_id}/event/{event_id}/user/{user_id}
-  * @param {integer} rider_type_id.path.required - Riders rider type id
   * @param {integer} event_id.path.required - Rider event id
-  * @param {integer} user_id.path.required - Rider user id
   * @param {string} token.header.required - token
   * @returns {object} 200 - Rider is deleted
   * @returns {Error}  default - Unexpected error
@@ -210,6 +208,34 @@ module.exports = (app, models, base, auth) => {
       if(data.auth){
         ridersControl.riderDelete(
           req.params.event_id
+          )
+          .then((data) => {
+          res.send("Riders are deleted");
+        })
+        .catch((err) => res.send(err))
+      } else {
+        res.status(400).send("Not authenticated")
+      }
+    })
+    .catch(err => res.send(err))
+  });
+
+  /**
+  * @group Riders - Operations about riders
+  * @route DELETE /rider/rider_type/{rider_type_id}/event/{event_id}/user/{user_id}
+  * @param {integer} event_id.path.required - Rider event id
+  * @param {integer} user_id.path.required - Rider user id
+  * @param {string} token.header.required - token
+  * @returns {object} 200 - Rider is deleted
+  * @returns {Error}  default - Unexpected error
+  */
+  app.delete(base+"/event/:event_id/user/:user_id", (req, res) => {
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"])
+    .then(data => {
+      if(data.auth){
+        ridersControl.ridersDeleteByArtist(
+          req.params.event_id
+          req.params.user_id
           )
           .then((data) => {
           res.send("Riders are deleted");
