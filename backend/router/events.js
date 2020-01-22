@@ -215,16 +215,15 @@ module.exports = (app, models, base, auth) => {
               req.body.event_typeID
             )
             .then(() => {
-              res.sendStatus(200).send("Event is updated");
+              res.status(200).send("Event is updated");
             })
             .catch(err => {
-              res.sendStatus(400).send("Event is NOT updated");
+              res.status(400).send("Event is NOT updated");
             });
         } else {
           res.status(400).send("Not authenticated");
         }
-      })
-      .catch(err => res.status(400).send(err));
+      });
   });
 
   /**
@@ -238,10 +237,10 @@ module.exports = (app, models, base, auth) => {
     eventControl
       .eventArchive()
       .then(() => {
-        res.sendStatus(200).send("Events are archived");
+        res.status(200).send("Events are archived");
       })
       .catch(err => {
-        res.sendStatus(400).send("Event are NOT archived");
+        res.status(400).send("Event are NOT archived");
       });
   });
   /**
@@ -482,10 +481,10 @@ module.exports = (app, models, base, auth) => {
               contractControl
                 .contractGetOne(data.user.dataValues.id, req.params.event_id)
                 .then(contract => {
-                  if(contract === null) {
-                    res.send(false)
-                  }else {
-                    res.send(true)
+                  if (contract === null) {
+                    res.send(false);
+                  } else {
+                    res.send(true);
                   }
                 })
                 .catch(err => {
