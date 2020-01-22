@@ -96,18 +96,17 @@ export default function(props: any) {
 
     const handleChangeRider = (event: React.ChangeEvent<{ value: any }>) => {
         setRiderName(event.target.value as string[]);
-        let ridersArray: any = riders.filter(
-            (rider: any) => rider.userID !== props.artistID
-        );
         event.target.value.map((rider: any) => {
             if (rider.rider_typeID === 1) {
-                ridersArray.push({
+                riders.push({
+                    eventID: props.match.params.eventID,
                     rider_typeID: rider.rider_typeID,
                     userID: props.artistID,
                     additions: addition
                 });
             } else {
-                ridersArray.push({
+                riders.push({
+                    eventID: props.match.params.eventID,
                     rider_typeID: rider.rider_typeID,
                     userID: props.artistID,
                     additions: ""

@@ -196,7 +196,7 @@ module.exports = (app, models, base, auth) => {
 
   /**
   * @group Riders - Operations about riders
-  * @route DELETE /rider/rider_type/{rider_type_id}/event/{event_id}/user/{user_id}
+  * @route DELETE /rider/event/{event_id}/
   * @param {integer} event_id.path.required - Rider event id
   * @param {string} token.header.required - token
   * @returns {object} 200 - Rider is deleted
@@ -222,7 +222,7 @@ module.exports = (app, models, base, auth) => {
 
   /**
   * @group Riders - Operations about riders
-  * @route DELETE /rider/rider_type/{rider_type_id}/event/{event_id}/user/{user_id}
+  * @route DELETE /rider/event/{event_id}/user/{user_id}
   * @param {integer} event_id.path.required - Rider event id
   * @param {integer} user_id.path.required - Rider user id
   * @param {string} token.header.required - token
@@ -234,7 +234,7 @@ module.exports = (app, models, base, auth) => {
     .then(data => {
       if(data.auth){
         ridersControl.ridersDeleteByArtist(
-          req.params.event_id
+          req.params.event_id,
           req.params.user_id
           )
           .then((data) => {

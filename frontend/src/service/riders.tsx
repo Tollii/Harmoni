@@ -86,7 +86,7 @@ class RiderService {
     axios
         .delete(
             process.env.REACT_APP_API_URL +
-            "event/" +
+            "/rider/event/" +
             event_id +
             "/user/" +
             user_id,
