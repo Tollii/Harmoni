@@ -42,7 +42,6 @@ const SimpleMap = (props: any) => {
         });
       })
     ).then((results: any) => {
-      console.log(results)
       setMarker(results);
     });
   }, [props.events, findCenter]);
