@@ -13,10 +13,10 @@ const SimpleMap = (props: any) => {
   const findCenter = useCallback((place: any): any => {
     if (place !== undefined) {
       return Geocode.fromAddress(place.location).then(
-        (response:any) => {
+        (response: any) => {
           return response.results[0].geometry.location;
         },
-        (err:any) => {
+        (err: any) => {
           console.error(err);
         }
       );
@@ -36,6 +36,7 @@ const SimpleMap = (props: any) => {
                 lng={center.lng}
                 name={e.event_name}
                 img={require("../../assets/img/harmoni_logo_small.png")}
+                link={"/event/" + e.id}
               />
             );
           }
@@ -48,14 +49,16 @@ const SimpleMap = (props: any) => {
 
   useEffect(() => {
     if (props.center) {
-      findCenter(props.center).then((x: any) => setCenter(x));
+      findCenter(props.center).then((x: any) => {
+        setCenter(x);
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.center]);
 
   return (
     <GoogleMapReact
-      bootstrapURLKeys={{ key: ""+process.env.REACT_APP_GOOGLE_API_KEY }}
+      bootstrapURLKeys={{ key: "" + process.env.REACT_APP_GOOGLE_API_KEY }}
       center={center}
       defaultZoom={props.zoom}
       options={{
