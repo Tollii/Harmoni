@@ -12,7 +12,6 @@ import { withStyles } from "@material-ui/core/styles";
 import DescriptionIcon from "@material-ui/icons/Description";
 import SettingsIcon from "@material-ui/icons/Settings";
 import DeleteIcon from "@material-ui/icons/Delete";
-import Authentication from "../../service/Authentication";
 import ContractService from "../../service/contracts";
 import EventService from "../../service/events";
 import UserService from "../../service/users";
@@ -86,8 +85,7 @@ export default (props: any) => {
 
   const handleEditRider = async () => {
     let userID = await UserService.getOneUser().then(user => user.id);
-    console.log(userID);
-    window.location.hash = "artist/editRider/" + props.event + "/user/" + userID;
+    window.location.hash = "#/artist/editRider/" + props.event + "/user/" + userID;
   }
 
   function handleAlert(open: boolean) {
@@ -211,7 +209,7 @@ export default (props: any) => {
                 onClose={handleClose}
               >
                 {eventConnection ? (
-                  <StyledMenuItem>
+                  <StyledMenuItem onClick={handleEditRider}>
                     <ListItemIcon>
                       <SettingsIcon fontSize="small" />
                     </ListItemIcon>
