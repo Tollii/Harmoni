@@ -13,7 +13,8 @@ stages:
   - connect
   - test
   - pages
-  - hosting
+  - b_hosting
+  - f_hosting
 
 # Run JEST tests
 run_tests:
@@ -52,14 +53,31 @@ pages:
 
 # Job 2:
 # Deploy to staging
-hosting:
+back_hosting:
   image: ruby:latest
   only:
     - dev
-  stage: hosting
+  stage: b_hosting
   script:
     - apt-get update -qy
     - apt-get install -y ruby-dev
     - gem install dpl
     - cd backend
     - dpl --provider=heroku --app=$HEROKU_APP_NAME_API --api-key=$HEROKU_API_KEY
+
+    # Job name for gitlab to recognise this results in assets for Gitlab Pages
+# https://docs.gitlab.com/ee/user/project/pages/introduction.html#gitlab-pages-requirements
+front_hosting:
+  stage: f_hosting
+  script:
+    - cd frontend
+    - npm install # Install all dependencies
+    - npm run build --prod # Build for prod
+    - cp public/index.html # Not necessary, but helps with https://medium.com/@pshrmn/demystifying-single-page-applications-3068d0555d46
+    - mv public _public # CRA and gitlab pages both use the public folder. Only do this in a build pipeline.
+    - mv build public # Move build files to public dir for Gitlab Pages
+  artifacts:
+    paths:
+    - public # The built files for Gitlab Pages to serve
+  only:
+    - dev # Only run on master branch
