@@ -12,12 +12,12 @@ const useStyles = makeStyles({
     position: "relative"
   },
   carousel: {
-    zIndex: 20,
+    zIndex: 1,
     position: "absolute",
     width: "100%",
-    height: "50%",
+    height: "20%",
     top: "80%",
-    left: "0"
+    left: "0",
   }
 });
 
@@ -44,6 +44,7 @@ export default (props: any) => {
       <div className={classes.carousel}>
         <Carousel events={eventsCard} setCenter={setCenter} />
       </div>
+
     </div>
   );
 };

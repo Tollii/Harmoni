@@ -1,8 +1,14 @@
+/**
+ * @typedef feedback_Send
+ * @property {string} text.required - User email
+ */
+
 module.exports = (app, models, base, auth) => {
   const mailer = require("../mailer/mailer");
   const eventController = require("../dao/events")(models);
   const contractDao = require("../dao/contracts")(models);
   const userControl = require("../dao/users")(models);
+
 
   /**
    * @group Mailer - Operations about mailer
@@ -76,6 +82,38 @@ module.exports = (app, models, base, auth) => {
       console.log(err);
     }
   });
+
+
+/**
+ * @group Mailer - Operations about mailer
+ * @route post /mailer/feedback/
+ * @param {string} token.header.required - user token
+ * @param {feedback_Send.model} user.body.required - User feedback
+ * @returns {object} 200 - Email successfully sent
+ * @returns {Error}  default - Internal server error
+ */
+
+app.post(base + "/feedback/", async (req, res) => {
+  try {
+    let id = await auth.decode_token(req.headers.token);
+    userControl.userGetOne(id).then(data => {
+      let recipients = `server <${process.env.EMAIL_MAIL}>`;
+      const subject = `Feedback from user ${data.username}`;
+      const html =
+          `<h1>${data.username}: ${data.email} has reported a bug</h1>` +
+          `\n<p>${req.body.text}</p>`;
+
+      mailer(recipients, subject, html);
+    });
+    res
+        .status(200)
+        .send("feedback sent");
+  } catch (err) {
+    res.status(500).send("Something went wrong");
+
+    console.log(err);
+  }
+});
 };
 
 // res.sendStatus(200).send("Email successfully sent");

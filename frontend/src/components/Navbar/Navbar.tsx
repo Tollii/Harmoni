@@ -23,7 +23,9 @@ import {
   ListItemText,
   Divider,
   Drawer,
-  Avatar
+  Avatar,
+  Menu,
+  MenuItem
 } from "@material-ui/core";
 
 import Grid from "@material-ui/core/Grid";
@@ -32,6 +34,8 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import UserService from "../../service/users";
 import Authentication from "../../service/Authentication";
+import getCookie from "../../service/cookie";
+
 
 const drawerWidth = 240;
 
@@ -104,6 +108,9 @@ const useStyles = makeStyles((theme: Theme) =>
       height: 70,
       position: "absolute",
       bottom: 0
+    },
+    profile_menu: {
+      marginTop: "45px",
     }
   })
 );
@@ -112,6 +119,7 @@ export default function Navbar(props: any) {
   const classes = useStyles();
   const [auth, setAuth] = React.useState(false);
   const [role, setRole] = React.useState();
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [values, setValues] = React.useState({
     id: 0,
     fullName: "Trump",
@@ -120,6 +128,31 @@ export default function Navbar(props: any) {
   });
   const [open, setOpen] = React.useState(false);
   const theme = useTheme();
+
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleCloseProfile = () => {
+    setAnchorEl(null);
+    window.location.hash = "/profile";
+  };
+
+  const handleCloseLogout = () => {
+    setAnchorEl(null);
+    document.cookie =
+    "token=" +
+    getCookie("token") +
+    "; expires=" +
+    new Date().toUTCString();
+    props.logFunc(false);
+    window.location.hash = "#/";
+  };
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -155,6 +188,9 @@ export default function Navbar(props: any) {
 
   useEffect(() => {
     setAuth(props.loggedIn);
+  }, [props.loggedIn]);
+
+  useEffect(() => {
     if (auth) {
       UserService.getOneUser().then(res => {
         setValues({
@@ -164,12 +200,21 @@ export default function Navbar(props: any) {
           roleID: res.roleID
         });
       });
+      Authentication.getAuth().then((role: any) => {
+        setRole(role);
+      });
+    } else {
+      UserService.getOneUser().then(res => {
+        setValues({
+          id: 0,
+          fullName: "",
+          picture: "",
+          roleID: 0
+        });
+      });
+      setRole(0);
     }
-
-    Authentication.getAuth().then((role: any) => {
-      setRole(role);
-    });
-  }, [props.loggedIn, auth]);
+  }, [auth]);
 
   return (
     <div className={classes.root}>
@@ -211,13 +256,26 @@ export default function Navbar(props: any) {
               }
               <Box className={classes.profileButton}>
                 {auth ? (
-                  <Button onClick={() => (window.location.hash = "/profile")}>
-                    <Avatar
-                      alt="Profile"
-                      src={"http://localhost:8080/profile_picture/" + values.id}
-                    />
-                    {values.fullName}
-                  </Button>
+                  <div>
+                    <Button onClick={handleClick}>
+                      <Avatar
+                        alt="Profile"
+                        src={process.env.REACT_APP_API_URL + "/image/profile/" + values.id}
+                      />
+                      {values.fullName}
+                    </Button>
+                    <Menu
+                    id="simple-menu"
+                    anchorEl={anchorEl}
+                    keepMounted
+                    className={classes.profile_menu}
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                  >
+                    <MenuItem onClick={handleCloseProfile}>Profile</MenuItem>
+                    <MenuItem onClick={handleCloseLogout}>Logout</MenuItem>
+                  </Menu>
+                </div>
                 ) : (
                   <Button onClick={() => (window.location.hash = "/login")}>
                     <AccountCircle />
@@ -272,8 +330,8 @@ export default function Navbar(props: any) {
                 {" "}
                 <Avatar
                   alt="Profile"
-                  src={"http://localhost:8080/profile_picture/" + values.id}
-                />{" "}
+                  src={process.env.REACT_APP_API_URL + "/image/profile/" + values.id}
+                />
               </ListItemAvatar>
               <ListItemText> {values.fullName} </ListItemText>
             </ListItem>

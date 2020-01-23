@@ -14,7 +14,7 @@ describe('riders DAO', () => {
         await authControl.signUp("wasd4@wasd.wasd", "wasdwasd", "wasdwasd", "12345678");
         await rider_typeControl.rider_typesCreate("yeet");
         await event_typesControl.event_typesCreate("new event type");
-        await  eventsControl.eventCreate("wasd", "cola", new Date('1995-12-17T03:24:00'), new Date('1995-12-19T03:24:00'), "wasdwasd", "wasdwasd", 1);
+        await  eventsControl.eventCreate("wasd", "cola", new Date('1995-12-17T03:24:00'), new Date('1995-12-19T03:24:00'), "wasdwasd", 10, "Wasasd", 1);
         const res = await ridersControl.riderCreate("additions", 1, 1, 1);
         // expect(res.userID).toEqual(1);
         // expect(res.rider_typeID).toEqual(1);

@@ -19,6 +19,7 @@ import ContractService from "../../service/contracts";
 import RiderService from "../../service/riders";
 import TicketService from "../../service/tickets";
 import { Link } from "react-router-dom";
+import { useSnackbar } from "material-ui-snackbar-provider";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -93,22 +94,13 @@ interface Values {
   }>;
   riders: Array<{ additions: string; rider_typeID: number; userID: number }>;
   tickets: any;
-  /*
-  Array<{
-    id: number;
-    ticket_name: string;
-    price: number;
-    ticket_amount: number;
-    date_start: Object;
-    date_end: Object;
-  }>;
-  */
 }
 
 export default (props: any) => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();
+  const snackbar = useSnackbar();
 
   // States for posting event
   const [eventTypes, setEventTypes] = useState([]);
@@ -237,7 +229,8 @@ export default (props: any) => {
         targetName === "name" ||
         targetName === "description" ||
         targetName === "location" ||
-        targetName === "personnel"
+        targetName === "personnel" ||
+        targetName === "volunteers"
       ) {
         setEdit({ ...edit, editGeneral: true });
       }
@@ -294,11 +287,9 @@ export default (props: any) => {
     if (!props.edit) {
       EventService.postEvent(event)
         .then((response: any) => {
-          if (values.eventImage.name !== "") {
-            FileService.postEventPicture(values.eventImage, response.id)
-              .then(() => null)
-              .catch((err: any) => console.log(err));
-          }
+          FileService.postEventPicture(values.eventImage, response.id)
+            .then((resp: any) => console.log(resp))
+            .catch((err: any) => console.log(err));
         })
         .catch((error: any) => {
           console.log(error);
@@ -312,6 +303,7 @@ export default (props: any) => {
             event_start: dateStart + " " + timeStart,
             event_end: dateEnd + " " + timeEnd,
             personnel: values.personnel,
+            volunteers: values.volunteers,
             description: values.description,
             event_typeID: values.eventTypeId
           },
@@ -323,9 +315,11 @@ export default (props: any) => {
           });
       }
       if (edit.editEventImage) {
-        FileService.postEventPicture(values.eventImage, props.match.params.id)
-          .then(() => null)
-          .catch((err: any) => console.log(err));
+        setTimeout(function() {
+          FileService.postEventPicture(values.eventImage, props.match.params.id)
+            .then(() => null)
+            .catch((err: any) => console.log(err));
+        }, 1000);
       }
       if (edit.editTicket) {
         EventService.deleteEventTickets(props.match.params.id).then(() => {
@@ -442,10 +436,10 @@ export default (props: any) => {
                       variant="contained"
                       color="primary"
                       onClick={() => {
+                        if (props.edit)
+                          snackbar.showMessage("You updated an event");
+                        else snackbar.showMessage("You created a new event");
                         submit();
-                        setTimeout(function() {
-                          window.location.reload(false);
-                        }, 1000);
                       }}
                     >
                       {activeStep === steps.length - 1 ? "Finish" : "Next"}
