@@ -3,7 +3,6 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
-import EventService from "../../service/events";
 
 import "./styles.css"; // webpack must be configured to do this
 
@@ -24,9 +23,10 @@ export default (props: any) => {
         start: new Date(event.event_start),
         end: new Date(event.event_end)
       });
+      return null
     });
     setEvents(temp);
-  }, []);
+  }, [props.events]);
 
   const handleEventClick = (arg: any) => {
     window.location.hash = "#/event/" + arg.event._def.publicId;
