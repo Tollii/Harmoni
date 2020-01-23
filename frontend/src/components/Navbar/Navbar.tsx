@@ -33,7 +33,6 @@ import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import UserService from "../../service/users";
-import Authentication from "../../service/Authentication";
 import getCookie from "../../service/cookie";
 
 const drawerWidth = 240;
@@ -104,7 +103,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     drawerProfile: {
       width: drawerWidth,
-      height: 70,
       position: "absolute",
       bottom: 0
     },
@@ -121,7 +119,7 @@ export default function Navbar(props: any) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [values, setValues] = React.useState({
     id: 0,
-    fullName: "Trump",
+    fullName: "",
     roleID: 0,
     picture: ""
   });
@@ -176,6 +174,14 @@ export default function Navbar(props: any) {
     handleDrawerClose();
   };
 
+  const handleDrawerLogout = () => {
+    handleDrawerClose();
+    document.cookie =
+    "token=" + getCookie("token") + "; expires=" + new Date().toUTCString();
+    props.logFunc(false);
+    window.location.hash = "#/";
+  };
+
   const handleDrawerProfile = () => {
     window.location.hash = "#/profile";
     handleDrawerClose();
@@ -194,9 +200,7 @@ export default function Navbar(props: any) {
           picture: res.picture,
           roleID: res.roleID
         });
-      });
-      Authentication.getAuth().then((role: any) => {
-        setRole(role);
+        setRole(res.roleID);
       });
     } else {
       UserService.getOneUser().then(res => {
@@ -292,6 +296,7 @@ export default function Navbar(props: any) {
       <Drawer
         className={classes.drawer}
         classes={{ paper: classes.drawPaper }}
+        onClose={handleDrawerClose}
         open={open}
         anchor="right"
       >
@@ -330,20 +335,25 @@ export default function Navbar(props: any) {
         <Box className={classes.drawerProfile}>
           <Divider />
           {auth ? (
-            <ListItem button onClick={handleDrawerProfile}>
-              <ListItemAvatar>
-                {" "}
-                <Avatar
-                  alt="Profile"
-                  src={
-                    process.env.REACT_APP_API_URL +
-                    "/image/profile/" +
-                    values.id
-                  }
-                />
-              </ListItemAvatar>
-              <ListItemText> {values.fullName} </ListItemText>
-            </ListItem>
+            <div>
+              <ListItem button onClick={handleDrawerProfile}>
+                <ListItemAvatar>
+                  {" "}
+                  <Avatar
+                    alt="Profile"
+                    src={
+                      process.env.REACT_APP_API_URL +
+                      "/image/profile/" +
+                      values.id
+                    }
+                  />
+                </ListItemAvatar>
+                <ListItemText> {values.fullName} </ListItemText>
+              </ListItem>
+              <ListItem button onClick={handleDrawerLogout}>
+                <ListItemText> Logout </ListItemText>
+              </ListItem>
+            </div>
           ) : (
             <ListItem button onClick={handleDrawerLogin}>
               <ListItemAvatar>
