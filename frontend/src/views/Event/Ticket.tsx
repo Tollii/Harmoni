@@ -1,5 +1,6 @@
 import React from "react";
 import MaterialTable, { Column } from "material-table";
+import Card from "../../components/Card/Card";
 
 interface Row {
   ticket_name: string;
@@ -33,41 +34,44 @@ export default (props: any) => {
   };
 
   return (
-    <MaterialTable
-      title="Tickets"
-      columns={state.columns}
-      data={props.tickets}
-      editable={{
-        onRowAdd: newData =>
-          new Promise(resolve => {
-            setTimeout(() => {
-              resolve();
-              const data = [...props.tickets];
-              data.push(newData);
-              props.handleChange(data, "tickets");
-            }, 600);
-          }),
-        onRowUpdate: (newData, oldData) =>
-          new Promise(resolve => {
-            setTimeout(() => {
-              resolve();
-              if (oldData) {
-                const data = [...props.tickets];
-                data[data.indexOf(oldData)] = newData;
-                props.handleChange(data, "tickets");
-              }
-            }, 600);
-          }),
-        onRowDelete: oldData =>
-          new Promise(resolve => {
-            setTimeout(() => {
-              resolve();
-              const data = [...props.tickets];
-              data.splice(data.indexOf(oldData), 1);
-              props.handleChange(data, "tickets");
-            }, 600);
-          })
-      }}
-    />
+      <Card width='100%'>
+        <MaterialTable
+            title="Tickets"
+            columns={state.columns}
+            data={props.tickets}
+            editable={{
+              onRowAdd: newData =>
+                  new Promise(resolve => {
+                    setTimeout(() => {
+                      resolve();
+                      const data = [...props.tickets];
+                      data.push(newData);
+                      props.handleChange(data, "tickets");
+                    }, 600);
+                  }),
+              onRowUpdate: (newData, oldData) =>
+                  new Promise(resolve => {
+                    setTimeout(() => {
+                      resolve();
+                      if (oldData) {
+                        const data = [...props.tickets];
+                        data[data.indexOf(oldData)] = newData;
+                        props.handleChange(data, "tickets");
+                      }
+                    }, 600);
+                  }),
+              onRowDelete: oldData =>
+                  new Promise(resolve => {
+                    setTimeout(() => {
+                      resolve();
+                      const data = [...props.tickets];
+                      data.splice(data.indexOf(oldData), 1);
+                      props.handleChange(data, "tickets");
+                    }, 600);
+                  })
+            }}
+        />
+      </Card>
+
   );
 };
