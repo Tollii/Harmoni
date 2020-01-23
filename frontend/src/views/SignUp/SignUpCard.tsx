@@ -10,6 +10,7 @@ import useForm from "../../service/Form/useForm";
 import validateSignUp from "../../service/Form/Validate";
 import Authentication from "../../service/Authentication";
 import { useSnackbar } from "material-ui-snackbar-provider";
+import { Tooltip } from "@material-ui/core";
 
 const useStyles = makeStyles({
   grid: {
@@ -45,10 +46,24 @@ export default (props: any) => {
   const handleUndo = () => {
     // *snip*
   };
+  function checkPhonenumber(inputtxt: any) {
+    var phoneno = /^(\+[1-9]{1,3})?([ ]{1})?([0-9]{8})$/;
+    if (inputtxt.match(phoneno)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   function submit() {
     const pattern = /.+@[a-z1-9]+\.[a-z]+/;
     const check = values.email.match(pattern);
-    if (check && values.password && values.fullName && values.telephone) {
+    if (
+      checkPhonenumber(values.telephone) &&
+      check &&
+      values.password &&
+      values.fullName
+    ) {
       console.log("Submitted form");
       Authentication.signUp({
         email: values.email.toLowerCase(),
@@ -59,7 +74,7 @@ export default (props: any) => {
       window.location.hash = "#/login";
       snackbar.showMessage(
         "You have created a user. You can now log in with your username and password",
-        "Undo",
+        "Ok",
         () => handleUndo()
       );
     }
@@ -149,16 +164,18 @@ export default (props: any) => {
               {errors.telephone && (
                 <Typography color="error">{errors.telephone}</Typography>
               )}
-
-              <InputField
-                name="telephone"
-                label="Telephone"
-                type="numeric"
-                pattern="[0-9]*"
-                required={true}
-                value={values.telephone}
-                onChange={handleChange}
-              />
+              <Tooltip title="+XX XXXXXXXX" arrow={true}>
+                <InputField
+                  style={{ width: "100%" }}
+                  name="telephone"
+                  label="Telephone"
+                  type="numeric"
+                  pattern="[0-9]*"
+                  required={true}
+                  value={values.telephone}
+                  onChange={handleChange}
+                />
+              </Tooltip>
             </Grid>
             <Grid container direction="row" justify="space-between">
               <Button onClick={() => (window.location.hash = "#/login")}>

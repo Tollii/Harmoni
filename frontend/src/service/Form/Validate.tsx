@@ -1,6 +1,14 @@
 export default function validateSignUp(values: any) {
   let errors: any = {};
-
+  
+  function checkPhonenumber(inputtxt: any) {
+    var phoneno = /^(\+[1-9]{1,3})?([ ]{1})?([0-9]{8})$/;
+    if (inputtxt.match(phoneno)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
   if (!values.email) {
     errors.email = "Email is required";
   } else if (!/\S+@\S+\.\S+/.test(values.email)) {
@@ -33,12 +41,13 @@ export default function validateSignUp(values: any) {
   }
   if (!values.telephone) {
     errors.telephone = "Telephone required";
-  } else if (values.telephone.length < 8) {
-    errors.telephone = "8 digits required";
-  } else if (values.telephone.replace(/[^0-9]/g).length !== 8) {
+  }
+  if (values.telephone.length < 8) {
     errors.telephone = "8 digits required";
   }
-
+  if (!checkPhonenumber(values.telephone)) {
+    errors.telephone = "Invalid phonenumber";
+  }
   return errors;
 }
 
