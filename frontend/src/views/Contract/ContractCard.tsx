@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import Card from "../../components/Card/Card";
-import CardContent from "@material-ui/core/CardContent";
 import Button from "../../components/Button/Button";
+import CardContent from "@material-ui/core/CardContent";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import { Paper } from "@material-ui/core";
+import { Paper} from "@material-ui/core";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -28,6 +28,26 @@ const useStyles = makeStyles((theme: Theme) =>
       "&:hover": {
         cursor: "pointer"
       }
+    },
+    button: {
+        fontSize: '1.5vw',
+        color: 'black',
+        borderColor: 'black',
+    },
+    rowButton: {
+        fontSize: '1.3vw',
+        marginTop: '20px',
+        marginLeft: '10px',
+    },
+    name: {
+        fontSize: '2vw',
+        fontWeight: 'bold',
+        marginBottom: '20px',
+    },
+    file: {
+        marginLeft: "30px",
+        fontSize: '1.5vw',
+        marginTop: '10px',
     }
   })
 );
@@ -43,11 +63,11 @@ export default (props: any) => {
     <div>
       <Card key={props.index} style={{ width: "80%", marginTop: "20px" }}>
         <CardContent>
-          <Typography>{props.user.username}</Typography>
+          <Typography className={classes.name} variant="h4" gutterBottom>{props.user.username}</Typography>
           <Grid container direction="row" justify="center">
             <Paper className={classes.paper}>
               <Grid container direction="row">
-                <Button variant="contained" component="label">
+                <Button className={classes.button} variant="outlined" component="label">
                   Choose File
                   <input
                     type="file"
@@ -56,27 +76,30 @@ export default (props: any) => {
                     onChange={fileSelectedHandler}
                   />
                 </Button>
-                <Typography style={{ marginLeft: "30px" }}>
+                <Typography className={classes.file}>
                   Chosen file: {file.name}
                 </Typography>
               </Grid>
             </Paper>
-            <Button
-              type="submit"
-              onClick={() => {
-                props.uploadContract(props.user.id, file).then(() => {
-                  setFile(new File(["foo"], ""));
-                  window.location.reload();
-                });
-              }}
-            >
-              Upload contract
-            </Button>
-          </Grid>
-          <Grid container direction="row" justify="center">
-            {props.user.Contracts[0].contract !== "" && (
-              <Grid item xs={3}>
+          <Grid container direction="row" spacing={2}>
+              <Grid item xs={4}>
+                  <Button
+                      className={classes.rowButton}
+                      type="submit"
+                      onClick={() => {
+                          props.uploadContract(props.user.id, file).then(() => {
+                              setFile(new File(["foo"], ""));
+                              window.location.reload();
+                          });
+                      }}
+                  >
+                      Upload contract
+                  </Button>
+              </Grid>
+                {props.user.Contracts[0].contract !== "" && (
+              <Grid item xs={4}>
                 <Button
+                  className={classes.rowButton}
                   onClick={() =>
                     window.open(
                       process.env.REACT_APP_API_URL +
@@ -91,23 +114,25 @@ export default (props: any) => {
                   View Contract
                 </Button>
               </Grid>
-            )}
-            <Grid item xs={3}>
-              <Link
-                to={"/contract/event/" + props.eventId}
-                style={{ textDecoration: "none" }}
-              >
-                <Button
-                  onClick={() => {
-                    props.deleteContract(props.user.id, file);
-                    setTimeout(function() {
-                      window.location.reload(false);
-                    }, 1000);
-                  }}
-                >
-                  Delete Contract
-                </Button>
-              </Link>
+                )}
+              <Grid item xs={4}>
+                  <Link
+                    to={"/contract/event/" + props.eventId}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <Button
+                      className={classes.rowButton}
+                      onClick={() => {
+                        props.deleteContract(props.user.id, file);
+                        setTimeout(function() {
+                          window.location.reload(false);
+                        }, 1000);
+                      }}
+                    >
+                      Delete Contract
+                    </Button>
+                  </Link>
+                </Grid>
             </Grid>
           </Grid>
         </CardContent>
