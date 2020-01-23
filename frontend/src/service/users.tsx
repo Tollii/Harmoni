@@ -24,7 +24,9 @@ class UserService {
   getOneUser() {
     return axios
       .get<User>(process.env.REACT_APP_API_URL + "/user/" + getCookie("token"))
-      .then(response => response.data);
+      .then(response => {
+        return response.data
+      });
   }
   postOneUser(user: object) {
     return axios
