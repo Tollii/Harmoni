@@ -242,53 +242,114 @@ export default function Navbar(props: any) {
             </Typography>
           </Button>
           <Box className={classes.rightButtons}>
-            <Grid container direction="row">
-              <Button
-                onClick={() => (window.location.hash = "#/eventUnarchived")}
-                className={classes.listButton}
-              >
-                <FormatListBulletedIcon />
-              </Button>
-              {(role === 3 || role === 4) && (
+            <Grid container direction="row" alignItems="center" spacing={2}>
+              <Grid item>
                 <Button
-                  onClick={() => (window.location.hash = "#/addEvent")}
-                  className={classes.addEventButton}
+                  onClick={() => (window.location.hash = "#/eventUnarchived")}
+                  className={classes.listButton}
                 >
-                  <AddCircleIcon />
-                </Button>
-              )}
-              <Box className={classes.profileButton}>
-                {auth ? (
-                  <div>
-                    <Button onClick={handleClick}>
-                      <Avatar
-                        alt="Profile"
-                        src={
-                          process.env.REACT_APP_API_URL +
-                          "/image/profile/" +
-                          values.id
-                        }
-                      />
-                      {values.fullName}
-                    </Button>
-                    <Menu
-                      id="simple-menu"
-                      anchorEl={anchorEl}
-                      keepMounted
-                      className={classes.profile_menu}
-                      open={Boolean(anchorEl)}
-                      onClose={handleClose}
-                    >
-                      <MenuItem onClick={handleCloseProfile}>Profile</MenuItem>
-                      <MenuItem onClick={handleCloseLogout}>Logout</MenuItem>
-                    </Menu>
+                  <FormatListBulletedIcon />
+                  <div
+                    style={{
+                      fontFamily: "Roboto",
+                      fontSize: "11pt",
+                      fontWeight: 250,
+                      marginLeft: 5
+                    }}>
+                  All Events
                   </div>
-                ) : (
-                  <Button onClick={() => (window.location.hash = "#/login")}>
-                    <AccountCircle />
-                  </Button>
-                )}
-              </Box>
+                </Button>
+              </Grid>
+              {(role === 3 || role === 4) && (
+                <div>
+                  <Grid item>
+                    <Button
+                      onClick={() => (window.location.hash = "#/addEvent")}
+                      className={classes.addEventButton}
+                    >
+                      <AddCircleIcon />
+                      <div
+                        style={{
+                          fontFamily: "Roboto",
+                          fontSize: "11pt",
+                          fontWeight: 250,
+                          marginLeft: 5
+                        }}>
+                        Add Event
+                      </div>
+                    </Button>
+                  </Grid>
+                </div>
+              )}
+              <Grid item>
+                <Box className={classes.profileButton}>
+                  {auth ? (
+                    <div>
+                      <Button onClick={handleClick}>
+                        <Avatar
+                          alt="Profile"
+                          src={
+                            process.env.REACT_APP_API_URL +
+                            "/image/profile/" +
+                            values.id
+                          }
+                        />
+                        <div
+                        style={{
+                          fontFamily: "Roboto",
+                          fontSize: "11pt",
+                          fontWeight: 250,
+                          marginLeft: 5
+                        }}>
+                          {values.fullName}
+                        </div>
+                      </Button>
+                      <Menu
+                        id="simple-menu"
+                        anchorEl={anchorEl}
+                        keepMounted
+                        className={classes.profile_menu}
+                        open={Boolean(anchorEl)}
+                        onClose={handleClose}
+                      >
+                        <MenuItem onClick={handleCloseProfile}>
+                          <div
+                          style={{
+                            fontFamily: "Roboto",
+                            fontSize: "11pt",
+                            fontWeight: 250
+                          }}>
+                            Profile
+                          </div>
+                        </MenuItem>
+                        <MenuItem onClick={handleCloseLogout}>
+                          <div
+                          style={{
+                            fontFamily: "Roboto",
+                            fontSize: "11pt",
+                            fontWeight: 250
+                          }}>
+                            Logout
+                          </div>
+                        </MenuItem>
+                      </Menu>
+                    </div>
+                  ) : (
+                    <Button onClick={() => (window.location.hash = "#/login")}>
+                      <AccountCircle />
+                      <div
+                        style={{
+                          fontFamily: "Roboto",
+                          fontSize: "11pt",
+                          fontWeight: 250,
+                          marginLeft: 5
+                        }}>
+                          Login
+                        </div>
+                    </Button>
+                  )}
+                </Box>
+              </Grid>
             </Grid>
           </Box>
         </Toolbar>
