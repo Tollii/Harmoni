@@ -12,7 +12,6 @@ import { withStyles } from "@material-ui/core/styles";
 import DescriptionIcon from "@material-ui/icons/Description";
 import SettingsIcon from "@material-ui/icons/Settings";
 import DeleteIcon from "@material-ui/icons/Delete";
-import Authentication from "../../service/Authentication";
 import ContractService from "../../service/contracts";
 import EventService from "../../service/events";
 import UserService from "../../service/users";
@@ -86,7 +85,6 @@ export default (props: any) => {
 
   const handleEditRider = async () => {
     let userID = await UserService.getOneUser().then(user => user.id);
-    console.log(userID);
     window.location.hash =
       "artist/editRider/" + props.event + "/user/" + userID;
   };
@@ -114,8 +112,6 @@ export default (props: any) => {
   useEffect(() => {
     ContractService.getContract(props.user, props.event).then(
       (contract: any) => {
-        console.log("dropdownwdnwknw");
-
         if (contract !== "") {
           setEventConnection(true);
           if (contract.contract !== null) {
@@ -308,7 +304,6 @@ export default (props: any) => {
         aria-describedby="alert-dialog-description"
         onBackdropClick={() => {
           setVolunteerDialog(false);
-          console.log(state);
         }}
       >
         <MaterialTable
