@@ -97,8 +97,8 @@ module.exports = models => {
         .then(id => {
           return Users_dao.userGetOne(id).then(user => {
             return Roles_dao.roleGetOne(user.roleID).then(role => {
-              if(permissions.includes("Admin")){
-                if("Admin" === role.dataValues.role_name){
+              if (permissions.includes("Admin")) {
+                if ("Admin" == role.dataValues.role_name) {
                   return {
                     auth: true,
                     user: user,
@@ -106,79 +106,91 @@ module.exports = models => {
                   };
                 }
               }
-              if(permissions.includes("Organizer")) {
-                if("Organizer" === role.dataValues.role_name){
-                  if(event_id !== 0){
-                    Contract_dao.contractGetOne(id, event_id)
-                    .then(contract=> {
-                      if(contract !== null){
-                        return {
-                          auth: true,
-                          user: user,
-                          role: role
-                        };
-                      }
-                    })
-                  } else {
-                    if(user_id === 0) {
-                      return {
-                        auth: true,
-                        user: user,
-                        role: role
-                      }
-                    } else {
-                      if(user_id === id){
-                        return {
-                          auth: true,
-                          user: user,
-                          role: role
-                        };
-                      }
-                    }
-                  }
-                }
-              }
-              if(permissions.includes("Artist")) {
-                if("Artist" === role.dataValues.role_name){
-                  if(user_id === 0 && event_id === 0) {
-                    return {
-                      auth: true,
-                      user: user,
-                      role: role
-                    };
-                  }
-                  if(user_id === id) {
-                    if(event_id === 0){
-                      return {
-                        auth: true,
-                        user: user,
-                        role: role
-                      };
-                    } else {
-                      Contract_dao.contractGetOne(id, event_id)
-                      .then(contract=> {
-                        if(contract !== null){
+              if (permissions.includes("Organizer")) {
+                if ("Organizer" == role.dataValues.role_name) {
+                  if (event_id != 0) {
+                    return Contract_dao.contractGetOne(id, event_id).then(
+                      contract => {
+                        if (contract != null) {
                           return {
                             auth: true,
                             user: user,
                             role: role
                           };
                         }
-                      })
+                      }
+                    );
+                  } else {
+                    if (user_id == 0) {
+                      return {
+                        auth: true,
+                        user: user,
+                        role: role
+                      };
+                    } else {
+                      if (user_id == id) {
+                        return {
+                          auth: true,
+                          user: user,
+                          role: role
+                        };
+                      }
                     }
                   }
                 }
               }
-              if(permissions.includes("User")) {
-                if("User" === role.dataValues.role_name){
-                  if(user_id !== 0 && user_id === id){
+              if (permissions.includes("Artist")) {
+                if ("Artist" == role.dataValues.role_name) {
+                  console.log(
+                    "1. if brorororororor  i authhhhhhh ----------------"
+                  );
+
+                  if (user_id == 0 && event_id == 0) {
+                    console.log(
+                      "2. if brorororororor  i authhhhhhh ----------------"
+                    );
+
                     return {
                       auth: true,
                       user: user,
                       role: role
                     };
                   }
-                  if(user_id === 0){
+                  if (user_id == id) {
+                    console.log("if userid==id i authhhhhhh ----------------");
+
+                    if (event_id == 0) {
+                      return {
+                        auth: true,
+                        user: user,
+                        role: role
+                      };
+                    } else {
+                      return Contract_dao.contractGetOne(id, event_id).then(
+                        contract => {
+                          if (contract != null) {
+                            return {
+                              auth: true,
+                              user: user,
+                              role: role
+                            };
+                          }
+                        }
+                      );
+                    }
+                  }
+                }
+              }
+              if (permissions.includes("User")) {
+                if ("User" == role.dataValues.role_name) {
+                  if (user_id != 0 && user_id == id) {
+                    return {
+                      auth: true,
+                      user: user,
+                      role: role
+                    };
+                  }
+                  if (user_id == 0) {
                     return {
                       auth: true,
                       user: user,
