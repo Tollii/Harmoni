@@ -1,7 +1,5 @@
 import getCookie from "./cookie";
 const axios = require("axios").default;
-
-const token = getCookie("token");
 export class Riders {
   additions!: string;
   rider_typeID!: number;
@@ -19,7 +17,7 @@ class RiderService {
   getEventRiders(id: number) {
     return axios
       .get(process.env.REACT_APP_API_URL + "/rider/event/" + id, {
-        headers: { token: token }
+        headers: { token:  getCookie("token")}
       })
       .then((response: { data: JSON }) => response.data);
   }
@@ -32,12 +30,12 @@ class RiderService {
             event_id +
             "/user/" +
             user_id ,
-            { headers: { token: token} }
+            { headers: { token: getCookie("token")} }
         )
         .then((response: { data: JSON }) => response.data);
   }
 
-  getRider(rider_type_id: number, event_id: number, token: string) {
+  getRider(rider_type_id: number, event_id: number) {
     return axios
       .get(
         process.env.REACT_APP_API_URL +
@@ -45,16 +43,14 @@ class RiderService {
           rider_type_id +
           "/event/" +
           event_id +
-          "/user/" +
-          token
-      )
+          "/user/", {headers: {token: getCookie("token")}}      )
       .then((response: { data: JSON }) => response.data);
   }
 
   postRider(rider: object) {
     return axios
       .post(process.env.REACT_APP_API_URL + "/rider/", rider, {
-        headers: { token: token }
+        headers: { token: getCookie("token") }
       })
       .then((response: { data: JSON }) => console.log(response));
   }
@@ -69,7 +65,7 @@ class RiderService {
           event_id +
           "/user/",
         rider,
-        { headers: { token: token } }
+        { headers: { token: getCookie("token") } }
       )
       .then((response: { data: JSON }) => response);
   }
@@ -77,7 +73,7 @@ class RiderService {
   deleteRider(event_id: number) {
     return axios
       .delete(process.env.REACT_APP_API_URL + "/rider/event/" + event_id, {
-        headers: { token: token }
+        headers: { token: getCookie("token") }
       })
       .then((response: { data: JSON }) => console.log(response));
   }
@@ -90,7 +86,7 @@ class RiderService {
             event_id +
             "/user/" +
             user_id,
-            { headers: { token: token } }
+            { headers: { token: getCookie("token") } }
         )
         .then((response: { data: JSON }) => console.log(response));
   }

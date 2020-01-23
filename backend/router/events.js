@@ -49,6 +49,7 @@ module.exports = (app, models, base, auth) => {
   const ticketControl = require("../dao/tickets")(models);
 
   /**
+   * Get all events
    * @group Events - Operations about event
    * @route GET /event/
    * @returns {object} 200 - An array of events
@@ -64,6 +65,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Get all unarchvied events
    * @group Events - Operations about event
    * @route GET /eventUnarchived/
    * @returns {object} 200 - An array of events
@@ -79,6 +81,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Gets a specific event
    * @group Events - Operations about event
    * @route GET /event/{id}/
    * @param {integer} id.path.required - event id
@@ -92,6 +95,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Gets events for the Carousel, which is 15 unarchived events ordered ASCending
    * @group Events - Operations about event
    * @route GET /eventcarousel
    * @returns {object} 200 - The event with the param id
@@ -112,6 +116,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Get all events that are connected to your user
    * @group Events - Operations about event
    * @route GET /event/user/all/
    * @param {string} token.header.required - user token
@@ -139,6 +144,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Gets all artists for a specific event
    * @group Events - Operations about event
    * @route GET /event/artist/{id}/
    * @param {integer} id.path.required - event id
@@ -152,6 +158,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Get all contracts for a specific event
    * @group Events - Operations about contract
    * @route GET /event/contract/{event_id}/
    * @param {integer} event_id.path.required - Contract event id
@@ -183,6 +190,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Delete an event by it's id
    * @group Events - Operations about event
    * @route DELETE /event/{id}/
    * @param {integer} id.path.required - event id
@@ -211,6 +219,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * update the variables of a specific Event based on id
    * @group Events - Operations about event
    * @route PUT /event/{id}/
    * @param {integer} id.path.required - event id
@@ -255,6 +264,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Updates an existing event and make it archived
    * @group Events - Operations about event
    * @route PUT /event_archive/{id}/
    * @param {integer} id.path.required - event id
@@ -273,6 +283,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Posts a new event
    * @group Events - Operations about event
    * @route POST /event/
    * @param {Events_POST.model} event.body.required - All attributes of event
@@ -348,6 +359,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Registers a new volunteer for a specific event, using id from your token
    * @group Events - Operations about event
    * @route POST /event/{event_id}/volunteers/
    * @param {string} token.header.required - user token
@@ -393,6 +405,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Checks if there is space for more volunteers for a specified event
    * @group Events - Operations about event
    * @route GET /event/{event_id}/volunteers/
    * @param {number} event_id.path.required - Event id
@@ -417,6 +430,7 @@ module.exports = (app, models, base, auth) => {
     });
   });
   /**
+   * get all volunteers for a specified event
    * @group Events - Operations about event
    * @route GET /event/{event_id}/volunteers/admin/
    * @param {string} token.header.required - user token
@@ -449,6 +463,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Checks if you (id from usertoken) are registered as a volunteer for a specific event
    * @group Events - Operations about event
    * @route GET /event/{event_id}/volunteers/signed/
    * @param {string} token.header.required - user token
@@ -485,6 +500,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Deletes a specified volunteer from an event
    * @group Events - Operations about event
    * @route DELETE /event/{event_id}/volunteers/{id}/
    * @param {string} token.header.required - user token
@@ -525,6 +541,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Deletes all tickets for a specific event
    * @group Events - Operations about event
    * @route DELETE /event/{event_id}/tickets/
    * @param {string} token.header.required - user token

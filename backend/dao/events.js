@@ -12,7 +12,7 @@ module.exports = models => {
           archived: false
         },
         limit: 15,
-        order: [["event_start", "DESC"]]
+        order: [["event_start", "ASC"]]
       }).then(events => events),
 
     eventGetAllUnarchived: async () =>

@@ -11,6 +11,7 @@ module.exports = (app, models, base, auth) => {
 
 
   /**
+   * Sends a mail to all users connected to an event, used when an event is cancelled, notifying them about the cancellation
    * @group Mailer - Operations about mailer
    * @route PUT /mailer/event/{id}
    * @param {integer} id.path.required - event id
@@ -53,6 +54,8 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Sends a mail to a specified email when they have forgotten their password, most importantly a link to a page where you can save your password.
+   * Change url from localhost if moved
    * @group Mailer - Operations about mailer
    * @route get /mailer/password/
    * @param {string} email.header.required - user email
@@ -85,6 +88,7 @@ module.exports = (app, models, base, auth) => {
 
 
 /**
+ * sends a mail to the system mail containing user feedback, also sends who sent the feedback
  * @group Mailer - Operations about mailer
  * @route post /mailer/feedback/
  * @param {string} token.header.required - user token
