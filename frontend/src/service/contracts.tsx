@@ -20,8 +20,12 @@ class ContractService {
 
   getContract(userID: number, eventID: number) {
     return axios
-      .get(url + "/contract/user" + userID + "/event/" + eventID)
-      .then((response: { data: Contract }) => response.data);
+      .get(url + "/contract/user/" + userID + "/event/" + eventID, {
+        headers: { token: getCookie("token") }
+      })
+      .then((response: { data: Contract }) => {
+        return response.data;
+      });
   }
 
   getContractsByEvent(eventID: number) {

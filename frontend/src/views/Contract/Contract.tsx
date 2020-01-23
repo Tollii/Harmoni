@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import ContractService from "../../service/contracts";
 import FileService from "../../service/files";
 import ContractCard from "./ContractCard";
+import Button from "../../components/Button/Button";
+import { Link } from "react-router-dom";
 
 export default (props: any) => {
   const uploadContract = (userId: number, file: any) => {
@@ -27,6 +29,9 @@ export default (props: any) => {
 
   return (
     <div>
+      <Link to="/profile" style={{ textDecoration: "none" }}>
+        <Button>Back</Button>
+      </Link>
       {users.map((user: any, index: number) => (
         <ContractCard
           user={user}
