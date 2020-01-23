@@ -1,8 +1,6 @@
 import getCookie from "./cookie";
 const axios = require("axios").default;
 
-const token = getCookie("token");
-
 export class Rider_Type {
   id!: number;
   description!: string;
