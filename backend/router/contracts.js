@@ -8,6 +8,7 @@
 module.exports = (app, models, base, auth) => {
   const contractControl = require('../dao/contracts')(models)
   /**
+  * Gets all contracts
   * @group Contract - Operations about contract
   * @route GET /contract/
   * @param {string} token.header.required - token
@@ -31,6 +32,7 @@ module.exports = (app, models, base, auth) => {
 
 
   /**
+   * Gets all contracts for a specific event
   * @group Contract - Operations about contract
   * @route GET /contract/event/{event_id}/
   * @param {string} token.header.required - token
@@ -54,6 +56,7 @@ module.exports = (app, models, base, auth) => {
 });
 
   /**
+   * Gets the contract of a specified user for a specified event
   * @group Contract - Operations about contract
   * @route GET /contract/user/{user_id}/event/{event_id}/
   * @param {integer} user_id.path.required - Contract user id
@@ -77,6 +80,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Posts a new contract, without the actual contract file
   * @route POST /contract/
   * @group Contract - Operations about contract
   * @param {Contract.model} user.body.required - Contract information
@@ -102,6 +106,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Deletes a specific contract from a specified user for a specified event
   * @group Contract - Operations about contract
   * @route DELETE /contract/user/{user_id}/event/{event_id}/
   * @param {integer} user_id.path.required - Contract user id

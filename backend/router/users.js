@@ -19,6 +19,7 @@ module.exports = (app, models, base, auth) => {
   const userControl = require("../dao/users")(models);
 
   /**
+   * Get all users
    * @group User - Operations about user
    * @route GET /user/
    * @param {string} token.header.required - token
@@ -43,6 +44,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Get a user by the id supplied in the usertoken
    * @group User - Operations about user
    * @route GET /user/{token}/
    * @param {string} token.path.required - token
@@ -58,6 +60,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Updates an existing user
    * @group User - Operations about user
    * @route PUT /user/{id}/
    * @param {integer} id.path.required - user id
@@ -98,6 +101,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Deletes a specific user by its id
    * @group User - Operations about user
    * @route DELETE /user/{id}/
    * @param {integer} id.path.required - user id
@@ -126,6 +130,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Get all users that have the role artists
    * @group Artist - Operations about artists
    * @route GET /artist/
    * @returns {object} 200 - An array of artist info
