@@ -21,7 +21,7 @@ module.exports = (app, models, base, auth) => {
 
   app.post(base + "/event/:id", (req, res) => {
     auth
-      .check_permissions(req.headers.token, ["Admin", "Organizer"])
+      .check_permissions(req.headers.token, ["Admin", "Organizer"], req.params.id, 0)
       .then(value => {
         if (value.auth) {
           try {

@@ -15,7 +15,7 @@ module.exports = (app, models, base, auth) => {
   * @returns {Error}  default - Unexpected error
   */
  app.get(base, ( req, res ) => {
-  auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"])
+  auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"], 0, 0)
   .then(data => {
     if(data.auth){
       rider_typesControl.rider_typesGetAll().then((data)=>{
@@ -37,7 +37,7 @@ module.exports = (app, models, base, auth) => {
   * @returns {Error}  default - Unexpected error
   */
  app.get(base+"/:id", ( req, res ) => {
-  auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"])
+  auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"], 0, 0)
   .then(data => {
     if(data.auth){
       rider_typesControl.rider_typesGetOne(req.params.id).then((data)=>{
@@ -59,7 +59,7 @@ module.exports = (app, models, base, auth) => {
   * @returns {Error}  default - Unexpected error
   */
   app.post(base, ( req, res ) => {
-    auth.check_permissions(req.headers.token, ["Admin"])
+    auth.check_permissions(req.headers.token, ["Admin"], 0, 0)
     .then(data => {
       if(data.auth){
         rider_typesControl.rider_typesCreate(req.body.description).then((data)=>{
@@ -81,7 +81,7 @@ module.exports = (app, models, base, auth) => {
   * @returns {Error}  default - Unexpected error
   */
   app.delete(base+"/:id", (req, res) => {
-    auth.check_permissions(req.headers.token, ["Admin"])
+    auth.check_permissions(req.headers.token, ["Admin"], 0, 0)
     .then(data => {
       if(data.auth){
         rider_typesControl.rider_typesDelete(req.params.id)

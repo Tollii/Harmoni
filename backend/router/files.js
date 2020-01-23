@@ -108,7 +108,7 @@ module.exports = (app, models, auth) => {
    * @returns {error} default - unexpected error
    */
   app.post('/image/event/:id', async (req, res) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer"] , req.params.id, 0)
       .then(async data => {
         if (data.auth && req.params.id > 0) {
           if (!req.files || Object.keys(req.files).length === 0) {
