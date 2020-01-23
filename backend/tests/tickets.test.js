@@ -8,7 +8,7 @@ describe('tickets DAO', () => {
 
     it('should create one ticket', async (done) => {
         await event_typesControl.event_typesCreate("new event type");
-        await eventControl.eventCreate("tickets", "test", new Date('1995-12-20T03:24:00'), new Date('1995-12-21T03:24:00'), "wasdwasd", "wasdwasd", 1);
+        await eventControl.eventCreate("tickets", "cola", new Date('1995-12-17T03:24:00'), new Date('1995-12-19T03:24:00'), "wasdwasd", 10, "Wasasd", 1);
         const res = await ticketControl.ticketCreate("wasd", 499.99, 100, new Date('1995-12-20T03:24:00'), new Date('1995-12-21T03:24:00'), 1);
         expect(res.id).toBeGreaterThanOrEqual(0);
         done();

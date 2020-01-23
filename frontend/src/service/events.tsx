@@ -146,7 +146,6 @@ class EventService {
         { headers: { token: getCookie("token") } }
       )
       .then((response: { data: JSON }) => {
-        console.log(response.data);
         return response.data ? true : false;
       });
   }
