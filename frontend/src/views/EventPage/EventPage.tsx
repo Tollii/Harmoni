@@ -44,7 +44,8 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: "10%",
       marginTop: 0,
       marginBottom: 0,
-      fontSize: "15px"
+      fontSize: "15px",
+      wordWrap: "break-word",
     },
     title: {
       textAlign: "center",
