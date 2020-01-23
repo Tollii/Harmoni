@@ -15,8 +15,6 @@ import Map from "../../components/Map/simpleMap";
 import DropDownButton from "../../components/Button/DropDownButton";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ContractService from "../../service/contracts";
-import { userInfo } from "os";
-
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -28,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: 0,
       marginBottom: 0,
       fontSize: "15px",
-      wordWrap: "break-word",
+      wordWrap: "break-word"
     },
     title: {
       textAlign: "center",
@@ -141,33 +139,28 @@ export default (props: any) => {
       );
 
       setLoaded(true);
-    }, 1500);
+    }, 1000);
   }, [props.match.params.id, props.user]);
 
   const [myContract, showContract] = useState(false);
   const [eventConnection, setEventConnection] = useState(false);
   useEffect(() => {
-    if(props.user.id !== 0){
-    console.log(props.user)
-    ContractService.getContract(props.user.id, props.match.params.id).then(
-      (contract: any) => {
-        console.log("true--4-")
-        if (contract !== "") {
-          console.log("true--3-")
-          setEventConnection(true);
-          console.log("true--2-")
-          if (contract.contract !== null) {
-            console.log("true--1-")
-            if (contract.contract !== "") {
-              console.log("true---")
-              showContract(true)
-            }
+    if (props.user.roleID === 2 || props.user.roleID === 3) {
+      ContractService.getContract(props.user.id, props.match.params.id).then(
+        (contract: any) => {
+          if (contract !== "") {
+            setEventConnection(true);
+            showContract(
+              contract.contract !== null && contract.contract !== ""
+            );
+          } else {
+            setEventConnection(false);
+            showContract(false);
           }
         }
-      }
-    );
+      );
     }
-  }, [myContract, props.user, props.match.params.id]);
+  }, [props.user, props.match.params.id]);
 
   if (loaded) {
     return (
@@ -212,18 +205,21 @@ export default (props: any) => {
                   </Grid>
                 ))}
               </Grid>
-              {((props.user.roleID === 3 && eventConnection)|| props.user.roleID === 4 )&&
+              {((props.user.roleID === 3 && eventConnection) ||
+                props.user.roleID === 4) && (
                 <div>
-                <Typography className={classes.smallTitle} variant="h6">
-                Personnel
-              </Typography>
-              <Typography
-              className={classes.description}
-              variant="subtitle1"
-              gutterBottom
-              >
-                {values.personnel}
-              </Typography>
+                  <Typography className={classes.smallTitle} variant="h6">
+                    Personnel
+                  </Typography>
+                  <Typography
+                    className={classes.description}
+                    variant="subtitle1"
+                    gutterBottom
+                  >
+                    {values.personnel}
+                  </Typography>
+                </div>
+              )}
               <Typography className={classes.smallTitle} variant="h6">
                 Tickets
               </Typography>
@@ -259,8 +255,6 @@ export default (props: any) => {
                   </TableBody>
                 </Table>
               </TableContainer>
-              </div>
-              }
             </Box>
           </Grid>
           <Grid item sm={3} xs={12} style={{ margin: "10px" }}>
@@ -299,7 +293,12 @@ export default (props: any) => {
               <Map events={[values]} center={values} zoom={11} />
             </div>
             <Grid container spacing={1} justify="center" alignItems="center">
-              <DropDownButton event={values.id} user={props.user.id} eventConnection={eventConnection} myContract={myContract} />
+              <DropDownButton
+                event={values.id}
+                user={props.user.id}
+                eventConnection={eventConnection}
+                myContract={myContract}
+              />
             </Grid>
           </Grid>
         </Grid>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   fade,
   makeStyles,
@@ -27,13 +27,12 @@ import {
   Menu,
   MenuItem
 } from "@material-ui/core";
-
 import Grid from "@material-ui/core/Grid";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import UserService from "../../service/users";
 import getCookie from "../../service/cookie";
+import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -114,15 +113,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function Navbar(props: any) {
   const classes = useStyles();
-  const [auth, setAuth] = React.useState(false);
-  const [role, setRole] = React.useState();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [values, setValues] = React.useState({
-    id: 0,
-    fullName: "",
-    roleID: 0,
-    picture: ""
-  });
   const [open, setOpen] = React.useState(false);
   const theme = useTheme();
 
@@ -136,7 +127,6 @@ export default function Navbar(props: any) {
 
   const handleCloseProfile = () => {
     setAnchorEl(null);
-    window.location.hash = "#/profile";
   };
 
   const handleCloseLogout = () => {
@@ -160,7 +150,7 @@ export default function Navbar(props: any) {
   };
 
   const handleDrawerAllEvents = () => {
-    window.location.hash = "#/eventUnarchived";
+    window.location.hash = "#/event";
     handleDrawerClose();
   };
 
@@ -177,43 +167,16 @@ export default function Navbar(props: any) {
   const handleDrawerLogout = () => {
     handleDrawerClose();
     document.cookie =
-    "token=" + getCookie("token") + "; expires=" + new Date().toUTCString();
+      "token=" + getCookie("token") + "; expires=" + new Date().toUTCString();
     props.logFunc(false);
     window.location.hash = "#/";
   };
 
   const handleDrawerProfile = () => {
     window.location.hash = "#/profile";
+    props.setPage(0);
     handleDrawerClose();
   };
-
-  useEffect(() => {
-    setAuth(props.loggedIn);
-  }, [props.loggedIn]);
-
-  useEffect(() => {
-    if (auth) {
-      UserService.getOneUser().then(res => {
-        setValues({
-          id: res.id,
-          fullName: res.username,
-          picture: res.picture,
-          roleID: res.roleID
-        });
-        setRole(res.roleID);
-      });
-    } else {
-      UserService.getOneUser().then(res => {
-        setValues({
-          id: 0,
-          fullName: "",
-          picture: "",
-          roleID: 0
-        });
-      });
-      setRole(0);
-    }
-  }, [auth]);
 
   return (
     <div className={classes.root}>
@@ -245,7 +208,7 @@ export default function Navbar(props: any) {
             <Grid container direction="row" alignItems="center" spacing={2}>
               <Grid item>
                 <Button
-                  onClick={() => (window.location.hash = "#/eventUnarchived")}
+                  onClick={() => (window.location.hash = "#/event")}
                   className={classes.listButton}
                 >
                   <FormatListBulletedIcon />
@@ -255,12 +218,13 @@ export default function Navbar(props: any) {
                       fontSize: "11pt",
                       fontWeight: 250,
                       marginLeft: 5
-                    }}>
-                  All Events
+                    }}
+                  >
+                    All Events
                   </div>
                 </Button>
               </Grid>
-              {(role === 3 || role === 4) && (
+              {(props.user.roleID === 3 || props.user.roleID === 4) && (
                 <div>
                   <Grid item>
                     <Button
@@ -274,7 +238,8 @@ export default function Navbar(props: any) {
                           fontSize: "11pt",
                           fontWeight: 250,
                           marginLeft: 5
-                        }}>
+                        }}
+                      >
                         Add Event
                       </div>
                     </Button>
@@ -283,25 +248,19 @@ export default function Navbar(props: any) {
               )}
               <Grid item>
                 <Box className={classes.profileButton}>
-                  {auth ? (
+                  {props.loggedIn ? (
                     <div>
                       <Button onClick={handleClick}>
-                        <Avatar
-                          alt="Profile"
-                          src={
-                            process.env.REACT_APP_API_URL +
-                            "/image/profile/" +
-                            values.id
-                          }
-                        />
+                        <Avatar alt="Profile" src={props.user.pic_url} />
                         <div
-                        style={{
-                          fontFamily: "Roboto",
-                          fontSize: "11pt",
-                          fontWeight: 250,
-                          marginLeft: 5
-                        }}>
-                          {values.fullName}
+                          style={{
+                            fontFamily: "Roboto",
+                            fontSize: "11pt",
+                            fontWeight: 250,
+                            marginLeft: 5
+                          }}
+                        >
+                          {props.user.fullName}
                         </div>
                       </Button>
                       <Menu
@@ -312,23 +271,56 @@ export default function Navbar(props: any) {
                         open={Boolean(anchorEl)}
                         onClose={handleClose}
                       >
-                        <MenuItem onClick={handleCloseProfile}>
-                          <div
-                          style={{
-                            fontFamily: "Roboto",
-                            fontSize: "11pt",
-                            fontWeight: 250
-                          }}>
-                            Profile
-                          </div>
-                        </MenuItem>
+                        <Link
+                          style={{ textDecoration: "none", color: "black" }}
+                          to="/profile"
+                        >
+                          <MenuItem
+                            onClick={() => {
+                              handleCloseProfile();
+                              props.setPage(0);
+                            }}
+                          >
+                            <div
+                              style={{
+                                fontFamily: "Roboto",
+                                fontSize: "11pt",
+                                fontWeight: 250
+                              }}
+                            >
+                              Profile
+                            </div>
+                          </MenuItem>
+                        </Link>
+                        <Link
+                          style={{ textDecoration: "none", color: "black" }}
+                          to="/profile"
+                        >
+                          <MenuItem
+                            onClick={() => {
+                              handleCloseProfile();
+                              props.setPage(1);
+                            }}
+                          >
+                            <div
+                              style={{
+                                fontFamily: "Roboto",
+                                fontSize: "11pt",
+                                fontWeight: 250
+                              }}
+                            >
+                              My Events
+                            </div>
+                          </MenuItem>
+                        </Link>
                         <MenuItem onClick={handleCloseLogout}>
                           <div
-                          style={{
-                            fontFamily: "Roboto",
-                            fontSize: "11pt",
-                            fontWeight: 250
-                          }}>
+                            style={{
+                              fontFamily: "Roboto",
+                              fontSize: "11pt",
+                              fontWeight: 250
+                            }}
+                          >
                             Logout
                           </div>
                         </MenuItem>
@@ -343,9 +335,10 @@ export default function Navbar(props: any) {
                           fontSize: "11pt",
                           fontWeight: 250,
                           marginLeft: 5
-                        }}>
-                          Login
-                        </div>
+                        }}
+                      >
+                        Login
+                      </div>
                     </Button>
                   )}
                 </Box>
@@ -383,7 +376,7 @@ export default function Navbar(props: any) {
             <ListItemText> Show all events </ListItemText>
           </ListItem>
 
-          {(role === 3 || role === 4) && (
+          {(props.user.roleID === 3 || props.user.roleID === 4) && (
             <ListItem button onClick={handleDrawerAddEvent}>
               <ListItemAvatar>
                 {" "}
@@ -395,21 +388,14 @@ export default function Navbar(props: any) {
         </List>
         <Box className={classes.drawerProfile}>
           <Divider />
-          {auth ? (
+          {props.loggedIn ? (
             <div>
               <ListItem button onClick={handleDrawerProfile}>
                 <ListItemAvatar>
                   {" "}
-                  <Avatar
-                    alt="Profile"
-                    src={
-                      process.env.REACT_APP_API_URL +
-                      "/image/profile/" +
-                      values.id
-                    }
-                  />
+                  <Avatar alt="Profile" src={props.user.pic_url} />
                 </ListItemAvatar>
-                <ListItemText> {values.fullName} </ListItemText>
+                <ListItemText> {props.user.fullName} </ListItemText>
               </ListItem>
               <ListItem button onClick={handleDrawerLogout}>
                 <ListItemText> Logout </ListItemText>

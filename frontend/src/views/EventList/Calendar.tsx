@@ -4,8 +4,6 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 
-import "./styles.css"; // webpack must be configured to do this
-
 // must manually import the stylesheets for each plugin
 import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
@@ -23,7 +21,7 @@ export default (props: any) => {
         start: new Date(event.event_start),
         end: new Date(event.event_end)
       });
-      return null
+      return null;
     });
     setEvents(temp);
   }, [props.events]);
