@@ -10,12 +10,12 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
+import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-import HomeIcon from '@material-ui/icons/Home';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Box from '@material-ui/core/Box';
+import HomeIcon from "@material-ui/icons/Home";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import Box from "@material-ui/core/Box";
 import {
   Button,
   ListItem,
@@ -35,7 +35,6 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import UserService from "../../service/users";
 import Authentication from "../../service/Authentication";
 import getCookie from "../../service/cookie";
-
 
 const drawerWidth = 240;
 
@@ -110,7 +109,7 @@ const useStyles = makeStyles((theme: Theme) =>
       bottom: 0
     },
     profile_menu: {
-      marginTop: "45px",
+      marginTop: "45px"
     }
   })
 );
@@ -129,7 +128,6 @@ export default function Navbar(props: any) {
   const [open, setOpen] = React.useState(false);
   const theme = useTheme();
 
-
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -140,16 +138,13 @@ export default function Navbar(props: any) {
 
   const handleCloseProfile = () => {
     setAnchorEl(null);
-    window.location.hash = "/profile";
+    window.location.hash = "#/profile";
   };
 
   const handleCloseLogout = () => {
     setAnchorEl(null);
     document.cookie =
-    "token=" +
-    getCookie("token") +
-    "; expires=" +
-    new Date().toUTCString();
+      "token=" + getCookie("token") + "; expires=" + new Date().toUTCString();
     props.logFunc(false);
     window.location.hash = "#/";
   };
@@ -162,27 +157,27 @@ export default function Navbar(props: any) {
   };
 
   const handleDrawerHome = () => {
-    window.location.hash = "/";
+    window.location.hash = "#/";
     handleDrawerClose();
   };
 
   const handleDrawerAllEvents = () => {
-    window.location.hash = "eventUnarchived";
+    window.location.hash = "#/eventUnarchived";
     handleDrawerClose();
   };
 
   const handleDrawerAddEvent = () => {
-    window.location.hash = "/addEvent";
+    window.location.hash = "#/addEvent";
     handleDrawerClose();
   };
 
   const handleDrawerLogin = () => {
-    window.location.hash = "/login";
+    window.location.hash = "#/login";
     handleDrawerClose();
   };
 
   const handleDrawerProfile = () => {
-    window.location.hash = "/profile";
+    window.location.hash = "#/profile";
     handleDrawerClose();
   };
 
@@ -227,7 +222,9 @@ export default function Navbar(props: any) {
             <MenuIcon />
           </IconButton>
           <Button
-            onClick={() => (window.location.hash = "/")}
+            onClick={() => {
+              window.location.hash = "#/";
+            }}
             className={classes.logo}
           >
             <Typography
@@ -243,41 +240,47 @@ export default function Navbar(props: any) {
           <Box className={classes.rightButtons}>
             <Grid container direction="row">
               <Button
-                onClick={() => (window.location.hash = "eventUnarchived")}
+                onClick={() => (window.location.hash = "#/eventUnarchived")}
                 className={classes.listButton}
               >
                 <FormatListBulletedIcon />
               </Button>
-              { (role === 3 || role === 4) && (
-                  <Button onClick={() => (window.location.hash = "/addEvent")} className={classes.addEventButton}>
-                    <AddCircleIcon />
-                  </Button>
-                )
-              }
+              {(role === 3 || role === 4) && (
+                <Button
+                  onClick={() => (window.location.hash = "#/addEvent")}
+                  className={classes.addEventButton}
+                >
+                  <AddCircleIcon />
+                </Button>
+              )}
               <Box className={classes.profileButton}>
                 {auth ? (
                   <div>
                     <Button onClick={handleClick}>
                       <Avatar
                         alt="Profile"
-                        src={process.env.REACT_APP_API_URL + "/image/profile/" + values.id}
+                        src={
+                          process.env.REACT_APP_API_URL +
+                          "/image/profile/" +
+                          values.id
+                        }
                       />
                       {values.fullName}
                     </Button>
                     <Menu
-                    id="simple-menu"
-                    anchorEl={anchorEl}
-                    keepMounted
-                    className={classes.profile_menu}
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}
-                  >
-                    <MenuItem onClick={handleCloseProfile}>Profile</MenuItem>
-                    <MenuItem onClick={handleCloseLogout}>Logout</MenuItem>
-                  </Menu>
-                </div>
+                      id="simple-menu"
+                      anchorEl={anchorEl}
+                      keepMounted
+                      className={classes.profile_menu}
+                      open={Boolean(anchorEl)}
+                      onClose={handleClose}
+                    >
+                      <MenuItem onClick={handleCloseProfile}>Profile</MenuItem>
+                      <MenuItem onClick={handleCloseLogout}>Logout</MenuItem>
+                    </Menu>
+                  </div>
                 ) : (
-                  <Button onClick={() => (window.location.hash = "/login")}>
+                  <Button onClick={() => (window.location.hash = "#/login")}>
                     <AccountCircle />
                   </Button>
                 )}
@@ -314,13 +317,15 @@ export default function Navbar(props: any) {
             <ListItemText> Show all events </ListItemText>
           </ListItem>
 
-          { (role === 3 || role === 4) && (
-              <ListItem button onClick={handleDrawerAddEvent}>
-                <ListItemAvatar> <AddCircleIcon /> </ListItemAvatar>
-                <ListItemText> Add event </ListItemText>
-              </ListItem>
-            )
-          }
+          {(role === 3 || role === 4) && (
+            <ListItem button onClick={handleDrawerAddEvent}>
+              <ListItemAvatar>
+                {" "}
+                <AddCircleIcon />{" "}
+              </ListItemAvatar>
+              <ListItemText> Add event </ListItemText>
+            </ListItem>
+          )}
         </List>
         <Box className={classes.drawerProfile}>
           <Divider />
@@ -330,7 +335,11 @@ export default function Navbar(props: any) {
                 {" "}
                 <Avatar
                   alt="Profile"
-                  src={process.env.REACT_APP_API_URL + "/image/profile/" + values.id}
+                  src={
+                    process.env.REACT_APP_API_URL +
+                    "/image/profile/" +
+                    values.id
+                  }
                 />
               </ListItemAvatar>
               <ListItemText> {values.fullName} </ListItemText>

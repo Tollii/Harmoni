@@ -19,7 +19,7 @@ export default (props: any) => {
       <Grid container direction="row" justify="center">
         <Button
           className={classes.marginTop}
-          onClick={() => (window.location.hash = "/signUp")}
+          onClick={() => (window.location.hash = "#/signUp")}
         >
           Not a user?
         </Button>
