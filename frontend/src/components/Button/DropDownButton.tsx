@@ -87,8 +87,9 @@ export default (props: any) => {
   const handleEditRider = async () => {
     let userID = await UserService.getOneUser().then(user => user.id);
     console.log(userID);
-    window.location.hash = "artist/editRider/" + props.event + "/user/" + userID;
-  }
+    window.location.hash =
+      "artist/editRider/" + props.event + "/user/" + userID;
+  };
 
   function handleAlert(open: boolean) {
     setAlertOpen(open);
@@ -113,6 +114,8 @@ export default (props: any) => {
   useEffect(() => {
     ContractService.getContract(props.user, props.event).then(
       (contract: any) => {
+        console.log("dropdownwdnwknw");
+
         if (contract !== "") {
           setEventConnection(true);
           if (contract.contract !== null) {
@@ -123,10 +126,9 @@ export default (props: any) => {
     );
   }, [myContract, props.user, props.event]);
   useEffect(() => {
-    UserService.getOneUser()
-    .then((user:any) => {
+    UserService.getOneUser().then((user: any) => {
       setRole(user.roleID);
-    })
+    });
   }, [props.event]);
 
   useEffect(() => {
