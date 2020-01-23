@@ -77,10 +77,8 @@ interface Values {
   name: string;
   description: string;
   location: string;
-  timeStart: Date;
-  timeEnd: Date;
-  dateStart: Date;
-  dateEnd: Date;
+  eventStart: Date;
+  eventEnd: Date;
   personnel: string;
   volunteers: number;
   eventImage: any;
@@ -118,10 +116,8 @@ export default (props: any) => {
     name: "",
     description: "",
     location: "",
-    timeStart: new Date(),
-    timeEnd: new Date(),
-    dateStart: new Date(),
-    dateEnd: new Date(),
+    eventStart: new Date(),
+    eventEnd: new Date(),
     personnel: "",
     volunteers: 0,
     eventImage: new File(["foo"], ""),
@@ -198,14 +194,12 @@ export default (props: any) => {
           name: response.event_name,
           description: response.description,
           location: response.location,
-          timeStart: response.event_start,
-          timeEnd: response.event_end,
-          dateStart: response.event_start,
-          dateEnd: response.event_end,
+          eventStart: new Date(response.event_start),
+          eventEnd: new Date(response.event_end),
           personnel: response.personnel,
           volunteers: response.volunteers,
           eventTypeId: response.event_typeID,
-          eventImage: new File(["foo"], "")
+          eventImage: new File(["foo"], response.event_image)
         }));
       });
     }
@@ -243,34 +237,26 @@ export default (props: any) => {
         setEdit({ ...edit, editRiders: true });
       } else if (name === "eventImage") {
         setEdit({ ...edit, editEventImage: true });
-      } else if (
-        name === "dateStart" ||
-        name === "dateEnd" ||
-        name === "timeStart" ||
-        name === "timeEnd"
-      ) {
+      } else if (name === "eventStart" || name === "eventEnd") {
         setEdit({ ...edit, editGeneral: true });
       }
     }
   };
 
   function formatDate(date: Date) {
-    var d = new Date(date),
-      month = "" + (d.getMonth() + 1),
-      day = "" + d.getDate(),
-      year = d.getFullYear();
+    let month = "" + (date.getMonth() + 1);
+    let day = "" + date.getDate();
+    let year = date.getFullYear();
+    let hours = "" + date.getHours();
+    let min = "" + date.getMinutes();
 
     if (month.length < 2) month = "0" + month;
     if (day.length < 2) day = "0" + day;
 
-    return [year, month, day].join("-");
+    return [year, month, day].join("-") + " " + [hours, min].join(":");
   }
 
   const submit = () => {
-    let dateStart = formatDate(values.dateStart);
-    let dateEnd = formatDate(values.dateEnd);
-    let timeStart = String(values.timeStart).substring(15, 21);
-    let timeEnd = String(values.timeEnd).substring(15, 21);
     let artists: number[] = [];
     values.artists
       .filter((artist: any) => artist.checked === true)
@@ -292,8 +278,8 @@ export default (props: any) => {
     let event = {
       event_name: values.name,
       location: values.location,
-      event_start: dateStart + " " + timeStart,
-      event_end: dateEnd + " " + timeEnd,
+      event_start: formatDate(values.eventStart),
+      event_end: formatDate(values.eventEnd),
       personnel: values.personnel,
       volunteers: values.volunteers,
       description: values.description,
@@ -318,8 +304,8 @@ export default (props: any) => {
           {
             event_name: values.name,
             location: values.location,
-            event_start: dateStart + " " + timeStart,
-            event_end: dateEnd + " " + timeEnd,
+            event_start: formatDate(values.eventStart),
+            event_end: formatDate(values.eventEnd),
             personnel: values.personnel,
             volunteers: values.volunteers,
             description: values.description,
@@ -411,22 +397,13 @@ export default (props: any) => {
         snackbar.showMessage("Description is required!", "Undo", () =>
           handleUndo()
         );
-      } else if (values.timeStart.getTime() + 60000 < new Date().getTime()) {
+      } else if (values.eventStart.getTime() + 60000 < new Date().getTime()) {
         snackbar.showMessage("Start time is in the past", "Undo", () =>
           handleUndo()
         );
-      } else if (values.dateEnd.getTime() < values.dateStart.getTime()) {
+      } else if (values.eventStart.getTime() > values.eventEnd.getTime()) {
         snackbar.showMessage(
           "End time is earlier than start time!",
-          "Undo",
-          () => handleUndo()
-        );
-      } else if (
-        values.dateEnd.getTime() === values.dateStart.getTime() &&
-        values.timeEnd.getTime() <= values.timeStart.getTime()
-      ) {
-        snackbar.showMessage(
-          "End time is earlier or equal to start time!",
           "Undo",
           () => handleUndo()
         );
