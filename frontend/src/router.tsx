@@ -11,11 +11,11 @@ import Main from "./views/Main/Main";
 import { HashRouter, Route } from "react-router-dom";
 import getCookie from "./service/cookie";
 import Contract from "./views/Contract/Contract";
-import EventList from "./views/EventList/EventList";
+import EventListTabs from "./views/EventList/EventListTabs";
 import ForgotPassword from "./views/ForgotPassword/ForgotPassword";
 import ForgotForm from "./views/ForgotPassword/ForgotForm";
+import EditRidersForArtist from "./views/EditRidersForArtist/EditRidersForArtist";
 import { SnackbarProvider } from "material-ui-snackbar-provider";
-
 
 export default () => {
   const [loggedIn, setLoggedIn] = React.useState(getCookie("token"));
@@ -24,12 +24,14 @@ export default () => {
     setLoggedIn(getCookie("token"));
   }, [loggedIn]);
 
-
-
   return (
     <SnackbarProvider SnackbarProps={{ autoHideDuration: 4000 }}>
       <HashRouter>
-        <Navbar isAuth={AuthenticationService.getAuth} loggedIn={loggedIn} />
+        <Navbar
+          isAuth={AuthenticationService.getAuth}
+          logFunc={setLoggedIn}
+          loggedIn={loggedIn}
+        />
         <Route
           exact
           path="/"
@@ -89,11 +91,7 @@ export default () => {
             exact
             path="/profile"
             render={(props: any) => (
-              <Profile
-                {...props}
-                isAuth={AuthenticationService.getAuth}
-                logFunc={setLoggedIn}
-              />
+              <Profile {...props} isAuth={AuthenticationService.getAuth} />
             )}
           />
           <Route
@@ -111,24 +109,31 @@ export default () => {
             exact
             path="/eventUnarchived"
             render={(props: any) => (
-              <EventList {...props} isAuth={AuthenticationService.getAuth} />
+              <EventListTabs
+                {...props}
+                isAuth={AuthenticationService.getAuth}
+              />
             )}
           />
-
           <Route
             exact
             path="/forgotpassword/:token"
             render={(props: any) => <ForgotPassword {...props} />}
           />
-
-          <Route
-            exact
-            path="/forgot"
-            render={(props: any) => <ForgotForm {...props} />}
+        <Route
+          exact
+          path="/forgot"
+          render={(props: any) => <ForgotForm {...props} />}
+        />
+        <Route
+          exact
+          path="/artist/editRider/:eventID/user/:userID"
+          render={(props:any) =>
+            <EditRidersForArtist {...props} isAuth={AuthenticationService.getAuth}  />}
           />
-        </div>
-        <Footer />
-      </HashRouter>
+      </div>
+      <Footer />
+    </HashRouter>
     </SnackbarProvider>
   );
 };

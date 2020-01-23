@@ -21,7 +21,7 @@ const useStyles = makeStyles({
 });
 
 const handleClick = (event: React.MouseEvent<unknown>, id: number) => {
-  window.location.hash = "event/" + id;
+  window.location.hash = "#/event/" + id;
 };
 
 export default (props: any) => {
