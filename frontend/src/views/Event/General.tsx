@@ -7,7 +7,8 @@ import TextField from "@material-ui/core/TextField";
 import {
   KeyboardDatePicker,
   KeyboardTimePicker,
-  MuiPickersUtilsProvider
+  MuiPickersUtilsProvider,
+  KeyboardDateTimePicker
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { Input, Typography, Button, Menu, MenuItem } from "@material-ui/core";
@@ -79,54 +80,31 @@ export default (props: any) => {
                 onChange={props.handleChange}
               />
             </Grid>
-            <Grid item xs={12} sm={9} md={4} >
-              <KeyboardDatePicker
-                className={classes.datePicker}
-                disableToolbar
+            <Grid item xs>
+              <KeyboardDateTimePicker
+                name="eventStart"
                 variant="inline"
-                format="dd-MM-yyyy"
-                margin="normal"
-                id="date-picker-inline"
+                ampm={false}
+                label="Event starts"
+                value={props.values.eventStart}
+                onChange={(e: any) => props.handleChange(e, "eventStart")}
+                onError={console.log}
+                disablePast
+                format="dd/MM/yyyy HH:mm"
                 autoOk={true}
-                label="Start Date"
-                value={props.values.dateStart}
-                onChange={e => props.handleChange(e, "dateStart")}
-                KeyboardButtonProps={{
-                  "aria-label": "change date"
-                }}
-              />
-              <KeyboardDatePicker
-                className={classes.datePicker}
-                name="dateEnd"
-                disableToolbar
-                variant="inline"
-                format="dd-MM-yyyy"
-                margin="normal"
-                id="date-picker-inline"
-                autoOk={true}
-                label="End Date"
-                value={props.values.dateEnd}
-                onChange={e => props.handleChange(e, "dateEnd")}
               />
             </Grid>
-            <Grid item xs={12} sm={9} md={4}>
-              <KeyboardTimePicker
-                className={classes.datePicker}
-                name="timeStart"
-                margin="normal"
-                id="time-picker"
-                label="Start Time"
-                value={props.values.timeStart}
-                onChange={e => props.handleChange(e, "timeStart")}
-              />
-              <KeyboardTimePicker
-                className={classes.datePicker}
-                name="timeEnd"
-                margin="normal"
-                id="time-picker"
-                label="End Time"
-                value={props.values.timeEnd}
-                onChange={e => props.handleChange(e, "timeEnd")}
+            <Grid item xs>
+              <KeyboardDateTimePicker
+                variant="inline"
+                ampm={false}
+                label="Event ends"
+                value={props.values.eventEnd}
+                onChange={(e: any) => props.handleChange(e, "eventEnd")}
+                onError={console.log}
+                disablePast
+                format="dd/MM/yyyy HH:mm"
+                autoOk={true}
               />
             </Grid>
           </Grid>
