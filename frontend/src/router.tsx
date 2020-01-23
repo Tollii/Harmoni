@@ -14,6 +14,7 @@ import Contract from "./views/Contract/Contract";
 import EventListTabs from "./views/EventList/EventListTabs";
 import ForgotPassword from "./views/ForgotPassword/ForgotPassword";
 import ForgotForm from "./views/ForgotPassword/ForgotForm";
+import EditRidersForArtist from "./views/EditRidersForArtist/EditRidersForArtist";
 import { SnackbarProvider } from "material-ui-snackbar-provider";
 
 export default () => {
@@ -119,15 +120,20 @@ export default () => {
             path="/forgotpassword/:token"
             render={(props: any) => <ForgotPassword {...props} />}
           />
-
-          <Route
-            exact
-            path="/forgot"
-            render={(props: any) => <ForgotForm {...props} />}
+        <Route
+          exact
+          path="/forgot"
+          render={(props: any) => <ForgotForm {...props} />}
+        />
+        <Route
+          exact
+          path="/artist/editRider/:eventID/user/:userID"
+          render={(props:any) =>
+            <EditRidersForArtist {...props} isAuth={AuthenticationService.getAuth}  />}
           />
-        </div>
-        <Footer />
-      </HashRouter>
+      </div>
+      <Footer />
+    </HashRouter>
     </SnackbarProvider>
   );
 };
