@@ -1,5 +1,4 @@
 import getCookie from "./cookie";
-import UserService from "./users";
 const axios = require("axios").default;
 let url: string = "http://localhost:8080";
 
@@ -32,13 +31,6 @@ class Authentication {
     return axios
       .post(process.env.REACT_APP_API_URL + "/signup/", information)
       .then((response: { data: Object }) => response.data);
-  }
-  getAuth(): any {
-    if (token) {
-      return UserService.getOneUser().then((user: any) => user.roleID);
-    } else {
-      return Promise.resolve(0);
-    }
   }
 }
 
