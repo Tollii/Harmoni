@@ -236,23 +236,6 @@ module.exports = (app, models, base, auth) => {
 
   /**
    * @group Events - Operations about event
-   * @route PUT /event_archive/
-   * @returns {object} 200 - Updates the archive variable of all events if their ending time has happened
-   * @returns {Error}  default - Unexpected error
-   */
-
-  app.put("/event_archive/", (req, res) => {
-    eventControl
-      .eventArchive()
-      .then(() => {
-        res.status(200).send("Events are archived");
-      })
-      .catch(err => {
-        res.status(400).send("Event are NOT archived");
-      });
-  });
-  /**
-   * @group Events - Operations about event
    * @route PUT /event_archive/{id}/
    * @param {integer} id.path.required - event id
    * @returns {object} 200 - Updates the archive variable of one events
