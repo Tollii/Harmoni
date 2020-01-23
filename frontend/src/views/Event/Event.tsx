@@ -377,9 +377,65 @@ export default (props: any) => {
       }
     }
   };
+  const handleUndo = () => {
+    // *snip*
+  };
 
   const handleNext = () => {
-    setActiveStep(prevActiveStep => prevActiveStep + 1);
+    if (activeStep === 0) {
+      if (values.name === "") {
+        snackbar.showMessage("Name is required!", "Undo", () => handleUndo());
+      } else if (values.location === "") {
+        snackbar.showMessage("Location is required!", "Undo", () =>
+          handleUndo()
+        );
+      } else if (values.description === "") {
+        snackbar.showMessage("Description is required!", "Undo", () =>
+          handleUndo()
+        );
+      } else if (values.timeStart.getTime() + 60000 < new Date().getTime()) {
+        snackbar.showMessage("Start time is in the past", "Undo", () =>
+          handleUndo()
+        );
+      } else if (values.dateEnd.getTime() < values.dateStart.getTime()) {
+        snackbar.showMessage(
+          "End time is earlier than start time!",
+          "Undo",
+          () => handleUndo()
+        );
+      } else if (
+        values.dateEnd.getTime() === values.dateStart.getTime() &&
+        values.timeEnd.getTime() <= values.timeStart.getTime()
+      ) {
+        snackbar.showMessage(
+          "End time is earlier or equal to start time!",
+          "Undo",
+          () => handleUndo()
+        );
+      } else if (values.eventTypeId <= 0) {
+        snackbar.showMessage("Event type is required!", "Undo", () =>
+          handleUndo()
+        );
+      } else if (values.eventImage.name === "") {
+        snackbar.showMessage("Image is required!", "Undo", () => handleUndo());
+      } else {
+        setActiveStep(prevActiveStep => prevActiveStep + 1);
+      }
+    } else if (activeStep === 1) {
+      setActiveStep(prevActiveStep => prevActiveStep + 1);
+    } else if (activeStep === 2) {
+      if (values.name === "") {
+        alert("Noen felt er tomme");
+      } else {
+        setActiveStep(prevActiveStep => prevActiveStep + 1);
+      }
+    } else if (activeStep === 3) {
+      if (values.name === "") {
+        alert("Noen felt er tomme");
+      } else {
+        setActiveStep(prevActiveStep => prevActiveStep + 1);
+      }
+    }
   };
 
   const handleBack = () => {
