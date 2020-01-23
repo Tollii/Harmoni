@@ -79,7 +79,7 @@ export default (props: any) => {
   };
 
   const handleAllContracts = (eventId: number) => {
-    window.location.hash = "contract/event/" + eventId;
+    window.location.hash = "#/contract/event/" + eventId;
   };
   function handleAlert(open: boolean) {
     setAlertOpen(open);
