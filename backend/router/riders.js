@@ -14,6 +14,7 @@ module.exports = (app, models, base, auth) => {
   const ridersControl = require('../dao/riders')(models)
 
   /**
+   * Gets all riders
   * @group Riders - Operations about rider
   * @route GET /rider/
   * @param {string} token.header.required - token
@@ -37,6 +38,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Get all riders for a specified event
   * @group Riders - Operations about rider
   * @route GET /rider/event/{eventID}
   * @param {integer} eventID.path.required - Event id
@@ -61,6 +63,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Get all riders for a specific artist at a specific event
   * @group Riders - Operations about rider
   * @route GET /rider/event/{eventID}/user/{userID}
   * @param {integer} eventID.path.required - Event id
@@ -86,6 +89,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Get a specific rider by a specific rider, rider_type and user_id
   * @group Riders - Operations about Rider
   * @route GET /rider/rider_type/{rider_type_id}/event/{event_id}/user/{user_id}/
   * @param {integer} rider_type_id.path.required - Riders rider type id
@@ -115,6 +119,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * posts a new rider
   * @group Riders - Operations about riders
   * @route POST /rider/
   * @param {Riders.model} user.body.required - Rider information
@@ -143,6 +148,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * updates an excisting rider by all 3 ids
   * @group Riders - Operations about riders
   * @route PUT /rider/rider_type/{rider_type_id}/event/{event_id}/user/{user_id}
   * @param {Riders_PUT.model} user.body.required - Rider information
@@ -177,6 +183,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Deletes all riders for a specific event by event id
   * @group Riders - Operations about riders
   * @route DELETE /rider/event/{event_id}/
   * @param {integer} event_id.path.required - Rider event id
@@ -185,7 +192,7 @@ module.exports = (app, models, base, auth) => {
   * @returns {Error}  default - Unexpected error
   */
   app.delete(base+"/event/:event_id/", (req, res) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"], req.params.event_id, req.params.user_id)
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer"], req.params.event_id, req.params.user_id)
     .then(data => {
       if(data.auth){
         ridersControl.riderDelete(
@@ -203,6 +210,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Deletes all riders for a specific event and for a specific user
   * @group Riders - Operations about riders
   * @route DELETE /rider/event/{event_id}/user/{user_id}
   * @param {integer} event_id.path.required - Rider event id

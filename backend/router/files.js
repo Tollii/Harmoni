@@ -30,6 +30,7 @@ module.exports = (app, models, auth) => {
 
   //// PROFILE PICTURES ////
   /**
+   * Gets a profile picture file for a specific user
    * @group Files - operations about files
    * @route GET /image/profile/{id}/
    * @param {integer} id.path.required - id
@@ -47,6 +48,7 @@ module.exports = (app, models, auth) => {
   });
 
   /**
+   * Posts a profile image file for your own token, saves it in a folder in backend
    * @group Files - operations about files
    * @route POST /image/profile/
    * @param {string} token.header.required - token
@@ -79,6 +81,7 @@ module.exports = (app, models, auth) => {
 
   //// EVENT IMAGES ////
   /**
+   * gets the image file for an event
    * @group Files - operations about files
    * @route GET /image/event/{id}/
    * @param {integer} id.path.required - event id
@@ -99,6 +102,7 @@ module.exports = (app, models, auth) => {
 
   });
   /**
+   * Posts an event image file and save it in backend
    * @group Files - operations about files
    * @route POST /image/event/{id}/
    * @param {integer} id.path.required - event id
@@ -139,6 +143,7 @@ module.exports = (app, models, auth) => {
 
     ///////////CONTRACTS///////////
     /**
+     * gets the contract file for a specific user from a specific event
      * @group Files - operations about files
      * @route GET /files/contract/user/{user_id}/event/{event_id}/
      * @param {string} token.header.required - token
@@ -189,6 +194,7 @@ module.exports = (app, models, auth) => {
     });
 
     /**
+     * posts a contract file for a specific user and a specific event and saves it in backend
      * @group Files - operations about files
      * @route PUT /files/contract/user/{user_id}/event/{event_id}/
      * @param {string} token.header.required - token
