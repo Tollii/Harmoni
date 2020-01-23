@@ -21,11 +21,8 @@ module.exports = (app, models, base, auth) => {
   app.get(base, (req, res) => {
     auth
       .check_permissions(req.headers.token, [
-        "Admin",
-        "Organizer",
-        "Artist",
-        "User"
-      ])
+        "Admin"
+      ], 0, 0)
       .then(data => {
         if (data.auth) {
           ticketControl
@@ -82,7 +79,7 @@ module.exports = (app, models, base, auth) => {
       .check_permissions(req.headers.token, [
         "Admin",
         "Organizer"
-      ])
+      ], req.body.eventID, 0)
       .then(data => {
         if (data.auth) {
           ticketControl
@@ -118,7 +115,7 @@ module.exports = (app, models, base, auth) => {
       .check_permissions(req.headers.token, [
         "Admin",
         "Organizer"
-      ])
+      ], req.body.eventID)
       .then(data => {
         if (data.auth) {
           ticketControl
@@ -155,9 +152,8 @@ module.exports = (app, models, base, auth) => {
   app.delete(base + "/:id", (req, res) => {
     auth
       .check_permissions(req.headers.token, [
-        "Admin",
-        "Organizer"
-      ])
+        "Admin"
+    ], 0, 0)
       .then(data => {
         if (data.auth) {
           ticketControl.ticketDelete(req.params.id).then(data => {
