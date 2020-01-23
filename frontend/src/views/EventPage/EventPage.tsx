@@ -14,6 +14,9 @@ import Avatar from "@material-ui/core/Avatar";
 import Map from "../../components/Map/simpleMap";
 import DropDownButton from "../../components/Button/DropDownButton";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import ContractService from "../../service/contracts";
+import { userInfo } from "os";
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -141,6 +144,31 @@ export default (props: any) => {
     }, 1500);
   }, [props.match.params.id, props.user]);
 
+  const [myContract, showContract] = useState(false);
+  const [eventConnection, setEventConnection] = useState(false);
+  useEffect(() => {
+    if(props.user.id !== 0){
+    console.log(props.user)
+    ContractService.getContract(props.user.id, props.match.params.id).then(
+      (contract: any) => {
+        console.log("true--4-")
+        if (contract !== "") {
+          console.log("true--3-")
+          setEventConnection(true);
+          console.log("true--2-")
+          if (contract.contract !== null) {
+            console.log("true--1-")
+            if (contract.contract !== "") {
+              console.log("true---")
+              showContract(true)
+            }
+          }
+        }
+      }
+    );
+    }
+  }, [myContract, props.user, props.match.params.id]);
+
   if (loaded) {
     return (
       <div style={{ overflow: "hidden" }}>
@@ -184,13 +212,15 @@ export default (props: any) => {
                   </Grid>
                 ))}
               </Grid>
-              <Typography className={classes.smallTitle} variant="h6">
+              {((props.user.roleID === 3 && eventConnection)|| props.user.roleID === 4 )&&
+                <div>
+                <Typography className={classes.smallTitle} variant="h6">
                 Personnel
               </Typography>
               <Typography
-                className={classes.description}
-                variant="subtitle1"
-                gutterBottom
+              className={classes.description}
+              variant="subtitle1"
+              gutterBottom
               >
                 {values.personnel}
               </Typography>
@@ -229,6 +259,8 @@ export default (props: any) => {
                   </TableBody>
                 </Table>
               </TableContainer>
+              </div>
+              }
             </Box>
           </Grid>
           <Grid item sm={3} xs={12} style={{ margin: "10px" }}>
@@ -267,7 +299,7 @@ export default (props: any) => {
               <Map events={[values]} center={values} zoom={11} />
             </div>
             <Grid container spacing={1} justify="center" alignItems="center">
-              <DropDownButton event={values.id} user={props.user.id} />
+              <DropDownButton event={values.id} user={props.user.id} eventConnection={eventConnection} myContract={myContract} />
             </Grid>
           </Grid>
         </Grid>

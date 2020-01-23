@@ -12,7 +12,6 @@ import { withStyles } from "@material-ui/core/styles";
 import DescriptionIcon from "@material-ui/icons/Description";
 import SettingsIcon from "@material-ui/icons/Settings";
 import DeleteIcon from "@material-ui/icons/Delete";
-import ContractService from "../../service/contracts";
 import EventService from "../../service/events";
 import UserService from "../../service/users";
 import { Link } from "react-router-dom";
@@ -98,6 +97,7 @@ export default (props: any) => {
   const [volunteer, setVolunteer] = React.useState(false);
   const [isVolunteer, setIsVolunteer] = React.useState(false);
   const [volunteerDialog, setVolunteerDialog] = useState(false);
+
   const [state, setState] = React.useState<TableState>({
     columns: [
       { title: "Name", field: "username" },
@@ -107,20 +107,6 @@ export default (props: any) => {
     data: []
   });
 
-  const [myContract, showContract] = useState(false);
-  const [eventConnection, setEventConnection] = useState(false);
-  useEffect(() => {
-    ContractService.getContract(props.user, props.event).then(
-      (contract: any) => {
-        if (contract !== "") {
-          setEventConnection(true);
-          if (contract.contract !== null) {
-            if (contract.contract !== "") showContract(true);
-          }
-        }
-      }
-    );
-  }, [myContract, props.user, props.event]);
   useEffect(() => {
     UserService.getOneUser().then((user: any) => {
       setRole(user.roleID);
@@ -140,7 +126,7 @@ export default (props: any) => {
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.event, role, myContract]);
+  }, [props.event, role, props.myContract]);
 
   return (
     <div>
@@ -208,7 +194,7 @@ export default (props: any) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                {eventConnection ? (
+                {props.eventConnection ? (
                   <StyledMenuItem onClick={handleEditRider}>
                     <ListItemIcon>
                       <SettingsIcon fontSize="small" />
@@ -220,7 +206,7 @@ export default (props: any) => {
                     <ListItemText primary="No permission" />
                   </StyledMenuItem>
                 )}
-                {myContract === true ? (
+                {props.myContract === true ? (
                   <StyledMenuItem
                     onClick={() => window.open(contractUrl, "_blank")}
                   >
@@ -236,7 +222,7 @@ export default (props: any) => {
           {(role === 3 || role === 4) &&
           (role === 4 ||
             (role === 3 &&
-              eventConnection)) /**om man har rolle 3/4(arrang/admin) skal man få knapp med alt */ ? (
+              props.eventConnection)) /**om man har rolle 3/4(arrang/admin) skal man få knapp med alt */ ? (
             <div>
               <Button
                 aria-controls="customized-menu"
