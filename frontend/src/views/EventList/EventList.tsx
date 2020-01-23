@@ -57,9 +57,10 @@ export default (props: any) => {
       temp.push(
         createData(event.id, event.event_name, start, end, event.location)
       );
+      return null
     });
     setState(state => ({ ...state, data: temp }));
-  }, []);
+  }, [props.events]);
 
   return (
     <Grid container spacing={2} direction="row">
