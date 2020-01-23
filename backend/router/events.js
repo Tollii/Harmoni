@@ -206,7 +206,7 @@ module.exports = (app, models, base, auth) => {
    */
   app.put(base + "/:id", (req, res) => {
     auth
-      .check_permissions(req.headers.token, ["Admin", "Organizer"], req.params.event_id, 0)
+      .check_permissions(req.headers.token, ["Admin", "Organizer"], req.params.id, 0)
       .then(data => {
         if (data.auth) {
           eventControl
