@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import MaterialTable, { Column } from "material-table";
 import { Grid } from "@material-ui/core";
-import EventService from "../../service/events";
 import { Link } from "react-router-dom";
 import Button from "../../components/Button/Button";
 interface Row {
@@ -31,7 +30,7 @@ function createData(
     location: location
   };
 }
-export default function(props: any) {
+export default (props: any) => {
   const [state, setState] = React.useState<TableState>({
     columns: [
       { title: "Name", field: "name" },
@@ -51,24 +50,17 @@ export default function(props: any) {
     data: []
   });
   useEffect(() => {
-    EventService.getEventsUnarchived().then((events: any) => {      
-      Promise.all(
-        events.map((event: any) => {
-          let start = String(event.event_start).substring(0, 10);
-          let end = String(event.event_end).substring(0, 10);
-          return createData(
-            event.id,
-            event.event_name,
-            start,
-            end,
-            event.location
-          );
-        })
-      ).then((newData: any) => {
-        setState(state => ({ ...state, data: newData }));
-      });
+    let temp: any = [];
+    props.events.map((event: any) => {
+      let start = String(event.event_start).substring(0, 10);
+      let end = String(event.event_end).substring(0, 10);
+      temp.push(
+        createData(event.id, event.event_name, start, end, event.location)
+      );
     });
+    setState(state => ({ ...state, data: temp }));
   }, []);
+
   return (
     <Grid container spacing={2} direction="row">
       <Grid item xs={1} />
@@ -83,4 +75,4 @@ export default function(props: any) {
       <Grid item xs={1} />
     </Grid>
   );
-}
+};
