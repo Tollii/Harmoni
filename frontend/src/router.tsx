@@ -4,9 +4,8 @@ import Event from "./views/Event/Event";
 import SignUp from "./views/SignUp/SignUp";
 import Login from "./views/Login/Login";
 import Footer from "./components/Footer/Footer";
-import Profile from "./views/Profile/Profile";
+import ProfileTabs from "./views/Profile/ProfileTabs";
 import EventPage from "./views/EventPage/EventPage";
-import AuthenticationService from "./service/Authentication";
 import Main from "./views/Main/Main";
 import { HashRouter, Route } from "react-router-dom";
 import getCookie from "./service/cookie";
@@ -17,37 +16,70 @@ import ForgotForm from "./views/ForgotPassword/ForgotForm";
 import EditRidersForArtist from "./views/EditRidersForArtist/EditRidersForArtist";
 import { SnackbarProvider } from "material-ui-snackbar-provider";
 import UserService from "./service/users";
+import RoleService from "./service/roles";
 
 export default () => {
   const [loggedIn, setLoggedIn] = React.useState(getCookie("token"));
+  const [page, setPage] = useState(0);
   const [user, setUser] = useState({
-    fullName: "",
     id: 0,
-    roleID: 0
+    roleID: 0,
+    fullName: "",
+    email: "",
+    telephone: "",
+    role: "",
+    pic_url: ""
   });
 
   useEffect(() => {
     setLoggedIn(getCookie("token"));
     if (getCookie("token")) {
-      UserService.getOneUser().then((user: any) => {
-        setUser({fullName:user.username, id:user.id, roleID: user.roleID});
+      UserService.getOneUser().then(res => {
+        RoleService.getRole(res.roleID).then((res1: any) => {
+          setUser({
+            id: res.id,
+            roleID: res.roleID,
+            fullName: res.username,
+            email: res.email,
+            telephone: res.phone,
+            role: res1.role_name,
+            pic_url: process.env.REACT_APP_API_URL + "/image/profile/" + res.id
+          });
+        });
+      });
+    } else {
+      setUser({
+        id: 0,
+        roleID: 0,
+        fullName: "",
+        email: "",
+        telephone: "",
+        role: "",
+        pic_url: ""
       });
     }
   }, [loggedIn]);
+
+  const handleUserChange = (value: any, name: string = "") => {
+    if (name === "") setUser(value);
+    else setUser({ ...user, [name]: value });
+  };
+
 
   return (
     <SnackbarProvider SnackbarProps={{ autoHideDuration: 4000 }}>
       <HashRouter>
         <Navbar
-          isAuth={AuthenticationService.getAuth}
+          user={user}
           logFunc={setLoggedIn}
           loggedIn={loggedIn}
+          setPage={setPage}
         />
         <Route
           exact
           path="/"
           render={(props: any) => (
-            <Main {...props} isAuth={AuthenticationService.getAuth} />
+            <Main {...props} />
           )}
         />
         <div style={{ marginTop: "70px" }}>
@@ -57,7 +89,6 @@ export default () => {
             render={(props: any) => (
               <EventPage
                 {...props}
-                isAuth={AuthenticationService.getAuth}
                 user={user}
               />
             )}
@@ -68,7 +99,6 @@ export default () => {
             render={(props: any) => (
               <Event
                 {...props}
-                isAuth={AuthenticationService.getAuth}
                 edit={false}
               />
             )}
@@ -79,7 +109,6 @@ export default () => {
             render={(props: any) => (
               <Event
                 {...props}
-                isAuth={AuthenticationService.getAuth}
                 edit={true}
               />
             )}
@@ -88,7 +117,7 @@ export default () => {
             exact
             path="/signUp"
             render={(props: any) => (
-              <SignUp {...props} isAuth={AuthenticationService.getAuth} />
+              <SignUp {...props} />
             )}
           />
           <Route
@@ -97,7 +126,6 @@ export default () => {
             render={(props: any) => (
               <Login
                 {...props}
-                isAuth={AuthenticationService.getAuth}
                 logFunc={setLoggedIn}
               />
             )}
@@ -106,7 +134,13 @@ export default () => {
             exact
             path="/profile"
             render={(props: any) => (
-              <Profile {...props} isAuth={AuthenticationService.getAuth} />
+              <ProfileTabs
+                {...props}
+                user={user}
+                handleUserChange={handleUserChange}
+                setPage={setPage}
+                page={page}
+              />
             )}
           />
           <Route
@@ -115,18 +149,16 @@ export default () => {
             render={(props: any) => (
               <Contract
                 {...props}
-                isAuth={AuthenticationService.getAuth}
                 logFunc={setLoggedIn}
               />
             )}
           />
           <Route
             exact
-            path="/eventUnarchived"
+            path="/event"
             render={(props: any) => (
               <EventListTabs
                 {...props}
-                isAuth={AuthenticationService.getAuth}
               />
             )}
           />
@@ -135,20 +167,23 @@ export default () => {
             path="/forgotpassword/:token"
             render={(props: any) => <ForgotPassword {...props} />}
           />
-        <Route
-          exact
-          path="/forgot"
-          render={(props: any) => <ForgotForm {...props} />}
-        />
-        <Route
-          exact
-          path="/artist/editRider/:eventID/user/:userID"
-          render={(props:any) =>
-            <EditRidersForArtist {...props} isAuth={AuthenticationService.getAuth}  />}
+          <Route
+            exact
+            path="/forgot"
+            render={(props: any) => <ForgotForm {...props} />}
           />
-      </div>
-      <Footer />
-    </HashRouter>
+          <Route
+            exact
+            path="/artist/editRider/:eventID/user/:userID"
+            render={(props: any) => (
+              <EditRidersForArtist
+                {...props}
+              />
+            )}
+          />
+        </div>
+        <Footer />
+      </HashRouter>
     </SnackbarProvider>
   );
 };

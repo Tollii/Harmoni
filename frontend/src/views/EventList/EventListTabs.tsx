@@ -1,20 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Calendar from "./Calendar";
 import EventList from "./EventList";
 import EventService from "../../service/events";
-
-const useStyles = makeStyles({
-  root: {
-    flexGrow: 1
-  }
-});
+import Card from "../../components/Card/Card";
 
 export default (props: any) => {
-  const classes = useStyles();
   const [value, setValue] = useState(0);
   const [events, setEvents] = useState([]);
 
@@ -25,8 +17,6 @@ export default (props: any) => {
   useEffect(() => {
     EventService.getEventsUnarchived().then((response: any) => {
       setEvents(response);
-      setValue(1);
-      setValue(0);
     });
   }, []);
 
@@ -38,7 +28,7 @@ export default (props: any) => {
   }
 
   return (
-    <Paper className={classes.root}>
+    <Card>
       <Tabs
         value={value}
         onChange={handleChange}
@@ -54,6 +44,6 @@ export default (props: any) => {
       ) : (
         <Calendar events={events} />
       )}
-    </Paper>
+    </Card>
   );
 };

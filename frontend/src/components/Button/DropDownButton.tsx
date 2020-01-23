@@ -85,7 +85,7 @@ export default (props: any) => {
   const handleEditRider = async () => {
     let userID = await UserService.getOneUser().then(user => user.id);
     window.location.hash =
-      "artist/editRider/" + props.event + "/user/" + userID;
+      "#/artist/editRider/" + props.event + "/user/" + userID;
   };
 
   function handleAlert(open: boolean) {
@@ -114,20 +114,29 @@ export default (props: any) => {
   }, [props.event]);
 
   useEffect(() => {
-    EventService.getEventVolunteer(props.event).then((data: boolean) => {
-      setVolunteer(data);
-    });
-    EventService.getEventIsVolunteer(props.event).then((data: boolean) => {
-      setIsVolunteer(data);
-    });
-    EventService.getEventVolunteerAdmin(props.event).then((volunteers: any) => {
-      if (volunteers.count > 0) {
-        setState(state => ({ ...state, data: volunteers.rows }));
-      }
-    });
+    if (role === 1) {
+      EventService.getEventVolunteer(props.event).then((data: boolean) => {
+        setVolunteer(data);
+      });
+      EventService.getEventIsVolunteer(props.event).then((data: boolean) => {
+        setIsVolunteer(data);
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.event, role, props.myContract]);
 
+  function getAllVolunteers() {
+    if ((role === 3 && props.eventConnection) || role === 4) {
+      EventService.getEventVolunteerAdmin(props.event).then(
+        (volunteers: any) => {
+          if (volunteers.count > 0) {
+            setState(state => ({ ...state, data: volunteers.rows }));
+          }
+          setVolunteerDialog(true);
+        }
+      );
+    }
+  }
   return (
     <div>
       <Grid container>
@@ -260,7 +269,7 @@ export default (props: any) => {
                     <ListItemText primary="See contract" />
                   </StyledMenuItem>
 
-                  <StyledMenuItem onClick={() => setVolunteerDialog(true)}>
+                  <StyledMenuItem onClick={() => getAllVolunteers()}>
                     <ListItemIcon>
                       <DescriptionIcon fontSize="small" />
                     </ListItemIcon>
