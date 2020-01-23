@@ -11,14 +11,13 @@ import { validateLogin } from "../../service/Form/Validate";
 import Authentication from "../../service/Authentication";
 import { Link } from "react-router-dom";
 const useStyles = makeStyles({
-
   title: {
     marginLeft: "auto",
     marginRight: "auto",
     marginBottom: "20px"
   },
-  errormessage:{
-    float:"right"
+  errormessage: {
+    float: "right"
   },
   custom: {
     minWidth: "250px",
@@ -27,11 +26,12 @@ const useStyles = makeStyles({
     margin: "auto"
   },
   cardContent: {
-    width: '400px',
-    marginLeft: '1.5vw'
+    width: "400px",
+    marginLeft: "1.5vw"
   },
   link: {
-    color: 'red',
+    color: "red",
+    textDecoration: "none"
   }
 });
 
@@ -73,11 +73,11 @@ export default (props: any) => {
     <div className={classes.custom}>
       <Card>
         <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Typography className={classes.title} variant="h3" align="center">
-                Login
-              </Typography>
-            </Grid>
+          <Grid item xs={12}>
+            <Typography className={classes.title} variant="h3" align="center">
+              Login
+            </Typography>
+          </Grid>
           <CardContent className={classes.cardContent}>
             <form onSubmit={handleSubmit} noValidate>
               {errors.email && <Typography>{errors.email}</Typography>}
