@@ -46,11 +46,24 @@ export default (props: any) => {
   const handleUndo = () => {
     // *snip*
   };
+  function checkPhonenumber(inputtxt: any) {
+    var phoneno = /^(\+[1-9]{1,3})?([ ]{1})?([0-9]{8})$/;
+    if (inputtxt.match(phoneno)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   function submit() {
     const pattern = /.+@[a-z1-9]+\.[a-z]+/;
     const check = values.email.match(pattern);
-    if (check && values.password && values.fullName) {
+    if (
+      checkPhonenumber(values.telephone) &&
+      check &&
+      values.password &&
+      values.fullName
+    ) {
       console.log("Submitted form");
       Authentication.signUp({
         email: values.email.toLowerCase(),
