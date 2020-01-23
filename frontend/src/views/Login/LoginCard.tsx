@@ -48,7 +48,7 @@ export default (props: any) => {
   const [loginError, setError] = useState(false);
 
   function submit() {
-    const pattern = /.+@[a-z1-9]+.[a-z]+/;
+    const pattern = /.+@[a-z1-9]+\.[a-z]+/;
     const check = values.email.match(pattern);
 
     if (check && values.password) {
