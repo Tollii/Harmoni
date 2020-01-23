@@ -98,7 +98,7 @@ module.exports = models => {
           return Users_dao.userGetOne(id).then(user => {
             return Roles_dao.roleGetOne(user.roleID).then(role => {
               if(permissions.includes("Admin")){
-                if(permissions.includes(role.dataValues.role_name)){
+                if("Admin" === role.dataValues.role_name){
                   return {
                     auth: true,
                     user: user,
@@ -107,7 +107,7 @@ module.exports = models => {
                 }
               }
               if(permissions.includes("Organizer")) {
-                if(permissions.includes(role.dataValues.role_name)){
+                if("Organizer" === role.dataValues.role_name){
                   if(event_id !== 0){
                     Contract_dao.contractGetOne(id, event_id)
                     .then(contract=> {
@@ -139,7 +139,7 @@ module.exports = models => {
                 }
               }
               if(permissions.includes("Artist")) {
-                if(permissions.includes(role.dataValues.role_name)){
+                if("Artist" === role.dataValues.role_name){
                   if(user_id === 0 && event_id === 0) {
                     return {
                       auth: true,
@@ -154,7 +154,7 @@ module.exports = models => {
                         user: user,
                         role: role
                       };
-                    }else {
+                    } else {
                       Contract_dao.contractGetOne(id, event_id)
                       .then(contract=> {
                         if(contract !== null){
@@ -170,7 +170,7 @@ module.exports = models => {
                 }
               }
               if(permissions.includes("User")) {
-                if(permissions.includes(role.dataValues.role_name)){
+                if("User" === role.dataValues.role_name){
                   if(user_id !== 0 && user_id === id){
                     return {
                       auth: true,
