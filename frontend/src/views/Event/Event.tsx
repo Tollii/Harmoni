@@ -243,16 +243,34 @@ export default (props: any) => {
         setEdit({ ...edit, editRiders: true });
       } else if (name === "eventImage") {
         setEdit({ ...edit, editEventImage: true });
+      } else if (
+        name === "dateStart" ||
+        name === "dateEnd" ||
+        name === "timeStart" ||
+        name === "timeEnd"
+      ) {
+        setEdit({ ...edit, editGeneral: true });
       }
     }
   };
 
+  function formatDate(date: Date) {
+    var d = new Date(date),
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
+
+    return [year, month, day].join("-");
+  }
+
   const submit = () => {
-    console.log("submitting...");
-    let dateStart = String(values.dateStart).substring(0, 10);
-    let dateEnd = String(values.dateEnd).substring(0, 10);
-    let timeStart = String(values.timeStart).substring(11, 19);
-    let timeEnd = String(values.timeEnd).substring(11, 19);
+    let dateStart = formatDate(values.dateStart);
+    let dateEnd = formatDate(values.dateEnd);
+    let timeStart = String(values.timeStart).substring(15, 21);
+    let timeEnd = String(values.timeEnd).substring(15, 21);
     let artists: number[] = [];
     values.artists
       .filter((artist: any) => artist.checked === true)
