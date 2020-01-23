@@ -18,6 +18,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Checkbox from "@material-ui/core/Checkbox";
+import Card from "../../components/Card/Card";
 
 function desc(a: any, b: any, orderBy: any) {
   if (b[orderBy] < a[orderBy]) {
@@ -115,7 +116,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
         {headCells.map(headCell => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? "right" : "left"}
+            //align={headCell.numeric ? "right" : "left"}
             padding={headCell.disablePadding ? "none" : "default"}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -197,11 +198,11 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "100%"
     },
     paper: {
-      width: "100%",
+      //width: "100%",
       marginBottom: theme.spacing(2)
     },
     table: {
-      minWidth: 750
+      minWidth: 600
     },
     visuallyHidden: {
       border: 0,
@@ -280,10 +281,10 @@ export default (props: any) => {
 
   return (
     <div className={classes.root}>
-      <Paper className={classes.paper}>
+      <Card width='100%'>
         <EnhancedTableToolbar numSelected={amtSelected} />
-        <TableContainer>
-          <Table className={classes.table}>
+        <TableContainer component={Paper}>
+          <Table className={classes.table} size='small'>
             <EnhancedTableHead
               classes={classes}
               numSelected={amtSelected}
@@ -315,7 +316,7 @@ export default (props: any) => {
                       <TableCell component="th" scope="row" padding="none">
                         {row.name}
                       </TableCell>
-                      <TableCell align="right">{row.email}</TableCell>
+                      <TableCell>{row.email}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -336,7 +337,7 @@ export default (props: any) => {
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
-      </Paper>
+      </Card>
     </div>
   );
 };
