@@ -46,7 +46,7 @@ export default (props: any) => {
     // *snip*
   };
   function submit() {
-    const pattern = /.+@[a-z1-9]+.[a-z]+/;
+    const pattern = /.+@[a-z1-9]+\.[a-z]+/;
     const check = values.email.match(pattern);
     if (check && values.password && values.fullName && values.telephone) {
       console.log("Submitted form");
