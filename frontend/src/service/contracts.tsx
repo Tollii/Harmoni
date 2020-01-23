@@ -19,8 +19,6 @@ class ContractService {
   }
 
   getContract(userID: number, eventID: number) {
-    console.log("yoyoyoyoy i service");
-
     return axios
       .get(url + "/contract/user/" + userID + "/event/" + eventID, {
         headers: { token: getCookie("token") }

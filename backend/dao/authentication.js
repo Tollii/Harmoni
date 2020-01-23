@@ -141,15 +141,7 @@ module.exports = models => {
               }
               if (permissions.includes("Artist")) {
                 if ("Artist" == role.dataValues.role_name) {
-                  console.log(
-                    "1. if brorororororor  i authhhhhhh ----------------"
-                  );
-
                   if (user_id == 0 && event_id == 0) {
-                    console.log(
-                      "2. if brorororororor  i authhhhhhh ----------------"
-                    );
-
                     return {
                       auth: true,
                       user: user,
@@ -157,8 +149,6 @@ module.exports = models => {
                     };
                   }
                   if (user_id == id) {
-                    console.log("if userid==id i authhhhhhh ----------------");
-
                     if (event_id == 0) {
                       return {
                         auth: true,

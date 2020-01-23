@@ -65,17 +65,11 @@ module.exports = (app, models, base, auth) => {
   app.get(base+"/user/:user_id/event/:event_id", ( req, res ) => {    
     auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"], req.params.event_id, req.params.user_id)
     .then(data => {
-      console.log(data);
-
       if(data.auth){
-        console.log("yoyoyoyoyoyoyyooyoyoyy i router");
-
         contractControl.contractGetOne(req.params.user_id, req.params.event_id).then((data)=>{
           res.send(data);
         })
       } else {
-        console.log("yoyoyoyoyoyoyyooyoyoyy i router elsseeeeeeee");
-
         res.status(400).send("Not authenticated")
       }
     })
