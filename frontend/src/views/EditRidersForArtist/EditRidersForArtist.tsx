@@ -72,7 +72,6 @@ export default function(props: any) {
     const [addition, setAddition] = useState("");
     const [riderTypes, setRiderTypes] = useState<Array<{id: number, description: string}>>([]);
     const [riders, setRiders] = useState<Array<{additions: string, rider_typeID: number, eventID: number, userID: number}>>([]);
-    const [selected, setSelected] = useState<string[]>([]);
 
     useEffect(() => {
         Rider_TypeService.getRider_Types().then((resRiderTypes: any) => {
@@ -88,10 +87,12 @@ export default function(props: any) {
                             selectedRiders.push(temp.description);
                         }
                     }
+                    return null
                 });
                 setRiderName(selectedRiders);
             });
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleChangeRider = (event: React.ChangeEvent<{ value: any }>) => {
@@ -109,6 +110,7 @@ export default function(props: any) {
               userID: parseInt(props.match.params.userID)
             })
           }
+          return null
         })
         setRiders(ridersArray);
         console.log(ridersArray);
