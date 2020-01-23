@@ -7,6 +7,7 @@ module.exports = (app, models, base, auth) => {
   const roleControl = require('../dao/roles')(models)
 
   /**
+   * Get all roles
   * @group Role - Operations about user
   * @route GET /role/
   * @param {string} token.header.required - token
@@ -28,6 +29,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Get a role by it's specific id
   * @group Role - Operations about user
   * @route GET /role/{id}/
   * @param {integer} id.path.required - role id
