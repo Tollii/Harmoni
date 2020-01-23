@@ -17,6 +17,10 @@ import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    card: {
+      width: "100%",
+      marginBottom: "20px"
+    },
     formControl: {
       margin: theme.spacing(1),
       minWidth: 200,
@@ -37,7 +41,10 @@ const useStyles = makeStyles((theme: Theme) =>
         margin: theme.spacing(1),
         width: 200
       }
-    }
+    },
+    grid: {
+      margin: "5px",
+    },
   })
 );
 
@@ -153,15 +160,15 @@ function RiderCard(props: any) {
   };
 
   return (
-    <Card style={{ width: "80%", marginBottom: "20px" }}>
+    <Card className={classes.card} >
       <CardContent>
         <Grid container spacing={2} direction="row">
-          <Grid item xs={3} style={{ margin: "5px" }}>
+          <Grid item xs={12} sm={12} md={3} className={classes.grid} >
             <Typography variant="h6" gutterBottom>
               {props.artistName}
             </Typography>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={6} md={4}>
             <FormControl className={classes.formControl}>
               <InputLabel id="demo-mutiple-chip-label">Riders</InputLabel>
               <Select
@@ -193,7 +200,7 @@ function RiderCard(props: any) {
             </FormControl>
           </Grid>
 
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={6} md={4}>
             <form className={classes.root} noValidate autoComplete="off">
               <TextField
                 id="standard-multiline-flexible"
