@@ -13,7 +13,6 @@ import { withStyles } from "@material-ui/core/styles";
 import DescriptionIcon from "@material-ui/icons/Description";
 import SettingsIcon from "@material-ui/icons/Settings";
 import DeleteIcon from "@material-ui/icons/Delete";
-import Authentication from "../../service/Authentication";
 import EventService from "../../service/events";
 import UserService from "../../service/users";
 import { Link } from "react-router-dom";
@@ -109,9 +108,10 @@ export default (props: any) => {
   });
 
   useEffect(() => {
-    Authentication.getAuth().then((role: any) => {
-      setRole(role);
-    });
+    UserService.getOneUser()
+    .then((user:any) => {
+      setRole(user.roleID);
+    })
   }, [props.event]);
 
   useEffect(() => {
