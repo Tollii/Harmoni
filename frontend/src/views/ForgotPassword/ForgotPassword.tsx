@@ -48,7 +48,7 @@ export default (props: any) => {
 
     function submit() {
 
-        if(values.password) {
+        if(values.password && values.password === values.passwordConfirmed)  {
             console.log("Submitted form");
             Authentication.changePasswordForgot(
                 {
@@ -56,6 +56,7 @@ export default (props: any) => {
                 token: props.match.params.token
                 }
             ).catch((error: any) => console.log(props.match.params.token));
+            window.location.hash = "#/login";
         }
     }
 
@@ -76,6 +77,7 @@ export default (props: any) => {
                             autoComplete="current-password"
                             value={values.password}
                             onChange={handleChange}
+                            type="password"
                         />
                         {errors.passwordConfirmed && (
                             <Typography>{errors.passwordConfirmed}</Typography>
@@ -83,10 +85,11 @@ export default (props: any) => {
 
                         <InputField
                             name="passwordConfirmed"
-                            label="Password"
+                            label="Confirm password"
                             autoComplete="current-password"
                             value={values.passwordConfirmed}
                             onChange={handleChange}
+                            type="password"
                         />
                         <Grid container direction="row" justify="space-between">
                             <Button type="submit">Confirm</Button>
