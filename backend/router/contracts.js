@@ -65,7 +65,7 @@ module.exports = (app, models, base, auth) => {
   * @returns {object} 200 - Return a Contract
   * @returns {Error}  default - Unexpected error
   */
-  app.get(base+"/user/:user_id/event/:event_id", ( req, res ) => {
+  app.get(base+"/user/:user_id/event/:event_id", ( req, res ) => {    
     auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"], req.params.event_id, req.params.user_id)
     .then(data => {
       if(data.auth){

@@ -85,8 +85,9 @@ export default (props: any) => {
 
   const handleEditRider = async () => {
     let userID = await UserService.getOneUser().then(user => user.id);
-    window.location.hash = "#/artist/editRider/" + props.event + "/user/" + userID;
-  }
+    window.location.hash =
+      "artist/editRider/" + props.event + "/user/" + userID;
+  };
 
   function handleAlert(open: boolean) {
     setAlertOpen(open);
@@ -121,10 +122,9 @@ export default (props: any) => {
     );
   }, [myContract, props.user, props.event]);
   useEffect(() => {
-    UserService.getOneUser()
-    .then((user:any) => {
+    UserService.getOneUser().then((user: any) => {
       setRole(user.roleID);
-    })
+    });
   }, [props.event]);
 
   useEffect(() => {
@@ -304,7 +304,6 @@ export default (props: any) => {
         aria-describedby="alert-dialog-description"
         onBackdropClick={() => {
           setVolunteerDialog(false);
-          console.log(state);
         }}
       >
         <MaterialTable
