@@ -1,8 +1,6 @@
 import getCookie from "./cookie";
 const axios = require("axios").default;
 
-const token = getCookie("token");
-
 export class Rider_Type {
   id!: number;
   description!: string;
@@ -12,7 +10,7 @@ class Rider_TypeService {
   getRider_Types() {
     return axios
       .get(process.env.REACT_APP_API_URL + "/rider_type/", {
-        headers: { token: token }
+        headers: { token: getCookie("token") }
       })
       .then((response: { data: Rider_Type[] }) => response.data);
   }

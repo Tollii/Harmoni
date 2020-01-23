@@ -209,7 +209,7 @@ export default (props: any) => {
                 onClose={handleClose}
               >
                 {eventConnection ? (
-                  <StyledMenuItem>
+                  <StyledMenuItem onClick={handleEditRider}>
                     <ListItemIcon>
                       <SettingsIcon fontSize="small" />
                     </ListItemIcon>
