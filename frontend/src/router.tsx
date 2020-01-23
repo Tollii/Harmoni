@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import Event from "./views/Event/Event";
 import SignUp from "./views/SignUp/SignUp";
@@ -16,12 +16,23 @@ import ForgotPassword from "./views/ForgotPassword/ForgotPassword";
 import ForgotForm from "./views/ForgotPassword/ForgotForm";
 import EditRidersForArtist from "./views/EditRidersForArtist/EditRidersForArtist";
 import { SnackbarProvider } from "material-ui-snackbar-provider";
+import UserService from "./service/users";
 
 export default () => {
   const [loggedIn, setLoggedIn] = React.useState(getCookie("token"));
+  const [user, setUser] = useState({
+    fullName: "",
+    id: 0,
+    roleID: 0
+  });
 
   useEffect(() => {
     setLoggedIn(getCookie("token"));
+    if (getCookie("token")) {
+      UserService.getOneUser().then((user: any) => {
+        setUser({fullName:user.username, id:user.id, roleID: user.roleID});
+      });
+    }
   }, [loggedIn]);
 
   return (
@@ -44,7 +55,11 @@ export default () => {
             exact
             path="/event/:id"
             render={(props: any) => (
-              <EventPage {...props} isAuth={AuthenticationService.getAuth} />
+              <EventPage
+                {...props}
+                isAuth={AuthenticationService.getAuth}
+                user={user}
+              />
             )}
           />
           <Route

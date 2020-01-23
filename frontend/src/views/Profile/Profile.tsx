@@ -486,14 +486,16 @@ export default (props: any) => {
                   style={{ width: "100%" }}
                 >
                   <DialogTitle id="form-dialog-title">
-                    Change Password
+                    <Grid container justify="center" direction="row">
+                      Change Password
+                    </Grid>
                   </DialogTitle>
                   <DialogContent>
                     <DialogContentText></DialogContentText>
                     <InputField
                       autoFocus
                       name="old_password"
-                      label="Password"
+                      label="Old Password"
                       value={password.old_password}
                       onChange={handlePasswordChange}
                     />
@@ -501,7 +503,7 @@ export default (props: any) => {
                     <InputField
                       autoFocus
                       name="new_password"
-                      label="Password"
+                      label="New Password"
                       value={password.new_password}
                       onChange={handlePasswordChange}
                     />
@@ -509,7 +511,7 @@ export default (props: any) => {
                     <InputField
                       autoFocus
                       name="confirmed_password"
-                      label="Password"
+                      label="Confirm New Password"
                       value={password.confirmed_password}
                       onChange={handlePasswordChange}
                     />
@@ -517,77 +519,15 @@ export default (props: any) => {
                   <DialogActions>
                     <Grid container direction="row" justify="center">
                       <Button color="primary" onClick={handleSubmitPassword}>
-                                                  Change
+                        Change
                       </Button>
-                      <Grid item xs={3}>
-                        <Button onClick={handleCloseChangePass} color="primary">
-                          Cancel
-                        </Button>
-                      </Grid>
+                      <Button onClick={handleCloseChangePass} color="primary">
+                        Cancel
+                      </Button>
                     </Grid>
                   </DialogActions>
                 </Dialog>
-              </Grid>
-              <Grid item xs={8}>
-                <Grid container>
-                  <Grid item xs={6}>
-                    <Dialog
-                      open={openChangePass}
-                      onClose={handleCloseChangePass}
-                      aria-labelledby="form-dialog-title"
-                      style={{ width: "100%" }}
-                    >
-                      <DialogTitle id="form-dialog-title">
-                        <Grid container justify="center" direction="row">
-                          Change Password
-                        </Grid>
-                      </DialogTitle>
-                      <DialogContent>
-                        <DialogContentText></DialogContentText>
-                        <InputField
-                          autoFocus
-                          name="old_password"
-                          label="Old Password"
-                          value={password.old_password}
-                          onChange={handlePasswordChange}
-                        />
-                                            
-                        <InputField
-                          autoFocus
-                          name="new_password"
-                          label="New Password"
-                          value={password.new_password}
-                          onChange={handlePasswordChange}
-                        />
-                                            
-                        <InputField
-                          autoFocus
-                          name="confirmed_password"
-                          label="Confirm New Password"
-                          value={password.confirmed_password}
-                          onChange={handlePasswordChange}
-                        />
-                      </DialogContent>
-                      <DialogActions>
-                        <Grid container direction="row" justify="center">
-                          <Button
-                            color="primary"
-                            onClick={handleSubmitPassword}
-                          >
-                            Change
-                          </Button>
-                          <Button
-                            onClick={handleCloseChangePass}
-                            color="primary"
-                          >
-                            Cancel
-                          </Button>
-                        </Grid>
-                      </DialogActions>
-                    </Dialog>
-                    {passwordOk && errorPasswordMsg()}
-                  </Grid>
-                </Grid>
+                {passwordOk && errorPasswordMsg()}
               </Grid>
             </Grid>
           </Grid>

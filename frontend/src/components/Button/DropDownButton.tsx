@@ -12,6 +12,8 @@ import { withStyles } from "@material-ui/core/styles";
 import DescriptionIcon from "@material-ui/icons/Description";
 import SettingsIcon from "@material-ui/icons/Settings";
 import DeleteIcon from "@material-ui/icons/Delete";
+import Authentication from "../../service/Authentication";
+import ContractService from "../../service/contracts";
 import EventService from "../../service/events";
 import UserService from "../../service/users";
 import { Link } from "react-router-dom";
@@ -106,6 +108,20 @@ export default (props: any) => {
     data: []
   });
 
+  const [myContract, showContract] = useState(false);
+  const [eventConnection, setEventConnection] = useState(false);
+  useEffect(() => {
+    ContractService.getContract(props.user, props.event).then(
+      (contract: any) => {
+        if (contract !== "") {
+          setEventConnection(true);
+          if (contract.contract !== null) {
+            if (contract.contract !== "") showContract(true);
+          }
+        }
+      }
+    );
+  }, [myContract, props.user, props.event]);
   useEffect(() => {
     UserService.getOneUser()
     .then((user:any) => {
@@ -126,7 +142,7 @@ export default (props: any) => {
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.event, role]);
+  }, [props.event, role, myContract]);
 
   return (
     <div>
@@ -194,26 +210,35 @@ export default (props: any) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <StyledMenuItem onClick={handleEditRider}>
-                  <ListItemIcon>
-                    <SettingsIcon fontSize="small" />
-                  </ListItemIcon>
-                  <ListItemText primary="Edit rider" />
-                </StyledMenuItem>
-                <StyledMenuItem
-                  onClick={() => window.open(contractUrl, "_blank")}
-                >
-                  <ListItemIcon>
-                    <DescriptionIcon fontSize="small" />
-                  </ListItemIcon>
-                  <ListItemText primary="See contract" />
-                </StyledMenuItem>
+                {eventConnection ? (
+                  <StyledMenuItem>
+                    <ListItemIcon>
+                      <SettingsIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText primary="Edit rider" />
+                  </StyledMenuItem>
+                ) : (
+                  <StyledMenuItem>
+                    <ListItemText primary="No permission" />
+                  </StyledMenuItem>
+                )}
+                {myContract === true ? (
+                  <StyledMenuItem
+                    onClick={() => window.open(contractUrl, "_blank")}
+                  >
+                    <ListItemIcon>
+                      <DescriptionIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText primary="See contract" />
+                  </StyledMenuItem>
+                ) : null}
               </StyledMenu>
             </div>
           )}
-          {(role === 3 ||
-            role ===
-              4) /**om man har rolle 3/4(arrang/admin) skal man få knapp med alt */ && (
+          {(role === 3 || role === 4) &&
+          (role === 4 ||
+            (role === 3 &&
+              eventConnection)) /**om man har rolle 3/4(arrang/admin) skal man få knapp med alt */ ? (
             <div>
               <Button
                 aria-controls="customized-menu"
@@ -229,37 +254,42 @@ export default (props: any) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <Link
-                  to={"/editEvent/" + props.event}
-                  style={{ textDecoration: "none", color: "black" }}
-                >
-                  <StyledMenuItem>
+                <div>
+                  <Link
+                    to={"/editEvent/" + props.event}
+                    style={{ textDecoration: "none", color: "black" }}
+                  >
+                    <StyledMenuItem>
+                      <ListItemIcon>
+                        <SettingsIcon fontSize="small" />
+                      </ListItemIcon>
+                      <ListItemText primary="Edit" />
+                    </StyledMenuItem>
+                  </Link>
+
+                  <StyledMenuItem
+                    onClick={e => handleAllContracts(props.event)}
+                  >
                     <ListItemIcon>
-                      <SettingsIcon fontSize="small" />
+                      <DescriptionIcon fontSize="small" />
                     </ListItemIcon>
-                    <ListItemText primary="Edit" />
+                    <ListItemText primary="See contract" />
                   </StyledMenuItem>
-                </Link>
-                <StyledMenuItem onClick={e => handleAllContracts(props.event)}>
-                  <ListItemIcon>
-                    <DescriptionIcon fontSize="small" />
-                  </ListItemIcon>
-                  <ListItemText primary="See contract" />
-                </StyledMenuItem>
 
-                <StyledMenuItem onClick={() => setVolunteerDialog(true)}>
-                  <ListItemIcon>
-                    <DescriptionIcon fontSize="small" />
-                  </ListItemIcon>
-                  <ListItemText primary="See volunteers" />
-                </StyledMenuItem>
+                  <StyledMenuItem onClick={() => setVolunteerDialog(true)}>
+                    <ListItemIcon>
+                      <DescriptionIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText primary="See volunteers" />
+                  </StyledMenuItem>
 
-                <StyledMenuItem onClick={() => setAlertOpen(!alertOpen)}>
-                  <ListItemIcon>
-                    <DeleteIcon fontSize="small" />
-                  </ListItemIcon>
-                  <ListItemText primary="Delete" />
-                </StyledMenuItem>
+                  <StyledMenuItem onClick={() => setAlertOpen(!alertOpen)}>
+                    <ListItemIcon>
+                      <DeleteIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText primary="Delete" />
+                  </StyledMenuItem>
+                </div>
               </StyledMenu>
               <AlertDialog
                 open={alertOpen}
@@ -267,8 +297,7 @@ export default (props: any) => {
                 eventID={props.event}
               />
             </div>
-          )}
-          {role === 0 && <div></div>}
+          ) : null}
         </Grid>
       </Grid>
       <Dialog

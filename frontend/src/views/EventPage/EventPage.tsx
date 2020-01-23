@@ -21,7 +21,6 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: "auto"
     },
     description: {
-      // padding: theme.spacing(5),
       margin: "10%",
       marginTop: 0,
       marginBottom: 0,
@@ -137,9 +136,10 @@ export default (props: any) => {
       EventService.getArtists(props.match.params.id).then((response: any) =>
         setArtists(response)
       );
+
       setLoaded(true);
     }, 1500);
-  }, [props.match.params.id]);
+  }, [props.match.params.id, props.user]);
 
   if (loaded) {
     return (
@@ -267,7 +267,7 @@ export default (props: any) => {
               <Map events={[values]} center={values} zoom={11} />
             </div>
             <Grid container spacing={1} justify="center" alignItems="center">
-              <DropDownButton event={values.id} />
+              <DropDownButton event={values.id} user={props.user.id} />
             </Grid>
           </Grid>
         </Grid>
