@@ -212,7 +212,7 @@ export default (props: any) => {
 
   useEffect(() => {
     props.isAuth().then((res: any) => {
-      if (res !== 4 && res !== 3) {
+      if (res !== 4) {
         EventService.getEventsByUser().then((response: any) => {
           if (response.length !== 0) {
             setEvents(response);
