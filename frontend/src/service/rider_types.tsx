@@ -12,7 +12,7 @@ class Rider_TypeService {
   getRider_Types() {
     return axios
       .get(process.env.REACT_APP_API_URL + "/rider_type/", {
-        headers: { token: token }
+        headers: { token: getCookie("token") }
       })
       .then((response: { data: Rider_Type[] }) => response.data);
   }
