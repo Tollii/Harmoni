@@ -149,7 +149,7 @@ export default (props: any) => {
               />
             </Grid>
             <Grid container direction="row" justify="space-between">
-              <Button onClick={() => (window.location.hash = "/login")}>
+              <Button onClick={() => (window.location.hash = "#/login")}>
                 Already have a user?
               </Button>
               <Button type="submit">Sign up</Button>
