@@ -1,26 +1,8 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  Card,
-  Grid,
-  Typography,
-  MenuProps,
-  Menu,
-  MenuItem,
-  ListItemIcon,
-  ListItemText, ListItem
-} from "@material-ui/core";
-import {
-  createStyles,
-  makeStyles,
-  Theme,
-  withStyles
-} from "@material-ui/core/styles";
+import { Box, Card, Grid, Typography } from "@material-ui/core";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import EventService from "../../service/events";
 import TicketService from "../../service/tickets";
-import UserService from "../../service/users";
-import ContractService from "../../service/contracts"
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -31,7 +13,6 @@ import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
 import Map from "../../components/Map/simpleMap";
 import DropDownButton from "../../components/Button/DropDownButton";
-import {Link} from "react-router-dom";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -159,17 +140,6 @@ export default (props: any) => {
       setLoaded(true);
     }, 1500);
   }, [props.match.params.id]);
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const role: number = 2; /**Her skal Zaim sin supermetode inn */
 
   if (loaded) {
     return (
@@ -297,23 +267,7 @@ export default (props: any) => {
               <Map events={[values]} center={values} zoom={11} />
             </div>
             <Grid container spacing={1} justify="center" alignItems="center">
-              <Grid item lg={6} sm={12} xs={6}>
-                <Grid container>
-                  <Grid item style={{ margin: "auto" }}>
-                    <Button
-                      className={classes.buttons}
-                      style={{ fontSize: "15px" }}
-                      variant="contained"
-                      color="secondary"
-                    >
-                      Buy Ticket
-                    </Button>
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item lg={6} sm={12} xs={6}>
-                <DropDownButton event={values.id} />
-              </Grid>
+              <DropDownButton event={values.id} />
             </Grid>
           </Grid>
         </Grid>

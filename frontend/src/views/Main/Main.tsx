@@ -3,7 +3,6 @@ import {makeStyles} from "@material-ui/core";
 import Map from "../../components/Map/simpleMap";
 import Carousel from "../../components/Carousel/Carousel";
 import EventService from "../../service/events";
-import EditRidersForArtist from "../EditRidersForArtist/EditRidersForArtist";
 
 const useStyles = makeStyles({
   container: {
