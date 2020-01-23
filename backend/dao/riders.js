@@ -15,6 +15,16 @@ module.exports = (models) => {
       return riders;
     }),
 
+    riderGetAllByArtist: async (eventID, userID) => Riders.findAll({
+      where: {
+        eventID: eventID,
+        userID: userID
+      }
+    })
+    .then(riders => {
+      return riders;
+    }),
+
     riderGetOne: async (rider_typeID, eventID, userID) => Riders.findOne({
       where: {
         rider_typeID: rider_typeID,
@@ -60,6 +70,14 @@ module.exports = (models) => {
           eventID: eventID
         }
       })
-      .then(x => x)
+      .then(x => x),
+
+    ridersDeleteByArtist: async (eventID, userID) => Riders.destroy({
+      where: {
+        eventID: eventID,
+        userID: userID
+      }
+    })
+    .then(x => x),
   }
 }

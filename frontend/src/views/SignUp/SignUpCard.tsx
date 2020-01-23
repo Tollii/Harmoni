@@ -115,7 +115,7 @@ export default (props: any) => {
               )}
               <InputField
                 name="passwordConfirmed"
-                label="Password"
+                label="Confirm Password"
                 autoComplete="current-password"
                 value={values.passwordConfirmed}
                 onChange={handleChange}
@@ -149,7 +149,7 @@ export default (props: any) => {
               />
             </Grid>
             <Grid container direction="row" justify="space-between">
-              <Button onClick={() => (window.location.hash = "/login")}>
+              <Button onClick={() => (window.location.hash = "#/login")}>
                 Already have a user?
               </Button>
               <Button type="submit">Sign up</Button>

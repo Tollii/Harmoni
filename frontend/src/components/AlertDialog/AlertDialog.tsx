@@ -25,13 +25,13 @@ export default (props: any) => {
   const submit = () => {
     if (choice === 1) {
       EventService.deleteEvent(props.eventID).then(
-        () => (window.location.hash = "/")
+        () => (window.location.hash = "#/")
       );
     } else if (choice === 2) {
       EventService.updateArchiveOne(props.eventID);
     } else if (choice === 3) {
       MailingService.cancelEventMail(props.eventID).then(
-        () => (window.location.hash = "/")
+        () => (window.location.hash = "#/")
       );
     } else {
     }

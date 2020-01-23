@@ -24,6 +24,7 @@ import MyEvents from "./MyEvents";
 import EventService from "../../service/events";
 import FileService from "../../service/files";
 import AuthService from "../../service/Authentication";
+import { useSnackbar } from "material-ui-snackbar-provider";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -57,6 +58,7 @@ export default (props: any) => {
   const [value, setValue] = React.useState(0);
   const [events, setEvents] = useState<any>([]);
   const [pic_url, setPic_url] = useState("");
+  const [passwordOk, setChangePass] = React.useState(false);
 
   const [file, setFile] = useState(new File(["foo"], "empty"));
   const [newValues, setNewValues] = useState({
@@ -81,24 +83,49 @@ export default (props: any) => {
     confirmed_password: ""
   });
 
-  const handleSubmitData = (event: any) => {
-    setValues({
-      fullName: newValues.fullName,
-      email: newValues.email,
-      telephone: newValues.telephone,
-      id: values.id,
-      roleID: values.roleID,
-      role: values.role,
-      picture: values.picture
-    });
+  function checkPhonenumber(inputtxt: any) {
+    var phoneno = /^\+?([0-9]{1,3})\)?([ ]{1})?([0-9]{8})$/;
+    if (inputtxt.match(phoneno)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  const snackbar = useSnackbar();
 
-    UserService.updateOneUser(values.id, {
-      username: newValues.fullName,
-      email: newValues.email,
-      phone: newValues.telephone,
-      picture: newValues.picture
-    }).then(res => console.log(res));
-    setOpenEdit(false);
+  const handleUndo = () => {
+    // *snip*
+  };
+  const handleSubmitData = (event: any) => {
+    if (!checkPhonenumber(newValues.telephone)) {
+      snackbar.showMessage("Telephone number is not valid", "Undo", () =>
+        handleUndo()
+      );
+    } else if (newValues.fullName === "" || newValues.fullName.length > 30) {
+      snackbar.showMessage("Name is required or too long", "Undo", () =>
+        handleUndo()
+      );
+    } else if (newValues.email === "") {
+      snackbar.showMessage("Email is required", "Undo", () => handleUndo());
+    } else {
+      setValues({
+        fullName: newValues.fullName,
+        email: newValues.email,
+        telephone: newValues.telephone,
+        id: values.id,
+        roleID: values.roleID,
+        role: values.role,
+        picture: values.picture
+      });
+
+      UserService.updateOneUser(values.id, {
+        username: newValues.fullName,
+        email: newValues.email,
+        phone: newValues.telephone,
+        picture: newValues.picture
+      }).then(res => console.log(res));
+      setOpenEdit(false);
+    }
   };
 
   const resetNewVal = () => {
@@ -165,6 +192,10 @@ export default (props: any) => {
     window.location.reload();
   };
 
+  const handlePasswordError = () => {
+    setChangePass(false);
+  };
+
   const handleSubmitPassword = (event: any) => {
     if (
       password.new_password === password.confirmed_password &&
@@ -178,7 +209,7 @@ export default (props: any) => {
       });
       setOpenChangePass(false);
     } else {
-      //feil med nytt passord
+      setChangePass(true);
     }
   };
 
@@ -207,7 +238,7 @@ export default (props: any) => {
 
   useEffect(() => {
     props.isAuth().then((res: any) => {
-      if (res !== 4 && res !== 3) {
+      if (res !== 4) {
         EventService.getEventsByUser().then((response: any) => {
           if (response.length !== 0) {
             setEvents(response);
@@ -230,6 +261,24 @@ export default (props: any) => {
     };
   }
 
+  const errorPasswordMsg = () => {
+    return (
+      <Dialog open={passwordOk} onClose={handlePasswordError}>
+        <DialogTitle>{"An error occurred. Please try again"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Type in your old password and confirm your new password below.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button color="primary" onClick={handlePasswordError}>
+            Ok
+          </Button>
+        </DialogActions>
+      </Dialog>
+    );
+  };
+
   return (
     <Card width={"100%"}>
       <div>
@@ -250,133 +299,228 @@ export default (props: any) => {
       </div>
       {value === 0 ? (
         <CardContent>
-            <Grid container direction={"column"} alignItems={"center"} justify={"center"} spacing={0}>
-              <Grid item >
-                {pic_url !== "" &&
-                <Avatar style={{height: "250px", width: "250px"}} alt={values.picture} src={pic_url} >
+          <Grid
+            container
+            direction={"column"}
+            alignItems={"center"}
+            justify={"center"}
+            spacing={0}
+          >
+            <Grid item>
+              {pic_url !== "" && (
+                <Avatar
+                  style={{ height: "250px", width: "250px" }}
+                  alt={values.picture}
+                  src={pic_url}
+                >
                   Picture
                 </Avatar>
-                }
-                </Grid>
-               <Grid item >
-                <Typography>
-                  <Link
-                    onClick={handleOpenEditPic}
-                    color="inherit"
-                    className={classes.editPic}
-                  >
-                    {"Edit profile picture"}
-                  </Link>
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Typography style={{fontFamily: "Roboto", fontSize: "26pt", fontWeight: 300,}}>{values.fullName}</Typography>
-              </Grid>
-              <Grid item >
-                <Typography style={{fontFamily: "Roboto", fontSize: "15pt", fontWeight: 200,}}>{values.role}</Typography>
-              </Grid>
-              <Grid item >
-                <Typography style={{fontFamily: "Roboto", fontSize: "15pt", fontWeight: 200,}}>{values.email}</Typography>
-              </Grid>
-              <Grid item >
-                <Typography style={{fontFamily: "Roboto", fontSize: "15pt", fontWeight: 200,}}>{values.telephone}</Typography>
-              </Grid>
-              <Grid item>
-                  <Button onClick={handleOpenEdit}>Edit</Button>
-                  <Button onClick={handleOpenChangePass}>Change Password</Button>
-              </Grid>
+              )}
             </Grid>
-              <Grid item xs={4}>
-                <Dialog
-                  open={openEditPic}
-                  onClose={handleCloseNoEditPic}
-                  aria-labelledby="form-dialog-title"
-                  style={{ width: "100%" }}
+            <Grid item>
+              <Typography>
+                <Link
+                  onClick={handleOpenEditPic}
+                  color="inherit"
+                  className={classes.editPic}
                 >
-                  <DialogTitle id="form-dialog-title">Edit Profile</DialogTitle>
-                  <DialogContent>
-                    <Grid container direction="row">
-                        <Button variant="contained" component="label">
-                          Choose File
-                          <input
-                            type="file"
-                            accept="image/*"
-                            style={{ display: "none" }}
-                            onChange={fileSelectedHandler}
-                          />
-                        </Button>
-                        <Typography style={{ marginLeft: "30px" }}>
-                          Chosen file: {file.name}
-                        </Typography>
-                      </Grid>
-                  </DialogContent>
-                  <DialogActions>
-                    <Grid container direction="row"  justify="center">
-                      <Grid item xs={3}>
-                        <Button
-                        onClick={() => {
-                          uploadProfilePicture().then(() => {
-                            handleCloseEditPic();
-                          });
-                        }}
-                        color="primary">
-                        Upload Image
-                        </Button>
-                      </Grid>
-                      <Grid item xs={3}>
-                        <Button onClick={handleCloseNoEditPic} color="primary">
-                          Cancel
-                        </Button>
-                      </Grid>
-                    </Grid>
-                  </DialogActions>
-                </Dialog>
-              </Grid>
+                  {"Edit profile picture"}
+                </Link>
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Typography
+                style={{
+                  fontFamily: "Roboto",
+                  fontSize: "26pt",
+                  fontWeight: 300
+                }}
+              >
+                {values.fullName}
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Typography
+                style={{
+                  fontFamily: "Roboto",
+                  fontSize: "15pt",
+                  fontWeight: 200
+                }}
+              >
+                {values.role}
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Typography
+                style={{
+                  fontFamily: "Roboto",
+                  fontSize: "15pt",
+                  fontWeight: 200
+                }}
+              >
+                {values.email}
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Typography
+                style={{
+                  fontFamily: "Roboto",
+                  fontSize: "15pt",
+                  fontWeight: 200
+                }}
+              >
+                {values.telephone}
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Button onClick={handleOpenEdit}>Edit</Button>
+              <Button onClick={handleOpenChangePass}>Change Password</Button>
+            </Grid>
+          </Grid>
+          <Grid item xs={4}>
+            <Dialog
+              open={openEditPic}
+              onClose={handleCloseNoEditPic}
+              aria-labelledby="form-dialog-title"
+              style={{ width: "100%" }}
+            >
+              <DialogTitle id="form-dialog-title">Edit Profile</DialogTitle>
+              <DialogContent>
+                <Grid container direction="row">
+                  <Button variant="contained" component="label">
+                    Choose File
+                    <input
+                      type="file"
+                      accept="image/*"
+                      style={{ display: "none" }}
+                      onChange={fileSelectedHandler}
+                    />
+                  </Button>
+                  <Typography style={{ marginLeft: "30px" }}>
+                    Chosen file: {file.name}
+                  </Typography>
+                </Grid>
+              </DialogContent>
+              <DialogActions>
+                <Grid container direction="row" justify="center">
+                  <Grid item xs={3}>
+                    <Button
+                      onClick={() => {
+                        uploadProfilePicture().then(() => {
+                          handleCloseEditPic();
+                        });
+                      }}
+                      color="primary"
+                    >
+                      Upload Image
+                    </Button>
+                  </Grid>
+                  <Grid item xs={3}>
+                    <Button onClick={handleCloseNoEditPic} color="primary">
+                      Cancel
+                    </Button>
+                  </Grid>
+                </Grid>
+              </DialogActions>
+            </Dialog>
+          </Grid>
 
-              <Grid item xs={4}>
+          <Grid item xs={4}>
+            <Dialog
+              open={openEdit}
+              onClose={handleCloseEdit}
+              aria-labelledby="form-dialog-title"
+              style={{ width: "100%" }}
+            >
+              <DialogTitle id="form-dialog-title">Edit Profile</DialogTitle>
+              <DialogContent>
+                <DialogContentText></DialogContentText>
+                <InputField
+                  autoFocus
+                  name="fullName"
+                  label="Name"
+                  type="text"
+                  value={newValues.fullName}
+                  onChange={handleChange}
+                />
+                <InputField
+                  autoFocus
+                  name="email"
+                  label="Email"
+                  type="text"
+                  value={newValues.email}
+                  onChange={handleChange}
+                />
+                <InputField
+                  autoFocus
+                  name="telephone"
+                  label="Telephone"
+                  type="text"
+                  value={newValues.telephone}
+                  onChange={handleChange}
+                />
+              </DialogContent>
+              <DialogActions>
+                <Grid container direction="row" justify="center">
+                  <Grid item xs={3}>
+                    <Button onClick={handleSubmitData} color="primary">
+                      Save Profile
+                    </Button>
+                  </Grid>
+                  <Grid item xs={3}>
+                    <Button onClick={handleCloseEdit} color="primary">
+                      Cancel
+                    </Button>
+                  </Grid>
+                </Grid>
+              </DialogActions>
+            </Dialog>
+          </Grid>
+          <Grid item xs={8}>
+            <Grid container>
+              <Grid item xs={6}>
                 <Dialog
-                  open={openEdit}
-                  onClose={handleCloseEdit}
+                  open={openChangePass}
+                  onClose={handleCloseChangePass}
                   aria-labelledby="form-dialog-title"
                   style={{ width: "100%" }}
                 >
-                  <DialogTitle id="form-dialog-title">Edit Profile</DialogTitle>
+                  <DialogTitle id="form-dialog-title">
+                    Change Password
+                  </DialogTitle>
                   <DialogContent>
                     <DialogContentText></DialogContentText>
                     <InputField
                       autoFocus
-                      name="fullName"
-                      label="Name"
-                      type="text"
-                      value={newValues.fullName}
-                      onChange={handleChange}
+                      name="old_password"
+                      label="Password"
+                      value={password.old_password}
+                      onChange={handlePasswordChange}
                     />
+                                        
                     <InputField
                       autoFocus
-                      name="email"
-                      label="Email"
-                      type="text"
-                      value={newValues.email}
-                      onChange={handleChange}
+                      name="new_password"
+                      label="Password"
+                      value={password.new_password}
+                      onChange={handlePasswordChange}
                     />
+                                        
                     <InputField
                       autoFocus
-                      name="telephone"
-                      label="Telephone"
-                      type="text"
-                      value={newValues.telephone}
-                      onChange={handleChange}
+                      name="confirmed_password"
+                      label="Password"
+                      value={password.confirmed_password}
+                      onChange={handlePasswordChange}
                     />
                   </DialogContent>
                   <DialogActions>
                     <Grid container direction="row" justify="center">
+                      <Button color="primary" onClick={handleSubmitPassword}>
+                                                  Change
+                      </Button>
                       <Grid item xs={3}>
-                        <Button onClick={handleSubmitData} color="primary">
-                          Save Profile
-                        </Button>
-                      </Grid>
-                      <Grid item xs={3}>
-                        <Button onClick={handleCloseEdit} color="primary">
+                        <Button onClick={handleCloseChangePass} color="primary">
                           Cancel
                         </Button>
                       </Grid>
@@ -385,7 +529,7 @@ export default (props: any) => {
                 </Dialog>
               </Grid>
               <Grid item xs={8}>
-                <Grid container >
+                <Grid container>
                   <Grid item xs={6}>
                     <Dialog
                       open={openChangePass}
@@ -394,14 +538,16 @@ export default (props: any) => {
                       style={{ width: "100%" }}
                     >
                       <DialogTitle id="form-dialog-title">
-                        Change Password
+                        <Grid container justify="center" direction="row">
+                          Change Password
+                        </Grid>
                       </DialogTitle>
                       <DialogContent>
                         <DialogContentText></DialogContentText>
                         <InputField
                           autoFocus
                           name="old_password"
-                          label="Password"
+                          label="Old Password"
                           value={password.old_password}
                           onChange={handlePasswordChange}
                         />
@@ -409,7 +555,7 @@ export default (props: any) => {
                         <InputField
                           autoFocus
                           name="new_password"
-                          label="Password"
+                          label="New Password"
                           value={password.new_password}
                           onChange={handlePasswordChange}
                         />
@@ -417,7 +563,7 @@ export default (props: any) => {
                         <InputField
                           autoFocus
                           name="confirmed_password"
-                          label="Password"
+                          label="Confirm New Password"
                           value={password.confirmed_password}
                           onChange={handlePasswordChange}
                         />
@@ -428,22 +574,23 @@ export default (props: any) => {
                             color="primary"
                             onClick={handleSubmitPassword}
                           >
-                            Change
+                            Change
                           </Button>
-                          <Grid item xs={3}>
-                            <Button
-                              onClick={handleCloseChangePass}
-                              color="primary"
-                            >
-                              Cancel
-                            </Button>
-                          </Grid>
+                          <Button
+                            onClick={handleCloseChangePass}
+                            color="primary"
+                          >
+                            Cancel
+                          </Button>
                         </Grid>
                       </DialogActions>
                     </Dialog>
+                    {passwordOk && errorPasswordMsg()}
                   </Grid>
                 </Grid>
               </Grid>
+            </Grid>
+          </Grid>
         </CardContent>
       ) : (
         <CardContent>

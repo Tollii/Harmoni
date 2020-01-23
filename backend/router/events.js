@@ -206,7 +206,7 @@ module.exports = (app, models, base, auth) => {
    */
   app.put(base + "/:id", (req, res) => {
     auth
-      .check_permissions(req.headers.token, ["Admin", "Organizer"], req.params.event_id, 0)
+      .check_permissions(req.headers.token, ["Admin", "Organizer"], req.params.id, 0)
       .then(data => {
         if (data.auth) {
           eventControl
@@ -223,18 +223,34 @@ module.exports = (app, models, base, auth) => {
               req.body.event_typeID
             )
             .then(() => {
-              res.sendStatus(200).send("Event is updated");
+              res.status(200).send("Event is updated");
             })
             .catch(err => {
-              res.sendStatus(400).send("Event is NOT updated");
+              res.status(400).send("Event is NOT updated");
             });
         } else {
           res.status(400).send("Not authenticated");
         }
-      })
-      .catch(err => res.status(400).send(err));
+      });
   });
 
+  /**
+   * @group Events - Operations about event
+   * @route PUT /event_archive/
+   * @returns {object} 200 - Updates the archive variable of all events if their ending time has happened
+   * @returns {Error}  default - Unexpected error
+   */
+
+  app.put("/event_archive/", (req, res) => {
+    eventControl
+      .eventArchive()
+      .then(() => {
+        res.status(200).send("Events are archived");
+      })
+      .catch(err => {
+        res.status(400).send("Event are NOT archived");
+      });
+  });
   /**
    * @group Events - Operations about event
    * @route PUT /event_archive/{id}/
@@ -445,10 +461,10 @@ module.exports = (app, models, base, auth) => {
               contractControl
                 .contractGetOne(data.user.dataValues.id, req.params.event_id)
                 .then(contract => {
-                  if(contract === null) {
-                    res.send(false)
-                  }else {
-                    res.send(true)
+                  if (contract === null) {
+                    res.send(false);
+                  } else {
+                    res.send(true);
                   }
                 })
                 .catch(err => {

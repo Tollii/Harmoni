@@ -229,7 +229,8 @@ export default (props: any) => {
         targetName === "name" ||
         targetName === "description" ||
         targetName === "location" ||
-        targetName === "personnel"
+        targetName === "personnel" ||
+        targetName === "volunteers"
       ) {
         setEdit({ ...edit, editGeneral: true });
       }
@@ -242,16 +243,34 @@ export default (props: any) => {
         setEdit({ ...edit, editRiders: true });
       } else if (name === "eventImage") {
         setEdit({ ...edit, editEventImage: true });
+      } else if (
+        name === "dateStart" ||
+        name === "dateEnd" ||
+        name === "timeStart" ||
+        name === "timeEnd"
+      ) {
+        setEdit({ ...edit, editGeneral: true });
       }
     }
   };
 
+  function formatDate(date: Date) {
+    var d = new Date(date),
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
+
+    return [year, month, day].join("-");
+  }
+
   const submit = () => {
-    console.log("submitting...");
-    let dateStart = String(values.dateStart).substring(0, 10);
-    let dateEnd = String(values.dateEnd).substring(0, 10);
-    let timeStart = String(values.timeStart).substring(11, 19);
-    let timeEnd = String(values.timeEnd).substring(11, 19);
+    let dateStart = formatDate(values.dateStart);
+    let dateEnd = formatDate(values.dateEnd);
+    let timeStart = String(values.timeStart).substring(15, 21);
+    let timeEnd = String(values.timeEnd).substring(15, 21);
     let artists: number[] = [];
     values.artists
       .filter((artist: any) => artist.checked === true)
@@ -302,6 +321,7 @@ export default (props: any) => {
             event_start: dateStart + " " + timeStart,
             event_end: dateEnd + " " + timeEnd,
             personnel: values.personnel,
+            volunteers: values.volunteers,
             description: values.description,
             event_typeID: values.eventTypeId
           },
@@ -313,9 +333,11 @@ export default (props: any) => {
           });
       }
       if (edit.editEventImage) {
-        FileService.postEventPicture(values.eventImage, props.match.params.id)
-          .then(() => null)
-          .catch((err: any) => console.log(err));
+        setTimeout(function() {
+          FileService.postEventPicture(values.eventImage, props.match.params.id)
+            .then(() => null)
+            .catch((err: any) => console.log(err));
+        }, 1000);
       }
       if (edit.editTicket) {
         EventService.deleteEventTickets(props.match.params.id).then(() => {
@@ -373,9 +395,65 @@ export default (props: any) => {
       }
     }
   };
+  const handleUndo = () => {
+    // *snip*
+  };
 
   const handleNext = () => {
-    setActiveStep(prevActiveStep => prevActiveStep + 1);
+    if (activeStep === 0) {
+      if (values.name === "") {
+        snackbar.showMessage("Name is required!", "Undo", () => handleUndo());
+      } else if (values.location === "") {
+        snackbar.showMessage("Location is required!", "Undo", () =>
+          handleUndo()
+        );
+      } else if (values.description === "") {
+        snackbar.showMessage("Description is required!", "Undo", () =>
+          handleUndo()
+        );
+      } else if (values.timeStart.getTime() + 60000 < new Date().getTime()) {
+        snackbar.showMessage("Start time is in the past", "Undo", () =>
+          handleUndo()
+        );
+      } else if (values.dateEnd.getTime() < values.dateStart.getTime()) {
+        snackbar.showMessage(
+          "End time is earlier than start time!",
+          "Undo",
+          () => handleUndo()
+        );
+      } else if (
+        values.dateEnd.getTime() === values.dateStart.getTime() &&
+        values.timeEnd.getTime() <= values.timeStart.getTime()
+      ) {
+        snackbar.showMessage(
+          "End time is earlier or equal to start time!",
+          "Undo",
+          () => handleUndo()
+        );
+      } else if (values.eventTypeId <= 0) {
+        snackbar.showMessage("Event type is required!", "Undo", () =>
+          handleUndo()
+        );
+      } else if (values.eventImage.name === "") {
+        snackbar.showMessage("Image is required!", "Undo", () => handleUndo());
+      } else {
+        setActiveStep(prevActiveStep => prevActiveStep + 1);
+      }
+    } else if (activeStep === 1) {
+      setActiveStep(prevActiveStep => prevActiveStep + 1);
+    } else if (activeStep === 2) {
+      if (values.name === "") {
+        alert("Noen felt er tomme");
+      } else {
+        setActiveStep(prevActiveStep => prevActiveStep + 1);
+      }
+    } else if (activeStep === 3) {
+      if (values.name === "") {
+        alert("Noen felt er tomme");
+      } else {
+        setActiveStep(prevActiveStep => prevActiveStep + 1);
+      }
+    }
   };
 
   const handleBack = () => {
