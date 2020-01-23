@@ -9,6 +9,7 @@ import Button from "../../components/Button/Button";
 import useForm from "../../service/Form/useForm";
 import validateSignUp from "../../service/Form/Validate";
 import Authentication from "../../service/Authentication";
+import { useSnackbar } from "material-ui-snackbar-provider";
 
 const useStyles = makeStyles({
   grid: {
@@ -39,6 +40,11 @@ export default (props: any) => {
     validateSignUp
   );
 
+  const snackbar = useSnackbar();
+
+  const handleUndo = () => {
+    // *snip*
+  };
   function submit() {
     const pattern = /.+@[a-z1-9]+.[a-z]+/;
     const check = values.email.match(pattern);
@@ -50,6 +56,12 @@ export default (props: any) => {
         username: values.fullName,
         phone: values.telephone
       }).then((data: any) => console.log(data));
+      window.location.hash = "#/login";
+      snackbar.showMessage(
+        "You have created a user. You can now log in with your username and password",
+        "Undo",
+        () => handleUndo()
+      );
     }
   }
 
