@@ -2,19 +2,18 @@ import React from "react";
 import "./Marker.css";
 
 const Marker = (props: any) => {
-  const { img, name } = props;
+  const { img, name, link } = props;
   return (
-    <div>
+    <div onClick={() => (window.location.hash = link)}>
       <img
-        src = {img}
+        src={img}
         className="marker"
-        style={{cursor: "pointer" }}
+        style={{ cursor: "pointer" }}
         title={name}
         alt="Map pin"
       />
-      <div className="pin" style={{cursor: "pointer" }}></div>
+      <div className="pin" style={{ cursor: "pointer" }}></div>
     </div>
-
   );
 };
 
