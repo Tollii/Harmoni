@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   Grid,
+  Typography,
   MenuProps,
   Menu,
   MenuItem,
@@ -14,6 +15,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Authentication from "../../service/Authentication";
 import EventService from "../../service/events";
+import UserService from "../../service/users";
 import { Link } from "react-router-dom";
 import Button from "./Button";
 import MaterialTable, { Column } from "material-table";
@@ -81,6 +83,13 @@ export default (props: any) => {
   const handleAllContracts = (eventId: number) => {
     window.location.hash = "#/contract/event/" + eventId;
   };
+
+  const handleEditRider = async () => {
+    let userID = await UserService.getOneUser().then(user => user.id);
+    console.log(userID);
+    window.location.hash = "artist/editRider/" + props.event + "/user/" + userID;
+  }
+
   function handleAlert(open: boolean) {
     setAlertOpen(open);
   }
@@ -186,13 +195,12 @@ export default (props: any) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <StyledMenuItem>
+                <StyledMenuItem onClick={handleEditRider}>
                   <ListItemIcon>
                     <SettingsIcon fontSize="small" />
                   </ListItemIcon>
                   <ListItemText primary="Edit rider" />
                 </StyledMenuItem>
-
                 <StyledMenuItem
                   onClick={() => window.open(contractUrl, "_blank")}
                 >
