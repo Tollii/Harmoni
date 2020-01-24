@@ -48,12 +48,4 @@ describe('Get Endpoints', () => {
         done();
     });
 
-    it('should delete user with id 3', async (done) => {
-        await userControl.userDelete(3);
-        const res = await userControl.userGetOne(3);
-        expect(res).toBeNull();
-        done();
-    });
-
-
 });
