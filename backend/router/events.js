@@ -203,7 +203,7 @@ module.exports = (app, models, base, auth) => {
       .check_permissions(
         req.headers.token,
         ["Admin", "Organizer"],
-        req.params.event_id,
+        req.params.id,
         0
       )
       .then(data => {
