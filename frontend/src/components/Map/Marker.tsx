@@ -1,12 +1,11 @@
 import React from "react";
 import "./Marker.css";
 
-const Marker = (props: any) => {
-  const { img, name, link } = props;
+export default function Marker(props:any) {
   return (
-    <div onClick={() => (window.location.hash = link)}>
+    <div onClick={() => (window.location.hash = props.link)}>
       <img
-        src={img}
+        src={props.img}
         className="marker"
         style={{ cursor: "pointer" }}
         title={name}
@@ -17,4 +16,3 @@ const Marker = (props: any) => {
   );
 };
 
-export default Marker;

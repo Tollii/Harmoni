@@ -12,8 +12,8 @@ interface Button {
  * @param children sets the children of the button
  * @returns returns a button
  */
-export default function Button(props:any, {fontWeight, children}: Button){
+export default function Button(props: Button){
     return (
-        <MatButton {...props} color="secondary" style={{fontWeight: fontWeight}}>{children}</MatButton>
+        <MatButton {...props} color="secondary" style={{fontWeight: props.fontWeight}}>{props.children}</MatButton>
     );
 }

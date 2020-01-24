@@ -19,12 +19,12 @@ const useStyles = makeStyles({
  * @param style sends in styling of the card
  * @returns returns a card
  */
-export default function Card({children, style}: any){
+export default function Card(props: any){
   const classes = useStyles();
 
   return (
-    <MatCard className={classes.card} elevation={10} style={style}>
-      {children}
+    <MatCard className={classes.card} elevation={10} style={props.style}>
+      {props.children}
     </MatCard>
   );
 };

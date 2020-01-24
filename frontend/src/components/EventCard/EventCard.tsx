@@ -62,12 +62,12 @@ interface EventCard{
  * @param event sends in event to be displayed on card
  * @returns returns an event card
  */
-export default function EventCard({event}:EventCard) {
+export default function EventCard(props:EventCard) {
   const classes = useStyles();
-  var date = new Date(event.event_start);
+  var date = new Date(props.event.event_start);
   return (
     <NavLink
-      to={"/event/" + event.id}
+      to={"/event/" + props.event.id}
       style={{ textDecoration: "none", margin: "auto" }}
     >
       <Card className={classes.card}>
@@ -77,9 +77,9 @@ export default function EventCard({event}:EventCard) {
             component="img"
             height="160"
             image={
-              process.env.REACT_APP_API_URL + "/image/event/" + event.id
+              process.env.REACT_APP_API_URL + "/image/event/" + props.event.id
             }
-            title={event.event_name}
+            title={props.event.event_name}
           />
           <div className={classes.chip}>
             {date.toDateString().substring(0, 3) +
@@ -101,7 +101,7 @@ export default function EventCard({event}:EventCard) {
                     marginRight: "10%"
                   }}
                 >
-                  {event.event_name}
+                  {props.event.event_name}
                 </h2>
               </div>
             </Grid>

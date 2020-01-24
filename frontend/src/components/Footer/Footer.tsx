@@ -21,7 +21,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default function Footer(props: any){
+export default function Footer(){
   const classes = useStyles();
   return (
     <div className={classes.root} >
