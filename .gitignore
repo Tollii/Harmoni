@@ -121,6 +121,7 @@ dist
 
 # production
 /build
+frontend/docs
 
 # misc
 .DS_Store
