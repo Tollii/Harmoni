@@ -35,17 +35,17 @@ export default function validateSignUp(values: any) {
     errors.password = "Passwords does not match";
     errors.passwordConfirmed = "Passwords does not match";
   }
-  if (!values.fullName) {
-    errors.fullName = "Full name required";
+  if (!values.username) {
+    errors.username = "Full name required";
   }
-  if (!values.telephone) {
-    errors.telephone = "Telephone required";
+  if (!values.phone) {
+    errors.phone = "phone required";
   }
-  if (values.telephone.length < 8) {
-    errors.telephone = "8 digits required";
+  if (values.phone.length < 8) {
+    errors.phone = "8 digits required";
   }
-  if (!checkPhonenumber(values.telephone)) {
-    errors.telephone = "Invalid phonenumber";
+  if (!checkPhonenumber(values.phone)) {
+    errors.phone = "Invalid phonenumber";
   }
   return errors;
 }

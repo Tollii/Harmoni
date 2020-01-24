@@ -30,8 +30,8 @@ interface NewUser {
   emailConfirmed: "";
   password: "";
   passwordConfirmed: "";
-  fullName: "";
-  telephone: "";
+  username: "";
+  phone: "";
 }
 
 export default function SignUpCard(props: any) {
@@ -42,8 +42,8 @@ export default function SignUpCard(props: any) {
     emailConfirmed: "",
     password: "",
     passwordConfirmed: "",
-    fullName: "",
-    telephone: ""
+    username: "",
+    phone: ""
   };
 
   const { handleChange, handleSubmit, values, errors } = useForm(
@@ -55,7 +55,7 @@ export default function SignUpCard(props: any) {
   const snackbar = useSnackbar();
 
   function checkPhonenumber(inputtxt: any) {
-    var phoneno = /^\+?([0-9]{1,3})\)?([ ]{1})?([0-9]{8})$/;
+    var phoneno = /^(\+[1-9]{1,3})?([ ]{1})?([0-9]{8})$/;
     if (inputtxt.match(phoneno)) {
       return true;
     } else {
@@ -67,16 +67,16 @@ export default function SignUpCard(props: any) {
     const pattern = /.+@[a-z1-9]+\.[a-z]+/;
     const check = values.email.match(pattern);
     if (
-      checkPhonenumber(values.telephone) &&
+      checkPhonenumber(values.phone) &&
       check &&
       values.password &&
-      values.fullName
+      values.username
     ) {
       Authentication.signUp({
         email: values.email.toLowerCase(),
         password: values.password,
-        username: values.fullName,
-        phone: values.telephone
+        username: values.username,
+        phone: values.phone
       })
         .then(() => {
           window.location.hash = "#/login";
@@ -165,30 +165,30 @@ export default function SignUpCard(props: any) {
               />
             </Grid>
             <Grid container justify="center" direction="row">
-              {errors.fullName && (
-                <Typography color="error">{errors.fullName}</Typography>
+              {errors.username && (
+                <Typography color="error">{errors.username}</Typography>
               )}
 
               <InputField
-                name="fullName"
+                name="username"
                 label="Full name"
                 type="text"
                 required={true}
-                value={values.fullName}
+                value={values.username}
                 onChange={handleChange}
               />
-              {errors.telephone && (
-                <Typography color="error">{errors.telephone}</Typography>
+              {errors.phone && (
+                <Typography color="error">{errors.phone}</Typography>
               )}
               <Tooltip title="+XX XXXXXXXX" arrow={true}>
                 <InputField
                   style={{ width: "100%" }}
-                  name="telephone"
+                  name="phone"
                   label="Telephone"
                   type="numeric"
                   pattern="[0-9]*"
                   required={true}
-                  value={values.telephone}
+                  value={values.phone}
                   onChange={handleChange}
                 />
               </Tooltip>

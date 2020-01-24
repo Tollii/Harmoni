@@ -116,7 +116,7 @@ interface Navbar {
   logFunc:any;
   setPage:any;
   user:User;
-  loggedIn:boolean;
+  loggedIn: string;
 }
 
 /**
@@ -276,7 +276,7 @@ export default function Navbar(props: Navbar) {
                             marginLeft: 5
                           }}
                         >
-                          {props.user.fullName}
+                          {props.user.username}
                         </div>
                       </Button>
                       <Menu
@@ -411,7 +411,7 @@ export default function Navbar(props: Navbar) {
                   {" "}
                   <Avatar alt="Profile" src={props.user.pic_url} />
                 </ListItemAvatar>
-                <ListItemText> {props.user.fullName} </ListItemText>
+                <ListItemText> {props.user.username} </ListItemText>
               </ListItem>
               <ListItem button onClick={handleDrawerLogout}>
                 <ListItemText> Logout </ListItemText>
