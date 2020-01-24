@@ -119,6 +119,14 @@ interface Navbar {
   loggedIn:boolean;
 }
 
+/**
+ * Creates a navbar
+ * @param logFunc function for logging out
+ * @param setPage function for setting page
+ * @param user sends in active user
+ * @param loggedIn sends in value for whether a user is logged in or not
+ * @returns returns a navbar
+ */
 export default function Navbar(props: Navbar) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
