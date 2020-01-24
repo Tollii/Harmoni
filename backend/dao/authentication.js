@@ -169,7 +169,6 @@ module.exports = models => {
               if (permissions.includes("User")) {
                 if ("User" == role.dataValues.role_name) {
                   if(user_id == 0 && event_id != 0) {
-                    console.log("reeee")
                     return Contract_dao.contractGetOne(id, event_id).then(
                       contract => {
                         if (contract != null) {
