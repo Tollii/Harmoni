@@ -52,7 +52,7 @@ class RiderService {
       .post(process.env.REACT_APP_API_URL + "/rider/", rider, {
         headers: { token: getCookie("token") }
       })
-      .then((response: { data: JSON }) => console.log(response));
+      .then((response: { data: JSON }) => response.data);
   }
 
   updateRider(rider_type_id: number, event_id: number, rider: object) {
@@ -75,7 +75,7 @@ class RiderService {
       .delete(process.env.REACT_APP_API_URL + "/rider/event/" + event_id, {
         headers: { token: getCookie("token") }
       })
-      .then((response: { data: JSON }) => console.log(response));
+      .then((response: { data: JSON }) => response.data);
   }
 
   deleteRidersForArtist(event_id: number, user_id: number) {
@@ -88,7 +88,7 @@ class RiderService {
             user_id,
             { headers: { token: getCookie("token") } }
         )
-        .then((response: { data: JSON }) => console.log(response));
+        .then((response: { data: JSON }) => response.data);
   }
 }
 

@@ -113,7 +113,6 @@ export default function(props: any) {
           return null
         })
         setRiders(ridersArray);
-        console.log(ridersArray);
     };
 
     const handleChangeAddition = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -133,13 +132,10 @@ export default function(props: any) {
     };
 
     const handleClickSave = () => {
-        console.log(riders);
         RiderService.deleteRidersForArtist(parseInt(props.match.params.eventID), parseInt(props.match.params.userID));
         riders.map(rider => RiderService.postRider(rider));
-        console.log('saved')
     };
     const handleClickCancel = () => {
-        console.log('canceled');
         window.location.hash = "/event/" + props.match.params.eventID;
     };
 

@@ -108,7 +108,7 @@ class EventService {
       .delete(process.env.REACT_APP_API_URL + "/event/" + id, {
         headers: { token: getCookie("token") }
       })
-      .then((response: { data: JSON }) => console.log(response));
+      .then((response: { data: JSON }) => response.data);
   }
 
   getEventVolunteer(event_id: number) {

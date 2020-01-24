@@ -56,10 +56,8 @@ export default (props: any) => {
   };
   function submit() {
     if (!/\S+@\S+\.\S+/.test(values.email)) {
-      console.log("feil email");
       setError(true);
     } else {
-      console.log("Submitted form");
       mailingService.forgotMail(values.email).then((res: any) => res);
       window.location.hash = "#/login";
       snackbar.showMessage(
