@@ -147,7 +147,7 @@ export default function EventPage(props: any) {
       );
 
       setLoaded(true);
-    }, 1000);
+    }, 1200);
   }, [props.match.params.id, props.user]);
 
   const [myContract, showContract] = useState(false);
@@ -322,7 +322,7 @@ export default function EventPage(props: any) {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Map events={values} center={values} zoom={11} />
+                <Map events={[values]} center={values} zoom={11} />
               </a>
             </div>
             <Grid container spacing={1} justify="center" alignItems="center">

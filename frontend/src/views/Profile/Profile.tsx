@@ -84,6 +84,8 @@ export default function Profile(props: any) {
       snackbar.showMessage("Name is required or too long");
     } else if (newValues.email === "") {
       snackbar.showMessage("Email is required");
+    } else if (!/\S+@\S+\.\S+/.test(newValues.email)) {
+      snackbar.showMessage("Email is invalid");
     } else {
       let tempUser = {
         ...props.user,
