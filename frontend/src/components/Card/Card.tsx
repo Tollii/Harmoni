@@ -13,12 +13,12 @@ const useStyles = makeStyles({
   }
 });
 
-export default function Card(props: any){
+export default function Card({children, style}: any){
   const classes = useStyles();
 
   return (
-    <MatCard className={classes.card} elevation={10} style={props.style}>
-      {props.children}
+    <MatCard className={classes.card} elevation={10} style={style}>
+      {children}
     </MatCard>
   );
 };

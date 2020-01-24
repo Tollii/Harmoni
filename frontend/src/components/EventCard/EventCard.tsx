@@ -6,6 +6,8 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import { Theme, createStyles, Grid } from "@material-ui/core";
+import {Event} from "../../service/interface"
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -51,12 +53,16 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function EventCard(props: any) {
+interface EventCard{
+  event:Event
+}
+
+export default function EventCard({event}:EventCard) {
   const classes = useStyles();
-  var date = new Date(props.event.event_start);
+  var date = new Date(event.event_start);
   return (
     <NavLink
-      to={"/event/" + props.event.id}
+      to={"/event/" + event.id}
       style={{ textDecoration: "none", margin: "auto" }}
     >
       <Card className={classes.card}>
@@ -66,9 +72,9 @@ export default function EventCard(props: any) {
             component="img"
             height="160"
             image={
-              process.env.REACT_APP_API_URL + "/image/event/" + props.event.id
+              process.env.REACT_APP_API_URL + "/image/event/" + event.id
             }
-            title={props.event.event_name}
+            title={event.event_name}
           />
           <div className={classes.chip}>
             {date.toDateString().substring(0, 3) +
@@ -90,7 +96,7 @@ export default function EventCard(props: any) {
                     marginRight: "10%"
                   }}
                 >
-                  {props.event.event_name}
+                  {event.event_name}
                 </h2>
               </div>
             </Grid>
