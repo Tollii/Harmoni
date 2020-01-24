@@ -5,7 +5,7 @@ import EventCard from "../../components/EventCard/EventCard";
 import { Event } from "../../service/interface";
 
 interface Carousel {
-  events: Event[];
+  events: any;
   setCenter: any;
 }
 
