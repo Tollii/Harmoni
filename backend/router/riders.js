@@ -73,19 +73,26 @@ module.exports = (app, models, base, auth) => {
   * @returns {Error}  default - Unexpected error
   */
   app.get(base + "/event/:eventID/user/:userID", (req, res) => {
-    console.log(req.headers);
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"])
-    .then(data => {
-      console.log(data);
-      if(data.auth){
-        ridersControl.riderGetAllByArtist(req.params.eventID, req.params.userID).then((data) => {
-          res.send(data);
-        })
-      } else {
-        res.status(400).send("Not authenticated")
-      }
-    })
-    .catch(err => console.log(err))
+    auth
+      .check_permissions(
+        req.headers.token,
+        ["Admin", "Organizer", "Artist"],
+        req.params.eventID,
+        req.params.userID
+      )
+      .then(data => {
+        console.log(data);
+        if (data.auth) {
+          ridersControl
+            .riderGetAllByArtist(req.params.eventID, req.params.userID)
+            .then(data => {
+              res.send(data);
+            });
+        } else {
+          res.status(400).send("Not authenticated");
+        }
+      })
+      .catch(err => console.log(err));
   });
 
   /**
@@ -128,23 +135,29 @@ module.exports = (app, models, base, auth) => {
   * @returns {Error}  default - Unexpected error
   */
   app.post(base, (req, res) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"], req.body.eventID, req.body.userID)
-    .then(data => {
-      if(data.auth){
-          ridersControl.riderCreate(
-            req.body.additions,
-            req.body.rider_typeID,
-            req.body.eventID,
-            req.body.userID,
-          )
-          .then((data)=>{
-            res.send(data)
-          })
+    auth
+      .check_permissions(
+        req.headers.token,
+        ["Admin", "Organizer", "Artist"],
+        req.body.eventID,
+        req.body.userID
+      )
+      .then(data => {
+        if (data.auth) {
+          ridersControl
+            .riderCreate(
+              req.body.additions,
+              req.body.rider_typeID,
+              req.body.eventID,
+              req.body.userID
+            )
+            .then(data => {
+              res.send(data);
+            }).catch(err => err);
         } else {
-          res.status(400).send("Not authenticated")
+          res.status(400).send("Not authenticated");
         }
-    })
-    .catch(err => console.log(err))
+      })
   });
 
   /**
@@ -206,7 +219,6 @@ module.exports = (app, models, base, auth) => {
         res.status(400).send("Not authenticated")
       }
     })
-    .catch(err => res.send(err))
   });
 
   /**
@@ -220,21 +232,25 @@ module.exports = (app, models, base, auth) => {
   * @returns {Error}  default - Unexpected error
   */
   app.delete(base+"/event/:event_id/user/:user_id", (req, res) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"])
-    .then(data => {
-      if(data.auth){
-        ridersControl.ridersDeleteByArtist(
-          req.params.event_id,
-          req.params.user_id
-          )
-          .then((data) => {
-          res.send("Riders are deleted");
-        })
-        .catch((err) => res.send(err))
-      } else {
-        res.status(400).send("Not authenticated")
-      }
-    })
-    .catch(err => res.send(err))
+    auth
+      .check_permissions(
+        req.headers.token,
+        ["Admin", "Organizer", "Artist"],
+        req.params.event_id,
+        req.params.user_id
+      )
+      .then(data => {
+        if (data.auth) {
+          ridersControl
+            .ridersDeleteByArtist(req.params.event_id, req.params.user_id)
+            .then(data => {
+              res.send("Riders are deleted");
+            })
+            .catch(err => res.send(err));
+        } else {
+          res.status(400).send("Not authenticated");
+        }
+      })
+      .catch(err => res.send(err));
   });
 };
