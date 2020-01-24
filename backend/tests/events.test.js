@@ -49,7 +49,7 @@ describe('events DAO', () => {
     });
 
     it('should delete event with id 2', async (done) => {
-        await eventsControl.eventDelete(2);
+        let  test = await eventsControl.eventDelete(2);
         const res = await eventsControl.eventGetOne(2);
         expect(res).toBeNull();
         done();
