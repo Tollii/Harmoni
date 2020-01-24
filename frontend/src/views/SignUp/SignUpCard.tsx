@@ -12,12 +12,6 @@ import Authentication from "../../service/Authentication";
 import { useSnackbar } from "material-ui-snackbar-provider";
 import { Tooltip } from "@material-ui/core";
 
-/**
- * Regular description
- * @param text  Comment for parameter ´text´.
- * @typeparam T  Comment for type `T`.
- */
-
 const useStyles = makeStyles({
   grid: {
     maxWidth: "450px",
@@ -31,27 +25,35 @@ const useStyles = makeStyles({
   }
 });
 
+interface NewUser {
+  email: "";
+  emailConfirmed: "";
+  password: "";
+  passwordConfirmed: "";
+  username: "";
+  phone: "";
+}
+
 export default function SignUpCard(props: any) {
   const classes = useStyles(props);
 
+  let startValues: NewUser = {
+    email: "",
+    emailConfirmed: "",
+    password: "",
+    passwordConfirmed: "",
+    username: "",
+    phone: ""
+  };
+
   const { handleChange, handleSubmit, values, errors } = useForm(
     submit,
-    {
-      email: "",
-      emailConfirmed: "",
-      password: "",
-      passwordConfirmed: "",
-      fullName: "",
-      telephone: ""
-    },
+    startValues,
     validateSignUp
   );
 
   const snackbar = useSnackbar();
 
-  const handleUndo = () => {
-    // *snip*
-  };
   function checkPhonenumber(inputtxt: any) {
     var phoneno = /^(\+[1-9]{1,3})?([ ]{1})?([0-9]{8})$/;
     if (inputtxt.match(phoneno)) {
@@ -65,32 +67,32 @@ export default function SignUpCard(props: any) {
     const pattern = /.+@[a-z1-9]+\.[a-z]+/;
     const check = values.email.match(pattern);
     if (
-      checkPhonenumber(values.telephone) &&
+      checkPhonenumber(values.phone) &&
       check &&
       values.password &&
-      values.fullName
+      values.username
     ) {
       Authentication.signUp({
         email: values.email.toLowerCase(),
         password: values.password,
-        username: values.fullName,
-        phone: values.telephone
-      }).then((data: any) => {
-        window.location.hash = "#/login";
-        snackbar.showMessage(
-          "You have created a user. You can now log in with your username and password",
-          "Ok",
-          () => handleUndo()
-        );
+        username: values.username,
+        phone: values.phone
       })
-      .catch((err:any)=> {
-        snackbar.showMessage(
-          "Email already exist, try another one",
-          "Close",
-          () => handleUndo()
-        );
-      })
-
+        .then(() => {
+          window.location.hash = "#/login";
+          snackbar.showMessage(
+            "You have created a user. You can now log in with your username and password",
+            "Ok",
+            () => {}
+          );
+        })
+        .catch((err: any) => {
+          snackbar.showMessage(
+            "Email already exist, try another one",
+            "Close",
+            () => {}
+          );
+        });
     }
   }
 
@@ -163,30 +165,30 @@ export default function SignUpCard(props: any) {
               />
             </Grid>
             <Grid container justify="center" direction="row">
-              {errors.fullName && (
-                <Typography color="error">{errors.fullName}</Typography>
+              {errors.username && (
+                <Typography color="error">{errors.username}</Typography>
               )}
 
               <InputField
-                name="fullName"
+                name="username"
                 label="Full name"
                 type="text"
                 required={true}
-                value={values.fullName}
+                value={values.username}
                 onChange={handleChange}
               />
-              {errors.telephone && (
-                <Typography color="error">{errors.telephone}</Typography>
+              {errors.phone && (
+                <Typography color="error">{errors.phone}</Typography>
               )}
               <Tooltip title="+XX XXXXXXXX" arrow={true}>
                 <InputField
                   style={{ width: "100%" }}
-                  name="telephone"
+                  name="phone"
                   label="Telephone"
                   type="numeric"
                   pattern="[0-9]*"
                   required={true}
-                  value={values.telephone}
+                  value={values.phone}
                   onChange={handleChange}
                 />
               </Tooltip>
@@ -202,4 +204,4 @@ export default function SignUpCard(props: any) {
       </Grid>
     </Card>
   );
-};
+}

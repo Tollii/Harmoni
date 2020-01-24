@@ -4,8 +4,21 @@ import Marker from "./Marker";
 //@ts-ignore
 import Geocode from "react-geocode";
 
-const SimpleMap = (props: any) => {
-  const [center, setCenter] = useState({ lat: 63.4189, lng: 10.4027 });
+interface Map {
+  events: any;
+  center: any;
+  zoom: number
+}
+
+/**
+ * Creates a styled map
+ * @param events list of events to be marked on map
+ * @param center sets center location for map
+ * @param zoom sets zoom level for map
+ * @returns returns a styled map
+ */
+const SimpleMap = (props:Map) => {
+  const [center, setCenter] = useState<{lat: number, lng: number}>({ lat: 63.4189, lng: 10.4027 });
   const [marker, setMarker] = useState([]);
 
   Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API_KEY);

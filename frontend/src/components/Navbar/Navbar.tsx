@@ -33,6 +33,7 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import getCookie from "../../service/cookie";
 import { Link } from "react-router-dom";
+import { User } from "../../service/interface"
 
 const drawerWidth = 240;
 
@@ -111,7 +112,22 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function Navbar(props: any) {
+interface Navbar {
+  logFunc:any;
+  setPage:any;
+  user:User;
+  loggedIn: string;
+}
+
+/**
+ * Creates a navbar
+ * @param logFunc function for logging out
+ * @param setPage function for setting page
+ * @param user sends in active user
+ * @param loggedIn sends in value for whether a user is logged in or not
+ * @returns returns a navbar
+ */
+export default function Navbar(props: Navbar) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [open, setOpen] = React.useState(false);
@@ -260,7 +276,7 @@ export default function Navbar(props: any) {
                             marginLeft: 5
                           }}
                         >
-                          {props.user.fullName}
+                          {props.user.username}
                         </div>
                       </Button>
                       <Menu
@@ -395,7 +411,7 @@ export default function Navbar(props: any) {
                   {" "}
                   <Avatar alt="Profile" src={props.user.pic_url} />
                 </ListItemAvatar>
-                <ListItemText> {props.user.fullName} </ListItemText>
+                <ListItemText> {props.user.username} </ListItemText>
               </ListItem>
               <ListItem button onClick={handleDrawerLogout}>
                 <ListItemText> Logout </ListItemText>

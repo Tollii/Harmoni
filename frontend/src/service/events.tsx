@@ -1,36 +1,6 @@
 import getCookie from "./cookie";
+import { FullEvent } from "./interface";
 const axios = require("axios").default;
-
-export class Event {
-  id!: number;
-  event_name!: string;
-  location!: string;
-  event_start!: string;
-  event_end!: string;
-  personnel!: string;
-  description!: string;
-  archived!: boolean;
-  event_typeID!: number;
-}
-
-class FullEvent {
-  event_name!: string;
-  location!: string;
-  event_start!: string;
-  event_end!: string;
-  personnel!: string;
-  description!: string;
-  event_typeID!: number;
-  artists!: number[];
-  riders!: Array<{ additions: string; rider_typeID: number; userID: number }>;
-  tickets!: Array<{
-    ticket_name: string;
-    price: number;
-    ticket_amount: number;
-    date_start: string;
-    date_end: string;
-  }>;
-}
 
 class EventService {
   getEvents() {
@@ -39,7 +9,7 @@ class EventService {
       .then((response: { data: JSON }) => response.data);
   }
 
-  getEventsUnarchived() {    
+  getEventsUnarchived() {
     return axios
       .get(process.env.REACT_APP_API_URL + "/eventUnarchived/")
       .then((response: { data: JSON }) => response.data);
@@ -79,12 +49,12 @@ class EventService {
       .then((response: { data: JSON }) => response.data);
   }
 
-  postEvent(event: object) {
+  postEvent(event: FullEvent) {
     return axios
       .post(process.env.REACT_APP_API_URL + "/event/", event, {
         headers: { token: getCookie("token") }
       })
-      .then((response: { data: FullEvent }) => response.data);
+      .then((response: { data: JSON }) => response.data);
   }
 
   updateEvent(event: object, id: number) {
