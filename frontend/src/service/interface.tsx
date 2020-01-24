@@ -44,17 +44,25 @@ export interface FullEvent {
   event_start: string;
   event_end: string;
   personnel: string;
+  volunteers: number;
   description: string;
   event_typeID: number;
   artists: number[];
-  riders: Array<{ additions: string; rider_typeID: number; userID: number }>;
-  tickets: Array<{
-    ticket_name: string;
-    price: number;
-    ticket_amount: number;
-    date_start: string;
-    date_end: string;
-  }>;
+  riders: Rider[];
+  tickets: Ticket[];
+}
+
+export interface Rider{
+  additions: string;
+  rider_typeID: number;
+  userID: number
+}
+export interface Ticket{
+  ticket_name: string;
+  price: number;
+  ticket_amount: number;
+  date_start: string;
+  date_end: string;
 }
 
 export interface Rider_Type {

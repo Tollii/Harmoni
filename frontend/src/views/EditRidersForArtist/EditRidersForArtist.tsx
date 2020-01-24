@@ -69,7 +69,12 @@ function getStyles(rider: string, riderName: string[], theme: Theme) {
   };
 }
 
-export default function EditRidersForArtist(props: any) {
+interface EditRiderForArtist{
+  match: any
+  artistName: string
+}
+
+export default function EditRidersForArtist(props: EditRiderForArtist) {
   const classes = useStyles();
   const theme = useTheme();
   const selectedRiders: string[] = [];
