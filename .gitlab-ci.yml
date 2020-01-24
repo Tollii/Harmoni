@@ -14,7 +14,6 @@ stages:
   - test
   - pages
   - b_hosting
-  - f_hosting
 
 # Run JEST tests
 run_tests:
@@ -63,17 +62,6 @@ back_hosting:
     - cd backend
     - dpl --provider=heroku --app=$HEROKU_APP_NAME_API --api-key=$HEROKU_API_KEY
 
-
-front_hosting:
-  stage: f_hosting
-  script:
-    - cd frontend
-    - npm install # Install all dependencies
-    - npm run build --prod
-    - cd ..
-    - cp frontend/public/index.html
-    - mv public _public # CRA and gitlab pages both use the public folder. Only do this in a build pipeline.
-    - mv build public # Move build files to public dir for Gitlab Pages
   artifacts:
     paths:
     - public # The built files for Gitlab Pages to serve
