@@ -12,7 +12,7 @@ describe('Get Endpoints', () => {
         // expect(res).toEqual(true);
         done();
     });
-    
+
     it('should get all users', async (done) => {
         await rolesControl.rolesCreate("not_zaim");
         await authControl.signUp("wasd1@wasd.wasd", "wasdwasd1", "wasdwasd1", "12345678");
