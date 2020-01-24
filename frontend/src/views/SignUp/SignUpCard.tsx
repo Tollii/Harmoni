@@ -25,29 +25,37 @@ const useStyles = makeStyles({
   }
 });
 
+interface NewUser {
+  email: "";
+  emailConfirmed: "";
+  password: "";
+  passwordConfirmed: "";
+  fullName: "";
+  telephone: "";
+}
+
 export default function SignUpCard(props: any) {
   const classes = useStyles(props);
 
+  let startValues: NewUser = {
+    email: "",
+    emailConfirmed: "",
+    password: "",
+    passwordConfirmed: "",
+    fullName: "",
+    telephone: ""
+  };
+
   const { handleChange, handleSubmit, values, errors } = useForm(
     submit,
-    {
-      email: "",
-      emailConfirmed: "",
-      password: "",
-      passwordConfirmed: "",
-      fullName: "",
-      telephone: ""
-    },
+    startValues,
     validateSignUp
   );
 
   const snackbar = useSnackbar();
 
-  const handleUndo = () => {
-    // *snip*
-  };
-  function checkPhonenumber(inputtxt: string) {
-    var phoneno = /^(\+[1-9]{1,3})?([ ]{1})?([0-9]{8})$/;
+  function checkPhonenumber(inputtxt: any) {
+    var phoneno = /^\+?([0-9]{1,3})\)?([ ]{1})?([0-9]{8})$/;
     if (inputtxt.match(phoneno)) {
       return true;
     } else {
@@ -75,14 +83,14 @@ export default function SignUpCard(props: any) {
           snackbar.showMessage(
             "You have created a user. You can now log in with your username and password",
             "Ok",
-            () => handleUndo()
+            () => {}
           );
         })
         .catch((err: any) => {
           snackbar.showMessage(
             "Email already exist, try another one",
             "Close",
-            () => handleUndo()
+            () => {}
           );
         });
     }

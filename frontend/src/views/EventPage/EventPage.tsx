@@ -15,6 +15,7 @@ import Map from "../../components/Map/simpleMap";
 import DropDownButton from "../../components/Button/DropDownButton";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ContractService from "../../service/contracts";
+import { Ticket, Event } from "../../service/interface";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -95,42 +96,33 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function EventPage(props: any) {
   const classes = useStyles();
   const [loaded, setLoaded] = useState(false);
-  const [values, setValues] = useState({
+  const [values, setValues] = useState<Event>({
     id: 0,
-    name: "",
-    start: new Date(),
-    end: new Date(),
-    image: "",
+    event_name: "",
+    event_start: new Date(),
+    event_end: new Date(),
     personnel: "",
     description: "",
     location: "",
-    typeID: 0
+    event_typeID: 0,
+    archived: false
   });
-  const [tickets, setTickets] = useState<
-    Array<{
-      id: number;
-      ticket_name: string;
-      price: number;
-      ticket_amount: number;
-      date_start: Date;
-      date_end: Date;
-    }>
-  >([]);
+  const [tickets, setTickets] = useState<Ticket[]>([]);
   const [artists, setArtists] = useState<any>([]);
 
   useEffect(() => {
     setTimeout(function() {
-      EventService.getEvent(props.match.params.id).then((event: any) => {
+      EventService.getEvent(props.match.params.id).then((event: Event) => {
         setValues({
           id: event.id,
-          name: event.event_name,
-          start: new Date(event.event_start),
-          end: new Date(event.event_end),
-          image: process.env.REACT_APP_API_URL + "/image/event/" + event.id,
+          event_name: event.event_name,
+          event_start: new Date(event.event_start),
+          event_end: new Date(event.event_end),
           personnel: event.personnel,
           description: event.description,
-          typeID: event.event_typeID,
-          location: event.location
+          event_typeID: event.event_typeID,
+          location: event.location,
+          archived: false
         });
       });
       TicketService.getEventTickets(props.match.params.id).then(
@@ -172,7 +164,11 @@ export default function EventPage(props: any) {
         <Card className={classes.card} elevation={0}>
           <img
             className={classes.image}
-            src={values.image}
+            src={
+              process.env.REACT_APP_API_URL +
+              "/image/event/" +
+              props.match.params.id
+            }
             alt="Event header"
           ></img>
         </Card>
@@ -180,7 +176,7 @@ export default function EventPage(props: any) {
           <Grid item xs={12} sm={8} style={{ height: "100%" }}>
             <Box>
               <Typography className={classes.title} variant="h2">
-                {values.name}
+                {values.event_name}
               </Typography>
               <Typography
                 className={classes.description}
@@ -284,15 +280,15 @@ export default function EventPage(props: any) {
             <Typography variant="subtitle1" gutterBottom>
               <p>
                 <strong>Event starts: </strong>
-                {values.start.toDateString().substring(0, 10) +
+                {values.event_start.toDateString().substring(0, 10) +
                   " " +
-                  values.start.toTimeString().substring(0, 5)}
+                  values.event_start.toTimeString().substring(0, 5)}
               </p>
               <p>
                 <strong>End date: </strong>
-                {values.end.toDateString().substring(0, 10) +
+                {values.event_end.toDateString().substring(0, 10) +
                   " " +
-                  values.end.toTimeString().substring(0, 5)}
+                  values.event_end.toTimeString().substring(0, 5)}
               </p>
             </Typography>
             <Typography
