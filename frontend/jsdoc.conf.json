@@ -1,0 +1,28 @@
+{
+  "tags": {
+      "allowUnknownTags": true,
+      "dictionaries": ["jsdoc","closure"]
+  },
+  "source": {
+      "include": ["src"],
+      "includePattern": ".+\\.ts(doc|x)?$",
+      "excludePattern": "(^|\\/|\\\\)_"
+  },
+  "plugins": [
+      "plugins/markdown",
+      "better-docs/component",
+      "jsdoc-plugin-typescript"
+  ],
+  "typescript": {
+    "moduleRoot": "src"
+  },
+   "templates": {
+    "better-docs": {
+        "name": "Harmoni docs"
+      }
+  },
+  "opts": {
+      "destination": "docs",
+      "recurse": true
+  }
+}
