@@ -290,7 +290,7 @@ export default (props: any) => {
               {values.location}
             </Typography>
             <div className={classes.map}>
-              <a href={`https://www.google.com/maps/place/${values.location}`}>
+              <a href={`https://www.google.com/maps/place/${values.location} target="_blank"`}>
                 <Map events={[values]} center={values} zoom={11} />
               </a>
             </div>
