@@ -28,6 +28,12 @@ describe('Get Endpoints', () => {
         done();
     });
 
+    it('should get user by email wasd@wasd.wasd', async (done) => {
+        const res = await userControl.userGetOneByEmail("wasd@wasd.wasd");
+        expect(res.dataValues.email).toEqual("wasd@wasd.wasd");
+        done();
+    });
+
     it('should update user 1 with username = yote', async (done) => {
         await userControl.userUpdate(1, "yote");
         const res = await userControl.userGetOne(1);
@@ -35,7 +41,14 @@ describe('Get Endpoints', () => {
         done();
     });
 
-    it('should delete user with id 1', async (done) => {
+    it('should update user 1 with password = yote', async (done) => {
+        await userControl.changePassword(1, "yote");
+        const res = await userControl.userGetOne(1);
+        expect(res.dataValues.hash).toEqual("yote");
+        done();
+    });
+
+    it('should delete user with id 3', async (done) => {
         await userControl.userDelete(3);
         const res = await userControl.userGetOne(3);
         expect(res).toBeNull();
