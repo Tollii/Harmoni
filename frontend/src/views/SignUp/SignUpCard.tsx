@@ -64,19 +64,27 @@ export default (props: any) => {
       values.password &&
       values.fullName
     ) {
-      console.log("Submitted form");
       Authentication.signUp({
         email: values.email.toLowerCase(),
         password: values.password,
         username: values.fullName,
         phone: values.telephone
-      }).then((data: any) => console.log(data));
-      window.location.hash = "#/login";
-      snackbar.showMessage(
-        "You have created a user. You can now log in with your username and password",
-        "Ok",
-        () => handleUndo()
-      );
+      }).then((data: any) => {
+        window.location.hash = "#/login";
+        snackbar.showMessage(
+          "You have created a user. You can now log in with your username and password",
+          "Ok",
+          () => handleUndo()
+        );
+      })
+      .catch((err:any)=> {
+        snackbar.showMessage(
+          "You can not register an already existing email",
+          "Close",
+          () => handleUndo()
+        );
+      })
+
     }
   }
 

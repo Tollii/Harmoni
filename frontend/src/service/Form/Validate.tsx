@@ -1,6 +1,6 @@
 export default function validateSignUp(values: any) {
   let errors: any = {};
-  
+
   function checkPhonenumber(inputtxt: any) {
     var phoneno = /^(\+[1-9]{1,3})?([ ]{1})?([0-9]{8})$/;
     if (inputtxt.match(phoneno)) {
@@ -9,6 +9,7 @@ export default function validateSignUp(values: any) {
       return false;
     }
   }
+
   if (!values.email) {
     errors.email = "Email is required";
   } else if (!/\S+@\S+\.\S+/.test(values.email)) {
@@ -22,7 +23,6 @@ export default function validateSignUp(values: any) {
   } else if (values.email !== values.emailConfirmed) {
     errors.email = "Emails does not match";
     errors.emailConfirmed = "Emails does not match";
-    console.log("Email er ikke like");
   }
 
   if (!values.password) {
