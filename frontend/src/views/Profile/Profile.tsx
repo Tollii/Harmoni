@@ -54,9 +54,9 @@ export default function Profile(props: any) {
   const [file, setFile] = useState(new File(["foo"], "empty"));
 
   const [newValues, setNewValues] = useState<User>({
-    username: props.user.fullName,
+    username: props.user.username,
     email: props.user.email,
-    phone: props.user.telephone,
+    phone: props.user.phone,
     picture: props.user.picture,
     roleID: props.user.roleID
   });
@@ -256,7 +256,7 @@ export default function Profile(props: any) {
               fontWeight: 300
             }}
           >
-            {props.user.fullName}
+            {props.user.username}
           </Typography>
         </Grid>
         <Grid item>
@@ -289,7 +289,7 @@ export default function Profile(props: any) {
               fontWeight: 200
             }}
           >
-            {props.user.telephone}
+            {props.user.phone}
           </Typography>
         </Grid>
         <Grid item>
@@ -357,7 +357,7 @@ export default function Profile(props: any) {
             <DialogContentText></DialogContentText>
             <InputField
               autoFocus
-              name="fullName"
+              name="username"
               label="Name"
               type="text"
               value={newValues.username}
@@ -373,7 +373,7 @@ export default function Profile(props: any) {
             />
             <InputField
               autoFocus
-              name="telephone"
+              name="phone"
               label="Telephone"
               type="text"
               value={newValues.phone}

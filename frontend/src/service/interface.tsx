@@ -30,8 +30,8 @@ export interface Event {
   id: number;
   event_name: string;
   location: string;
-  event_start: string;
-  event_end: string;
+  event_start: Date;
+  event_end: Date;
   personnel: string;
   description: string;
   archived: boolean;
