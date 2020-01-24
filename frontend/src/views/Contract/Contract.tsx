@@ -5,7 +5,7 @@ import ContractCard from "./ContractCard";
 import Button from "../../components/Button/Button";
 import { Link } from "react-router-dom";
 
-export default (props: any) => {
+export default function Contract(props: any){
   const uploadContract = (userId: number, file: any) => {
     return Promise.resolve(
       FileService.postContracts(file, userId, props.match.params.eventId)
@@ -35,6 +35,7 @@ export default (props: any) => {
       {users.map((user: any, index: number) => (
         <ContractCard
           user={user}
+          index={index}
           eventId={props.match.params.eventId}
           deleteContract={deleteContract}
           uploadContract={uploadContract}

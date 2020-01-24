@@ -20,7 +20,7 @@ interface TableState {
   data: Row[];
 }
 
-export default (props: any) => {
+export default function ProfileTabs(props: any){
   const [state, setState] = React.useState<TableState>({
     columns: [
       { title: "Name", field: "name" },
@@ -66,7 +66,7 @@ export default (props: any) => {
     }
   }, [props.user.roleID, createData]);
 
-  function a11yProps(index: any) {
+  function a11yProps(index: string|number) {
     return {
       id: `simple-tab-${index}`,
       "aria-controls": `simple-tabpanel-${index}`

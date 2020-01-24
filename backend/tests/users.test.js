@@ -12,7 +12,7 @@ describe('Get Endpoints', () => {
         // expect(res).toEqual(true);
         done();
     });
-    
+
     it('should get all users', async (done) => {
         await rolesControl.rolesCreate("not_zaim");
         await authControl.signUp("wasd1@wasd.wasd", "wasdwasd1", "wasdwasd1", "12345678");
@@ -47,13 +47,5 @@ describe('Get Endpoints', () => {
         expect(res.dataValues.hash).toEqual("yote");
         done();
     });
-
-    it('should delete user with id 3', async (done) => {
-        await userControl.userDelete(3);
-        const res = await userControl.userGetOne(3);
-        expect(res).toBeNull();
-        done();
-    });
-
 
 });

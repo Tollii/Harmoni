@@ -18,7 +18,11 @@ const useStyles = makeStyles({
   }
 });
 
-export default (props: any) => {
+/**
+ * Opens an inputfield
+ * @returns returns an inputfield
+ */
+export default function InputField(props: any){
   const classes = useStyles();
 
   if (props.label.includes("Password")) {

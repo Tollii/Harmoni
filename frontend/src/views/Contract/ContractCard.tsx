@@ -8,7 +8,6 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Paper } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     title: {
@@ -52,7 +51,15 @@ const useStyles = makeStyles((theme: Theme) =>
     }
   })
 );
-export default (props: any) => {
+
+interface ContractCard{
+  user: any;
+  index: number;
+  uploadContract: any;
+  eventId: number;
+  deleteContract: any;
+}
+export default function ContractCard(props: ContractCard){
   const classes = useStyles();
 
   const [file, setFile] = useState(new File(["foo"], ""));

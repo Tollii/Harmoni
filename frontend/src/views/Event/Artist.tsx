@@ -218,7 +218,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default (props: any) => {
+export default function Artist(props: any){
   const classes = useStyles();
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<any>("name");
