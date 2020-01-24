@@ -66,7 +66,7 @@ export default function ProfileTabs(props: any){
     }
   }, [props.user.roleID, createData]);
 
-  function a11yProps(index: any) {
+  function a11yProps(index: string|number) {
     return {
       id: `simple-tab-${index}`,
       "aria-controls": `simple-tabpanel-${index}`

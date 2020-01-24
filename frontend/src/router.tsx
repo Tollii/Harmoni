@@ -17,7 +17,7 @@ import EditRidersForArtist from "./views/EditRidersForArtist/EditRidersForArtist
 import { SnackbarProvider } from "material-ui-snackbar-provider";
 import UserService from "./service/users";
 import RoleService from "./service/roles";
-import { User } from "./service/interface";
+import { User, Role } from "./service/interface";
 
 export default () => {
   const [loggedIn, setLoggedIn] = React.useState(getCookie("token"));
@@ -36,7 +36,7 @@ export default () => {
     setLoggedIn(getCookie("token"));
     if (getCookie("token")) {
       UserService.getOneUser().then(res => {
-        RoleService.getRole(res.roleID).then((res1: any) => {
+        RoleService.getRole(res.roleID).then((res1: Role) => {
           setUser({
             id: res.id,
             roleID: res.roleID,

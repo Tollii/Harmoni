@@ -46,7 +46,7 @@ export default function SignUpCard(props: any) {
   const handleUndo = () => {
     // *snip*
   };
-  function checkPhonenumber(inputtxt: any) {
+  function checkPhonenumber(inputtxt: string) {
     var phoneno = /^(\+[1-9]{1,3})?([ ]{1})?([0-9]{8})$/;
     if (inputtxt.match(phoneno)) {
       return true;
@@ -70,7 +70,7 @@ export default function SignUpCard(props: any) {
         username: values.fullName,
         phone: values.telephone
       })
-        .then((data: any) => {
+        .then(() => {
           window.location.hash = "#/login";
           snackbar.showMessage(
             "You have created a user. You can now log in with your username and password",
