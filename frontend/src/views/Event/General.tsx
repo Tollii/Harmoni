@@ -174,6 +174,8 @@ export default (props: any) => {
                   aria-controls="simple-menu"
                   aria-haspopup="true"
                   onClick={handleClick}
+                  variant="outlined"
+                  size="large"
                 >
                   {props.values.eventTypeId === 0 ||
                   props.eventTypes === undefined
