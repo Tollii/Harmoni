@@ -211,10 +211,3 @@ module.exports = models => {
     }
   };
 };
-
-// "Admin", "Organizer", "Artist", "User"
-// return {
-//   auth: permissions.includes(role.dataValues.role_name),
-//   user: user,
-//   role: role
-// };
