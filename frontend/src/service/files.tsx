@@ -4,7 +4,7 @@ const axios = require("axios");
 let url = process.env.REACT_APP_API_URL;
 
 class files {
-  postProfilePicture(data: any) {
+  postProfilePicture(data: File) {
     let formData = new FormData();
     formData.append("image", data);
     return axios
@@ -17,7 +17,7 @@ class files {
       .then((response: { data: JSON }) => response.data);
   }
 
-  postContracts(data: any, userID: number, eventID: number) {    
+  postContracts(data: File, userID: number, eventID: number) {
     let formData = new FormData();
     formData.append("contract", data);
     return axios
@@ -38,7 +38,7 @@ class files {
       .then((response: { data: JSON }) => response.data);
   }
 
-  postEventPicture(data: any, id: number) {
+  postEventPicture(data: File, id: number) {
     let formData = new FormData();
     formData.append("image", data);
     return axios

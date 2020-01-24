@@ -18,6 +18,7 @@ import UserService from "../../service/users";
 import FileService from "../../service/files";
 import AuthService from "../../service/Authentication";
 import { useSnackbar } from "material-ui-snackbar-provider";
+import { User } from "../../service/interface";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,7 +44,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function Profile(props: any){
+export default function Profile(props: any) {
   const classes = useStyles();
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openChangePass, setOpenChangePass] = React.useState(false);
@@ -52,11 +53,12 @@ export default function Profile(props: any){
 
   const [file, setFile] = useState(new File(["foo"], "empty"));
 
-  const [newValues, setNewValues] = useState({
-    fullName: props.user.fullName,
+  const [newValues, setNewValues] = useState<User>({
+    username: props.user.username,
     email: props.user.email,
-    telephone: props.user.telephone,
-    picture: props.user.picture
+    phone: props.user.phone,
+    picture: props.user.picture,
+    roleID: props.user.roleID
   });
 
   const [password, setPassword] = useState({
@@ -66,7 +68,7 @@ export default function Profile(props: any){
   });
 
   function checkPhonenumber(inputtxt: any) {
-    var phoneno = /^\+?([0-9]{1,3})\)?([ ]{1})?([0-9]{8})$/;
+    var phoneno = /^(\+[1-9]{1,3})?([ ]{1})?([0-9]{8})$/;
     if (inputtxt.match(phoneno)) {
       return true;
     } else {
@@ -76,26 +78,29 @@ export default function Profile(props: any){
   const snackbar = useSnackbar();
 
   const handleSubmitData = (event: any) => {
-    if (!checkPhonenumber(newValues.telephone)) {
+    if (!checkPhonenumber(newValues.phone)) {
       snackbar.showMessage("Telephone number is not valid");
-    } else if (newValues.fullName === "" || newValues.fullName.length > 30) {
+    } else if (newValues.username === "" || newValues.username.length > 30) {
       snackbar.showMessage("Name is required or too long");
     } else if (newValues.email === "") {
       snackbar.showMessage("Email is required");
+    } else if (!/\S+@\S+\.\S+/.test(newValues.email)) {
+      snackbar.showMessage("Email is invalid");
     } else {
       let tempUser = {
         ...props.user,
-        fullName: newValues.fullName,
+        username: newValues.username,
         email: newValues.email,
-        telephone: newValues.telephone
+        phone: newValues.phone
       };
       props.handleUserChange(tempUser);
 
       UserService.updateOneUser(props.user.id, {
-        username: newValues.fullName,
+        username: newValues.username,
         email: newValues.email,
-        phone: newValues.telephone,
-        picture: newValues.picture
+        phone: newValues.phone,
+        picture: newValues.picture,
+        roleID: props.user.roleID
       }).then(res => res);
       setOpenEdit(false);
     }
@@ -103,10 +108,11 @@ export default function Profile(props: any){
 
   const resetNewVal = useCallback(() => {
     setNewValues({
-      fullName: props.user.fullName,
+      username: props.user.username,
       email: props.user.email,
-      telephone: props.user.telephone,
-      picture: props.user.picture
+      phone: props.user.phone,
+      picture: props.user.picture,
+      roleID: props.user.roleID
     });
   }, [props.user]);
 
@@ -252,7 +258,7 @@ export default function Profile(props: any){
               fontWeight: 300
             }}
           >
-            {props.user.fullName}
+            {props.user.username}
           </Typography>
         </Grid>
         <Grid item>
@@ -285,7 +291,7 @@ export default function Profile(props: any){
               fontWeight: 200
             }}
           >
-            {props.user.telephone}
+            {props.user.phone}
           </Typography>
         </Grid>
         <Grid item>
@@ -353,10 +359,10 @@ export default function Profile(props: any){
             <DialogContentText></DialogContentText>
             <InputField
               autoFocus
-              name="fullName"
+              name="username"
               label="Name"
               type="text"
-              value={newValues.fullName}
+              value={newValues.username}
               onChange={handleChange}
             />
             <InputField
@@ -369,10 +375,10 @@ export default function Profile(props: any){
             />
             <InputField
               autoFocus
-              name="telephone"
+              name="phone"
               label="Telephone"
               type="text"
-              value={newValues.telephone}
+              value={newValues.phone}
               onChange={handleChange}
             />
           </DialogContent>
@@ -449,4 +455,4 @@ export default function Profile(props: any){
       </Grid>
     </CardContent>
   );
-};
+}

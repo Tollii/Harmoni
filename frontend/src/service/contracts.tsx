@@ -1,13 +1,8 @@
 import getCookie from "./cookie";
+import { Contract } from "./interface";
 const axios = require("axios").default;
 
 let url = process.env.REACT_APP_API_URL;
-
-export class Contract {
-  contract!: string;
-  userID!: string;
-  eventID!: number;
-}
 
 class ContractService {
   getContracts() {

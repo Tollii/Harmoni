@@ -35,6 +35,7 @@ export default function Contract(props: any){
       {users.map((user: any, index: number) => (
         <ContractCard
           user={user}
+          index={index}
           eventId={props.match.params.eventId}
           deleteContract={deleteContract}
           uploadContract={uploadContract}
