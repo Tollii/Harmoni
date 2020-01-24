@@ -8,7 +8,7 @@ export default function Marker(props:any) {
         src={props.img}
         className="marker"
         style={{ cursor: "pointer" }}
-        title={name}
+        title={props.name}
         alt="Map pin"
       />
       <div className="pin" style={{ cursor: "pointer" }}></div>
