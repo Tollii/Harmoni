@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default (props: any) => {
+export default function Profile(props: any){
   const classes = useStyles();
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openChangePass, setOpenChangePass] = React.useState(false);

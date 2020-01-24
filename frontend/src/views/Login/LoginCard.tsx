@@ -35,7 +35,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default (props: any) => {
+export default function LoginCard(props: any){
   const classes = useStyles();
   const { handleChange, handleSubmit, values, errors } = useForm(
     submit,

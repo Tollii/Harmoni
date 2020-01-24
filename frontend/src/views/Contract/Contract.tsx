@@ -5,7 +5,7 @@ import ContractCard from "./ContractCard";
 import Button from "../../components/Button/Button";
 import { Link } from "react-router-dom";
 
-export default (props: any) => {
+export default function Contract(props: any){
   const uploadContract = (userId: number, file: any) => {
     return Promise.resolve(
       FileService.postContracts(file, userId, props.match.params.eventId)

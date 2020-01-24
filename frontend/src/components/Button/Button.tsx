@@ -1,8 +1,8 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
+import MatButton from '@material-ui/core/Button';
 
-export default (props: any) => {
+export default function Button(props: any){
     return (
-        <Button {...props} color="secondary" style={{fontWeight: props.fontWeight}}>{props.children}</Button>
+        <MatButton {...props} color="secondary" style={{fontWeight: props.fontWeight}}>{props.children}</MatButton>
     );
 }

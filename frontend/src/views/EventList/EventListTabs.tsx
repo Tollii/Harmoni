@@ -6,7 +6,7 @@ import EventList from "./EventList";
 import EventService from "../../service/events";
 import Card from "../../components/Card/Card";
 
-export default (props: any) => {
+export default function EventListTabs(props: any){
   const [value, setValue] = useState(0);
   const [events, setEvents] = useState([]);
 

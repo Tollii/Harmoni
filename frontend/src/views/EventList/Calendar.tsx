@@ -9,7 +9,7 @@ import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
 
-export default (props: any) => {
+export default function Calendar(props: any){
   const [events, setEvents] = useState<any>([]);
 
   useEffect(() => {
