@@ -4,6 +4,11 @@ import "./index.css";
 // import * as serviceWorker from "./serviceWorker";
 import Router from "./router";
 
+/**
+ * Actual namespace comment.
+ * @preferred
+ */
+
 const root = document.getElementById("root");
 if (root) {
   ReactDOM.render(<Router />, root);
