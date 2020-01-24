@@ -30,14 +30,6 @@ describe('riders DAO', () => {
         done();
     });
 
-    it('should get rider with userID 1 event 1 rider_type 2', async (done) => {
-        const res = await ridersControl.riderGetOne(2, 1, 1);
-        expect(res.dataValues.userID).toEqual(1);
-        expect(res.dataValues.rider_typeID).toEqual(2);
-        expect(res.dataValues.eventID).toEqual(1);
-        done();
-    });
-
     it('should get rider with for artist 1', async (done) => {
         const res = await ridersControl.riderGetAllByArtist(1, 1);
         expect(res.length).toBeGreaterThanOrEqual(2);
@@ -49,21 +41,6 @@ describe('riders DAO', () => {
         expect(res.length).toBeGreaterThanOrEqual(2);
         done();
     });
-
-    it('should update rider with userID = 1 with additions = yote', async (done) => {
-        await ridersControl.riderUpdate("yote", 1, 1, 1);
-        const res = await ridersControl.riderGetOne(1, 1 ,1);
-        expect(res.dataValues.additions).toEqual("yote");
-        done();
-    });
-
-    it('should delete riders for event 1', async (done) => {
-        await ridersControl.riderDelete(1);
-        const res = await ridersControl.riderGetOne(1, 1, 1);
-        expect(res).toBeNull();
-        done();
-    });
-
 });
 
 
