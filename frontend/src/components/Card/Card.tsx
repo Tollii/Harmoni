@@ -13,6 +13,13 @@ const useStyles = makeStyles({
   }
 });
 
+/**
+ * Opens an alert dialog
+ * @param eventID sends in the id of the current event
+ * @param open sends in boolean to check whether the AlertDialog should be open or not
+ * @param handleAlert sends in handler for closing the dialog
+ * @returns returns an alert dialog window
+ */
 export default function Card({children, style}: any){
   const classes = useStyles();
 
