@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Button from "../../components/Button/Button";
 import Grid from "@material-ui/core/Grid";
 import CardContent from "@material-ui/core/CardContent";
@@ -53,10 +53,10 @@ export default (props: any) => {
   const [file, setFile] = useState(new File(["foo"], "empty"));
 
   const [newValues, setNewValues] = useState({
-    fullName: "",
-    email: "",
-    telephone: "",
-    picture: ""
+    fullName: props.user.fullName,
+    email: props.user.email,
+    telephone: props.user.telephone,
+    picture: props.user.picture
   });
 
   const [password, setPassword] = useState({
@@ -101,14 +101,14 @@ export default (props: any) => {
     }
   };
 
-  const resetNewVal = () => {
+  const resetNewVal = useCallback(() => {
     setNewValues({
       fullName: props.user.fullName,
       email: props.user.email,
       telephone: props.user.telephone,
       picture: props.user.picture
     });
-  };
+  }, [props.user]);
 
   const resetPassword = () => {
     setPassword({ old_password: "", new_password: "", confirmed_password: "" });
@@ -168,6 +168,10 @@ export default (props: any) => {
     setChangePass(false);
   };
 
+  useEffect(() => {
+    resetNewVal();
+  }, [openEdit, resetNewVal]);
+
   const handleSubmitPassword = (event: any) => {
     if (
       password.new_password === password.confirmed_password &&
@@ -178,8 +182,14 @@ export default (props: any) => {
       AuthService.changePassword({
         old_password: password.old_password,
         new_password: password.new_password
-      });
-      setOpenChangePass(false);
+      })
+        .then(() => {
+          snackbar.showMessage("Your password was successfully changed");
+          setOpenChangePass(false);
+        })
+        .catch((error: any) => {
+          snackbar.showMessage("Old password does not match, please try again");
+        });
     } else {
       setChangePass(true);
     }

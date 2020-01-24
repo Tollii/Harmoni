@@ -38,13 +38,11 @@ export default (props: any) => {
   const createData = useCallback((events: any) => {
     let temp: any = [];
     events.map((event: any) => {
-      let start = String(event.event_start).substring(0, 10);
-      let end = String(event.event_end).substring(0, 10);
       temp.push({
         id: event.id,
         name: event.event_name,
-        startDate: start,
-        endDate: end,
+        startDate: event.event_start,
+        endDate: event.event_end,
         location: event.location
       });
       return null;
