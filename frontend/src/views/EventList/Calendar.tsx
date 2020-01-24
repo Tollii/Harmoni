@@ -8,6 +8,7 @@ import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClic
 import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
+import { Paper } from "@material-ui/core";
 
 export default function Calendar(props: any){
   const [events, setEvents] = useState<any>([]);
@@ -31,9 +32,10 @@ export default function Calendar(props: any){
   };
 
   return (
-    <div style={{ margin: "0 50px 0 50px" }}>
+    <Paper elevation={0} style={{ margin: "0 4px 4px 4px" }}>
       <FullCalendar
         defaultView="dayGridMonth"
+        height="auto"
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         weekends={true}
         events={events}
@@ -46,6 +48,6 @@ export default function Calendar(props: any){
         }}
         displayEventTime={false}
       />
-    </div>
+    </Paper>
   );
 };
