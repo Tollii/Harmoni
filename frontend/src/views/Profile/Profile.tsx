@@ -96,7 +96,7 @@ export default (props: any) => {
         email: newValues.email,
         phone: newValues.telephone,
         picture: newValues.picture
-      }).then(res => console.log(res));
+      }).then(res => res);
       setOpenEdit(false);
     }
   };

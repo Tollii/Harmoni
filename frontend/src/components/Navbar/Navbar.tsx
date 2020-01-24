@@ -205,7 +205,7 @@ export default function Navbar(props: any) {
             </Typography>
           </Button>
           <Box className={classes.rightButtons}>
-            <Grid container direction="row" alignItems="center" spacing={2}>
+            <Grid container direction="row" alignItems="center">
               <Grid item>
                 <Button
                   onClick={() => (window.location.hash = "#/event")}
