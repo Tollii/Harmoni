@@ -6,6 +6,8 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import { Theme, createStyles, Grid } from "@material-ui/core";
+import {Event} from "../../service/interface"
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -37,10 +39,11 @@ const useStyles = makeStyles((theme: Theme) =>
       position: "absolute",
       top: "70%",
       left: 0,
-      paddingTop: "10px",
-      paddingLeft: "2px",
+      paddingTop: "5px",
+      paddingLeft: "5px",
+      paddingRight: "5px",
       paddingBottom: "3px",
-      width: "30%",
+      width: "auto",
       height: "auto",
       backgroundColor: "#ffffff",
       color: "black",
@@ -50,7 +53,16 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function EventCard(props: any) {
+interface EventCard{
+  event:Event
+}
+
+/**
+ * Creates an event card
+ * @param event sends in event to be displayed on card
+ * @returns returns an event card
+ */
+export default function EventCard(props:EventCard) {
   const classes = useStyles();
   var date = new Date(props.event.event_start);
   return (

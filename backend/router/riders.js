@@ -96,36 +96,6 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
-   * Get a specific rider by a specific rider, rider_type and user_id
-  * @group Riders - Operations about Rider
-  * @route GET /rider/rider_type/{rider_type_id}/event/{event_id}/user/{user_id}/
-  * @param {integer} rider_type_id.path.required - Riders rider type id
-  * @param {integer} event_id.path.required - Rider event id
-  * @param {integer} user_id.path.required - Rider user id
-  * @param {string} token.header.required - token
-  * @returns {object} 200 - Return a Rider
-  * @returns {Error}  default - Unexpected error
-  */
-  app.get(base+"/rider_type/:rider_type_id/event/:event_id/user/:user_id/", (req, res) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"], req.params.event_id, req.params.user_id)
-    .then(data => {
-      if(data.auth){
-        ridersControl.riderGetOne(
-          req.params.rider_type_id,
-          req.params.event_id,
-          req.params.user_id
-        )
-        .then((data) => {
-          res.send(data);
-        })
-      } else {
-        res.status(400).send("Not authenticated")
-      }
-    })
-    .catch(err => console.log(err))
-  });
-
-  /**
    * posts a new rider
   * @group Riders - Operations about riders
   * @route POST /rider/

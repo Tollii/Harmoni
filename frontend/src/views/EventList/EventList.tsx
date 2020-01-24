@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import MaterialTable, { Column } from "material-table";
+import { Event } from "../../service/interface";
 
 interface Row {
   id: number;
   title: string;
-  startDate: string;
-  endDate: string;
+  startDate: Date;
+  endDate: Date;
   location: string;
 }
 
@@ -17,22 +18,22 @@ interface TableState {
 function createData(
   id: number,
   name: string,
-  s_date: string,
-  e_date: string,
+  s_date: Date,
+  e_date: Date,
   location: string
 ) {
   return {
     id,
-    name: name,
+    title: name,
     startDate: s_date,
     endDate: e_date,
     location: location
   };
 }
-export default (props: any) => {
+export default function EventList(props: { events: Event[] }) {
   const [state, setState] = React.useState<TableState>({
     columns: [
-      { title: "Name", field: "name" },
+      { title: "Name", field: "title" },
       { title: "Start date", field: "startDate", type: "datetime" },
       { title: "End date", field: "endDate", type: "datetime" },
       { title: "Location", field: "location" }
@@ -40,16 +41,14 @@ export default (props: any) => {
     data: []
   });
   useEffect(() => {
-    let temp: any = [];
-    props.events.map((event: any) => {
-      let start = String(event.event_start).substring(0, 10);
-      let end = String(event.event_end).substring(0, 10);
+    let temp: Row[] = [];
+    props.events.map((event: Event) => {
       temp.push(
         createData(
           event.id,
           event.event_name,
-          start,
-          end,
+          new Date(event.event_start),
+          new Date(event.event_end),
           event.location
         )
       );
@@ -68,4 +67,4 @@ export default (props: any) => {
       data={state.data}
     />
   );
-};
+}

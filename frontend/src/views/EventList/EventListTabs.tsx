@@ -5,17 +5,18 @@ import Calendar from "./Calendar";
 import EventList from "./EventList";
 import EventService from "../../service/events";
 import Card from "../../components/Card/Card";
+import { Event } from "../../service/interface";
 
-export default (props: any) => {
+export default function EventListTabs() {
   const [value, setValue] = useState(0);
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState<Event[]>([]);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };
 
   useEffect(() => {
-    EventService.getEventsUnarchived().then((response: any) => {
+    EventService.getEventsUnarchived().then((response: Event[]) => {
       setEvents(response);
     });
   }, []);
@@ -46,4 +47,4 @@ export default (props: any) => {
       )}
     </Card>
   );
-};
+}

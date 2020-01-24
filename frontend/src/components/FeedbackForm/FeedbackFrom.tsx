@@ -12,7 +12,11 @@ import MailingService from "../../service/mailing";
 import useForm from "../../service/Form/useForm";
 import validateSignUp from "../../service/Form/Validate";
 
-export default function(props: any) {
+/**
+ * Creates a feedback form
+ * @returns returns a feedback form
+ */
+export default function FeedbackFrom(){
     const [open, setOpen] = React.useState(false);
 
     const submitButton = () => {

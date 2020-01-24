@@ -9,12 +9,20 @@ import { MenuItem, Menu } from "@material-ui/core";
 import EventService from "../../service/events";
 import MailingService from "../../service/mailing";
 
-/**
- * Actual namespace comment.
- * @preferred
- */
+interface AlertDialog {
+  eventID: number;
+  open:boolean;
+  handleAlert:any;
+}
 
-export default (props: any) => {
+/**
+ * Creates an alert dialog
+ * @param eventID sends in the id of the current event
+ * @param open sends in boolean to check whether the AlertDialog should be open or not
+ * @param handleAlert sends in handler for closing the dialog
+ * @returns returns an alert dialog window
+ */
+export default function AlertDialog(props: AlertDialog){
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [choice, setChoice] = useState(0);
 

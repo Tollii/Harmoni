@@ -55,7 +55,6 @@ module.exports = (app, models, base, auth) => {
 
   /**
    * Sends a mail to a specified email when they have forgotten their password, most importantly a link to a page where you can save your password.
-   * Change url from localhost if moved
    * @group Mailer - Operations about mailer
    * @route get /mailer/password/
    * @param {string} email.header.required - user email
@@ -72,7 +71,7 @@ module.exports = (app, models, base, auth) => {
         const html =
           `<h1>${data.username} has requested that their password be updated</h1>` +
           `\n<p>Please press the link below to update your password, if you do not know what this is, please ignore this mail. </p>` +
-          `<p>Link expires in 1 hour <a href="http://localhost:3000/#/forgotpassword/${token}">click here</a></p>`;
+          `<p>Link expires in 1 hour <a href="${process.env.FRONTEND_HOST}/#/forgotpassword/${token}">click here</a></p>`;
 
         mailer(recipients, subject, html);
       });

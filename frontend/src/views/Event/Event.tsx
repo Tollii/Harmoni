@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 function getSteps() {
-  return ["General", "Artist(s)", "Tickets", "Rider"];
+  return ["General", "Artists", "Tickets", "Rider"];
 }
 
 function getStepContent(
@@ -94,7 +94,7 @@ interface Values {
   tickets: any;
 }
 
-export default (props: any) => {
+export default function Event(props: any){
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();
