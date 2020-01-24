@@ -1,6 +1,6 @@
 export default function validateSignUp(values: any) {
   let errors: any = {};
-  
+
   function checkPhonenumber(inputtxt: any) {
     var phoneno = /^(\+[1-9]{1,3})?([ ]{1})?([0-9]{8})$/;
     if (inputtxt.match(phoneno)) {
@@ -34,7 +34,6 @@ export default function validateSignUp(values: any) {
   } else if (values.password !== values.passwordConfirmed) {
     errors.password = "Passwords does not match";
     errors.passwordConfirmed = "Passwords does not match";
-    console.log("Passord er ikke like");
   }
   if (!values.fullName) {
     errors.fullName = "Full name required";
@@ -68,5 +67,32 @@ export function validateLogin(values: any) {
     errors.password = "Password required";
   }
 
+  return errors;
+}
+
+export function validateEmail(values: any) {
+  let errors: any = {};
+
+  if (!values.email) {
+    errors.email = "Email is required";
+  } else if (!/\S+@\S+\.\S+/.test(values.email)) {
+    errors.email = "Email address is invalid";
+  }
+  return errors;
+}
+
+export function validatePassword(values: any) {
+  let errors: any = {};
+
+  if (!values.password) {
+    errors.password = "Password required";
+  }
+
+  if (!values.passwordConfirmed) {
+    errors.passwordConfirmed = "Password required";
+  } else if (values.password !== values.passwordConfirmed) {
+    errors.password = "Passwords does not match";
+    errors.passwordConfirmed = "Passwords does not match";
+  }
   return errors;
 }
