@@ -47,17 +47,17 @@ module.exports = (app, models, auth) => {
    * @returns {Error}  default - Unexpected error
    */
   app.post("/signup", (req, res) => {
-    auth
-      .signUp(
+    auth.signUp(
         req.body.email,
         req.body.password,
         req.body.username,
         req.body.phone
       )
-      .then(data =>
-        data
-          ? res.status(200).send("Registered")
-          : res.status(400).send("Registration failed")
+      .then(data => {
+          data
+            ? res.status(200).send("Registered")
+            : res.status(400).send("Registration failed")
+        }
       );
   });
 

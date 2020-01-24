@@ -65,27 +65,22 @@ module.exports = models => {
         }),
 
     signUp: async (email, password, username, phone) => {
-      return bcrypt.genSalt(10, (err, salt) => {
-        return bcrypt.hash(password, salt, (err, hash) => {
-          return Users.create(
-            {
-              username: username,
-              email: email,
-              hash: hash,
-              phone: phone,
-              roleID: 1
-            },
-            {
-              returning: true
-            }
-          )
-            .then(data => true)
-            .catch(err => {
-              console.log(err);
-              return false;
-            });
+      return bcrypt.hash(password, 10)
+      .then((hash) => {
+        return Users.create({
+          username: username,
+          email: email,
+          hash: hash,
+          phone: phone,
+          roleID: 1
+        })
+        .then(data => {
+          return true
+        })
+        .catch(err => {
+          return false
         });
-      });
+      })
     },
     encode_token,
     decode_token,
