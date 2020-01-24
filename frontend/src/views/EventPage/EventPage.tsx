@@ -290,13 +290,17 @@ export default (props: any) => {
               {values.location}
             </Typography>
             <div className={classes.map}>
-              <a href={`https://www.google.com/maps/place/${values.location}`} target="_blank">
+              <a
+                href={`https://www.google.com/maps/place/${values.location}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Map events={[values]} center={values} zoom={11} />
               </a>
             </div>
             <Grid container spacing={1} justify="center" alignItems="center">
               <DropDownButton
-                event={values.id}
+                event={props.match.params.id}
                 user={props.user.id}
                 eventConnection={eventConnection}
                 myContract={myContract}

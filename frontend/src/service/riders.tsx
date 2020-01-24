@@ -17,22 +17,22 @@ class RiderService {
   getEventRiders(id: number) {
     return axios
       .get(process.env.REACT_APP_API_URL + "/rider/event/" + id, {
-        headers: { token:  getCookie("token")}
+        headers: { token: getCookie("token") }
       })
       .then((response: { data: JSON }) => response.data);
   }
 
   getRidersForArtist(event_id: number, user_id: number) {
     return axios
-        .get(
-            process.env.REACT_APP_API_URL +
-            "/rider/event/" +
-            event_id +
-            "/user/" +
-            user_id ,
-            { headers: { token: getCookie("token")} }
-        )
-        .then((response: { data: JSON }) => response.data);
+      .get(
+        process.env.REACT_APP_API_URL +
+          "/rider/event/" +
+          event_id +
+          "/user/" +
+          user_id,
+        { headers: { token: getCookie("token") } }
+      )
+      .then((response: { data: JSON }) => response.data);
   }
 
   getRider(rider_type_id: number, event_id: number) {
@@ -43,7 +43,9 @@ class RiderService {
           rider_type_id +
           "/event/" +
           event_id +
-          "/user/", {headers: {token: getCookie("token")}}      )
+          "/user/",
+        { headers: { token: getCookie("token") } }
+      )
       .then((response: { data: JSON }) => response.data);
   }
 
@@ -79,16 +81,16 @@ class RiderService {
   }
 
   deleteRidersForArtist(event_id: number, user_id: number) {
-    axios
-        .delete(
-            process.env.REACT_APP_API_URL +
-            "/rider/event/" +
-            event_id +
-            "/user/" +
-            user_id,
-            { headers: { token: getCookie("token") } }
-        )
-        .then((response: { data: JSON }) => response.data);
+    return axios
+      .delete(
+        process.env.REACT_APP_API_URL +
+          "/rider/event/" +
+          event_id +
+          "/user/" +
+          user_id,
+        { headers: { token: getCookie("token") } }
+      )
+      .then((response: { data: JSON }) => response.data);
   }
 }
 
