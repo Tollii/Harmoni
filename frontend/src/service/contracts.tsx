@@ -41,7 +41,7 @@ class ContractService {
       .post(url + "/contract", contract, {
         headers: { token: getCookie("token") }
       })
-      .then((response: { data: Contract }) => console.log(response));
+      .then((response: { data: Contract }) => response.data);
   }
 
   deleteContract(userID: number, eventID: number) {

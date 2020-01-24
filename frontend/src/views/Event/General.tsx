@@ -9,31 +9,31 @@ import {
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { Typography, Button, Menu, MenuItem } from "@material-ui/core";
-import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-      datePicker: {
-        width: '250px',
-        marginLeft: '20px'
-      },
-      textFieldS: {
-        width: '250px',
-        margin: '10px',
-      },
-      textFieldL: {
-        width: '100%',
-        marginTop: '20px',
-      },
-      grid: {
-        marginTop: '20px',
-      },
-      file: {
-        fontSize: '1.2vw',
-      },
-      header: {
-        marginTop: '20px',
-      },
+  createStyles({
+    datePicker: {
+      width: "100%",
+      marginTop: "20px"
+    },
+    textFieldS: {
+      width: "100%",
+      marginTop: "20px"
+    },
+    textFieldL: {
+      width: "100%",
+      marginTop: "20px"
+    },
+    grid: {
+      marginTop: "20px"
+    },
+    file: {
+      fontSize: "1.2vw"
+    },
+    header: {
+      marginTop: "20px"
+    }
   })
 );
 
@@ -53,9 +53,8 @@ export default (props: any) => {
     <Card style={{ width: "100%" }}>
       <CardContent>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-
           <Grid container spacing={2} direction="row">
-            <Grid item xs={12} sm={9} md={4}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 className={classes.textFieldS}
                 name="name"
@@ -77,32 +76,42 @@ export default (props: any) => {
                 onChange={props.handleChange}
               />
             </Grid>
-            <Grid item xs>
-              <KeyboardDateTimePicker
-                name="eventStart"
-                variant="inline"
-                ampm={false}
-                label="Event starts"
-                value={props.values.eventStart}
-                onChange={(e: any) => props.handleChange(e, "eventStart")}
-                onError={console.log}
-                disablePast
-                format="dd/MM/yyyy HH:mm"
-                autoOk={true}
-              />
-            </Grid>
-            <Grid item xs>
-              <KeyboardDateTimePicker
-                variant="inline"
-                ampm={false}
-                label="Event ends"
-                value={props.values.eventEnd}
-                onChange={(e: any) => props.handleChange(e, "eventEnd")}
-                onError={console.log}
-                disablePast
-                format="dd/MM/yyyy HH:mm"
-                autoOk={true}
-              />
+            <Grid
+              container
+              item
+              xs={12}
+              sm={6}
+              spacing={4}
+              style={{ marginTop: "0.8%" }}
+              direction="column"
+            >
+              <Grid item>
+                <KeyboardDateTimePicker
+                  name="eventStart"
+                  variant="inline"
+                  ampm={false}
+                  label="Event starts"
+                  value={props.values.eventStart}
+                  onChange={(e: any) => props.handleChange(e, "eventStart")}
+                  onError={console.log}
+                  disablePast
+                  format="dd/MM/yyyy HH:mm"
+                  autoOk={true}
+                />
+              </Grid>
+              <Grid item>
+                <KeyboardDateTimePicker
+                  variant="inline"
+                  ampm={false}
+                  label="Event ends"
+                  value={props.values.eventEnd}
+                  onChange={(e: any) => props.handleChange(e, "eventEnd")}
+                  onError={console.log}
+                  disablePast
+                  format="dd/MM/yyyy HH:mm"
+                  autoOk={true}
+                />
+              </Grid>
             </Grid>
           </Grid>
           <Grid item xs={12}>
@@ -133,14 +142,13 @@ export default (props: any) => {
           </Grid>
 
           <Grid className={classes.grid} container spacing={2} direction="row">
-
             <Grid item xs={12} md={12}>
               <Typography variant="h6" gutterBottom>
                 Event header
               </Typography>
             </Grid>
 
-            <Grid item xs={12} md={4} >
+            <Grid item xs={12} md={4}>
               <TextField
                 className={classes.file}
                 name="eventImage"
@@ -148,10 +156,14 @@ export default (props: any) => {
                 variant="outlined"
                 id="outlined-multiline"
                 onChange={(event: any) =>
-                    props.handleChange(event.target.files[0], "eventImage")
+                  props.handleChange(event.target.files[0], "eventImage")
                 }
               />
-              <Typography className={classes.header} variant="subtitle1" gutterBottom>
+              <Typography
+                className={classes.header}
+                variant="subtitle1"
+                gutterBottom
+              >
                 Selected header: {props.values.eventImage.name}
               </Typography>
             </Grid>
@@ -171,6 +183,7 @@ export default (props: any) => {
 
               <Grid item xs={12} md={4} justify='center'>
                 <Button
+                  style={{width: '100%', height:"56px"}}
                   aria-controls="simple-menu"
                   aria-haspopup="true"
                   onClick={handleClick}
@@ -207,8 +220,7 @@ export default (props: any) => {
                   ))}
                 </Menu>
               </Grid>
-
-            </Grid>
+          </Grid>
         </MuiPickersUtilsProvider>
       </CardContent>
     </Card>
