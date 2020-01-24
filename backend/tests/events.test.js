@@ -19,6 +19,22 @@ describe('events DAO', () => {
         done();
     });
 
+    it('should get all events for Carousel', async (done) => {
+        await eventsControl.eventCreate("chat", "cola", new Date('1995-12-17T03:24:00'), new Date('1995-12-19T03:24:00'), "wasdwasd", 10, "Wasasd", 1);
+        const res = await eventsControl.eventGetCarouselEvent();
+        expect(res.length).toBeGreaterThanOrEqual(2);
+        done();
+    });
+
+    it('Archive all timed out events and pull the one that should be unarchived', async (done) => {
+        await eventsControl.eventCreate("chat", "cola", new Date('1995-12-17T03:24:00'), new Date('2050-12-19T03:24:00'), "wasdwasd", 10, "Wasasd", 1);
+        await eventsControl.eventArchive();
+        const res = await eventsControl.eventGetAllUnarchived();
+        expect(res.length).toEqual(1);
+        done();
+    });
+
+
     it('should get event with id 2', async (done) => {
         const res = await eventsControl.eventGetOne(2);
         expect(res.dataValues.id).toEqual(2);

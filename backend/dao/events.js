@@ -55,8 +55,6 @@ module.exports = models => {
         }).then(events => events)
       ),
 
-    eventAmount: async () => Event.count().then(events => events),
-
     eventUpdate: async (
       id,
       event_name,
