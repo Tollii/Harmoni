@@ -65,27 +65,22 @@ module.exports = models => {
         }),
 
     signUp: async (email, password, username, phone) => {
-      return bcrypt.genSalt(10, (err, salt) => {
-        return bcrypt.hash(password, salt, (err, hash) => {
-          return Users.create(
-            {
-              username: username,
-              email: email,
-              hash: hash,
-              phone: phone,
-              roleID: 1
-            },
-            {
-              returning: true
-            }
-          )
-            .then(data => true)
-            .catch(err => {
-              console.log(err);
-              return false;
-            });
+      return bcrypt.hash(password, 10)
+      .then((hash) => {
+        return Users.create({
+          username: username,
+          email: email,
+          hash: hash,
+          phone: phone,
+          roleID: 1
+        })
+        .then(data => {
+          return true
+        })
+        .catch(err => {
+          return false
         });
-      });
+      })
     },
     encode_token,
     decode_token,
@@ -173,6 +168,19 @@ module.exports = models => {
               }
               if (permissions.includes("User")) {
                 if ("User" == role.dataValues.role_name) {
+                  if(user_id == 0 && event_id != 0) {
+                    return Contract_dao.contractGetOne(id, event_id).then(
+                      contract => {
+                        if (contract != null) {
+                          return {
+                            auth: true,
+                            user: user,
+                            role: role
+                          };
+                        }
+                      }
+                    );
+                  }
                   if (user_id != 0 && user_id == id) {
                     return {
                       auth: true,
@@ -203,10 +211,3 @@ module.exports = models => {
     }
   };
 };
-
-// "Admin", "Organizer", "Artist", "User"
-// return {
-//   auth: permissions.includes(role.dataValues.role_name),
-//   user: user,
-//   role: role
-// };
