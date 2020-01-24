@@ -1,10 +1,5 @@
-import React from 'react';
-import MatButton from '@material-ui/core/Button';
-
-interface Button {
-    fontWeight:number;
-    children:any;
-}
+import React from "react";
+import MatButton from "@material-ui/core/Button";
 
 /**
  * Creates a button
@@ -12,8 +7,14 @@ interface Button {
  * @param children sets the children of the button
  * @returns returns a button
  */
-export default function Button(props: Button){
-    return (
-        <MatButton {...props} color="secondary" style={{fontWeight: props.fontWeight}}>{props.children}</MatButton>
-    );
+export default function Button(props: any) {
+  return (
+    <MatButton
+      {...props}
+      color="secondary"
+      style={{ fontWeight: props.fontWeight }}
+    >
+      {props.children}
+    </MatButton>
+  );
 }

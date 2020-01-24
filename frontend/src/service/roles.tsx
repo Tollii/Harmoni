@@ -1,6 +1,6 @@
 import getCookie from "./cookie";
-const axios = require("axios").default;
 import {Role} from "./interface"
+const axios = require("axios").default;
 class RoleService {
   getRoles() {
     return axios

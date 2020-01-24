@@ -1,21 +1,23 @@
 import getCookie from "./cookie";
+import { Password, Login, Signup } from "./interface";
 const axios = require("axios").default;
 let url: string = "http://localhost:8080";
-import {Password, Login, Signup} from "./interface"
-
-
 
 class Authentication {
   changePassword(password: Password) {
     return axios
-      .put(url + "/reset/", password, { headers: { token: getCookie("token") } })
+      .put(url + "/reset/", password, {
+        headers: { token: getCookie("token") }
+      })
       .then((response: { data: string }) => response.data);
   }
 
   changePasswordForgot(password: any) {
     return axios
-        .put(url + "/reset/forgot", password, { headers: { token: password.token } })
-        .then((response: { data: Password }) => response.data);
+      .put(url + "/reset/forgot", password, {
+        headers: { token: password.token }
+      })
+      .then((response: { data: Password }) => response.data);
   }
 
   getLogin(credentials: Login) {

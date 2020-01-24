@@ -92,7 +92,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function EventPage(props: any){
+export default function EventPage(props: any) {
   const classes = useStyles();
   const [loaded, setLoaded] = useState(false);
   const [values, setValues] = useState({
@@ -192,29 +192,29 @@ export default function EventPage(props: any){
               <Typography className={classes.smallTitle} variant="h6">
                 Artists
               </Typography>
-              {artists.length !== 0 ?
-              <Grid
-                container
-                direction="row"
-                justify="space-between"
-                className={classes.avatarIcons}
-              >
-                {artists.map((artist: any, index: number) => (
-                  <Grid item>
-                    <Avatar
-                      style={{ marginLeft: "auto", marginRight: "auto" }}
-                      alt={artist.username}
-                      src={artist.picture}
-                    />
-                    <Typography>{artist.username}</Typography>
-                  </Grid>
-                ))}
-              </Grid>
-              :
-              <Typography className={classes.smallText}variant="body1">
-                No Artists
-              </Typography>
-            }
+              {artists.length !== 0 ? (
+                <Grid
+                  container
+                  direction="row"
+                  justify="space-between"
+                  className={classes.avatarIcons}
+                >
+                  {artists.map((artist: any, index: number) => (
+                    <Grid item>
+                      <Avatar
+                        style={{ marginLeft: "auto", marginRight: "auto" }}
+                        alt={artist.username}
+                        src={artist.picture}
+                      />
+                      <Typography>{artist.username}</Typography>
+                    </Grid>
+                  ))}
+                </Grid>
+              ) : (
+                <Typography className={classes.smallText} variant="body1">
+                  No Artists
+                </Typography>
+              )}
               {((props.user.roleID === 3 && eventConnection) ||
                 props.user.roleID === 4) && (
                 <div>
@@ -233,44 +233,44 @@ export default function EventPage(props: any){
               <Typography className={classes.smallTitle} variant="h6">
                 Tickets
               </Typography>
-              {tickets.length !== 0 ?
-              <TableContainer component={Paper}>
-                <Table className={classes.table}>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Ticket Name</TableCell>
-                      <TableCell align="right">Price</TableCell>
-                      <TableCell align="right">Quantity</TableCell>
-                      <TableCell align="right">Post Date</TableCell>
-                      <TableCell align="right">Removed Date</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {tickets.map((ticket, index) => (
-                      <TableRow key={index}>
-                        <TableCell component="th" scope="row">
-                          {ticket.ticket_name}
-                        </TableCell>
-                        <TableCell align="right">{ticket.price}</TableCell>
-                        <TableCell align="right">
-                          {ticket.ticket_amount}
-                        </TableCell>
-                        <TableCell align="right">
-                          {new Date(ticket.date_start).toDateString()}
-                        </TableCell>
-                        <TableCell align="right">
-                          {new Date(ticket.date_end).toDateString()}
-                        </TableCell>
+              {tickets.length !== 0 ? (
+                <TableContainer component={Paper}>
+                  <Table className={classes.table}>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Ticket Name</TableCell>
+                        <TableCell align="right">Price</TableCell>
+                        <TableCell align="right">Quantity</TableCell>
+                        <TableCell align="right">Post Date</TableCell>
+                        <TableCell align="right">Removed Date</TableCell>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              :
-              <Typography className={classes.smallText}variant="body1">
-                No Tickets
-              </Typography>
-            }
+                    </TableHead>
+                    <TableBody>
+                      {tickets.map((ticket, index) => (
+                        <TableRow key={index}>
+                          <TableCell component="th" scope="row">
+                            {ticket.ticket_name}
+                          </TableCell>
+                          <TableCell align="right">{ticket.price}</TableCell>
+                          <TableCell align="right">
+                            {ticket.ticket_amount}
+                          </TableCell>
+                          <TableCell align="right">
+                            {new Date(ticket.date_start).toDateString()}
+                          </TableCell>
+                          <TableCell align="right">
+                            {new Date(ticket.date_end).toDateString()}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              ) : (
+                <Typography className={classes.smallText} variant="body1">
+                  No Tickets
+                </Typography>
+              )}
             </Box>
           </Grid>
           <Grid item sm={3} xs={12} style={{ margin: "10px" }}>
@@ -311,7 +311,7 @@ export default function EventPage(props: any){
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Map events={[values]} center={values} zoom={11} />
+                <Map events={values} center={values} zoom={11} />
               </a>
             </div>
             <Grid container spacing={1} justify="center" alignItems="center">
@@ -333,4 +333,4 @@ export default function EventPage(props: any){
       </div>
     );
   }
-};
+}

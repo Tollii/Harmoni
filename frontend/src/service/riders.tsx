@@ -1,12 +1,12 @@
 import getCookie from "./cookie";
+import { Riders } from "./interface";
 const axios = require("axios").default;
-import {Riders} from "./interface"
 
 class RiderService {
   getRiders() {
     return axios
       .get(process.env.REACT_APP_API_URL + "/rider/")
-      .then((response: { data: JSON }) => response.data);
+      .then((response: { data: Riders[] }) => response.data);
   }
 
   getEventRiders(id: number) {
@@ -14,7 +14,7 @@ class RiderService {
       .get(process.env.REACT_APP_API_URL + "/rider/event/" + id, {
         headers: { token: getCookie("token") }
       })
-      .then((response: { data: JSON }) => response.data);
+      .then((response: { data: Riders[] }) => response.data);
   }
 
   getRidersForArtist(event_id: number, user_id: number) {
@@ -27,24 +27,10 @@ class RiderService {
           user_id,
         { headers: { token: getCookie("token") } }
       )
-      .then((response: { data: JSON }) => response.data);
+      .then((response: { data: Riders[] }) => response.data);
   }
 
-  getRider(rider_type_id: number, event_id: number) {
-    return axios
-      .get(
-        process.env.REACT_APP_API_URL +
-          "/rider/rider_type/" +
-          rider_type_id +
-          "/event/" +
-          event_id +
-          "/user/",
-        { headers: { token: getCookie("token") } }
-      )
-      .then((response: { data: JSON }) => response.data);
-  }
-
-  postRider(rider: object) {
+  postRider(rider: Riders) {
     return axios
       .post(process.env.REACT_APP_API_URL + "/rider/", rider, {
         headers: { token: getCookie("token") }
@@ -52,7 +38,7 @@ class RiderService {
       .then((response: { data: JSON }) => response.data);
   }
 
-  updateRider(rider_type_id: number, event_id: number, rider: object) {
+  updateRider(rider_type_id: number, event_id: number, rider: Riders) {
     return axios
       .put(
         process.env.REACT_APP_API_URL +

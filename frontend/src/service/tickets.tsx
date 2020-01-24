@@ -1,7 +1,6 @@
 import getCookie from "./cookie";
+import { Ticket } from "./interface";
 const axios = require("axios").default;
-import {Ticket} from "./interface"
-
 
 class TicketService {
   getTickets() {

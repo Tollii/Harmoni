@@ -5,8 +5,8 @@ import Marker from "./Marker";
 import Geocode from "react-geocode";
 
 interface Map {
-  events: Event[];
-  center: {lat:number, lng: number};
+  events: any;
+  center: any;
   zoom: number
 }
 

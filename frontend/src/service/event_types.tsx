@@ -1,6 +1,6 @@
 import getCookie from "./cookie";
+import { Event_Type } from "./interface";
 const axios = require("axios").default;
-import {Event_Type} from "./interface"
 
 class Event_TypeService {
   getEvent_Types() {
