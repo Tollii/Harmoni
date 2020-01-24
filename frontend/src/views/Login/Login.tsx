@@ -10,7 +10,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default (props: any) => {
+export default function Login(props: any){
   const classes = useStyles();
 
   return (

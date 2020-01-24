@@ -94,7 +94,7 @@ interface Values {
   tickets: any;
 }
 
-export default (props: any) => {
+export default function Event(props: any){
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();

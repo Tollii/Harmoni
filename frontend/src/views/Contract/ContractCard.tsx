@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }
   })
 );
-export default (props: any) => {
+export default function ContractCard(props: any){
   const classes = useStyles();
 
   const [file, setFile] = useState(new File(["foo"], ""));
