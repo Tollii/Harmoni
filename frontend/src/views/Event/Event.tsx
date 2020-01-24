@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 function getSteps() {
-  return ["General", "Artist(s)", "Tickets", "Rider"];
+  return ["General", "Artists", "Tickets", "Rider"];
 }
 
 function getStepContent(
