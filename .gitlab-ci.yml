@@ -64,6 +64,6 @@ back_hosting:
 
   artifacts:
     paths:
-    - public # The built files for Gitlab Pages to serve
+    - public
   only:
-    - dev # Only run on master branch
+    - dev

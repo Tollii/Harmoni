@@ -13,7 +13,7 @@ const useStyles = makeStyles({
     maxWidth: "85%",
     textAlign: "center",
     margin: "auto",
-    marginTop: "14vh",
+    marginTop: "120px",
     zIndex: 9999,
   },
   icons: {
@@ -21,7 +21,11 @@ const useStyles = makeStyles({
   }
 });
 
-export default function Footer(props: any){
+/**
+ * Creates a footer
+ * @returns returns a footer
+ */
+export default function Footer(){
   const classes = useStyles();
   return (
     <div className={classes.root} >

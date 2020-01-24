@@ -1,10 +1,6 @@
 import getCookie from "./cookie";
+import { Rider_Type } from "./interface";
 const axios = require("axios").default;
-
-export class Rider_Type {
-  id!: number;
-  description!: string;
-}
 
 class Rider_TypeService {
   getRider_Types() {

@@ -1,20 +1,21 @@
 import React from "react";
 import "./Marker.css";
 
-const Marker = (props: any) => {
-  const { img, name, link } = props;
+/**
+ * Creates a map marker
+ * @returns returns a marker
+ */
+export default function Marker(props:any) {
   return (
-    <div onClick={() => (window.location.hash = link)}>
+    <div onClick={() => (window.location.hash = props.link)}>
       <img
-        src={img}
+        src={props.img}
         className="marker"
         style={{ cursor: "pointer" }}
-        title={name}
+        title={props.name}
         alt="Map pin"
       />
       <div className="pin" style={{ cursor: "pointer" }}></div>
     </div>
   );
 };
-
-export default Marker;

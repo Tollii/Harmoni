@@ -101,35 +101,6 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
-   * Deletes a specific user by its id
-   * @group User - Operations about user
-   * @route DELETE /user/{id}/
-   * @param {integer} id.path.required - user id
-   * @param {string} token.header.required - token
-   * @returns {object} 200 - User is deleted
-   * @returns {Error}  default - Unexpected error
-   */
-  app.delete(base + "/:id", (req, res) => {
-    auth
-      .check_permissions(req.headers.token, [
-        "Admin",
-        "Organizer",
-        "Artist",
-        "User"
-      ], 0, req.params.id)
-      .then(data => {
-        if (data.auth) {
-          userControl.userDelete(req.params.id).then(data => {
-            res.send(data);
-          });
-        } else {
-          res.status(400).send("Not authenticated");
-        }
-      })
-      .catch(err => console.log(err));
-  });
-
-  /**
    * Get all users that have the role artists
    * @group Artist - Operations about artists
    * @route GET /artist/

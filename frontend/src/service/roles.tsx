@@ -1,10 +1,6 @@
 import getCookie from "./cookie";
+import {Role} from "./interface"
 const axios = require("axios").default;
-
-export class Role {
-  id!: number;
-  role_name!: string;
-}
 class RoleService {
   getRoles() {
     return axios

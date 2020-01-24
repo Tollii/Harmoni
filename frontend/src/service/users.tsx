@@ -1,48 +1,32 @@
 import axios from "axios";
 import getCookie from "./cookie";
+import { User } from "./interface";
 
-export class User {
-  [x: string]: any;
-  id!: number;
-  username!: string;
-  email!: string;
-  hash!: string;
-  phone!: string;
-  picture!: string;
-  createdAt!: string;
-  updatedAt!: string;
-  roleID!: number;
-}
 class UserService {
   getAllUsers() {
     return axios
-      .get<User[]>(process.env.REACT_APP_API_URL + "/user/", {
+      .get(process.env.REACT_APP_API_URL + "/user/", {
         headers: { token: getCookie("token") }
       })
-      .then(response => response.data);
+      .then((response) => response.data);
   }
   getOneUser() {
     return axios
       .get<User>(process.env.REACT_APP_API_URL + "/user/" + getCookie("token"))
-      .then(response => {
+      .then((response) => {
         return response.data
       });
   }
-  postOneUser(user: object) {
+  postOneUser(user: User) {
     return axios
-      .post<boolean>(process.env.REACT_APP_API_URL + "/user/", user)
+      .post(process.env.REACT_APP_API_URL + "/user/", user)
       .then(response => response.data);
   }
-  updateOneUser(id: number, user: object) {
+  updateOneUser(id: number, user: User) {
     return axios
       .put(process.env.REACT_APP_API_URL + "/user/" + id, user, {
         headers: { token: getCookie("token") }
       })
-      .then(response => response.data);
-  }
-  deleteOneUser(id: number, user: object) {
-    return axios
-      .delete(process.env.REACT_APP_API_URL + "/user/" + id, user)
       .then(response => response.data);
   }
   getArtist() {
@@ -51,4 +35,5 @@ class UserService {
       .then((response: any) => response.data);
   }
 }
+
 export default new UserService();

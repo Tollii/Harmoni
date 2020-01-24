@@ -60,6 +60,12 @@ interface TableState {
   data: Row[];
 }
 
+/**
+ * Creates a dropdown button
+ * @param columns sends in a column containing the header values for volunteers
+ * @param data sends in a table of data about volunteers
+ * @returns returns a dropdown button
+ */
 export default function DropDownButton(props: any){
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [contractUrl] = useState(
@@ -309,4 +315,4 @@ export default function DropDownButton(props: any){
       </Dialog>
     </div>
   );
-};
+}

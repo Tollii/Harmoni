@@ -25,15 +25,6 @@ module.exports = (models) => {
       return riders;
     }),
 
-    riderGetOne: async (rider_typeID, eventID, userID) => Riders.findOne({
-      where: {
-        rider_typeID: rider_typeID,
-        eventID: eventID,
-        userID: userID
-      }
-    })
-    .then(rider => rider),
-
     riderCreate: async (additions, rider_typeID, eventID, userID) => Riders.create({
       additions: additions,
       rider_typeID: rider_typeID,
