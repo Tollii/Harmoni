@@ -38,6 +38,10 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: "bold",
       fontSize: "20px"
     },
+    smallText: {
+      textAlign: "center",
+      fontSize: "15px"
+    },
     card: {
       width: "100%",
       marginBottom: "20px",
@@ -188,6 +192,7 @@ export default function EventPage(props: any){
               <Typography className={classes.smallTitle} variant="h6">
                 Artists
               </Typography>
+              {artists.length !== 0 ?
               <Grid
                 container
                 direction="row"
@@ -205,6 +210,11 @@ export default function EventPage(props: any){
                   </Grid>
                 ))}
               </Grid>
+              :
+              <Typography className={classes.smallText}variant="body1">
+                No Artists
+              </Typography>
+            }
               {((props.user.roleID === 3 && eventConnection) ||
                 props.user.roleID === 4) && (
                 <div>
@@ -223,6 +233,7 @@ export default function EventPage(props: any){
               <Typography className={classes.smallTitle} variant="h6">
                 Tickets
               </Typography>
+              {tickets.length !== 0 ?
               <TableContainer component={Paper}>
                 <Table className={classes.table}>
                   <TableHead>
@@ -255,6 +266,11 @@ export default function EventPage(props: any){
                   </TableBody>
                 </Table>
               </TableContainer>
+              :
+              <Typography className={classes.smallText}variant="body1">
+                No Tickets
+              </Typography>
+            }
             </Box>
           </Grid>
           <Grid item sm={3} xs={12} style={{ margin: "10px" }}>
