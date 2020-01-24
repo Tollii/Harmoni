@@ -15,7 +15,8 @@ import Map from "../../components/Map/simpleMap";
 import DropDownButton from "../../components/Button/DropDownButton";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ContractService from "../../service/contracts";
-import { Ticket, Event } from "../../service/interface";
+import { Ticket, Event, User } from "../../service/interface";
+import EventTypeService from "../../service/event_types";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -109,6 +110,7 @@ export default function EventPage(props: any) {
   });
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [artists, setArtists] = useState<any>([]);
+  const [eventType, setEventType] = useState<string>("");
 
   useEffect(() => {
     setTimeout(function() {
@@ -124,13 +126,23 @@ export default function EventPage(props: any) {
           location: event.location,
           archived: false
         });
+        EventTypeService.getEvent_Types().then(
+          (eventTypes: Array<{ id: number; event_type: string }>) => {
+            eventTypes.map(eventType => {
+              if (eventType.id === event.event_typeID) {
+                setEventType(eventType.event_type);
+              }
+              return null;
+            });
+          }
+        );
       });
       TicketService.getEventTickets(props.match.params.id).then(
-        (tickets: any) => {
+        (tickets: Ticket[]) => {
           setTickets(tickets);
         }
       );
-      EventService.getArtists(props.match.params.id).then((response: any) =>
+      EventService.getArtists(props.match.params.id).then((response: User[]) =>
         setArtists(response)
       );
 
@@ -177,6 +189,9 @@ export default function EventPage(props: any) {
             <Box>
               <Typography className={classes.title} variant="h2">
                 {values.event_name}
+              </Typography>
+              <Typography variant="h6" className={classes.smallTitle}>
+                {eventType}
               </Typography>
               <Typography
                 className={classes.description}
@@ -285,7 +300,7 @@ export default function EventPage(props: any) {
                   values.event_start.toTimeString().substring(0, 5)}
               </p>
               <p>
-                <strong>End date: </strong>
+                <strong>Event ends: </strong>
                 {values.event_end.toDateString().substring(0, 10) +
                   " " +
                   values.event_end.toTimeString().substring(0, 5)}
