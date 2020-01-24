@@ -201,13 +201,13 @@ export default function(props: any) {
                     </Grid>
                 </Grid>
                 <Grid container direction="row" justify= 'center' style={{marginTop: '40px'}}>
-                    <Grid item xs={6} md={3}>
-                        <Button variant="contained" color="secondary" onClick={handleClickSave} style={{fontSize: "1.1vw"}}>
+                    <Grid item xs={5} md={3}>
+                        <Button color="secondary" onClick={handleClickSave} style={{fontSize: "1.7vh"}}>
                             Save
                         </Button>
                     </Grid>
-                    <Grid item xs={6} md={3}>
-                        <Button variant="contained" color="secondary" onClick={handleClickCancel} style={{fontSize: "1.1vw"}}>
+                    <Grid item xs={5} md={3}>
+                        <Button color="secondary" onClick={handleClickCancel} style={{fontSize: "1.7vh"}}>
                             Cancel
                         </Button>
                     </Grid>
