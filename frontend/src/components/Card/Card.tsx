@@ -13,6 +13,12 @@ const useStyles = makeStyles({
   }
 });
 
+/**
+ * Creates a card
+ * @param children, sends in the children
+ * @param style sends in styling of the card
+ * @returns returns a card
+ */
 export default function Card(props: any){
   const classes = useStyles();
 

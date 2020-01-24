@@ -17,17 +17,17 @@ import EditRidersForArtist from "./views/EditRidersForArtist/EditRidersForArtist
 import { SnackbarProvider } from "material-ui-snackbar-provider";
 import UserService from "./service/users";
 import RoleService from "./service/roles";
-
+import { User, Role } from "./service/interface";
 
 export default () => {
   const [loggedIn, setLoggedIn] = React.useState(getCookie("token"));
   const [page, setPage] = useState(0);
-  const [user, setUser] = useState({
+  const [user, setUser] = useState<User>({
     id: 0,
     roleID: 0,
-    fullName: "",
+    username: "",
     email: "",
-    telephone: "",
+    phone: "",
     role: "",
     pic_url: ""
   });
@@ -36,13 +36,13 @@ export default () => {
     setLoggedIn(getCookie("token"));
     if (getCookie("token")) {
       UserService.getOneUser().then(res => {
-        RoleService.getRole(res.roleID).then((res1: any) => {
+        RoleService.getRole(res.roleID).then((res1: Role) => {
           setUser({
             id: res.id,
             roleID: res.roleID,
-            fullName: res.username,
+            username: res.username,
             email: res.email,
-            telephone: res.phone,
+            phone: res.phone,
             role: res1.role_name,
             pic_url: process.env.REACT_APP_API_URL + "/image/profile/" + res.id
           });
@@ -52,9 +52,9 @@ export default () => {
       setUser({
         id: 0,
         roleID: 0,
-        fullName: "",
+        username: "",
         email: "",
-        telephone: "",
+        phone: "",
         role: "",
         pic_url: ""
       });
@@ -66,7 +66,6 @@ export default () => {
     else setUser({ ...user, [name]: value });
   };
 
-
   return (
     <SnackbarProvider SnackbarProps={{ autoHideDuration: 4000 }}>
       <HashRouter>
@@ -76,60 +75,32 @@ export default () => {
           loggedIn={loggedIn}
           setPage={setPage}
         />
-        <Route
-          exact
-          path="/"
-          render={(props: any) => (
-            <Main {...props} />
-          )}
-        />
+        <Route exact path="/" render={(props: any) => <Main {...props} />} />
         <div style={{ marginTop: "70px" }}>
           <Route
             exact
             path="/event/:id"
-            render={(props: any) => (
-              <EventPage
-                {...props}
-                user={user}
-              />
-            )}
+            render={(props: any) => <EventPage {...props} user={user} />}
           />
           <Route
             exact
             path="/addEvent"
-            render={(props: any) => (
-              <Event
-                {...props}
-                edit={false}
-              />
-            )}
+            render={(props: any) => <Event {...props} edit={false} />}
           />
           <Route
             exact
             path="/editEvent/:id"
-            render={(props: any) => (
-              <Event
-                {...props}
-                edit={true}
-              />
-            )}
+            render={(props: any) => <Event {...props} edit={true} />}
           />
           <Route
             exact
             path="/signUp"
-            render={(props: any) => (
-              <SignUp {...props} />
-            )}
+            render={(props: any) => <SignUp {...props} />}
           />
           <Route
             exact
             path="/login"
-            render={(props: any) => (
-              <Login
-                {...props}
-                logFunc={setLoggedIn}
-              />
-            )}
+            render={(props: any) => <Login {...props} logFunc={setLoggedIn} />}
           />
           <Route
             exact
@@ -148,20 +119,13 @@ export default () => {
             exact
             path="/contract/event/:eventId"
             render={(props: any) => (
-              <Contract
-                {...props}
-                logFunc={setLoggedIn}
-              />
+              <Contract {...props} logFunc={setLoggedIn} />
             )}
           />
           <Route
             exact
             path="/event"
-            render={(props: any) => (
-              <EventListTabs
-                {...props}
-              />
-            )}
+            render={(props: any) => <EventListTabs {...props} />}
           />
           <Route
             exact
@@ -176,11 +140,7 @@ export default () => {
           <Route
             exact
             path="/artist/editRider/:eventID/user/:userID"
-            render={(props: any) => (
-              <EditRidersForArtist
-                {...props}
-              />
-            )}
+            render={(props: any) => <EditRidersForArtist {...props} />}
           />
         </div>
         <Footer />
