@@ -1,6 +1,5 @@
-const axios = require('axios').default;
-
-let url = "http://localhost:8080";
+import getCookie from "./cookie";
+const axios = require("axios").default;
 
 export class Event_Type {
   id!: number;
@@ -9,11 +8,17 @@ export class Event_Type {
 
 class Event_TypeService {
   getEvent_Types() {
-    return axios.get(url + '/event_type').then((response: {data: Event_Type[]}) => response.data);
+    return axios
+      .get(process.env.REACT_APP_API_URL + "/event_types/", {
+        headers: { token: getCookie("token") }
+      })
+      .then((response: { data: Event_Type[] }) => response.data);
   }
 
   getEvent_Type(id: number) {
-    return axios.get(url + '/event_type' + id).then((response: {data: Event_Type}) => response.data);
+    return axios
+      .get(process.env.REACT_APP_API_URL + "/event_types" + id)
+      .then((response: { data: Event_Type }) => response.data);
   }
 }
 

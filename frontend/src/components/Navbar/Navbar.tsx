@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   fade,
   makeStyles,
@@ -10,394 +10,407 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import InputBase from "@material-ui/core/InputBase";
-import MenuItem from "@material-ui/core/MenuItem";
-import SearchIcon from "@material-ui/icons/Search";
+import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
+import HomeIcon from "@material-ui/icons/Home";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import Box from "@material-ui/core/Box";
 import {
   Button,
-  ButtonGroup,
-  Grow,
-  Hidden,
-  Menu,
   ListItem,
-  ListItemIcon,
   List,
   ListItemText,
   Divider,
   Drawer,
-  Fab,
-  Avatar
+  Avatar,
+  Menu,
+  MenuItem
 } from "@material-ui/core";
-import DirectionsIcon from "@material-ui/icons/Directions";
-
 import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Popper from "@material-ui/core/Popper";
-import MenuList from "@material-ui/core/MenuList";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import getCookie from "../../service/cookie";
-import UserService from "../../service/users";
-const options = ["Catergoris", "Conserts", "Festivals"];
+import { Link } from "react-router-dom";
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    title: {
-      //display: "none",
-      [theme.breakpoints.up("sm")]: {
-        display: "block",
-        color: "black"
-
-        // marginLeft: 20
+    root: {},
+    navbar: {
+      display: "flex",
+      [theme.breakpoints.down("xs")]: {
+        flexDirection: "row-reverse"
       }
     },
     backgroundNavbar: {
-      backgroundColor: "rgba(255,255,255,0.5)"
+      backgroundColor: "rgba(255,255,255,0.9)"
     },
-    search: {
-      position: "relative",
-      borderRadius: theme.shape.borderRadius,
-      backgroundColor: fade(theme.palette.common.black, 0.5),
-      "&:hover": {
-        backgroundColor: fade(theme.palette.common.black, 0.5)
-      },
-      marginRight: theme.spacing(1),
-      marginLeft: 0,
-      width: "100%",
-      [theme.breakpoints.up("sm")]: {
-        width: "auto"
-      }
+    logo: {
+      left: 0,
+      position: "absolute"
     },
-    searchIcon: {
-      width: theme.spacing(80),
-      height: "100%",
+    rightButtons: {
       position: "absolute",
-      pointerEvents: "none",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center"
+      right: 0
     },
-    inputRoot: {
-      color: "inherit"
-    },
-    inputInput: {
-      padding: theme.spacing(1, 1, 1, 2),
-      transition: theme.transitions.create("width"),
-      width: "100%",
-      [theme.breakpoints.up("md")]: {
-        width: 200
+    listButton: {
+      [theme.breakpoints.down("xs")]: {
+        display: "none"
       }
     },
-    account: {
-      // marginRight: 200
+    addEventButton: {
+      backgroundColor: "transparent",
+      borderColor: "transparent",
+      [theme.breakpoints.down("xs")]: {
+        display: "none"
+      }
     },
-    icon: {
-      fontFamily: '"Apple Chancery", Segoe UI',
-      color: "black",
-      fontSize: 20
+    profileButton: {
+      [theme.breakpoints.down("xs")]: {
+        display: "none"
+      }
     },
-    typography: {
-      fontFamily: '"Apple Chancery", Segoe UI',
-      color: "black",
-      fontSize: 50
+    mobileMenuButton: {
+      color: theme.palette.common.black,
+      display: "none",
+      [theme.breakpoints.down("xs")]: {
+        display: "block"
+      },
+      "&:hover": {
+        color: fade(theme.palette.common.black, 0.7)
+      }
     },
-
     drawer: {
       width: drawerWidth,
-      flexShrink: 0
-    },
-    drawerPaper: {
-      width: drawerWidth
+      variant: "persistent"
     },
     drawerHeader: {
       display: "flex",
       alignItems: "center",
-      padding: theme.spacing(0, 1),
       ...theme.mixins.toolbar,
-      justifyContent: "flex-end"
+      justifyContent: "flex-start"
     },
-    root: {
-      padding: "0px 0px",
-      display: "flex",
-      alignItems: "center",
-      width: 300,
-      backgroundColor: "rgba(0, 0, 0, 0.7)"
+    drawerHome: {
+      position: "absolute",
+      right: 0
     },
-    input: {
-      marginLeft: theme.spacing(1),
-      flex: 1,
-      color: "white"
+    drawPaper: {
+      width: drawerWidth
     },
-    iconButton: {
-      padding: 5,
-      color: "white"
+    drawerProfile: {
+      width: drawerWidth,
+      position: "absolute",
+      bottom: 0
     },
-    divider: {
-      height: 28,
-      margin: 4
+    profile_menu: {
+      marginTop: "45px"
     }
   })
 );
 
-export default function Navbar() {
+export default function Navbar(props: any) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [auth, setAuth] = React.useState(true);
-  const [values, setValues] = React.useState({
-    id: 0,
-    fullName: "Trump",
-    roleID: 0,
-    picture: ""
-  });
-  const [openDrawer, setOpenDrawer] = React.useState(false);
   const [open, setOpen] = React.useState(false);
-  const anchorRef = React.useRef<HTMLDivElement>(null);
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
   const theme = useTheme();
 
-  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClick = () => {
-    console.info(`You clicked ${options[selectedIndex]}`);
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
-  const handleMenuItemClick = (
-    event: React.MouseEvent<HTMLLIElement, MouseEvent>,
-    index: number
-  ) => {
-    setSelectedIndex(index);
-    setOpen(false);
+  const handleCloseProfile = () => {
+    setAnchorEl(null);
   };
 
-  const handleToggle = () => {
-    setOpen(prevOpen => !prevOpen);
-  };
-
-  const handleClose = (event: React.MouseEvent<Document, MouseEvent>) => {
-    if (
-      anchorRef.current &&
-      anchorRef.current.contains(event.target as HTMLElement)
-    ) {
-      return;
-    }
-
-    setOpen(false);
+  const handleCloseLogout = () => {
+    setAnchorEl(null);
+    document.cookie =
+      "token=" + getCookie("token") + "; expires=" + new Date().toUTCString();
+    props.logFunc(false);
+    window.location.hash = "#/";
   };
 
   const handleDrawerOpen = () => {
-    setOpenDrawer(true);
+    setOpen(true);
   };
   const handleDrawerClose = () => {
-    setOpenDrawer(false);
+    setOpen(false);
   };
 
-  useEffect(() => {
-    setAuth(getCookie("token").length > 1);
-    if (auth) {
-      UserService.getOneUser().then(res => {
-        setValues({
-          id: res.id,
-          fullName: res.username,
-          picture: res.picture,
-          roleID: res.roleID
-        });
-      });
-    }
-  }, []);
+  const handleDrawerHome = () => {
+    window.location.hash = "#/";
+    handleDrawerClose();
+  };
+
+  const handleDrawerAllEvents = () => {
+    window.location.hash = "#/event";
+    handleDrawerClose();
+  };
+
+  const handleDrawerAddEvent = () => {
+    window.location.hash = "#/addEvent";
+    handleDrawerClose();
+  };
+
+  const handleDrawerLogin = () => {
+    window.location.hash = "#/login";
+    handleDrawerClose();
+  };
+
+  const handleDrawerLogout = () => {
+    handleDrawerClose();
+    document.cookie =
+      "token=" + getCookie("token") + "; expires=" + new Date().toUTCString();
+    props.logFunc(false);
+    window.location.hash = "#/";
+  };
+
+  const handleDrawerProfile = () => {
+    window.location.hash = "#/profile";
+    props.setPage(0);
+    handleDrawerClose();
+  };
 
   return (
-    <div>
+    <div className={classes.root}>
       <AppBar className={classes.backgroundNavbar} position="fixed">
-        <Grid
-          container
-          direction="row"
-          justify="space-between"
-          alignItems="center"
-        >
-          <Hidden xsDown>
-            <Grid item sm={4}>
-              <Button onClick={() => (window.location.hash = "/")}>
-                <img src={require("../../assets/img/harmoni_logo_wide.png")} alt="logo.png" width="210"></img>
-              </Button>
-            </Grid>
-          </Hidden>
-          <Grid item sm={4}>
-            <Paper className={classes.root}>
-              <InputBase
-                className={classes.input}
-                placeholder="Search.."
-                inputProps={{ "aria-label": "search" }}
-              />
-              <Divider className={classes.divider} orientation="vertical" />
-              <IconButton
-                type="submit"
-                className={classes.iconButton}
-                aria-label="search"
-              >
-                <SearchIcon />
-              </IconButton>
-            </Paper>
-          </Grid>
-          <Hidden xsDown>
-            <Grid item>
-              <Button
-                style={{
-                  backgroundColor: "transparent",
-                  borderColor: "transparent"
-                }}
-                onClick={() => (window.location.hash = "/addEvent")}
-              >
-                <AddCircleIcon />
-                Add Event
-              </Button>
-            </Grid>
-            <Grid item>
-              {auth ? (
+        <Toolbar className={classes.navbar}>
+          <IconButton
+            onClick={handleDrawerOpen}
+            className={classes.mobileMenuButton}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Button
+            onClick={() => {
+              window.location.hash = "#/";
+            }}
+            className={classes.logo}
+          >
+            <Typography
+              style={{
+                fontFamily: "Roboto",
+                fontSize: "21pt",
+                fontWeight: 200
+              }}
+            >
+              HARMONI
+            </Typography>
+          </Button>
+          <Box className={classes.rightButtons}>
+            <Grid container direction="row" alignItems="center">
+              <Grid item>
                 <Button
-                  style={{
-                    backgroundColor: "transparent",
-                    borderColor: "transparent"
-                  }}
-                  onClick={() => (window.location.hash = "/profile")}
+                  onClick={() => (window.location.hash = "#/event")}
+                  className={classes.listButton}
                 >
-                  <Avatar
-                    alt="Profile"
-                    src={"http://localhost:8080/profile_picture/" + values.id}
-                  />
-                  {values.fullName}
+                  <FormatListBulletedIcon />
+                  <div
+                    style={{
+                      fontFamily: "Roboto",
+                      fontSize: "11pt",
+                      fontWeight: 250,
+                      marginLeft: 5
+                    }}
+                  >
+                    All Events
+                  </div>
                 </Button>
-              ) : (
-                <Button
-                  style={{
-                    backgroundColor: "transparent",
-                    borderColor: "transparent"
-                  }}
-                  onClick={() => (window.location.hash = "/login")}
-                >
-                  <AccountCircle />
-                </Button>
+              </Grid>
+              {(props.user.roleID === 3 || props.user.roleID === 4) && (
+                <div>
+                  <Grid item>
+                    <Button
+                      onClick={() => (window.location.hash = "#/addEvent")}
+                      className={classes.addEventButton}
+                    >
+                      <AddCircleIcon />
+                      <div
+                        style={{
+                          fontFamily: "Roboto",
+                          fontSize: "11pt",
+                          fontWeight: 250,
+                          marginLeft: 5
+                        }}
+                      >
+                        Add Event
+                      </div>
+                    </Button>
+                  </Grid>
+                </div>
               )}
+              <Grid item>
+                <Box className={classes.profileButton}>
+                  {props.loggedIn ? (
+                    <div>
+                      <Button onClick={handleClick}>
+                        <Avatar alt="Profile" src={props.user.pic_url} />
+                        <div
+                          style={{
+                            fontFamily: "Roboto",
+                            fontSize: "11pt",
+                            fontWeight: 250,
+                            marginLeft: 5
+                          }}
+                        >
+                          {props.user.fullName}
+                        </div>
+                      </Button>
+                      <Menu
+                        id="simple-menu"
+                        anchorEl={anchorEl}
+                        keepMounted
+                        className={classes.profile_menu}
+                        open={Boolean(anchorEl)}
+                        onClose={handleClose}
+                      >
+                        <Link
+                          style={{ textDecoration: "none", color: "black" }}
+                          to="/profile"
+                        >
+                          <MenuItem
+                            onClick={() => {
+                              handleCloseProfile();
+                              props.setPage(0);
+                            }}
+                          >
+                            <div
+                              style={{
+                                fontFamily: "Roboto",
+                                fontSize: "11pt",
+                                fontWeight: 250
+                              }}
+                            >
+                              Profile
+                            </div>
+                          </MenuItem>
+                        </Link>
+                        <Link
+                          style={{ textDecoration: "none", color: "black" }}
+                          to="/profile"
+                        >
+                          <MenuItem
+                            onClick={() => {
+                              handleCloseProfile();
+                              props.setPage(1);
+                            }}
+                          >
+                            <div
+                              style={{
+                                fontFamily: "Roboto",
+                                fontSize: "11pt",
+                                fontWeight: 250
+                              }}
+                            >
+                              My Events
+                            </div>
+                          </MenuItem>
+                        </Link>
+                        <MenuItem onClick={handleCloseLogout}>
+                          <div
+                            style={{
+                              fontFamily: "Roboto",
+                              fontSize: "11pt",
+                              fontWeight: 250
+                            }}
+                          >
+                            Logout
+                          </div>
+                        </MenuItem>
+                      </Menu>
+                    </div>
+                  ) : (
+                    <Button onClick={() => (window.location.hash = "#/login")}>
+                      <AccountCircle />
+                      <div
+                        style={{
+                          fontFamily: "Roboto",
+                          fontSize: "11pt",
+                          fontWeight: 250,
+                          marginLeft: 5
+                        }}
+                      >
+                        Login
+                      </div>
+                    </Button>
+                  )}
+                </Box>
+              </Grid>
             </Grid>
-          </Hidden>
-        </Grid>
+          </Box>
+        </Toolbar>
       </AppBar>
-      {/*--------------------------------------------------------------*/}
       <Drawer
         className={classes.drawer}
-        variant="persistent"
-        anchor="left"
-        open={openDrawer}
-        classes={{
-          paper: classes.drawerPaper
-        }}
+        classes={{ paper: classes.drawPaper }}
+        onClose={handleDrawerClose}
+        open={open}
+        anchor="right"
       >
-        <div className={classes.drawerHeader}>
+        <Box className={classes.drawerHeader}>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? (
+            {theme.direction === "rtl" ? (
               <ChevronLeftIcon />
             ) : (
               <ChevronRightIcon />
             )}
           </IconButton>
-        </div>
-
-        <Grid>
-          <img src={require("../../assets/img/harmoni_logo_wide.png")} alt="logo.png" width="210"></img>
-        </Grid>
-
+          <IconButton onClick={handleDrawerHome} className={classes.drawerHome}>
+            <HomeIcon />
+          </IconButton>
+        </Box>
         <Divider />
         <List>
-          <Grid item xs={3}>
-            <ButtonGroup
-              variant="contained"
-              ref={anchorRef}
-              aria-label="split button"
-            >
-              <Button onClick={handleClick}>{options[selectedIndex]}</Button>
-              <Button
-                size="small"
-                aria-controls={open ? "split-button-menu" : undefined}
-                aria-expanded={open ? "true" : undefined}
-                aria-label="select merge strategy"
-                aria-haspopup="menu"
-                onClick={handleToggle}
-              >
-                <ArrowDropDownIcon />
-              </Button>
-            </ButtonGroup>
-            <Popper
-              open={open}
-              anchorEl={anchorRef.current}
-              role={undefined}
-              transition
-              disablePortal
-            >
-              {({ TransitionProps, placement }) => (
-                <Grow
-                  {...TransitionProps}
-                  style={{
-                    transformOrigin:
-                      placement === "bottom" ? "center top" : "center bottom"
-                  }}
-                >
-                  <Paper>
-                    <ClickAwayListener onClickAway={handleClose}>
-                      <MenuList id="split-button-menu">
-                        {options.map((option, index) => (
-                          <MenuItem
-                            key={option}
-                            //disabled={index === 2}
-                            selected={index === selectedIndex}
-                            onClick={event => handleMenuItemClick(event, index)}
-                          >
-                            {option}
-                          </MenuItem>
-                        ))}
-                      </MenuList>
-                    </ClickAwayListener>
-                  </Paper>
-                </Grow>
-              )}
-            </Popper>
-          </Grid>
+          <ListItem button onClick={handleDrawerAllEvents}>
+            <ListItemAvatar>
+              {" "}
+              <FormatListBulletedIcon />{" "}
+            </ListItemAvatar>
+            <ListItemText> Show all events </ListItemText>
+          </ListItem>
 
-          <Grid item>
-            {auth && (
-              <div>
-                {/* smartphone version of user icon */}
-                <List>
-                  <ListItem>
-                    <IconButton
-                      className={classes.account}
-                      aria-label="account of current user"
-                      aria-controls="menu-appbar"
-                      aria-haspopup="true"
-                      //color="inherit"
-                      onClick={() => (window.location.hash = "/login")}
-                    >
-                      {getCookie("token") ? (
-                        <img src="FileFromServer.jpg"></img>
-                      ) : (
-                        <AccountCircle />
-                      )}
-                      <p className={classes.icon}>
-                        {getCookie("token") ? "Info" : "Login"}
-                      </p>
-                    </IconButton>
-                  </ListItem>
-                </List>
-              </div>
-            )}
-          </Grid>
+          {(props.user.roleID === 3 || props.user.roleID === 4) && (
+            <ListItem button onClick={handleDrawerAddEvent}>
+              <ListItemAvatar>
+                {" "}
+                <AddCircleIcon />{" "}
+              </ListItemAvatar>
+              <ListItemText> Add event </ListItemText>
+            </ListItem>
+          )}
         </List>
+        <Box className={classes.drawerProfile}>
+          <Divider />
+          {props.loggedIn ? (
+            <div>
+              <ListItem button onClick={handleDrawerProfile}>
+                <ListItemAvatar>
+                  {" "}
+                  <Avatar alt="Profile" src={props.user.pic_url} />
+                </ListItemAvatar>
+                <ListItemText> {props.user.fullName} </ListItemText>
+              </ListItem>
+              <ListItem button onClick={handleDrawerLogout}>
+                <ListItemText> Logout </ListItemText>
+              </ListItem>
+            </div>
+          ) : (
+            <ListItem button onClick={handleDrawerLogin}>
+              <ListItemAvatar>
+                {" "}
+                <AccountCircle />{" "}
+              </ListItemAvatar>
+              <ListItemText> Login </ListItemText>
+            </ListItem>
+          )}
+        </Box>
       </Drawer>
     </div>
   );

@@ -8,6 +8,7 @@ module.exports = (app, models, base, auth) => {
   const rider_typesControl = require('../dao/rider_types')(models)
 
   /**
+   * Get all rider_types
   * @group Rider Type - Operations about rider_type
   * @route GET /rider_type/
   * @param {string} token.header.required - token
@@ -15,7 +16,7 @@ module.exports = (app, models, base, auth) => {
   * @returns {Error}  default - Unexpected error
   */
  app.get(base, ( req, res ) => {
-  auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
+  auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"], 0, 0)
   .then(data => {
     if(data.auth){
       rider_typesControl.rider_typesGetAll().then((data)=>{
@@ -29,6 +30,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   *get a specific rider_type by its id
   * @group Rider Type - Operations about rider_type
   * @route GET /rider_type/{id}/
   * @param {integer} id.path.required - rider_type id
@@ -37,7 +39,7 @@ module.exports = (app, models, base, auth) => {
   * @returns {Error}  default - Unexpected error
   */
  app.get(base+"/:id", ( req, res ) => {
-  auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
+  auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"], 0, 0)
   .then(data => {
     if(data.auth){
       rider_typesControl.rider_typesGetOne(req.params.id).then((data)=>{
@@ -51,6 +53,7 @@ module.exports = (app, models, base, auth) => {
   });
 
 /**
+ * posts a new rider_type
   * @group Rider Type - Operations about rider_type
   * @route POST /rider_type/
   * @param {Rider_Types.model} description.body.required - Rider_Types information
@@ -59,7 +62,7 @@ module.exports = (app, models, base, auth) => {
   * @returns {Error}  default - Unexpected error
   */
   app.post(base, ( req, res ) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin"], 0, 0)
     .then(data => {
       if(data.auth){
         rider_typesControl.rider_typesCreate(req.body.description).then((data)=>{
@@ -73,6 +76,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * deletes a specific rider_type by id
   * @group Rider Type - Operations about rider_type
   * @route DELETE /rider_type/{id}/
   * @param {integer} id.path.required - rider_type id
@@ -81,7 +85,7 @@ module.exports = (app, models, base, auth) => {
   * @returns {Error}  default - Unexpected error
   */
   app.delete(base+"/:id", (req, res) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin"], 0, 0)
     .then(data => {
       if(data.auth){
         rider_typesControl.rider_typesDelete(req.params.id)

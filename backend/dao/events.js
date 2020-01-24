@@ -1,14 +1,25 @@
 module.exports = models => {
   const Event = models.Events;
-    var Sequelize = require('sequelize');
-    const Op = Sequelize.Op;
-    return {
+  const Ticket = models.Tickets;
+  const Contract = models.Contracts;
+  var Sequelize = require("sequelize");
+  const Op = Sequelize.Op;
+  return {
     eventGetAll: async () => Event.findAll().then(events => events),
+    eventGetCarouselEvent: async () =>
+      Event.findAll({
+        where: {
+          archived: false
+        },
+        limit: 15,
+        order: [["event_start", "ASC"]]
+      }).then(events => events),
 
-      eventGetAllUnarchived: async () => Event.findAll({
-          where: {
-              archived: false
-          }
+    eventGetAllUnarchived: async () =>
+      Event.findAll({
+        where: {
+          archived: false
+        }
       }).then(events => events),
 
     eventGetOne: async id =>
@@ -16,6 +27,19 @@ module.exports = models => {
         where: {
           id: id
         }
+      }).then(events => events),
+
+    eventGetByUser: async id =>
+      Event.findAll({
+        include: [
+          {
+            model: Contract,
+            as: "Contract",
+            where: {
+              userID: id
+            }
+          }
+        ]
       }).then(events => events),
 
     eventDelete: async id =>
@@ -31,8 +55,6 @@ module.exports = models => {
         }).then(events => events)
       ),
 
-    eventAmount: async () => Event.count().then(events => events),
-
     eventUpdate: async (
       id,
       event_name,
@@ -40,9 +62,9 @@ module.exports = models => {
       event_start,
       event_end,
       personnel,
+      volunteers,
       event_image,
       description,
-      archived,
       event_typeID
     ) => {
       return Event.findOne({
@@ -57,9 +79,9 @@ module.exports = models => {
             event_start: event_start,
             event_end: event_end,
             personnel: personnel,
+            volunteers: volunteers,
             event_image: event_image,
             description: description,
-            archived: archived,
             event_typeID: event_typeID
           },
           {
@@ -71,25 +93,40 @@ module.exports = models => {
       });
     },
 
-      eventArchive: async (
-          current_time,
-      ) => {
-          console.log("eventArchive called");
-          return Event.update(
-                  {
-                      archived: true
-                  },
-                  {
-                      where: {
-                          event_end: {
-                              // if current_time < event_end
-                              [Op.lt]: current_time
-                          }
-                      }
-                  }
-              ).then(events => events);
-          },
+    eventArchive: async () => {
+      let currentDate = new Date()
+        .toISOString()
+        .slice(0, 19)
+        .replace("T", " ");
+      return Event.update(
+        {
+          archived: true
+        },
+        {
+          where: {
+            event_end: {
+              [Op.lt]: currentDate
+            }
+          }
+        }
+      ).then(events => events);
+    },
 
+    ticketDeleteByEvent: async event_ID =>
+      Ticket.destroy({ where: { eventID: event_ID } }).then(events => events),
+
+    eventArchiveOne: async id => {
+      return Event.update(
+        {
+          archived: true
+        },
+        {
+          where: {
+            id: id
+          }
+        }
+      ).then(events => events);
+    },
 
     eventCreate: async (
       event_name,
@@ -97,9 +134,8 @@ module.exports = models => {
       event_start,
       event_end,
       personnel,
-      event_image,
+      volunteers,
       description,
-      archived,
       event_typeID
     ) =>
       Event.create({
@@ -108,9 +144,8 @@ module.exports = models => {
         event_start: event_start,
         event_end: event_end,
         personnel: personnel,
-        event_image: event_image,
+        volunteers: volunteers,
         description: description,
-        archived: archived,
         event_typeID: event_typeID
       }).then(events => events)
   };

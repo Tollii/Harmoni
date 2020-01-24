@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useEffect } from "react";
 import getCookie from "./cookie";
 
 export class User {
@@ -14,37 +13,41 @@ export class User {
   updatedAt!: string;
   roleID!: number;
 }
-const base = "http://localhost:8080/";
-const token = getCookie("token");
 class UserService {
   getAllUsers() {
     return axios
-      .get<User[]>(base + "user/", { headers: { token: token } })
+      .get<User[]>(process.env.REACT_APP_API_URL + "/user/", {
+        headers: { token: getCookie("token") }
+      })
       .then(response => response.data);
   }
   getOneUser() {
     return axios
-      .get<User>(base + "user/" + token)
-      .then(response => response.data);
+      .get<User>(process.env.REACT_APP_API_URL + "/user/" + getCookie("token"))
+      .then(response => {
+        return response.data
+      });
   }
   postOneUser(user: object) {
     return axios
-      .post<boolean>(base + "user/", user)
+      .post<boolean>(process.env.REACT_APP_API_URL + "/user/", user)
       .then(response => response.data);
   }
   updateOneUser(id: number, user: object) {
     return axios
-      .put(base + "user/" + id, user, { headers: { token: token } })
+      .put(process.env.REACT_APP_API_URL + "/user/" + id, user, {
+        headers: { token: getCookie("token") }
+      })
       .then(response => response.data);
   }
   deleteOneUser(id: number, user: object) {
     return axios
-      .delete(base + "user/" + id, user)
+      .delete(process.env.REACT_APP_API_URL + "/user/" + id, user)
       .then(response => response.data);
   }
   getArtist() {
     return axios
-      .get<User[]>(base + "artist/")
+      .get<User[]>(process.env.REACT_APP_API_URL + "/artist/")
       .then((response: any) => response.data);
   }
 }

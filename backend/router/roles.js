@@ -7,6 +7,7 @@ module.exports = (app, models, base, auth) => {
   const roleControl = require('../dao/roles')(models)
 
   /**
+   * Get all roles
   * @group Role - Operations about user
   * @route GET /role/
   * @param {string} token.header.required - token
@@ -14,7 +15,7 @@ module.exports = (app, models, base, auth) => {
   * @returns {Error}  default - Unexpected error
   */
   app.get(base, (req, res) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"], 0, 0)
     .then(data => {
       if(data.auth){
         roleControl.roleGetAll().then((data) => {
@@ -28,6 +29,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Get a role by it's specific id
   * @group Role - Operations about user
   * @route GET /role/{id}/
   * @param {integer} id.path.required - role id
@@ -36,7 +38,7 @@ module.exports = (app, models, base, auth) => {
   * @returns {Error}  default - Unexpected error
   */
   app.get(base+"/:id", (req, res) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"], 0, 0)
     .then(data => {
       if(data.auth){
         roleControl.roleGetOne(req.params.id).then((data) => {

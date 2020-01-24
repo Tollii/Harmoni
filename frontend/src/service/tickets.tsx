@@ -1,6 +1,5 @@
+import getCookie from "./cookie";
 const axios = require("axios").default;
-
-let url = "http://localhost:8080";
 
 export class Ticket {
   id!: number;
@@ -15,37 +14,43 @@ export class Ticket {
 class TicketService {
   getTickets() {
     return axios
-      .get(url + "/ticket")
+      .get(process.env.REACT_APP_API_URL + "/ticket/", {
+        headers: { token: getCookie("token") }
+      })
       .then((response: { data: Ticket[] }) => response.data);
   }
 
   getTicket(id: number) {
     return axios
-      .get(url + "/ticket/" + id)
+      .get(process.env.REACT_APP_API_URL + "/ticket/" + id)
       .then((response: { data: Ticket }) => response.data);
   }
 
   getEventTickets(event_id: number) {
     return axios
-      .get(url + "/ticket/event/" + event_id)
+      .get(process.env.REACT_APP_API_URL + "/ticket/event/" + event_id)
       .then((response: { data: Ticket[] }) => response.data);
   }
 
   postTicket(ticket: object) {
     return axios
-      .post(url + "/ticket", ticket)
-      .then((response: { data: Ticket }) => console.log(response));
+      .post(process.env.REACT_APP_API_URL + "/ticket/", ticket, {
+        headers: { token: getCookie("token") }
+      })
+      .then((response: { data: Ticket }) => response.data);
   }
 
   updateTicket(ticket: object, id: number) {
     return axios
-      .put(url + "/ticket/" + id, ticket)
-      .then((response: { data: Ticket }) => console.log(response));
+      .put(process.env.REACT_APP_API_URL + "/ticket/" + id, ticket, {
+        headers: { token: getCookie("token") }
+      })
+      .then((response: { data: Ticket }) => response.data);
   }
 
   deleteTicket(id: number) {
     return axios
-      .delete(url + "/ticket/" + id)
+      .delete(process.env.REACT_APP_API_URL + "/ticket/" + id)
       .then((response: { data: Ticket }) => console.log(response));
   }
 }

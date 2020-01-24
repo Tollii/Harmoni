@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
       event_start: DataTypes.DATE,
       event_end: DataTypes.DATE,
       personnel: DataTypes.TEXT,
+      volunteers: DataTypes.INTEGER,
       event_image: DataTypes.TEXT,
       description: DataTypes.TEXT,
       archived: DataTypes.BOOLEAN
@@ -35,7 +36,25 @@ module.exports = (sequelize, DataTypes) => {
       otherKey: "userID",
       otherKey: "rider_typeID"
     });
-    Events.hasMany(models.Tickets, { foreignKey: "eventID", sourceKey: "id" });
+
+    Events.hasMany(models.Contracts, {
+      as: "Contract",
+      foreignKey: "eventID",
+      sourceKey: "id",
+      onDelete: "cascade"
+    });
+    Events.hasMany(models.Riders, {
+      as: "Rider",
+      foreignKey: "eventID",
+      sourceKey: "id",
+      onDelete: "cascade"
+    });
+    Events.hasMany(models.Tickets, {
+      as: "Ticket",
+      foreignKey: "eventID",
+      sourceKey: "id",
+      onDelete: "cascade"
+    });
   };
   return Events;
 };

@@ -5,7 +5,6 @@
 
     userGetAll: async () => Users.findAll()
     .then( users => {
-      console.log("Fetched all users");
       return users;
     }),
 
@@ -16,19 +15,12 @@
     })
     .then(user => user),
 
-    userCreate: (username, email, hash, salt, phone, picture) => Users.create({
-      username:username,
-      email:email,
-      hash:hash,
-      salt:salt,
-      phone:phone,
-      picture:picture,
-      roleID:1
-    },
-    {
-      returning: true
+    userGetOneByEmail: async (email) => Users.findOne({
+      where: {
+        email: email
+      }
     })
-    .then(data => data),
+        .then(user => user),
 
     userUpdate: (id, username, email, phone, picture) => Users.findOne({ where: {id: id}})
       .then(user => Users.update({
@@ -36,6 +28,16 @@
         email:email,
         phone:phone,
         picture:picture,
+      },
+      {
+        returning: true,
+        where: {id: id}
+      })
+      .then(user => user)),
+
+    changePassword: (id, hash) => Users.findOne({ where: {id: id}})
+      .then(user => Users.update({
+        hash: hash,
       },
       {
         returning: true,
@@ -54,4 +56,3 @@
 
   }
 }
-

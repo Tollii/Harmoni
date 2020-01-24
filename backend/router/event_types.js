@@ -7,6 +7,7 @@ module.exports = (app, models, base, auth) => {
   const event_typesControl = require("../dao/event_types")(models);
 
   /**
+   * Gets all event_types
    * @group Event_types - Operations about event_types
    * @route GET /event_types/
    * @param {string} token.header.required - token
@@ -14,7 +15,7 @@ module.exports = (app, models, base, auth) => {
    * @returns {Error} defauls - Unexpected error
    */
   app.get(base, (req, res) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"], 0, 0)
     .then(data => {
       if(data.auth){
         event_typesControl.event_typesGetAll().then(data => {
@@ -28,6 +29,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Gets a specific event_type specified by id
    * @group Event_types - Operations about event_types
    * @route GET /event_types/{id}/
    * @param {integer} id.path.required - event_types id
@@ -36,7 +38,7 @@ module.exports = (app, models, base, auth) => {
    * @returns {Error} defauls - Unexpected error
    */
   app.get(base + "/:id", (req, res) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"], 0, 0)
     .then(data => {
       if(data.auth){
         event_typesControl.event_typesGetOne(req.params.id).then(data => {

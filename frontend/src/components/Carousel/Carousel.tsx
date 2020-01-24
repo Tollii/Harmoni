@@ -2,23 +2,17 @@ import React, { useState, useEffect } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import EventCard from "../../components/EventCard/EventCard";
-import EventService from "../../service/events";
 export default (props: any) => {
-  const [events, setEvents] = useState<any>([]);
   const [itemID, setItemID] = useState(1);
   const [oldID, setOldID] = useState(6);
 
   useEffect(() => {
-    EventService.getEvents().then((response: any) => {
-      setEvents(response);
-      props.printMap(response[1])
-    });
     setItemID(1)
   }, []);
 
   useEffect(() => {
-    props.printMap(events[itemID])
-  }, [itemID]);
+    props.setCenter(props.events[itemID])
+  }, [itemID, props]);
 
   var mod = function (n:any, m:any) {
     var remain = n % m;
@@ -26,19 +20,18 @@ export default (props: any) => {
   };
 
   const next = (index:any) => {
-    let x = mod(itemID+1, events.length);
+    let x = mod(itemID+1, props.events.length);
     setItemID(x)
     setOldID(index);
 
   }
   const prev =  (index:any) => {
-    let x = mod(itemID-1, events.length);
+    let x = mod(itemID-1, props.events.length);
     setItemID(x)
     setOldID(index);
   }
   const responsive = {
     superLargeDesktop: {
-      // the naming can be any, depends on you.
       breakpoint: { max: 4000, min: 3000 },
       items: 5
     },
@@ -68,16 +61,16 @@ export default (props: any) => {
       keyBoardControl={true}
       transitionDuration={500}
       containerClass="carousel-container"
-      removeArrowOnDeviceType={["tablet", "mobile"]}
+      removeArrowOnDeviceType={["mobile"]}
       dotListClass="custom-dot-list-style"
       itemClass="carousel-item-padding-40-px"
       centerMode={true}
       afterChange={(e, i)=> {
         let index = i.currentSlide;
         if(oldID === undefined){
-          if(index == 7){
+          if(index === 7){
             next(index)
-          }else if(index == 5){
+          }else if(index === 5){
             prev(index)
           }
         }else {
@@ -94,7 +87,7 @@ export default (props: any) => {
       }
       }
     >
-      {events.map((e: any) => (
+      {props.events.map((e: any) => (
         <EventCard key={e.id} event={e} />
       ))}
     </Carousel>

@@ -21,7 +21,12 @@ module.exports = {
         type: Sequelize.DATE
       },
       personnel: {
+        allowNull: true,
         type: Sequelize.TEXT
+      },
+      volunteers: {
+        allowNull: true,
+        type: Sequelize.INTEGER
       },
       event_image: {
         type: Sequelize.TEXT
@@ -30,19 +35,22 @@ module.exports = {
         type: Sequelize.TEXT
       },
       archived: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+        allowNull: true,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW
       },
       updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+        allowNull: true,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW
       },
       event_typeID: {
         type: Sequelize.INTEGER,
-        allowNull: true,
+        allowNull: false,
         references: {
           model: "Event_Types",
           key: "id"
