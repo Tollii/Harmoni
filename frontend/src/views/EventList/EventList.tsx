@@ -29,7 +29,7 @@ function createData(
     location: location
   };
 }
-export default (props: any) => {
+export default function EventList(props: any){
   const [state, setState] = React.useState<TableState>({
     columns: [
       { title: "Name", field: "name" },

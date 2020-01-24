@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Carousel from "react-multi-carousel";
+import MatCarousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import EventCard from "../../components/EventCard/EventCard";
 
@@ -7,7 +7,7 @@ import EventCard from "../../components/EventCard/EventCard";
  * See the [[Foo]] interface for more details.
  */
 
-export default (props: any) => {
+export default function Carousel(props: any){
   const [itemID, setItemID] = useState(1);
   const [oldID, setOldID] = useState(6);
 
@@ -55,7 +55,7 @@ export default (props: any) => {
   };
 
   return (
-    <Carousel
+    <MatCarousel
       swipeable={true}
       draggable={true}
       showDots={false}
@@ -70,7 +70,7 @@ export default (props: any) => {
       dotListClass="custom-dot-list-style"
       itemClass="carousel-item-padding-40-px"
       centerMode={true}
-      afterChange={(e, i)=> {
+      afterChange={(e:any, i:any)=> {
         let index = i.currentSlide;
         if(oldID === undefined){
           if(index === 7){
@@ -95,6 +95,6 @@ export default (props: any) => {
       {props.events.map((e: any) => (
         <EventCard key={e.id} event={e} />
       ))}
-    </Carousel>
+    </MatCarousel>
   );
 };

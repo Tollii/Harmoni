@@ -8,7 +8,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default (props: any) => {
+export default function SignUp(){
   const classes = useStyles();
 
   return (

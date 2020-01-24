@@ -1,4 +1,4 @@
-import Card from "@material-ui/core/Card";
+import MatCard from "@material-ui/core/Card";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -13,12 +13,12 @@ const useStyles = makeStyles({
   }
 });
 
-export default (props: any) => {
+export default function Card(props: any){
   const classes = useStyles();
 
   return (
-    <Card className={classes.card} elevation={10} style={props.style}>
+    <MatCard className={classes.card} elevation={10} style={props.style}>
       {props.children}
-    </Card>
+    </MatCard>
   );
 };

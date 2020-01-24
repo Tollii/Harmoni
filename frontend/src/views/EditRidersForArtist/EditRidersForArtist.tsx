@@ -64,7 +64,7 @@ function getStyles(rider: string, riderName: string[], theme: Theme) {
     };
 }
 
-export default function(props: any) {
+export default function EditRidersForArtist(props: any){
     const classes = useStyles();
     const theme = useTheme();
     const selectedRiders: string[] = [];

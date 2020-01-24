@@ -14,7 +14,7 @@ interface TableState {
   columns: Array<Column<Row>>;
 }
 
-export default (props: any) => {
+export default function Ticket(props: any){
   const state: TableState = {
     columns: [
       { title: "Name", field: "ticket_name" },
