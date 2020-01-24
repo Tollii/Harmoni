@@ -79,7 +79,7 @@ export default (props: any) => {
       })
       .catch((err:any)=> {
         snackbar.showMessage(
-          "You can not register an already existing email",
+          "Email already exist, try another one",
           "Close",
           () => handleUndo()
         );
