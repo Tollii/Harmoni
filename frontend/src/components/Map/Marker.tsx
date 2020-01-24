@@ -1,6 +1,10 @@
 import React from "react";
 import "./Marker.css";
 
+/**
+ * Creates a map marker
+ * @returns returns a marker
+ */
 export default function Marker(props:any) {
   return (
     <div onClick={() => (window.location.hash = props.link)}>
@@ -15,4 +19,3 @@ export default function Marker(props:any) {
     </div>
   );
 };
-
