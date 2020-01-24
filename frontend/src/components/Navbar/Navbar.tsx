@@ -33,6 +33,7 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import getCookie from "../../service/cookie";
 import { Link } from "react-router-dom";
+import { User } from "../../service/interface"
 
 const drawerWidth = 240;
 
@@ -111,7 +112,14 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function Navbar(props: any) {
+interface Navbar {
+  logFunc:any;
+  setPage:any;
+  user:User;
+  loggedIn:boolean;
+}
+
+export default function Navbar(props: Navbar) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [open, setOpen] = React.useState(false);

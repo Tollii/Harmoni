@@ -22,7 +22,7 @@ interface AlertDialog {
  * @param handleAlert sends in handler for closing the dialog
  * @returns returns an alert dialog window
  */
-export default function AlertDialog({eventID, open, handleAlert}: AlertDialog){
+export default function AlertDialog(props: AlertDialog){
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [choice, setChoice] = useState(0);
 
@@ -37,13 +37,13 @@ export default function AlertDialog({eventID, open, handleAlert}: AlertDialog){
 
   const submit = () => {
     if (choice === 1) {
-      EventService.deleteEvent(eventID).then(
+      EventService.deleteEvent(props.eventID).then(
         () => (window.location.hash = "#/")
       );
     } else if (choice === 2) {
-      EventService.updateArchiveOne(eventID);
+      EventService.updateArchiveOne(props.eventID);
     } else if (choice === 3) {
-      MailingService.cancelEventMail(eventID).then(
+      MailingService.cancelEventMail(props.eventID).then(
         () => (window.location.hash = "#/")
       );
     } else {
@@ -53,7 +53,7 @@ export default function AlertDialog({eventID, open, handleAlert}: AlertDialog){
   return (
     <div>
       <Dialog
-        open={open}
+        open={props.open}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -109,7 +109,7 @@ export default function AlertDialog({eventID, open, handleAlert}: AlertDialog){
           </Menu>
         </DialogContent>
         <DialogActions>
-          <Button color="primary" onClick={() => handleAlert(false)}>
+          <Button color="primary" onClick={() => props.handleAlert(false)}>
             Cancel
           </Button>
           <Button
@@ -117,7 +117,7 @@ export default function AlertDialog({eventID, open, handleAlert}: AlertDialog){
             autoFocus
             onClick={() => {
               submit();
-              handleAlert(false);
+              props.handleAlert(false);
             }}
           >
             Submit
