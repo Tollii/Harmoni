@@ -37,15 +37,6 @@ module.exports = (models) => {
         }]
     }).then(data => data),
 
-    contractCreate: (contract, userID, eventID) => Contract.create({
-      contract:contract,
-      userID:userID,
-      eventID:eventID
-    },
-    {
-      returning: true
-    })
-    .then(data => data),
 
     contractCreateNoContract: (userID, eventID) => Contract.create({
       userID:userID,
