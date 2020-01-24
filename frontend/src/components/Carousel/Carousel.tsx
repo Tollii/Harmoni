@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import EventCard from "../../components/EventCard/EventCard";
+
+/**
+ * See the [[Foo]] interface for more details.
+ */
+
 export default (props: any) => {
   const [itemID, setItemID] = useState(1);
   const [oldID, setOldID] = useState(6);

@@ -16,6 +16,7 @@ import {
 } from "@material-ui/core";
 import Rider_TypeService from '../../service/rider_types';
 import RiderService from '../../service/riders';
+import { useSnackbar } from "material-ui-snackbar-provider";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -67,6 +68,7 @@ export default function(props: any) {
     const classes = useStyles();
     const theme = useTheme();
     const selectedRiders: string[] = [];
+    const snackBar = useSnackbar();
 
     const [riderName, setRiderName] = useState<string[]>([]);
     const [addition, setAddition] = useState("");
@@ -102,15 +104,14 @@ export default function(props: any) {
         event.target.value.map((rider: any) => {
           let riderType = riderTypes.find((rType: any) => rType.description === rider);
           if (riderType !== undefined) {
-            let riderTypeID = riderType.id;
             ridersArray.push({
               additions: "",
-              rider_typeID: riderTypeID,
+              rider_typeID: riderType.id,
               eventID: parseInt(props.match.params.eventID),
               userID: parseInt(props.match.params.userID)
             })
           }
-          return null
+          return null;
         })
         setRiders(ridersArray);
     };
@@ -132,9 +133,15 @@ export default function(props: any) {
     };
 
     const handleClickSave = () => {
-        RiderService.deleteRidersForArtist(parseInt(props.match.params.eventID), parseInt(props.match.params.userID));
-        riders.map(rider => RiderService.postRider(rider));
+        RiderService.deleteRidersForArtist(props.match.params.eventID, props.match.params.userID).then(() => {
+            riders.map(rider => RiderService.postRider(rider));
+            snackBar.showMessage("Successfully updated riders");
+            setTimeout(() => {
+                window.location.hash = "#/event/" + props.match.params.eventID;
+            }, 400);
+        });
     };
+
     const handleClickCancel = () => {
         window.location.hash = "/event/" + props.match.params.eventID;
     };
@@ -194,13 +201,13 @@ export default function(props: any) {
                     </Grid>
                 </Grid>
                 <Grid container direction="row" justify= 'center' style={{marginTop: '40px'}}>
-                    <Grid item xs={6} md={3}>
-                        <Button variant="contained" color="secondary" onClick={handleClickSave} style={{fontSize: "1.1vw"}}>
+                    <Grid item xs={5} md={3}>
+                        <Button color="secondary" onClick={handleClickSave} style={{fontSize: "1.7vh"}}>
                             Save
                         </Button>
                     </Grid>
-                    <Grid item xs={6} md={3}>
-                        <Button variant="contained" color="secondary" onClick={handleClickCancel} style={{fontSize: "1.1vw"}}>
+                    <Grid item xs={5} md={3}>
+                        <Button color="secondary" onClick={handleClickCancel} style={{fontSize: "1.7vh"}}>
                             Cancel
                         </Button>
                     </Grid>
