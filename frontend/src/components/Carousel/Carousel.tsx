@@ -9,6 +9,12 @@ interface Carousel {
   setCenter: any;
 }
 
+/**
+ * Opens an alert dialog
+ * @param events sends in a list over events to be displayed i carousel
+ * @param setCenter sends in a handler for setting center object of carousel
+ * @returns returns a carousel with events
+ */
 export default function Carousel({events, setCenter}:Carousel){
   const [itemID, setItemID] = useState(1);
   const [oldID, setOldID] = useState(6);
