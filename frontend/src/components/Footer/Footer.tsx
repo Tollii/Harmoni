@@ -13,7 +13,7 @@ const useStyles = makeStyles({
     maxWidth: "85%",
     textAlign: "center",
     margin: "auto",
-    marginTop: "14vh",
+    marginTop: "120px",
     zIndex: 9999,
   },
   icons: {
