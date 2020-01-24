@@ -68,7 +68,7 @@ export default function Profile(props: any) {
   });
 
   function checkPhonenumber(inputtxt: any) {
-    var phoneno = /^\+?([0-9]{1,3})\)?([ ]{1})?([0-9]{8})$/;
+    var phoneno = /^(\+[1-9]{1,3})?([ ]{1})?([0-9]{8})$/;
     if (inputtxt.match(phoneno)) {
       return true;
     } else {
