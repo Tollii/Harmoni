@@ -7,7 +7,7 @@ import InputField from "../../components/InputField/InputField";
 import Grid from "@material-ui/core/Grid";
 import Button from "../../components/Button/Button";
 import useForm from "../../service/Form/useForm";
-import validateSignUp from "../../service/Form/Validate";
+import { validateEmail } from "../../service/Form/Validate";
 import mailingService from "../../service/mailing";
 import { useSnackbar } from "material-ui-snackbar-provider";
 
@@ -43,7 +43,7 @@ export default (props: any) => {
     {
       email: ""
     },
-    validateSignUp
+    validateEmail
   );
 
   let errorsFeedback = "Email address is invalid";
@@ -62,8 +62,10 @@ export default (props: any) => {
       console.log("Submitted form");
       mailingService.forgotMail(values.email).then((res: any) => res);
       window.location.hash = "#/login";
-      snackbar.showMessage("We will mail you a link to create a new password. Please check your mail", "Undo", () =>
-        handleUndo()
+      snackbar.showMessage(
+        "We will mail you a link to create a new password. Please check your mail",
+        "Ok",
+        () => handleUndo()
       );
     }
   }
