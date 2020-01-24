@@ -88,7 +88,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default (props: any) => {
+export default function EventPage(props: any){
   const classes = useStyles();
   const [loaded, setLoaded] = useState(false);
   const [values, setValues] = useState({

@@ -35,7 +35,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default (props: any) => {
+export default function ForgotPassword(props: any){
   const classes = useStyles(props);
   const snackBar = useSnackbar();
 

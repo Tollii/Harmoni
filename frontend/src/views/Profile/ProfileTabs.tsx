@@ -20,7 +20,7 @@ interface TableState {
   data: Row[];
 }
 
-export default (props: any) => {
+export default function ProfileTabs(props: any){
   const [state, setState] = React.useState<TableState>({
     columns: [
       { title: "Name", field: "name" },

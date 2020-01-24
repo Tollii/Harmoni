@@ -60,7 +60,7 @@ interface TableState {
   data: Row[];
 }
 
-export default (props: any) => {
+export default function DropDownButton(props: any){
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [contractUrl] = useState(
     process.env.REACT_APP_API_URL +

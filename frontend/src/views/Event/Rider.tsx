@@ -59,7 +59,7 @@ const MenuProps = {
   }
 };
 
-export default function(props: any) {
+export default function Rider(props: any){
   return (
     <div>
       {props.values.artists

@@ -14,7 +14,7 @@ import MailingService from "../../service/mailing";
  * @preferred
  */
 
-export default (props: any) => {
+export default function AlertDialog(props: any){
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [choice, setChoice] = useState(0);
 

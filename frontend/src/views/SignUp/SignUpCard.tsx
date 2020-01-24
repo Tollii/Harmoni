@@ -12,6 +12,12 @@ import Authentication from "../../service/Authentication";
 import { useSnackbar } from "material-ui-snackbar-provider";
 import { Tooltip } from "@material-ui/core";
 
+/**
+ * Regular description
+ * @param text  Comment for parameter ´text´.
+ * @typeparam T  Comment for type `T`.
+ */
+
 const useStyles = makeStyles({
   grid: {
     maxWidth: "450px",
@@ -25,7 +31,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default (props: any) => {
+export default function SignUpCard(props: any) {
   const classes = useStyles(props);
 
   const { handleChange, handleSubmit, values, errors } = useForm(
