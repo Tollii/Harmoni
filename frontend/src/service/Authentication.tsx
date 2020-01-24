@@ -1,19 +1,15 @@
 import getCookie from "./cookie";
 const axios = require("axios").default;
 let url: string = "http://localhost:8080";
+import {Password, Login, Signup} from "./interface"
 
-const token = getCookie("token");
 
-export class Password {
-  old_password!: string;
-  new_password!: string;
-}
 
 class Authentication {
-  changePassword(password: any) {
+  changePassword(password: Password) {
     return axios
-      .put(url + "/reset/", password, { headers: { token: token } })
-      .then((response: { data: Password }) => response.data);
+      .put(url + "/reset/", password, { headers: { token: getCookie("token") } })
+      .then((response: { data: string }) => response.data);
   }
 
   changePasswordForgot(password: any) {
@@ -22,12 +18,12 @@ class Authentication {
         .then((response: { data: Password }) => response.data);
   }
 
-  getLogin(credentials: any) {
+  getLogin(credentials: Login) {
     return axios
       .put(process.env.REACT_APP_API_URL + "/login/", credentials)
       .then((response: { data: Object }) => response.data);
   }
-  signUp(information: any) {
+  signUp(information: Signup) {
     return axios
       .post(process.env.REACT_APP_API_URL + "/signup/", information)
       .then((response: { data: Object }) => response.data);

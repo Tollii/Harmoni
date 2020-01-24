@@ -1,15 +1,7 @@
 import getCookie from "./cookie";
 const axios = require("axios").default;
+import {Ticket} from "./interface"
 
-export class Ticket {
-  id!: number;
-  ticket_name!: string;
-  price!: number;
-  ticket_amount!: number;
-  date_start!: string;
-  date_end!: string;
-  eventID!: number;
-}
 
 class TicketService {
   getTickets() {

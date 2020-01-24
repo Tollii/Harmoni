@@ -9,10 +9,6 @@ import { MenuItem, Menu } from "@material-ui/core";
 import EventService from "../../service/events";
 import MailingService from "../../service/mailing";
 
-/**
- * Actual namespace comment.
- * @preferred
- */
 
 export default function AlertDialog(props: any){
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);

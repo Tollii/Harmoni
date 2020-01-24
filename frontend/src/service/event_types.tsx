@@ -1,10 +1,6 @@
 import getCookie from "./cookie";
 const axios = require("axios").default;
-
-export class Event_Type {
-  id!: number;
-  event_type!: string;
-}
+import {Event_Type} from "./interface"
 
 class Event_TypeService {
   getEvent_Types() {
