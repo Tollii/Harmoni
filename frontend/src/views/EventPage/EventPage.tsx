@@ -290,7 +290,9 @@ export default (props: any) => {
               {values.location}
             </Typography>
             <div className={classes.map}>
-              <Map events={[values]} center={values} zoom={11} />
+              <a href={`https://www.google.com/maps/place/${values.location}`}>
+                <Map events={[values]} center={values} zoom={11} />
+              </a>
             </div>
             <Grid container spacing={1} justify="center" alignItems="center">
               <DropDownButton
