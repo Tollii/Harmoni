@@ -69,22 +69,22 @@ export default function SignUpCard(props: any) {
         password: values.password,
         username: values.fullName,
         phone: values.telephone
-      }).then((data: any) => {
-        window.location.hash = "#/login";
-        snackbar.showMessage(
-          "You have created a user. You can now log in with your username and password",
-          "Ok",
-          () => handleUndo()
-        );
       })
-      .catch((err:any)=> {
-        snackbar.showMessage(
-          "Email already exist, try another one",
-          "Close",
-          () => handleUndo()
-        );
-      })
-
+        .then((data: any) => {
+          window.location.hash = "#/login";
+          snackbar.showMessage(
+            "You have created a user. You can now log in with your username and password",
+            "Ok",
+            () => handleUndo()
+          );
+        })
+        .catch((err: any) => {
+          snackbar.showMessage(
+            "Email already exist, try another one",
+            "Close",
+            () => handleUndo()
+          );
+        });
     }
   }
 
@@ -196,4 +196,4 @@ export default function SignUpCard(props: any) {
       </Grid>
     </Card>
   );
-};
+}

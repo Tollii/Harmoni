@@ -11,8 +11,8 @@ export interface Login {
 export interface Signup {
   email: string;
   password: string;
-  fullName: string;
-  telephone: string;
+  username: string;
+  phone: string;
 }
 
 export interface Contract {
@@ -39,22 +39,22 @@ export interface Event {
 }
 
 export interface FullEvent {
-event_name: string;
-location: string;
-event_start: string;
-event_end: string;
-personnel: string;
-description: string;
-event_typeID: number;
-artists: number[];
-riders: Array<{ additions: string; rider_typeID: number; userID: number }>;
-tickets: Array<{
-  ticket_name: string;
-  price: number;
-  ticket_amount: number;
-  date_start: string;
-  date_end: string;
-}>;
+  event_name: string;
+  location: string;
+  event_start: string;
+  event_end: string;
+  personnel: string;
+  description: string;
+  event_typeID: number;
+  artists: number[];
+  riders: Array<{ additions: string; rider_typeID: number; userID: number }>;
+  tickets: Array<{
+    ticket_name: string;
+    price: number;
+    ticket_amount: number;
+    date_start: string;
+    date_end: string;
+  }>;
 }
 
 export interface Rider_Type {
@@ -66,7 +66,7 @@ export interface Riders {
   additions: string;
   rider_typeID: number;
   eventID: number;
-  token: string;
+  token?: string;
 }
 
 export interface Role {
@@ -85,13 +85,12 @@ export interface Ticket {
 }
 
 export interface User {
-  id: number;
+  id?: number;
   username: string;
   email: string;
-  hash: string;
   phone: string;
-  picture: string;
-  createdAt: string;
-  updatedAt: string;
+  picture?: string;
   roleID: number;
+  role?: string;
+  pic_url?: string;
 }
