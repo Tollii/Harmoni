@@ -15,7 +15,13 @@ interface AlertDialog {
   handleAlert:any;
 }
 
-
+/**
+ * Opens an alert dialog
+ * @param eventID sends in the id of the current event
+ * @param open sends in boolean to check whether the AlertDialog should be open or not
+ * @param handleAlert sends in handler for closing the dialog
+ * @returns returns an alert dialog window
+ */
 export default function AlertDialog({eventID, open, handleAlert}: AlertDialog){
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [choice, setChoice] = useState(0);
