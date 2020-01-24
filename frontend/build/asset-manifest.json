@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/static/css/main.0382aa5a.chunk.css",
+    "main.js": "/static/js/main.8842c37a.chunk.js",
+    "main.js.map": "/static/js/main.8842c37a.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.1c2d59f4.js",
+    "runtime-main.js.map": "/static/js/runtime-main.1c2d59f4.js.map",
+    "static/css/2.b72a82fe.chunk.css": "/static/css/2.b72a82fe.chunk.css",
+    "static/js/2.9830bb8a.chunk.js": "/static/js/2.9830bb8a.chunk.js",
+    "static/js/2.9830bb8a.chunk.js.map": "/static/js/2.9830bb8a.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.1a3d7213323a5d82e9e671f06f688f6a.js": "/precache-manifest.1a3d7213323a5d82e9e671f06f688f6a.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/2.b72a82fe.chunk.css.map": "/static/css/2.b72a82fe.chunk.css.map",
+    "static/css/main.0382aa5a.chunk.css.map": "/static/css/main.0382aa5a.chunk.css.map",
+    "static/js/2.9830bb8a.chunk.js.LICENSE": "/static/js/2.9830bb8a.chunk.js.LICENSE",
+    "static/media/harmoni_logo_small.png": "/static/media/harmoni_logo_small.fb264d9e.png",
+    "static/media/styles.css": "/static/media/revicons.2feb69cc.eot"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.1c2d59f4.js",
+    "static/css/2.b72a82fe.chunk.css",
+    "static/js/2.9830bb8a.chunk.js",
+    "static/css/main.0382aa5a.chunk.css",
+    "static/js/main.8842c37a.chunk.js"
+  ]
+}
