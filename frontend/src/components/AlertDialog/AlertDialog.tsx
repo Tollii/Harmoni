@@ -16,7 +16,7 @@ interface AlertDialog {
 }
 
 /**
- * Opens an alert dialog
+ * Creates an alert dialog
  * @param eventID sends in the id of the current event
  * @param open sends in boolean to check whether the AlertDialog should be open or not
  * @param handleAlert sends in handler for closing the dialog
