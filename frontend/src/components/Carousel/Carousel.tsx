@@ -2,9 +2,14 @@ import React, { useState, useEffect } from "react";
 import MatCarousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import EventCard from "../../components/EventCard/EventCard";
+import {Event} from "../../service/interface"
 
+interface Carousel {
+  events: Event[];
+  setCenter: any;
+}
 
-export default function Carousel(props: any){
+export default function Carousel({events, setCenter}:Carousel){
   const [itemID, setItemID] = useState(1);
   const [oldID, setOldID] = useState(6);
 
@@ -13,8 +18,8 @@ export default function Carousel(props: any){
   }, []);
 
   useEffect(() => {
-    props.setCenter(props.events[itemID])
-  }, [itemID, props]);
+    setCenter(events[itemID])
+  }, [itemID, events]);
 
   var mod = function (n:any, m:any) {
     var remain = n % m;
@@ -22,13 +27,13 @@ export default function Carousel(props: any){
   };
 
   const next = (index:any) => {
-    let x = mod(itemID+1, props.events.length);
+    let x = mod(itemID+1, events.length);
     setItemID(x)
     setOldID(index);
 
   }
   const prev =  (index:any) => {
-    let x = mod(itemID-1, props.events.length);
+    let x = mod(itemID-1, events.length);
     setItemID(x)
     setOldID(index);
   }
@@ -89,7 +94,7 @@ export default function Carousel(props: any){
       }
       }
     >
-      {props.events.map((e: any) => (
+      {events.map((e: Event) => (
         <EventCard key={e.id} event={e} />
       ))}
     </MatCarousel>

@@ -9,8 +9,14 @@ import { MenuItem, Menu } from "@material-ui/core";
 import EventService from "../../service/events";
 import MailingService from "../../service/mailing";
 
+interface AlertDialog {
+  eventID: number;
+  open:boolean;
+  handleAlert:any;
+}
 
-export default function AlertDialog(props: any){
+
+export default function AlertDialog({eventID, open, handleAlert}: AlertDialog){
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [choice, setChoice] = useState(0);
 
@@ -25,13 +31,13 @@ export default function AlertDialog(props: any){
 
   const submit = () => {
     if (choice === 1) {
-      EventService.deleteEvent(props.eventID).then(
+      EventService.deleteEvent(eventID).then(
         () => (window.location.hash = "#/")
       );
     } else if (choice === 2) {
-      EventService.updateArchiveOne(props.eventID);
+      EventService.updateArchiveOne(eventID);
     } else if (choice === 3) {
-      MailingService.cancelEventMail(props.eventID).then(
+      MailingService.cancelEventMail(eventID).then(
         () => (window.location.hash = "#/")
       );
     } else {
@@ -41,7 +47,7 @@ export default function AlertDialog(props: any){
   return (
     <div>
       <Dialog
-        open={props.open}
+        open={open}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -97,7 +103,7 @@ export default function AlertDialog(props: any){
           </Menu>
         </DialogContent>
         <DialogActions>
-          <Button color="primary" onClick={() => props.handleAlert(false)}>
+          <Button color="primary" onClick={() => handleAlert(false)}>
             Cancel
           </Button>
           <Button
@@ -105,7 +111,7 @@ export default function AlertDialog(props: any){
             autoFocus
             onClick={() => {
               submit();
-              props.handleAlert(false);
+              handleAlert(false);
             }}
           >
             Submit
