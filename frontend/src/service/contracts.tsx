@@ -3,11 +3,9 @@ const axios = require("axios").default;
 
 let url = process.env.REACT_APP_API_URL;
 
-export class Contract {
-  contract!: string;
-  userID!: string;
-  eventID!: number;
-}
+import {Contract} from "./interface"
+
+
 
 class ContractService {
   getContracts() {
