@@ -18,6 +18,10 @@ const useStyles = makeStyles({
   }
 });
 
+/**
+ * Opens an inputfield
+ * @returns returns an inputfield
+ */
 export default function InputField(props: any){
   const classes = useStyles();
 
