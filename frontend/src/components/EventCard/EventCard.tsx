@@ -57,6 +57,11 @@ interface EventCard{
   event:Event
 }
 
+/**
+ * Creates an event card
+ * @param event sends in event to be displayed on card
+ * @returns returns an event card
+ */
 export default function EventCard({event}:EventCard) {
   const classes = useStyles();
   var date = new Date(event.event_start);
