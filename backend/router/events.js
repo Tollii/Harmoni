@@ -502,7 +502,7 @@ module.exports = (app, models, base, auth) => {
   /**
    * Deletes a specified volunteer from an event
    * @group Events - Operations about event
-   * @route DELETE /event/{event_id}/volunteers/{id}/
+   * @route DELETE /event/{event_id}/volunteers/
    * @param {string} token.header.required - user token
    * @param {number} event_id.path.required - event id
    * @param {number} id.path.required - user id
@@ -513,11 +513,12 @@ module.exports = (app, models, base, auth) => {
     auth
       .check_permissions(
         req.headers.token,
-        ["Admin", "Organizer", "User"],
+        ["User"],
         req.params.event_id,
-        req.params.id
+        0
       )
       .then(data => {
+        console.log(data)
         if (data.auth) {
           eventControl
             .eventGetOne(req.params.event_id)
