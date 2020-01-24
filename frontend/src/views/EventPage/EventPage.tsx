@@ -147,7 +147,7 @@ export default function EventPage(props: any) {
       );
 
       setLoaded(true);
-    }, 1200);
+    }, 1500);
   }, [props.match.params.id, props.user]);
 
   const [myContract, showContract] = useState(false);
