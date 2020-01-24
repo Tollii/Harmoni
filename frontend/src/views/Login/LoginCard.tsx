@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "../../components/Card/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -9,32 +9,33 @@ import Button from "../../components/Button/Button";
 import useForm from "../../service/Form/useForm";
 import { validateLogin } from "../../service/Form/Validate";
 import Authentication from "../../service/Authentication";
-
+import { Link } from "react-router-dom";
 const useStyles = makeStyles({
-  grid: {
-    maxWidth: "450px",
-    minWidth: "250px"
-  },
   title: {
     marginLeft: "auto",
     marginRight: "auto",
     marginBottom: "20px"
   },
-  pos: {
-    marginBottom: 12
-  },
-  notchedOutline: {
-    borderRadius: 0
+  errormessage: {
+    float: "right"
   },
   custom: {
     minWidth: "250px",
     maxWidth: "450px",
     marginTop: "20px",
     margin: "auto"
+  },
+  cardContent: {
+    width: "400px",
+    marginLeft: "1.5vw"
+  },
+  link: {
+    color: "red",
+    textDecoration: "none"
   }
 });
 
-export default () => {
+export default (props: any) => {
   const classes = useStyles();
   const { handleChange, handleSubmit, values, errors } = useForm(
     submit,
@@ -44,35 +45,40 @@ export default () => {
     },
     validateLogin
   );
+  const [loginError, setError] = useState(false);
 
   function submit() {
-    const pattern = /.+@[a-z1-9]+.[a-z]+/;
+    const pattern = /.+@[a-z1-9]+\.[a-z]+/;
     const check = values.email.match(pattern);
-    if (true) {
-      console.log("Submitting form");
+
+    if (check && values.password) {
       const now = new Date();
       now.setTime(now.getTime() + 1 * 3600 * 1000);
       Authentication.getLogin({
-        email: values.email,
+        email: values.email.toLowerCase(),
         password: values.password
-      }).then((data: any) => {
-        document.cookie = "token=" + data + "; expires=" + now.toUTCString();
-        window.location.href = "http://localhost:3000/";
-      });
+      })
+        .then((data: any) => {
+          document.cookie = "token=" + data + "; expires=" + now.toUTCString();
+          window.location.hash = "#/";
+          props.logFunc(true);
+        })
+        .catch((err: any) => {
+          setError(true);
+        });
     }
   }
 
   return (
     <div className={classes.custom}>
       <Card>
-        <Grid container className={classes.grid}>
-          <CardContent>
-            <Grid item>
-              <Typography className={classes.title} variant="h3" align="center">
-                Login
-              </Typography>
-            </Grid>
-
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Typography className={classes.title} variant="h3" align="center">
+              Login
+            </Typography>
+          </Grid>
+          <CardContent className={classes.cardContent}>
             <form onSubmit={handleSubmit} noValidate>
               {errors.email && <Typography>{errors.email}</Typography>}
 
@@ -88,14 +94,22 @@ export default () => {
               <InputField
                 name="password"
                 label="Password"
-                type="password"
                 autoComplete="current-password"
                 value={values.password}
                 onChange={handleChange}
               />
+              <div>
+                {loginError ? (
+                  <h4 className={classes.errormessage}>
+                    Invalid email or password
+                  </h4>
+                ) : null}
+              </div>
 
               <Grid container direction="row" justify="space-between">
-                <Button>Forgot password?</Button>
+                <Link className={classes.link} to="/forgot">
+                  <Button>Forgot password?</Button>
+                </Link>
                 <Button type="submit">Log in</Button>
               </Grid>
             </form>

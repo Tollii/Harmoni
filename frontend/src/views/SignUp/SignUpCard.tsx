@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "../../components/Card/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -9,6 +9,8 @@ import Button from "../../components/Button/Button";
 import useForm from "../../service/Form/useForm";
 import validateSignUp from "../../service/Form/Validate";
 import Authentication from "../../service/Authentication";
+import { useSnackbar } from "material-ui-snackbar-provider";
+import { Tooltip } from "@material-ui/core";
 
 const useStyles = makeStyles({
   grid: {
@@ -16,21 +18,10 @@ const useStyles = makeStyles({
     minWidth: "250px"
   },
 
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)"
-  },
   title: {
     marginLeft: "auto",
     marginRight: "auto",
     marginBottom: "20px"
-  },
-  pos: {
-    marginBottom: 12
-  },
-  notchedOutline: {
-    borderRadius: 0
   }
 });
 
@@ -50,18 +41,58 @@ export default (props: any) => {
     validateSignUp
   );
 
+  const snackbar = useSnackbar();
+
+  const handleUndo = () => {
+    // *snip*
+  };
+  function checkPhonenumber(inputtxt: any) {
+    var phoneno = /^(\+[1-9]{1,3})?([ ]{1})?([0-9]{8})$/;
+    if (inputtxt.match(phoneno)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   function submit() {
-    console.log("Submitted form");
-    Authentication.signUp({
-      email: values.email,
-      password: values.password,
-      username: values.fullName,
-      phone: values.telephone
-    }).then((data: any) => console.log(data));
+    const pattern = /.+@[a-z1-9]+\.[a-z]+/;
+    const check = values.email.match(pattern);
+    if (
+      checkPhonenumber(values.telephone) &&
+      check &&
+      values.password &&
+      values.fullName
+    ) {
+      Authentication.signUp({
+        email: values.email.toLowerCase(),
+        password: values.password,
+        username: values.fullName,
+        phone: values.telephone
+      }).then((data: any) => {
+        window.location.hash = "#/login";
+        snackbar.showMessage(
+          "You have created a user. You can now log in with your username and password",
+          "Ok",
+          () => handleUndo()
+        );
+      })
+      .catch((err:any)=> {
+        snackbar.showMessage(
+          "Email already exist, try another one",
+          "Close",
+          () => handleUndo()
+        );
+      })
+
+    }
   }
 
   return (
-    <Card width={"80%"} style={{ minWidth: "250px", maxWidth: "450px" }}>
+    <Card
+      width={"80%"}
+      style={{ marginTop: "10%", minWidth: "250px", maxWidth: "450px" }}
+    >
       <Grid container className={classes.grid}>
         <CardContent>
           <Grid container justify="center" direction="row">
@@ -70,73 +101,92 @@ export default (props: any) => {
             </Typography>
           </Grid>
           <form onSubmit={handleSubmit} noValidate>
-            {errors.email && <Typography>{errors.email}</Typography>}
+            <Grid container justify="center" direction="row">
+              {errors.email && (
+                <Typography color="error">{errors.email}</Typography>
+              )}
 
-            <InputField
-              name="email"
-              label="Email"
-              type="text"
-              required={true}
-              value={values.email}
-              onChange={handleChange}
-            />
-            {errors.emailConfirmed && (
-              <Typography>{errors.emailConfirmed}</Typography>
-            )}
+              <InputField
+                name="email"
+                label="Email"
+                type="text"
+                required={true}
+                value={values.email}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid container justify="center" direction="row">
+              {errors.emailConfirmed && (
+                <Typography color="error">{errors.emailConfirmed}</Typography>
+              )}
 
-            <InputField
-              name="emailConfirmed"
-              label="Confirm email"
-              type="text"
-              required={true}
-              value={values.emailConfirmed}
-              onChange={handleChange}
-            />
-            {errors.password && <Typography>{errors.password}</Typography>}
+              <InputField
+                name="emailConfirmed"
+                label="Confirm email"
+                type="text"
+                required={true}
+                value={values.emailConfirmed}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid container justify="center" direction="row">
+              {errors.password && (
+                <Typography color="error">{errors.password}</Typography>
+              )}
 
-            <InputField
-              name="password"
-              label="Password *"
-              type="password"
-              autoComplete="current-password"
-              value={values.password}
-              onChange={handleChange}
-            />
-            {errors.passwordConfirmed && (
-              <Typography>{errors.passwordConfirmed}</Typography>
-            )}
+              <InputField
+                name="password"
+                label="Password"
+                autoComplete="current-password"
+                value={values.password}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid container justify="center" direction="row">
+              {errors.passwordConfirmed && (
+                <Typography color="error">
+                  {errors.passwordConfirmed}
+                </Typography>
+              )}
+              <InputField
+                name="passwordConfirmed"
+                label="Confirm Password"
+                autoComplete="current-password"
+                value={values.passwordConfirmed}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid container justify="center" direction="row">
+              {errors.fullName && (
+                <Typography color="error">{errors.fullName}</Typography>
+              )}
 
-            <InputField
-              name="passwordConfirmed"
-              label="Confirm password *"
-              type="password"
-              autoComplete="current-password"
-              value={values.passwordConfirmed}
-              onChange={handleChange}
-            />
-            {errors.fullName && <Typography>{errors.fullName}</Typography>}
-
-            <InputField
-              name="fullName"
-              label="Full name"
-              type="text"
-              required={true}
-              value={values.fullName}
-              onChange={handleChange}
-            />
-            {errors.telephone && <Typography>{errors.telephone}</Typography>}
-
-            <InputField
-              name="telephone"
-              label="Telephone"
-              type="text"
-              pattern="[0-9]*"
-              required={true}
-              value={values.telephone}
-              onChange={handleChange}
-            />
+              <InputField
+                name="fullName"
+                label="Full name"
+                type="text"
+                required={true}
+                value={values.fullName}
+                onChange={handleChange}
+              />
+              {errors.telephone && (
+                <Typography color="error">{errors.telephone}</Typography>
+              )}
+              <Tooltip title="+XX XXXXXXXX" arrow={true}>
+                <InputField
+                  style={{ width: "100%" }}
+                  name="telephone"
+                  label="Telephone"
+                  type="numeric"
+                  pattern="[0-9]*"
+                  required={true}
+                  value={values.telephone}
+                  onChange={handleChange}
+                />
+              </Tooltip>
+            </Grid>
             <Grid container direction="row" justify="space-between">
-              <Button onClick={() => (window.location.hash = "/login")}>
+              <Button onClick={() => (window.location.hash = "#/login")}>
                 Already have a user?
               </Button>
               <Button type="submit">Sign up</Button>

@@ -3,7 +3,25 @@ module.exports = (models) => {
   return {
     riderGetAll: async () => Riders.findAll()
     .then(riders => {
-      console.log("Fetched all riders");
+      return riders;
+    }),
+
+    riderGetAllByEvent: async (eventID) => Riders.findAll({
+      where: {
+        eventID: eventID
+      }
+    })
+    .then(riders => {
+      return riders;
+    }),
+
+    riderGetAllByArtist: async (eventID, userID) => Riders.findAll({
+      where: {
+        eventID: eventID,
+        userID: userID
+      }
+    })
+    .then(riders => {
       return riders;
     }),
 
@@ -47,21 +65,19 @@ module.exports = (models) => {
     })
     .then(rider => rider)),
 
-    riderDelete: async (rider_typeID, eventID, userID) => Riders.findOne({
+    riderDelete: async (eventID) => Riders.destroy({
+        where: {
+          eventID: eventID
+        }
+      })
+      .then(x => x),
+
+    ridersDeleteByArtist: async (eventID, userID) => Riders.destroy({
       where: {
-        rider_typeID: rider_typeID,
         eventID: eventID,
         userID: userID
       }
     })
-    .then(rider = Riders.destroy({
-        where: {
-          rider_typeID: rider_typeID,
-          eventID: eventID,
-          userID: userID
-        }
-      })
-      .then(x => rider)
-    ),
+    .then(x => x),
   }
 }

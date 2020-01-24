@@ -14,6 +14,7 @@ module.exports = (app, models, base, auth) => {
   const ridersControl = require('../dao/riders')(models)
 
   /**
+   * Gets all riders
   * @group Riders - Operations about rider
   * @route GET /rider/
   * @param {string} token.header.required - token
@@ -22,7 +23,7 @@ module.exports = (app, models, base, auth) => {
   */
   app.get(base, (req, res) => {
     console.log(req.headers);
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin"], 0, 0)
     .then(data => {
       console.log(data);
       if(data.auth){
@@ -37,6 +38,58 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Get all riders for a specified event
+  * @group Riders - Operations about rider
+  * @route GET /rider/event/{eventID}
+  * @param {integer} eventID.path.required - Event id
+  * @param {string} token.header.required - token
+  * @returns {object} 200 - An array of contracts info
+  * @returns {Error}  default - Unexpected error
+  */
+  app.get(base + "/event/:eventID", (req, res) => {
+    console.log(req.headers);
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer"], req.params.eventID, 0)
+    .then(data => {
+      console.log(data);
+      if(data.auth){
+        ridersControl.riderGetAllByEvent(req.params.eventID).then((data) => {
+          res.send(data);
+        })
+      } else {
+        res.status(400).send("Not authenticated")
+      }
+    })
+    .catch(err => console.log(err))
+  });
+
+  /**
+   * Get all riders for a specific artist at a specific event
+  * @group Riders - Operations about rider
+  * @route GET /rider/event/{eventID}/user/{userID}
+  * @param {integer} eventID.path.required - Event id
+  * @param {integer} userID.path.required - User id
+  * @param {string} token.header.required - token
+  * @returns {object} 200 - An array of contracts info
+  * @returns {Error}  default - Unexpected error
+  */
+  app.get(base + "/event/:eventID/user/:userID", (req, res) => {
+    console.log(req.headers);
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"])
+    .then(data => {
+      console.log(data);
+      if(data.auth){
+        ridersControl.riderGetAllByArtist(req.params.eventID, req.params.userID).then((data) => {
+          res.send(data);
+        })
+      } else {
+        res.status(400).send("Not authenticated")
+      }
+    })
+    .catch(err => console.log(err))
+  });
+
+  /**
+   * Get a specific rider by a specific rider, rider_type and user_id
   * @group Riders - Operations about Rider
   * @route GET /rider/rider_type/{rider_type_id}/event/{event_id}/user/{user_id}/
   * @param {integer} rider_type_id.path.required - Riders rider type id
@@ -47,7 +100,7 @@ module.exports = (app, models, base, auth) => {
   * @returns {Error}  default - Unexpected error
   */
   app.get(base+"/rider_type/:rider_type_id/event/:event_id/user/:user_id/", (req, res) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"], req.params.event_id, req.params.user_id)
     .then(data => {
       if(data.auth){
         ridersControl.riderGetOne(
@@ -66,6 +119,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * posts a new rider
   * @group Riders - Operations about riders
   * @route POST /rider/
   * @param {Riders.model} user.body.required - Rider information
@@ -74,10 +128,9 @@ module.exports = (app, models, base, auth) => {
   * @returns {Error}  default - Unexpected error
   */
   app.post(base, (req, res) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"], req.body.eventID, req.body.userID)
     .then(data => {
       if(data.auth){
-        if(["Admin", "Organizer"].includes(data.role.dataValues.role_name)){
           ridersControl.riderCreate(
             req.body.additions,
             req.body.rider_typeID,
@@ -87,31 +140,15 @@ module.exports = (app, models, base, auth) => {
           .then((data)=>{
             res.send(data)
           })
-        } else if (["Artist"].includes(data.role.dataValues.role_name)){
-          if(data.user.dataValues.id === req.body.userID){
-            ridersControl.riderCreate(
-              req.body.additions,
-              req.body.rider_typeID,
-              req.body.eventID,
-              req.body.userID,
-            )
-            .then((data)=>{
-              res.send(data)
-            })
-          } else {
-            res.status(400).send("Can't edit riders that are not yours")
-          }
         } else {
           res.status(400).send("Not authenticated")
         }
-      } else {
-        res.status(400).send("Not authenticated")
-      }
     })
     .catch(err => console.log(err))
   });
 
   /**
+   * updates an excisting rider by all 3 ids
   * @group Riders - Operations about riders
   * @route PUT /rider/rider_type/{rider_type_id}/event/{event_id}/user/{user_id}
   * @param {Riders_PUT.model} user.body.required - Rider information
@@ -123,7 +160,7 @@ module.exports = (app, models, base, auth) => {
   * @returns {Error}  default - Unexpected error
   */
   app.put(base+"/rider_type/:rider_type_id/event/:event_id/user/:user_id/", (req, res) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"], req.params.event_id, req.params.user_id)
     .then(data => {
       if(data.auth){
         ridersControl.riderUpdate(
@@ -146,31 +183,58 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Deletes all riders for a specific event by event id
   * @group Riders - Operations about riders
-  * @route DELETE /rider/rider_type/{rider_type_id}/event/{event_id}/user/{user_id}
-  * @param {integer} rider_type_id.path.required - Riders rider type id
+  * @route DELETE /rider/event/{event_id}/
+  * @param {integer} event_id.path.required - Rider event id
+  * @param {string} token.header.required - token
+  * @returns {object} 200 - Rider is deleted
+  * @returns {Error}  default - Unexpected error
+  */
+  app.delete(base+"/event/:event_id/", (req, res) => {
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer"], req.params.event_id, req.params.user_id)
+    .then(data => {
+      if(data.auth){
+        ridersControl.riderDelete(
+          req.params.event_id
+          )
+          .then((data) => {
+          res.send("Riders are deleted");
+        })
+        .catch((err) => res.send(err))
+      } else {
+        res.status(400).send("Not authenticated")
+      }
+    })
+    .catch(err => res.send(err))
+  });
+
+  /**
+   * Deletes all riders for a specific event and for a specific user
+  * @group Riders - Operations about riders
+  * @route DELETE /rider/event/{event_id}/user/{user_id}
   * @param {integer} event_id.path.required - Rider event id
   * @param {integer} user_id.path.required - Rider user id
   * @param {string} token.header.required - token
   * @returns {object} 200 - Rider is deleted
   * @returns {Error}  default - Unexpected error
   */
-  app.delete(base+"/rider_type/:rider_type_id/event/:event_id/user/:user_id/", (req, res) => {
-    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist", "User"])
+  app.delete(base+"/event/:event_id/user/:user_id", (req, res) => {
+    auth.check_permissions(req.headers.token, ["Admin", "Organizer", "Artist"])
     .then(data => {
       if(data.auth){
-        ridersControl.riderDelete(
-          req.params.rider_type_id,
+        ridersControl.ridersDeleteByArtist(
           req.params.event_id,
           req.params.user_id
-        )
-        .then((data) => {
-          res.send(data);
+          )
+          .then((data) => {
+          res.send("Riders are deleted");
         })
+        .catch((err) => res.send(err))
       } else {
         res.status(400).send("Not authenticated")
       }
     })
-    .catch(err => console.log(err))
+    .catch(err => res.send(err))
   });
 };

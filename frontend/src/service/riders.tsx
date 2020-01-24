@@ -1,7 +1,5 @@
+import getCookie from "./cookie";
 const axios = require("axios").default;
-
-let url = "http://localhost:8080/rider/";
-
 export class Riders {
   additions!: string;
   rider_typeID!: number;
@@ -11,60 +9,86 @@ export class Riders {
 
 class RiderService {
   getRiders() {
-    return axios.get(url).then((response: { data: JSON }) => response.data);
+    return axios
+      .get(process.env.REACT_APP_API_URL + "/rider/")
+      .then((response: { data: JSON }) => response.data);
   }
-  getRider(rider_type_id: number, event_id: number, token: string) {
+
+  getEventRiders(id: number) {
+    return axios
+      .get(process.env.REACT_APP_API_URL + "/rider/event/" + id, {
+        headers: { token:  getCookie("token")}
+      })
+      .then((response: { data: JSON }) => response.data);
+  }
+
+  getRidersForArtist(event_id: number, user_id: number) {
+    return axios
+        .get(
+            process.env.REACT_APP_API_URL +
+            "/rider/event/" +
+            event_id +
+            "/user/" +
+            user_id ,
+            { headers: { token: getCookie("token")} }
+        )
+        .then((response: { data: JSON }) => response.data);
+  }
+
+  getRider(rider_type_id: number, event_id: number) {
     return axios
       .get(
-        url +
-          "rider_type/" +
+        process.env.REACT_APP_API_URL +
+          "/rider/rider_type/" +
           rider_type_id +
           "/event/" +
           event_id +
-          "/user/" +
-          token
-      )
+          "/user/", {headers: {token: getCookie("token")}}      )
       .then((response: { data: JSON }) => response.data);
   }
 
   postRider(rider: object) {
     return axios
-      .post(url, rider)
-      .then((response: { data: JSON }) => console.log(response));
+      .post(process.env.REACT_APP_API_URL + "/rider/", rider, {
+        headers: { token: getCookie("token") }
+      })
+      .then((response: { data: JSON }) => response.data);
   }
 
-  updateRider(
-    rider_type_id: number,
-    event_id: number,
-    token: string,
-    rider: object
-  ) {
+  updateRider(rider_type_id: number, event_id: number, rider: object) {
     return axios
       .put(
-        url +
-          "rider_type/" +
+        process.env.REACT_APP_API_URL +
+          "/rider/rider_type/" +
           rider_type_id +
           "/event/" +
           event_id +
-          "/user/" +
-          token,
-        rider
+          "/user/",
+        rider,
+        { headers: { token: getCookie("token") } }
       )
-      .then((response: { data: JSON }) => console.log(response));
+      .then((response: { data: JSON }) => response);
   }
 
-  deleteRider(rider_type_id: number, event_id: number, token: string) {
+  deleteRider(event_id: number) {
+    return axios
+      .delete(process.env.REACT_APP_API_URL + "/rider/event/" + event_id, {
+        headers: { token: getCookie("token") }
+      })
+      .then((response: { data: JSON }) => response.data);
+  }
+
+  deleteRidersForArtist(event_id: number, user_id: number) {
     axios
-      .delete(
-        url +
-          "rider_type/" +
-          rider_type_id +
-          "/event/" +
-          event_id +
-          "/user/" +
-          token
-      )
-      .then((response: { data: JSON }) => console.log(response));
+        .delete(
+            process.env.REACT_APP_API_URL +
+            "/rider/event/" +
+            event_id +
+            "/user/" +
+            user_id,
+            { headers: { token: getCookie("token") } }
+        )
+        .then((response: { data: JSON }) => response.data);
   }
 }
 

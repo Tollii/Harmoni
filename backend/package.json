@@ -4,15 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node .",
+    "start": "node index.js",
     "start-dev": "nodemon index.js",
     "migrate": "npx sequelize-cli db:migrate",
     "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate",
-    "test": "jest",
+    "test": "jest -i",
     "pretest": "cross-env NODE_ENV=test npm run migrate:reset"
   },
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": "8.12.0",
+    "npm": "6.4.1"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
@@ -20,16 +24,17 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-fileupload": "^1.1.6",
+    "express-swagger-generator": "^1.1.17",
     "jwt-simple": "^0.5.6",
     "moment": "^2.15.2",
     "mysql2": "^2.1.0",
-    "sequelize": "^5.21.3",
-    "sequelize-cli": "^5.5.1"
+    "nodemailer": "^6.4.2",
+    "sequelize": "^5.21.3"
   },
   "devDependencies": {
     "cross-env": "^6.0.3",
     "jest": "^24.9.0",
-    "express-swagger-generator": "^1.1.17"
+    "sequelize-cli": "^5.5.1"
   },
   "jest": {
     "verbose": true,

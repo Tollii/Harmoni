@@ -9,15 +9,11 @@ variables:
   MYSQL_DATABASE: yeet
   MYSQL_ROOT_PASSWORD: mysql
 
-
-cache:
-  paths:
-     - node_modules
-
 stages:
   - connect
   - test
   - pages
+  - b_hosting
 
 # Run JEST tests
 run_tests:
@@ -29,15 +25,11 @@ run_tests:
     paths:
       - backend/coverage/
 
-
-
 connect:
   stage: connect
   image: mysql
   script:
     - echo "SELECT 'OK';" | mysql --user=root --password="$MYSQL_ROOT_PASSWORD" --host=mysql "$MYSQL_DATABASE"
-
-
 
 # Publish coverage report on gitlab-pages
 pages:
@@ -49,11 +41,29 @@ pages:
     - npm install
     - cd ..
     - mkdir .public
-    - ls
     - cp -r backend/coverage/* .public
     - mv .public public
-    - ls public
   artifacts:
     paths:
       - public/*
-      
+
+
+# Job 2:
+# Deploy to staging
+back_hosting:
+  image: ruby:latest
+  only:
+    - dev
+  stage: b_hosting
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - cd backend
+    - dpl --provider=heroku --app=$HEROKU_APP_NAME_API --api-key=$HEROKU_API_KEY
+
+  artifacts:
+    paths:
+    - public # The built files for Gitlab Pages to serve
+  only:
+    - dev # Only run on master branch

@@ -12,15 +12,18 @@ const useStyles = makeStyles({
   },
   notchedOutline: {
     borderRadius: 0
+  },
+  eye: {
+    cursor: "pointer"
   }
 });
 
 export default (props: any) => {
   const classes = useStyles();
 
-  if (props.type === "password") {
-    return <PasswordInput 
-    label={props.label}  
+  if (props.label.includes("Password")) {
+    return <PasswordInput
+    label={props.label}
     {...props}
     />;
   } else {
@@ -50,13 +53,12 @@ function PasswordInput(props: any) {
   return (
     <TextField
       className={classes.input}
-      {...props}
       type={passwordIsMasked ? "password" : "text"}
       {...props}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
-            <RemoveRedEye className={props.eye} onClick={togglePasswordMask} />
+            <RemoveRedEye className={classes.eye} onClick={togglePasswordMask} />
           </InputAdornment>
         ),
         classes: {

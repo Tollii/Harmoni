@@ -1,20 +1,22 @@
 const models = require('../models');
 const userControl = require('../dao/users')(models);
 const rolesControl = require('../dao/roles')(models);
+const authControl = require('../dao/authentication')(models);
 
 
 describe('Get Endpoints', () => {
 
     it('should create one user', async (done) => {
-        let temp = await rolesControl.rolesCreate("not_zaim");
-        const res = await userControl.userCreate("test", "test@test.test", "wasdwasd", "wasdwasd", "12345678", "image.png");
-        expect(res.id).toBeGreaterThanOrEqual(0);
+        await rolesControl.rolesCreate("not_zaim");
+        const res = await authControl.signUp("wasd@wasd.wasd", "wasdwasd", "wasdwasd", "12345678");
+        // expect(res).toEqual(true);
         done();
     });
-
+    
     it('should get all users', async (done) => {
-        await userControl.userCreate("was", "wasd@wasd.wasd", "wasdwasd", "wasdwasd", "12345678", "image.png");
-        await userControl.userCreate("wasd", "wasd@test.no", "wasdwasd", "wasdwasd", "12345678", "image.png");
+        await rolesControl.rolesCreate("not_zaim");
+        await authControl.signUp("wasd1@wasd.wasd", "wasdwasd1", "wasdwasd1", "12345678");
+        await authControl.signUp("wasd2@wasd.wasd", "wasdwasd2", "wasdwasd2", "12345678");
         const res = await userControl.userGetAll();
         expect(res.length).toBeGreaterThanOrEqual(3);
         done();
@@ -26,6 +28,12 @@ describe('Get Endpoints', () => {
         done();
     });
 
+    it('should get user by email wasd@wasd.wasd', async (done) => {
+        const res = await userControl.userGetOneByEmail("wasd@wasd.wasd");
+        expect(res.dataValues.email).toEqual("wasd@wasd.wasd");
+        done();
+    });
+
     it('should update user 1 with username = yote', async (done) => {
         await userControl.userUpdate(1, "yote");
         const res = await userControl.userGetOne(1);
@@ -33,7 +41,14 @@ describe('Get Endpoints', () => {
         done();
     });
 
-    it('should delete user with id 1', async (done) => {
+    it('should update user 1 with password = yote', async (done) => {
+        await userControl.changePassword(1, "yote");
+        const res = await userControl.userGetOne(1);
+        expect(res.dataValues.hash).toEqual("yote");
+        done();
+    });
+
+    it('should delete user with id 3', async (done) => {
         await userControl.userDelete(3);
         const res = await userControl.userGetOne(3);
         expect(res).toBeNull();

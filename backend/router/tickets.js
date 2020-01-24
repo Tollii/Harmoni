@@ -12,19 +12,18 @@ module.exports = (app, models, base, auth) => {
   const ticketControl = require("../dao/tickets")(models);
 
   /**
+   * Get all tickets
    * @group Ticket - Operations about ticket
    * @route GET /ticket/
+   * @param {string} token.header.required - token
    * @returns {object} 200 - An array of ticket info
    * @returns {Error} default - Unexpected error
    */
   app.get(base, (req, res) => {
     auth
       .check_permissions(req.headers.token, [
-        "Admin",
-        "Organizer",
-        "Artist",
-        "User"
-      ])
+        "Admin"
+      ], 0, 0)
       .then(data => {
         if (data.auth) {
           ticketControl
@@ -43,6 +42,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Get a ticket by its id
    * @group Ticket - Operations about ticket
    * @route GET /ticket/{id}/
    * @param {integer} id.path.required - Ticket id
@@ -56,6 +56,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Get all tickets for an event by event id
    * @group Ticket - Operations about ticket
    * @route GET /ticket/event/{event_id}/
    * @param {integer} event_id.path.required - Eventticket id
@@ -69,6 +70,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Posts a new ticket
    * @group Ticket - Operations about ticket
    * @route POST /ticket/
    * @param {Tickets.model} user.body.required - Ticket information
@@ -80,10 +82,8 @@ module.exports = (app, models, base, auth) => {
     auth
       .check_permissions(req.headers.token, [
         "Admin",
-        "Organizer",
-        "Artist",
-        "User"
-      ])
+        "Organizer"
+      ], req.body.eventID, 0)
       .then(data => {
         if (data.auth) {
           ticketControl
@@ -106,6 +106,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Updates an existing ticket
    * @group Ticket - Operations about ticket
    * @route PUT /ticket/{id}/
    * @param {integer} id.path.required - Ticket id
@@ -118,10 +119,8 @@ module.exports = (app, models, base, auth) => {
     auth
       .check_permissions(req.headers.token, [
         "Admin",
-        "Organizer",
-        "Artist",
-        "User"
-      ])
+        "Organizer"
+      ], req.body.eventID)
       .then(data => {
         if (data.auth) {
           ticketControl
@@ -148,6 +147,7 @@ module.exports = (app, models, base, auth) => {
   });
 
   /**
+   * Deletes a specific id by it's id
    * @group Ticket - Operations about ticket
    * @route DELETE /ticket/{id}/
    * @param {integer} id.path.required - Ticket id
@@ -158,11 +158,8 @@ module.exports = (app, models, base, auth) => {
   app.delete(base + "/:id", (req, res) => {
     auth
       .check_permissions(req.headers.token, [
-        "Admin",
-        "Organizer",
-        "Artist",
-        "User"
-      ])
+        "Admin"
+    ], 0, 0)
       .then(data => {
         if (data.auth) {
           ticketControl.ticketDelete(req.params.id).then(data => {

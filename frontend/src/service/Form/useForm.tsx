@@ -8,23 +8,19 @@ const useForm = (callback: any, initialValues: any, validate: any) => {
   const handleChange = (event: any) => {
     const { name, value } = event.target;
     setValues({ ...values, [name]: value });
-    console.log(event.target.name);
-    console.log(event.target.value);
   };
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
     setErrors(validate(values));
     setIsSubmitting(true);
-    callback();
-
   };
 
   useEffect(() => {
     if (Object.keys(errors).length === 0 && isSubmitting) {
       callback();
     }
-  }, [errors]);
+  }, [errors, callback, isSubmitting]);
   return {
     handleChange,
     handleSubmit,

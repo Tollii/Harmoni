@@ -1,8 +1,9 @@
-'use strict';
+"use strict";
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Riders', {
+    return queryInterface.createTable("Riders", {
       additions: {
+        allowNull: true,
         type: Sequelize.TEXT
       },
       rider_typeID: {
@@ -10,39 +11,43 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'Rider_Types',
-          key: 'id'
+          model: "Rider_Types",
+          key: "id"
         }
       },
       eventID: {
         primaryKey: true,
         allowNull: false,
         type: Sequelize.INTEGER,
+        onDelete: "CASCADE",
         references: {
-          model: 'Events',
-          key: 'id'
+          model: "Events",
+          key: "id"
         }
       },
       userID: {
         primaryKey: true,
         allowNull: false,
         type: Sequelize.INTEGER,
+        onDelete: "CASCADE",
         references: {
-          model: 'Users',
-          key: 'id'
+          model: "Users",
+          key: "id"
         }
       },
       createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+        allowNull: true,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW
       },
       updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+        allowNull: true,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW
       }
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Riders');
+    return queryInterface.dropTable("Riders");
   }
 };
