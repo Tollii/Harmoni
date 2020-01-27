@@ -38,3 +38,12 @@ Group 10
 4. To launch the client, use 'npm start' in the frontend folder
 5. To launch the backend, use 'npm start' in the backend folder
 ```
+
+### Screenshots:
+<img width="500" alt="<Main page" src="https://i.imgur.com/sDYI1oI.png">
+<img width="500" alt="Login screen" src="https://i.imgur.com/wRe2HlN.png"> 
+<img width="500" alt="Event list" src="https://i.imgur.com/uU09m2c.png">
+<img width="500" alt="Profile screen" src="https://i.imgur.com/p7d4NhK.png">
+<img width="500" alt="Create event page" src="https://i.imgur.com/kJdMh80.png">
+<img width="500" alt="Event page" src="https://i.imgur.com/cOZsmJm.png">
+
