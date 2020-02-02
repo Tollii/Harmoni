@@ -1,7 +1,7 @@
 # Harmoni
 
 ## Short description
-Harmoni is an event organization page made to make the task of managing events, artists, riders, and volunteers more seemless. The concept was brought forward by students employed by local student bars who had a hard time keeping track of their own events, artists and requested equipment. 
+Harmoni is an event organization page made to make the task of managing events, artists, riders, and volunteers, easy for both artists and event organizers. The concept was brought forward by students employed by local student bars who had a hard time keeping track of their own events, artists and requested equipment.
 
 Node, Express and Sequelize makes up the middleware that facilitates communication between the MySQL database and the client. The client application uses React with TypeScript and Google's Material-UI design.
 
