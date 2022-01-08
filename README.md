@@ -40,8 +40,9 @@ Node, Express and Sequelize makes up the middleware that facilitates communicati
     REACT_APP_API_URL= <YOUR_BACKEND_IP>
     REACT_APP_GOOGLE_API_KEY= <YOUR_GOOGLEMAPS_API_KEY>
 
-4. To launch the client, use 'npm start' in the frontend folder
-5. To launch the backend, use 'npm start' in the backend folder
+4. Migrate DB with sequelize db:migrate
+5. To launch the client, use 'npm start' in the frontend folder
+6. To launch the backend, use 'npm start' in the backend folder
 ```
 
 ### Screenshots:
