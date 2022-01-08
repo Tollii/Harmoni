@@ -72,7 +72,7 @@ export default function ForgotForm(props: any){
     <Card width={"80%"} style={{ minWidth: "250px", maxWidth: "450px" }}>
       <Grid container className={classes.grid}>
         <CardContent>
-          <Grid container justify="center" direction="row">
+          <Grid container justifyContent="center" direction="row">
             <Typography className={classes.title} variant="h3" align="center">
               Reset Password
             </Typography>
@@ -88,7 +88,7 @@ export default function ForgotForm(props: any){
               onChange={handleChange}
             />
 
-            <Grid container direction="row" justify="space-between">
+            <Grid container direction="row" justifyContent="space-between">
               <Button onClick={() => (window.location.hash = "#/login")}>
                 Cancel
               </Button>

@@ -33,7 +33,7 @@ export default function Footer(){
         © Harmoni Copyright 2020
       </Typography>
       <Divider style={{ margin: "20px auto", width: 100 }} />
-      <Grid container justify={"center"} spacing={1}>
+      <Grid container justifyContent={"center"} spacing={1}>
         <Grid item xs={12} sm={3} md={2}>
           <Link align={"center"} href="#" color={"textSecondary"}>
             About Harmoni
@@ -58,7 +58,7 @@ export default function Footer(){
           <FeedbackFrom/>
         </Grid>
       </Grid>
-      <Grid container justify="center" spacing={2} className={classes.icons}>
+      <Grid container justifyContent="center" spacing={2} className={classes.icons}>
         <Grid item xs={8} sm={4} md={2}>
           <Link align={"center"} href="#" color={"textPrimary"}>
             <FacebookIcon />

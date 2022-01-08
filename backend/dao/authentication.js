@@ -75,9 +75,11 @@ module.exports = models => {
           roleID: 1
         })
         .then(data => {
+          console.log(data)
           return true
         })
         .catch(err => {
+          console.log(err)
           return false
         });
       })

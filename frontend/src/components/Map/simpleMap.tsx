@@ -17,15 +17,15 @@ interface Map {
  * @param zoom sets zoom level for map
  * @returns returns a styled map
  */
-const SimpleMap = (props:Map) => {
+const SimpleMap = (props: Map) => {
   const [center, setCenter] = useState<{lat: number, lng: number}>({ lat: 63.4189, lng: 10.4027 });
   const [marker, setMarker] = useState([]);
 
   Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API_KEY);
 
-  const findCenter = useCallback((place: any): any => {
-    if (place !== undefined) {
-      return Geocode.fromAddress(place.location).then(
+  const findCenter = useCallback((event: any): any => {
+    if (event !== undefined ) {
+      return Geocode.fromAddress(event.location).then(
         (response: any) => {
           return response.results[0].geometry.location;
         },

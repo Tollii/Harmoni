@@ -181,7 +181,7 @@ export default function General(props: any){
                 />
               </Grid>
 
-              <Grid item xs={12} md={4} justify='center'>
+              <Grid item xs={12} md={4} justifyContent='center'>
                 <Button
                   style={{width: '100%', height:"56px"}}
                   aria-controls="simple-menu"

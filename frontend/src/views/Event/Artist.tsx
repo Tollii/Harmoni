@@ -329,13 +329,12 @@ export default function Artist(props: any){
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={props.values.artists.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
+            component={"div"}
+            count={props.values.artists.length}
+            onPageChange={handleChangePage}
+            page={page}
+            rowsPerPage={rowsPerPage}
+            onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </Card>
     </div>

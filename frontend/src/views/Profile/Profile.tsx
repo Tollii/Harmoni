@@ -324,7 +324,7 @@ export default function Profile(props: any) {
             </Grid>
           </DialogContent>
           <DialogActions>
-            <Grid container direction="row" justify="center">
+            <Grid container direction="row" justifyContent="center">
               <Grid item xs={3}>
                 <Button
                   onClick={() => {
@@ -383,7 +383,7 @@ export default function Profile(props: any) {
             />
           </DialogContent>
           <DialogActions>
-            <Grid container direction="row" justify="center">
+            <Grid container direction="row" justifyContent="center">
               <Grid item xs={3}>
                 <Button onClick={handleSubmitData} color="primary">
                   Save Profile
@@ -439,7 +439,7 @@ export default function Profile(props: any) {
                 />
               </DialogContent>
               <DialogActions>
-                <Grid container direction="row" justify="center">
+                <Grid container direction="row" justifyContent="center">
                   <Button color="primary" onClick={handleSubmitPassword}>
                     Change
                   </Button>

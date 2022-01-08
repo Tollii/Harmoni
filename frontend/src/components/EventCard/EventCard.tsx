@@ -90,7 +90,7 @@ export default function EventCard(props:EventCard) {
               " "}
           </div>
           <CardContent>
-            <Grid container spacing={6} direction="row" justify="space-evenly">
+            <Grid container spacing={6} direction="row" justifyContent="space-evenly">
               <div style={{ width: "100%", textAlign: "center" }}>
                 <h2
                   style={{

@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  fade,
+  alpha,
   makeStyles,
   Theme,
   createStyles,
@@ -81,7 +81,7 @@ const useStyles = makeStyles((theme: Theme) =>
         display: "block"
       },
       "&:hover": {
-        color: fade(theme.palette.common.black, 0.7)
+        color: alpha(theme.palette.common.black, 0.7)
       }
     },
     drawer: {
@@ -386,8 +386,11 @@ export default function Navbar(props: Navbar) {
         <List>
           <ListItem button onClick={handleDrawerAllEvents}>
             <ListItemAvatar>
-              {" "}
-              <FormatListBulletedIcon />{" "}
+                <div>
+                    {" "}
+                    <FormatListBulletedIcon />
+                    {" "}
+                </div>
             </ListItemAvatar>
             <ListItemText> Show all events </ListItemText>
           </ListItem>
@@ -395,8 +398,11 @@ export default function Navbar(props: Navbar) {
           {(props.user.roleID === 3 || props.user.roleID === 4) && (
             <ListItem button onClick={handleDrawerAddEvent}>
               <ListItemAvatar>
-                {" "}
-                <AddCircleIcon />{" "}
+                  <div>
+                      {" "}
+                      <AddCircleIcon />
+                      {" "}
+                  </div>
               </ListItemAvatar>
               <ListItemText> Add event </ListItemText>
             </ListItem>
@@ -408,8 +414,10 @@ export default function Navbar(props: Navbar) {
             <div>
               <ListItem button onClick={handleDrawerProfile}>
                 <ListItemAvatar>
-                  {" "}
-                  <Avatar alt="Profile" src={props.user.pic_url} />
+                    <div>
+                        {" "}
+                        <Avatar alt="Profile" src={props.user.pic_url} />
+                    </div>
                 </ListItemAvatar>
                 <ListItemText> {props.user.username} </ListItemText>
               </ListItem>
@@ -420,8 +428,11 @@ export default function Navbar(props: Navbar) {
           ) : (
             <ListItem button onClick={handleDrawerLogin}>
               <ListItemAvatar>
-                {" "}
-                <AccountCircle />{" "}
+                  <div>
+                      {" "}
+                      <AccountCircle />
+                      {" "}
+                  </div>
               </ListItemAvatar>
               <ListItemText> Login </ListItemText>
             </ListItem>

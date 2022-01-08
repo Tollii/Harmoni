@@ -106,7 +106,7 @@ export default function LoginCard(props: {logFunc:any}){
                 ) : null}
               </div>
 
-              <Grid container direction="row" justify="space-between">
+              <Grid container direction="row" justifyContent="space-between">
                 <Link className={classes.link} to="/forgot">
                   <Button>Forgot password?</Button>
                 </Link>

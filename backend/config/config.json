@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "zuimran",
-    "password": "xaXIMlNC",
-    "database": "zuimran",
-    "host": "mysql.stud.iie.ntnu.no",
+    "username": "root",
+    "password": "root",
+    "database": "harmoni",
+    "host": "127.0.0.1",
     "dialect": "mysql",
     "operatorsAliases": 0
   },
@@ -16,10 +16,10 @@
     "operatorsAliases": 0
   },
   "production": {
-    "username": "zuimran",
-    "password": "xaXIMlNC",
-    "database": "zuimran",
-    "host": "mysql.stud.iie.ntnu.no",
+    "username": "root",
+    "password": "root",
+    "database": "harmoni",
+    "host": "127.0.0.1",
     "dialect": "mysql",
     "operatorsAliases": 0
   }

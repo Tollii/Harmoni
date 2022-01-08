@@ -16,7 +16,7 @@ export default function Login(props: {logFunc:any}){
   return (
     <div>
       <LoginCard logFunc={props.logFunc}/>
-      <Grid container direction="row" justify="center">
+      <Grid container direction="row" justifyContent="center">
         <Button
           className={classes.marginTop}
           onClick={() => (window.location.hash = "#/signUp")}

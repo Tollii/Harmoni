@@ -103,13 +103,13 @@ export default function SignUpCard(props: any) {
     >
       <Grid container className={classes.grid}>
         <CardContent>
-          <Grid container justify="center" direction="row">
+          <Grid container justifyContent="center" direction="row">
             <Typography className={classes.title} variant="h3" align="center">
               Sign up
             </Typography>
           </Grid>
           <form onSubmit={handleSubmit} noValidate>
-            <Grid container justify="center" direction="row">
+            <Grid container justifyContent="center" direction="row">
               {errors.email && (
                 <Typography color="error">{errors.email}</Typography>
               )}
@@ -123,7 +123,7 @@ export default function SignUpCard(props: any) {
                 onChange={handleChange}
               />
             </Grid>
-            <Grid container justify="center" direction="row">
+            <Grid container justifyContent="center" direction="row">
               {errors.emailConfirmed && (
                 <Typography color="error">{errors.emailConfirmed}</Typography>
               )}
@@ -137,7 +137,7 @@ export default function SignUpCard(props: any) {
                 onChange={handleChange}
               />
             </Grid>
-            <Grid container justify="center" direction="row">
+            <Grid container justifyContent="center" direction="row">
               {errors.password && (
                 <Typography color="error">{errors.password}</Typography>
               )}
@@ -150,7 +150,7 @@ export default function SignUpCard(props: any) {
                 onChange={handleChange}
               />
             </Grid>
-            <Grid container justify="center" direction="row">
+            <Grid container justifyContent="center" direction="row">
               {errors.passwordConfirmed && (
                 <Typography color="error">
                   {errors.passwordConfirmed}
@@ -164,7 +164,7 @@ export default function SignUpCard(props: any) {
                 onChange={handleChange}
               />
             </Grid>
-            <Grid container justify="center" direction="row">
+            <Grid container justifyContent="center" direction="row">
               {errors.username && (
                 <Typography color="error">{errors.username}</Typography>
               )}
@@ -193,7 +193,7 @@ export default function SignUpCard(props: any) {
                 />
               </Tooltip>
             </Grid>
-            <Grid container direction="row" justify="space-between">
+            <Grid container direction="row" justifyContent="space-between">
               <Button onClick={() => (window.location.hash = "#/login")}>
                 Already have a user?
               </Button>

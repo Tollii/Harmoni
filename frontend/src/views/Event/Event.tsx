@@ -57,6 +57,7 @@ function getStepContent(
         />
       );
     case 1:
+      console.log({values})
       return <Artist values={values} handleChange={handleChange} />;
     case 2:
       return <Ticket tickets={values.tickets} handleChange={handleChange} />;
@@ -470,7 +471,7 @@ export default function Event(props: any){
               )}
             </Typography>
             <div>
-              <Grid container justify="center">
+              <Grid container justifyContent="center">
                 <Button
                   disabled={activeStep === 0}
                   onClick={handleBack}

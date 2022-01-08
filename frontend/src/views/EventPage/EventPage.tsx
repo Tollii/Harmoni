@@ -325,7 +325,7 @@ export default function EventPage(props: any) {
                 <Map events={[values]} center={values} zoom={11} />
               </a>
             </div>
-            <Grid container spacing={1} justify="center" alignItems="center">
+            <Grid container spacing={1} justifyContent="center" alignItems="center">
               <DropDownButton
                 event={props.match.params.id}
                 user={props.user.id}
